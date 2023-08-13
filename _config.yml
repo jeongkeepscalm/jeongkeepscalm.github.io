@@ -12,7 +12,7 @@ site-twitter: #if your site has a twitter account, enter it here
 author: Oh JeongGil # add your name
 author-img: headerImage.jpg # add your photo
 about-author: Always hungry to keep learning. # add description
-social-twitter: https://www.naver.com # add your Twitter handle
+social-naver: "https://www.naver.com" # add your Twitter handle
 social-facebook: # add your Facebook handle
 social-github: artemsheludko # add your Github handle
 social-linkedin: # add your Linkedin handle
