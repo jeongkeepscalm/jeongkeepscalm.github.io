@@ -15,6 +15,7 @@ tags: [Git] # add tag
 * $ git remote remove origin : 원격 저장소의 연결해제 
 * $ git push origin main : 원격 저장소 사용 
 <br>
+
 ---
 <br>
 
@@ -56,6 +57,7 @@ tags: [Git] # add tag
 * $ git checkout -- [ modified file ] : 해당파일의 마지막 커밋 때의 상태로 되돌린다. 
 ==&gt; $ git reset --hard [ commit_hash ]  
 <br>
+
 ---
 <br>
 
