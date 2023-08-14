@@ -16,6 +16,7 @@ tags: [Git] # add tag
 * $ git push origin main : 원격 저장소 사용 
 
 ---
+<br>
 
 ### 커밋하기까지의 과정
 
@@ -53,4 +54,8 @@ tags: [Git] # add tag
   - $ git log --stat : 히스토리를 출력한다. 
 
 * $ git checkout -- [ modified file ] : 해당파일의 마지막 커밋 때의 상태로 되돌린다. 
-==&gt; $ git reset --hard [ commit_hash ]
+==&gt; $ git reset --hard [ commit_hash ]  
+
+---
+<br>
+
