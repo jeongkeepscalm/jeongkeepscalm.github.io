@@ -56,8 +56,7 @@ tags: [Git] # add tag
 
 * $ git checkout -- [ modified file ] : 해당파일의 마지막 커밋 때의 상태로 되돌린다. 
 ==&gt; $ git reset --hard [ commit_hash ] <br/>
-
-git push origin HEAD:브랜치명 --force : 돌아간 뒤 변경사항을 리모트 저장소에 다시 푸쉬한다. <br/>
+* $git push origin HEAD:브랜치명 --force : 돌아간 뒤 변경사항을 리모트 저장소에 다시 푸쉬한다. <br/>
 ==&gt; git push origin +master <br/>
 
 ---
