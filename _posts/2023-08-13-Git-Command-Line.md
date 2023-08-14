@@ -7,23 +7,24 @@ img: git.jpg # Add image post (optional)
 tags: [Git] # add tag
 ---
 
-<br>
 ### 로컬저장소를 원격 저장소와 연결 
 
 * $ git remote -v : 원격저장소 확인(아무것도 뜨지 않으면 연결 x) 
 * $ git remote add origin https://github.com/... 
 * $ git remote remove origin : 원격 저장소의 연결해제 
 * $ git push origin main : 원격 저장소 사용 
+
 <br>
 ---
 <br>
+
 ### 커밋하기까지의 과정
 
 * $ git init [ directory_path ] : 로컬 저장소 생성.  
   - 기본적으로 로컬 저장소를 생성하는 명령어.  
   - 디렉토리 경로를 입력하지 않을 시, 현재 작업 중인 디렉토리를 저장소로 초기화한다.   
 
-* $ git add [ file_name ] : untracked status - ] tracked status = ] 파일을 stage 영역으로 등록.
+* $ git add [ file_name ] : untracked status -&gt; tracked status -&gt; 파일을 stage 영역으로 등록.
   - untracked status : 스테이지에 등록하지 않은 상태 ( untracked )
   - tracked status : 스테이지에 등록된 상태 ( unmodified, modified, staged )
 * stage : 워킹디렉토리에서 제출된 tracked state 파일들을 관리 및 임시로 저장하는 공간. 
@@ -39,7 +40,7 @@ tags: [Git] # add tag
 #### 커밋과 관련된 정보
 * Head : 커밋을 가리키는 묵시적 포인터. 마지막 커밋 위치. 
 * Snapshot : 변경된 파일의 전체를 저장하지 않고, 파일에서 변경된 부분만을 찾아 수정된 내용만 저장하는 방식. 
-==  Git 에서 Snapshot은 Head가 가르키는 커밋을 기반으로 한다. 즉, Head 커밋과 스테이지 영역으로 등록되어 변경된 파일과의 내용을 비교한다. 
+==&gt; Git 에서 Snapshot은 Head가 가르키는 커밋을 기반으로 한다. 즉, Head 커밋과 스테이지 영역으로 등록되어 변경된 파일과의 내용을 비교한다. 
 
 * $ git commit -m "commit message" : 해당 메시지로 커밋한다.
 * $ git commit --allow-empty-message -m "" : 메시지가 없는 커밋을 작성한다.
@@ -53,4 +54,4 @@ tags: [Git] # add tag
   - $ git log --stat : 히스토리를 출력한다. 
 
 * $ git checkout -- [ modified file ] : 해당파일의 마지막 커밋 때의 상태로 되돌린다. 
-== $ git reset --hard [ commit_hash ]
+==&gt; $ git reset --hard [ commit_hash ]
