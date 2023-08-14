@@ -6,7 +6,7 @@ description: You’ll find this post in your `_posts` directory. Go ahead and ed
 img: git.jpg # Add image post (optional)
 tags: [Git] # add tag
 ---
-<br>
+<br/>
 
 ### 로컬저장소를 원격 저장소와 연결 
 
@@ -14,10 +14,10 @@ tags: [Git] # add tag
 * $ git remote add origin https://github.com/... 
 * $ git remote remove origin : 원격 저장소의 연결해제 
 * $ git push origin main : 원격 저장소 사용 
-<br>
+<br/>
 
 ---
-<br>
+<br/>
 
 ### 커밋하기까지의 과정
 
@@ -55,8 +55,10 @@ tags: [Git] # add tag
   - $ git log --stat : 히스토리를 출력한다. 
 
 * $ git checkout -- [ modified file ] : 해당파일의 마지막 커밋 때의 상태로 되돌린다. 
-==&gt; $ git reset --hard [ commit_hash ]  
-<br>
+==&gt; $ git reset --hard [ commit_hash ] <br/>
+
+git push origin HEAD:브랜치명 --force : 돌아간 뒤 변경사항을 리모트 저장소에 다시 푸쉬한다. <br/>
+==&gt; git push origin +master <br/>
 
 ---
 <br>
