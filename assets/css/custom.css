@@ -1,0 +1,6 @@
+pre {
+  font-family: "Courier New", monospace; /* 코드 폰트 변경 */
+  background-color: #f4f4f4; /* 배경색 변경 */
+  padding: 10px;
+  border: 1px solid #ddd;
+}
