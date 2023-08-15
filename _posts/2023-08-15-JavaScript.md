@@ -9,6 +9,14 @@ tags: [Js, Conference] # add tag
 
 ### Turn ( NodeList or HTMLCollection ) into Array
 
+> javascript
+Array.prototype.slice.call( [ NodeList or HTMLCollection ] )
+  .forEach( function (node) {
+    if (node.nodeType === Node.ELEMENT_NODE) {
+      ...
+    }
+  })
+
 ```javascript
 Array.prototype.slice.call( [ NodeList or HTMLCollection ] )
   .forEach( function (node) {
