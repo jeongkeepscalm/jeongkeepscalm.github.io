@@ -437,9 +437,9 @@ template {
 }
 
 .highlight {
-  background-color: black;
-  -webkit-border-radius: 3px;
-          border-radius: 3px;
+  background-color: rgb(167, 157, 157);
+  -webkit-border-radius: 10px;
+          border-radius: 10px;
   margin: 0;
 }
 
