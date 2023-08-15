@@ -140,7 +140,7 @@ strong {
 code,
 kbd,
 samp {
-  font-family: monospace, monospace;
+  font-family: "Fira Mono", "Fira Mono";
   /* 1 */
   font-size: 1em;
   /* 2 */
@@ -437,7 +437,7 @@ template {
 }
 
 .highlight {
-  background-color: rgb(167, 157, 157);
+  background-color: #faf9f9;
   -webkit-border-radius: 10px;
           border-radius: 10px;
   margin: 0;
@@ -446,7 +446,7 @@ template {
 .highlighter-rouge {
   color: #ce887b;
   font-weight: 400;
-  border: 1px solid #fff;
+  border: 1px solid #607D8B;
   -webkit-border-radius: 3px;
           border-radius: 3px;
   padding: 0.1rem 0.5rem;
