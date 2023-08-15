@@ -9,13 +9,6 @@ tags: [Js, Conference] # add tag
 
 ### Turn ( NodeList or HTMLCollection ) into Array
 
-> Array.prototype.slice.call( [ NodeList or HTMLCollection ] )  
-  .forEach( function (node) {  
-    if (node.nodeType === Node.ELEMENT_NODE) {  
-      ...  
-    }  
-  })  
-
 ```javascript
 Array.prototype.slice.call( [ NodeList or HTMLCollection ] )
   .forEach( function (node) {
@@ -24,7 +17,7 @@ Array.prototype.slice.call( [ NodeList or HTMLCollection ] )
     }
   })
 ```
-* NodeList 나 HTMLCollection 을 배열로 바꿔서 이벤트를 각 노드를에 이벤트를 줄 수 있다. 
+> NodeList 나 HTMLCollection 을 배열로 바꿔서 이벤트를 각 노드를에 이벤트를 줄 수 있다. 
 
 <hr>
 
