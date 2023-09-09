@@ -17,7 +17,7 @@ Array.prototype.slice.call( [ NodeList or HTMLCollection ] )
     }
   })
 ```
-* NodeList 나 HTMLCollection 을 배열로 바꿔서 이벤트를 각 노드를에 이벤트를 줄 수 있다. 
+> NodeList 나 HTMLCollection 을 배열로 바꿔서 이벤트를 각 노드를에 이벤트를 줄 수 있다. 
 
 <br/>
 <hr>
@@ -31,10 +31,11 @@ Array.prototype.slice.call( [ NodeList or HTMLCollection ] )
 * contentType : 서버로 데이터를 보낼 때 어떤 타입으로 보낼 것인지를 지정한다. 
   - json 형식 - application/json; charset-utf-8
   - form 형식( Default ) -  application/x-www-form-urlencoded; charset=utf-8
-  - url 이 @RestController 로 보낼 시 contentType 
 * processData : ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value값을 Query String으로 변환해서 보낸다. 데이터 값에 따라 (key=value&key=value) 또는 (key:value, key:value) 이런 식으로 보내게되는데, 이 때 processData 가 false 로 설정되어 있으면 Query String 으로 설정하지 않는다. (processData 는 파일 전송 시 사용)
   - processData : false 설정 후 데이터를 보내면 ( ...?[object%20Object] 형식으로 나오는걸 볼 수 있다. )
+
 <br/>
+
 * Content-Type 을 JSON 형식 ( 'application/json' )으로 보내면, 컨트롤러에서 @RequestBody 로 받는다. 
 * new FormData() 객체를 생성해서 넘기거나 form태그 안의 데이터를 넘길 경우에는, 컨트롤러에서 @RequestParam 혹은 @ModelAttribute 로 받는다. 
 
@@ -81,19 +82,7 @@ function getEduList(selectedYear, type) {
                     data1.forEach((v,i) => {
                         let contextToAdd =
                             `
-                              <li class="ui-state-default ui-sortable-handle" data-id="\${v.lv1Cd}">
-                                  <div class="form-group_divide">
-                                      <div class="form-group-child">
-                                          <span class="input-frame01 block-100">
-                                              <input type="text" placeholder="" id="inputBox1Id\${v.lv1Cd}" value="\${v.title}" class="inputValue block" readonly>
-                                              <em class="del_btn01"><img src="/images/input_del.svg" alt="" id="delete1Id\${v.lv1Cd}" onclick="delY('recipient', \${v.lv1Cd}, this.id, \${v.tellDelYN})"></em>
-                                          </span>
-                                      </div>
-                                      <div class="form-group-child flexnone ml10">
-                                          <button class="button type02 whitcolor" id="button1Id\${v.lv1Cd}" onclick="updateTitle('recipient', \${v.lv1Cd}, this.id)">수정</button>
-                                      </div>
-                                  </div>
-                              </li>
+                              ...
                             `;
                         eduObject1.insertAdjacentHTML('beforeend', contextToAdd);
                     })
@@ -104,19 +93,7 @@ function getEduList(selectedYear, type) {
                     data2.forEach((v,i) => {
                         let contextToAdd =
                             `
-                              <li class="ui-state-default ui-sortable-handle" data-id="\${v.lv2Cd}">
-                                  <div class="form-group_divide">
-                                      <div class="form-group-child">
-                                          <span class="input-frame01 block-100">
-                                              <input type="text" placeholder="" value="\${v.title}" id="inputBox2Id\${v.lv2Cd}" class="inputValue block" readonly>
-                                              <em class="del_btn01"><img src="/images/input_del.svg" alt="" id="delete2Id\${v.lv2Cd}" onclick="delY('subject', \${v.lv2Cd}, this.id, \${v.tellDelYN})" ></em>
-                                          </span>
-                                      </div>
-                                      <div class="form-group-child flexnone ml10">
-                                          <button class="button type02 whitcolor" id="button2Id\${v.lv2Cd}" onclick="updateTitle('subject', \${v.lv2Cd}, this.id)">수정</button>
-                                      </div>
-                                  </div>
-                              </li>
+                              ...
                             `;
                         eduObject2.insertAdjacentHTML('beforeend', contextToAdd);
                     })
@@ -128,7 +105,7 @@ function getEduList(selectedYear, type) {
             })
     }
 ```
-* 비동기통신으로 받아온 데이터는 Promise 객체이고, 받아온 객체를 Promise.all([a, b, c ..]) 로 다룰 수 있다. 
+> 비동기통신으로 받아온 데이터는 Promise 객체이고, 받아온 객체를 Promise.all([a, b, c ..]) 로 다룰 수 있다. 
 
 <br/>
 <hr>
@@ -172,8 +149,68 @@ function updateTitle(type, pk, buttonId) {
   }
 }
 ```
-* updateTitle() 함수 매개변수를 활용해서 다른 서비스를 호출하고 싶을 경우, return { 함수명 : () => {} } 을 줘서  updateTitle.callInnerFunction() 처럼 활용할 수 있다. 
+> updateTitle() 함수 매개변수를 활용해서 다른 서비스를 호출하고 싶을 경우, return { 함수명 : () => {} } 을 줘서  updateTitle.callInnerFunction() 처럼 활용할 수 있다. 
 
 <br/>
 <hr>
 <br/>
+
+### Grouping
+
+```javascript
+let mapGroupedByCurriculumNo = new Map();
+let mapGroupedByLectureNo = new Map();
+
+groupedByCategory[i].forEach(v => {
+
+    // 키로 설정할 값을 변수에 담고 (그룹핑할 값을 키로 설정),
+    const curriculumNo = v.curriculumNo;
+    const lectureNo = v.lectureNo;
+
+    // 맵에 해당 키가 없으면, 빈 배열을 값으로 넣어준다.
+    if (!mapGroupedByCurriculumNo.has(curriculumNo)) {
+        mapGroupedByCurriculumNo.set(curriculumNo, []);
+    }
+    if (!mapGroupedByLectureNo.has(lectureNo)) {
+        mapGroupedByLectureNo.set(lectureNo, []);
+    }
+
+    // 해당 키에 해당하는 배열을 가져와서 객체를 넣는다.
+    mapGroupedByCurriculumNo.get(curriculumNo).push(v);
+    mapGroupedByLectureNo.get(lectureNo).push(v);
+
+})
+```
+
+<br/>
+<hr>
+<br/>
+
+### filter
+```javascript
+Array1 = Array1.filter(item => !Array2.includes(item));
+```
+> Array2 에 포함되지 않는 값을 담은 배열로 Array1 를 업데이트한다. 
+
+<br/>
+<hr>
+<br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
