@@ -23,9 +23,14 @@ Array.prototype.slice.call( [ NodeList or HTMLCollection ] )
 <hr>
 <br/>
 
-### 비동기통신 Content-Type
+### 비동기통신 
 
-* 비동기통신에서 Content-Type 을 JSON 형식 ( 'application/json' )으로 보내면, 컨트롤러에서 @RequestBody 로 받는다. 
+* dataType : 서버에서 어떤 타입을 받을 것인지를 의미한다. 생략했을경우에는 jQuery가 MIME타입들을 보면서 자동으로 결정한다.
+* contentType : 서버로 데이터를 보낼 때 어떤 타입으로 보낼 것인지를 지정한다. 
+  - json 형식 - application/json; charset-utf-8
+  - form 형식( Default ) -  application/x-www-form-urlencoded; charset=utf-8
+
+* Content-Type 을 JSON 형식 ( 'application/json' )으로 보내면, 컨트롤러에서 @RequestBody 로 받는다. 
 * new FormData() 객체를 생성해서 넘기거나 form태그 안의 데이터를 넘길 경우에는, 컨트롤러에서 @RequestParam 혹은 @ModelAttribute 로 받는다. 
 
 <br/>
