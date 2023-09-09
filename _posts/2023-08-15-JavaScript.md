@@ -26,6 +26,8 @@ Array.prototype.slice.call( [ NodeList or HTMLCollection ] )
 ### 비동기통신 
 
 * dataType : 서버에서 어떤 타입을 받을 것인지를 의미한다. 생략했을경우에는 jQuery가 MIME타입들을 보면서 자동으로 결정한다.
+  - dataType 종류 ( xml, html, script, json, text )
+  - dataType : html 시, script 태그가 포함된 경우 처리한다. 
 * contentType : 서버로 데이터를 보낼 때 어떤 타입으로 보낼 것인지를 지정한다. 
   - json 형식 - application/json; charset-utf-8
   - form 형식( Default ) -  application/x-www-form-urlencoded; charset=utf-8
