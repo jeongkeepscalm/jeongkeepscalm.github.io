@@ -23,5 +23,6 @@ Array.prototype.slice.call( [ NodeList or HTMLCollection ] )
 
 ### 비동기통신
 
-> 비동기통신에서 Content-Type 을 JSON 형식 ( 'application/json' )으로 보내면, 컨트롤러에서 @RequestBody 로 받는다. 
->  new FormData() 객체를 생성해서 넘기거나 form태그 안의 데이터를 넘길 경우에는, 컨트롤러에서 @RequestParam 혹은 @ModelAttribute 로 받는다. 
+* 비동기통신에서 Content-Type 을 JSON 형식 ( 'application/json' )으로 보내면, 컨트롤러에서 @RequestBody 로 받는다. 
+* new FormData() 객체를 생성해서 넘기거나 form태그 안의 데이터를 넘길 경우에는, 컨트롤러에서 @RequestParam 혹은 @ModelAttribute 로 받는다. 
+
