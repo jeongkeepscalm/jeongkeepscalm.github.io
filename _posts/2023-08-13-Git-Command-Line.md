@@ -14,7 +14,9 @@ tags: [Git] # add tag
 * $ git remote remove origin : 원격 저장소의 연결해제 
 * $ git push origin main : 원격 저장소 사용 
 
+<br/>
 <hr>
+<br/>
 
 ### 커밋하기까지의 과정
 
@@ -57,5 +59,7 @@ tags: [Git] # add tag
 * $ git push origin HEAD:브랜치명 --force : 돌아간 뒤 변경사항을 리모트 저장소에 다시 푸쉬한다. <br/>
 ==&gt; git push origin +master 
 
+<br/>
 <hr>
+<br/>
 
