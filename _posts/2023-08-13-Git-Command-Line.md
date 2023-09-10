@@ -7,7 +7,7 @@ img: git.jpg # Add image post (optional)
 tags: [Git] # add tag
 ---
 
-### 로컬저장소를 원격 저장소와 연결 
+## 로컬저장소를 원격 저장소와 연결 
 
 * $ git remote -v : 원격저장소 확인(아무것도 뜨지 않으면 연결 x) 
 * $ git remote add origin https://github.com/... 
@@ -18,7 +18,7 @@ tags: [Git] # add tag
 <hr>
 <br/>
 
-### 커밋하기까지의 과정
+## 커밋하기까지의 과정
 
 * $ git init [ directory_path ] : 로컬 저장소 생성.  
   - 기본적으로 로컬 저장소를 생성하는 명령어.  
