@@ -7,7 +7,7 @@ img: js-1.png # Add image post (optional)
 tags: [Js, Conference] # add tag
 ---
 
-### Turn ( NodeList or HTMLCollection ) into Array
+## Turn ( NodeList or HTMLCollection ) into Array
 
 ```javascript
 Array.prototype.slice.call( [ NodeList or HTMLCollection ] )
@@ -23,7 +23,7 @@ Array.prototype.slice.call( [ NodeList or HTMLCollection ] )
 <hr>
 <br/>
 
-### 비동기통신 
+## 비동기통신 
 
 * dataType : 서버에서 어떤 타입을 받을 것인지를 의미한다. 생략했을경우에는 jQuery가 MIME타입들을 보면서 자동으로 결정한다.
   - dataType 종류 ( xml, html, script, json, text )
@@ -43,7 +43,7 @@ Array.prototype.slice.call( [ NodeList or HTMLCollection ] )
 <hr>
 <br/>
 
-### PromiseAll
+## PromiseAll
 
 ```javascript
 function getEduList(selectedYear, type) {
@@ -111,7 +111,7 @@ function getEduList(selectedYear, type) {
 <hr>
 <br/>
 
-### innerFunction
+## innerFunction
 
 ```javascript
 function updateTitle(type, pk, buttonId) {
@@ -155,7 +155,7 @@ function updateTitle(type, pk, buttonId) {
 <hr>
 <br/>
 
-### Grouping
+## Grouping
 
 ```javascript
 let mapGroupedByCurriculumNo = new Map();
@@ -186,7 +186,7 @@ groupedByCategory[i].forEach(v => {
 <hr>
 <br/>
 
-### filter
+## filter
 ```javascript
 Array1 = Array1.filter(item => !Array2.includes(item));
 ```
