@@ -111,6 +111,8 @@ private void expireCookie(HttpServletResponse response, String cookieName) {
   - 클라이언트가 요청한 sessionId 쿠키의 값으로, 세션 저장소에 보관한 sessionId와 값 제거.
 
 ```java
+VERSION 1
+
 /**
  * 세션 관리
  */
@@ -186,6 +188,8 @@ public String logoutV2(HttpServletRequest request) {
 }
 ```
 
+<br/>
+
 ```java
 @GetMapping("/")
 public String homeLoginV2(HttpServletRequest request, Model model) {
@@ -213,6 +217,8 @@ public String homeLoginV2(HttpServletRequest request, Model model) {
 <br/>
 
 ```java
+VERSION 2
+
 // 상수 정의
 public class SessionConst {
   public static final String LOGIN_MEMBER = "loginMember";
@@ -229,13 +235,13 @@ public String loginV3(@Valid @ModelAttribute LoginForm form
   return "redirect:/";
 }
 ```
-> request.getSession(true) <br/>
+- request.getSession(true) <br/>
   - 세션이 있으면 기존 세션을 반환한다. <br/>
   - 세션이 없으면 새로운 세션을 생성해서 반환한다. <br/>
-> request.getSession(false) <br/>
+- request.getSession(false) <br/>
   - 세션이 있으면 기존 세션을 반환한다. <br/>
   - 세션이 없으면 새로운 세션을 생성하지 않는다. null 을 반환. <br/>
-> request.getSession() : 신규 세션을 생성하는 request.getSession(true) 와 동일하다.
+- request.getSession() : 신규 세션을 생성하는 request.getSession(true) 와 동일하다.
 
 <br/>
 
@@ -252,10 +258,98 @@ public String logoutV3(HttpServletRequest request) {
 ```
 > session.invalidate() : 세션을 제거한다.
 
+```java
+@GetMapping("/")
+public String homeLoginV3(HttpServletRequest request, Model model) {
+  //세션이 없으면 home
+  HttpSession session = request.getSession(false);
+  if (session == null) {
+    return "home";
+  }
+  Member loginMember = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
+  //세션에 회원 데이터가 없으면 home
+  if (loginMember == null) {
+    return "home";
+  }
+  //세션이 유지되면 로그인으로 이동
+  model.addAttribute("member", loginMember);
+  return "loginHome";
+}
+```
 
+<br/>
 
+```java
+VERSION 3
 
+@GetMapping("/")
+public String homeLoginV3Spring(
+  @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
+    , Member loginMember
+    , Model model) {
+  //세션에 회원 데이터가 없으면 home
+  if (loginMember == null) {
+  return "home";
+  }
+  //세션이 유지되면 로그인으로 이동
+  model.addAttribute("member", loginMember);
+  return "loginHome";
+}
+```
 
+<br/>
+
+- 로그인을 처음 시도하면 URL이 다음과 같이 jsessionid 를 포함하고 있는 것을 확인할 수 있는데, 이것은 웹 브라우저가 쿠키를 지원하지 않을 때 쿠키 대신 URL을 통해서 세션을 유지하는 방법이다. URL 전달 방식을 끄고 항상 쿠키를 통해서만 세션을 유지하고 싶으면 다음 옵션을 넣어주면 된다. 이렇게 하면 URL에 jsessionid 가 노출되지 않는다.
+
+```xml
+application.properties
+server.servlet.session.tracking-modes=cookie
+```
+
+<br/>
+
+```java
+@Slf4j
+@RestController
+public class SessionInfoController {
+  @GetMapping("/session-info")
+  public String sessionInfo(HttpServletRequest request) {
+
+    HttpSession session = request.getSession(false);
+    if (session == null) {
+      return "세션이 없습니다.";
+    }
+    //세션 데이터 출력
+    session.getAttributeNames().asIterator()
+      .forEachRemaining(name -> log.info("session name={}, value={}", name, 
+        session.getAttribute(name)));
+
+    log.info("sessionId={}", session.getId());
+    log.info("maxInactiveInterval={}", session.getMaxInactiveInterval());
+    log.info("creationTime={}", new Date(session.getCreationTime()));
+    log.info("lastAccessedTime={}", new
+    Date(session.getLastAccessedTime()));
+    log.info("isNew={}", session.isNew());
+
+    return "세션 출력";
+  }
+}
+```
+> sessionId : 세션Id, JSESSIONID 의 값이다. 예) 34B14F008AA3527C9F8ED620EFD7A4E1 <br/>
+maxInactiveInterval : 세션의 유효 시간, 예) 1800초, (30분) <br/>
+creationTime : 세션 생성일시 <br/>
+lastAccessedTime : 세션과 연결된 사용자가 최근에 서버에 접근한 시간, 클라이언트에서 서버로
+sessionId ( JSESSIONID )를 요청한 경우에 갱신된다. <br/>
+isNew : 새로 생성된 세션인지, 아니면 이미 과거에 만들어졌고, 클라이언트에서 서버로
+sessionId ( JSESSIONID )를 요청해서 조회된 세션인지 여부 <br/>
+
+<br/>
+
+- 세션 타임아웃 설정
+  - 세션은 사용자가 로그아웃을 직접 호출해서 session.invalidate() 가 호출 되는 경우에 삭제된다. 그런데 대부분의 사용자는 로그아웃을 선택하지 않고, 그냥 웹 브라우저를 종료한다. 문제는 HTTP가 비연결성(ConnectionLess)이므로 서버 입장에서는 해당 사용자가 웹 브라우저를 종료한 것인지 아닌지를 인식할 수 없다. 따라서 서버에서 세션 데이터를 언제 삭제해야 하는지 판단하기가 어렵다.
+  - 세션은 기본적으로 메모리에 생성된다. 메모리의 크기가 무한하지 않기 때문에 꼭 필요한 경우만 생성해서 사용해야 한다. 10만명의 사용자가 로그인하면 10만개의 세션이 생성되는 것이다.
+
+<br/>
 
 
 
