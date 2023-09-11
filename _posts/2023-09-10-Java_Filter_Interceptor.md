@@ -37,9 +37,9 @@ public interface Filter {
   public default void destroy() {}
 }
 ```
-> init() : 필터 초기화 메서드, 서블릿 컨테이너가 생성될 때 호출된다. <br/>
-> doFilter() : 고객의 요청이 올 때 마다 해당 메서드가 호출된다. 필터의 로직을 구현하면 된다. <br/>
-> destroy() : 필터 종료 메서드, 서블릿 컨테이너가 종료될 때 호출된다. <br/>
+> - init() : 필터 초기화 메서드, 서블릿 컨테이너가 생성될 때 호출된다. <br/>
+> - doFilter() : 고객의 요청이 올 때 마다 해당 메서드가 호출된다. 필터의 로직을 구현하면 된다. <br/>
+> - destroy() : 필터 종료 메서드, 서블릿 컨테이너가 종료될 때 호출된다. <br/>
 
 ```java
 @Slf4j
@@ -75,10 +75,10 @@ public class LogFilter implements Filter {
   }
 }
 ```
-> 필터 인터페이스를 구현해서 사용한다. <br/>
-> HTTP 요청이 오면 doFilter 가 호출된다. ServletRequest request 는 HTTP 요청이 아닌 경우까지 고려해서 만든 인터페이스이다. HTTP를 사용하면 HttpServletRequest httpRequest = (HttpServletRequest) request; 와 같이 다운 캐스팅 하면 된다. <br/>
-> String uuid = UUID.randomUUID().toString(); : HTTP 요청을 구분하기 위해 요청당 임의의 uuid 를 생성해둔다. <br/>
-> **chain.doFilter(request, response);** : 다음 필터가 있으면 필터를 호출하고, 필터가 없으면 서블릿을 호출한다. 만약 이 로직을 호출하지 않으면 다음 단계로 진행되지 않는다. <br/>
+> - 필터 인터페이스를 구현해서 사용한다. <br/>
+> - HTTP 요청이 오면 doFilter 가 호출된다. ServletRequest request 는 HTTP 요청이 아닌 경우까지 고려해서 만든 인터페이스이다. HTTP를 사용하면 HttpServletRequest httpRequest = (HttpServletRequest) request; 와 같이 다운 캐스팅 하면 된다. <br/>
+> - String uuid = UUID.randomUUID().toString(); : HTTP 요청을 구분하기 위해 요청당 임의의 uuid 를 생성해둔다. <br/>
+> - **chain.doFilter(request, response);** : 다음 필터가 있으면 필터를 호출하고, 필터가 없으면 서블릿을 호출한다. 만약 이 로직을 호출하지 않으면 다음 단계로 진행되지 않는다. <br/>
 
 <br/>
 
@@ -96,11 +96,11 @@ public class WebConfig {
   }
 }
 ```
-> 필터를 등록하는 방법은 여러가지가 있지만, 스프링 부트를 사용한다면 FilterRegistrationBean 을
+> - 필터를 등록하는 방법은 여러가지가 있지만, 스프링 부트를 사용한다면 FilterRegistrationBean 을
 사용해서 등록하면 된다. <br/>
-> setFilter(new LogFilter()) : 등록할 필터를 지정한다. <br/>
-> setOrder(1) : 필터는 체인으로 동작한다. 따라서 순서가 필요하다. 낮을 수록 먼저 동작한다. <br/>
-> addUrlPatterns("/*") : 필터를 적용할 URL 패턴을 지정한다. 한번에 여러 패턴을 지정할 수 있다. <br/>
+> - setFilter(new LogFilter()) : 등록할 필터를 지정한다. <br/>
+> - setOrder(1) : 필터는 체인으로 동작한다. 따라서 순서가 필요하다. 낮을 수록 먼저 동작한다. <br/>
+> - addUrlPatterns("/*") : 필터를 적용할 URL 패턴을 지정한다. 한번에 여러 패턴을 지정할 수 있다. <br/>
 
 - @ServletComponentScan, @WebFilter(filterName = "logFilter", urlPatterns = "/*") 로
 필터 등록이 가능하지만 필터 순서 조절이 안된다. 따라서 FilterRegistrationBean 을 사용하자.
