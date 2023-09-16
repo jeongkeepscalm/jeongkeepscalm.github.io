@@ -194,6 +194,17 @@ Array1 = Array1.filter(item => !Array2.includes(item));
 > Array2 에 포함되지 않는 값을 담은 배열로 Array1 를 업데이트한다. 
 
 <br/>
+
+```javascript
+if (division !== "0") {
+    filtered = filtered.filter(v => {
+        return v.division === ""+division;
+    })
+}
+```
+> () => {} 중괄호로 가둘때는, return 을 해줘야한다.
+
+<br/>
 <hr>
 <br/>
 
@@ -232,6 +243,7 @@ getData : async () => {
 ```
 > What the problem was : async, await 키워드를 쓰기 전, 데이터를 모두 불러오지 못한 상황에 새 배열에 담으려 하니까, 모든 데이터가 배열에 담기지 않았음. 
 
+<br/>
 
 ```javascript
 firstLiElement.onclick = async () => {
@@ -275,20 +287,6 @@ list = list.sort((a,b) => {
 })
 ```
 > 객체가 담긴 배열을 객체의 특정 속성을 기준으로 재정렬한다. 
-
-<br/>
-<hr>
-<br/>
-
-## filter
-```javascript
-if (division !== "0") {
-    filtered = filtered.filter(v => {
-        return v.division === ""+division;
-    })
-}
-```
-> return 을 해줘야 필터된 데이터가 적용된다. 
 
 <br/>
 <hr>
