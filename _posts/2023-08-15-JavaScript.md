@@ -7,22 +7,6 @@ img: js-1.png # Add image post (optional)
 tags: [Js, Conference] # add tag
 ---
 
-## Turn ( NodeList or HTMLCollection ) into Array
-
-```javascript
-Array.prototype.slice.call( [ NodeList or HTMLCollection ] )
-  .forEach( function (node) {
-    if (node.nodeType === Node.ELEMENT_NODE) {
-      ...
-    }
-  })
-```
-> NodeList 나 HTMLCollection 을 배열로 바꿔서 이벤트를 각 노드를에 이벤트를 줄 수 있다. 
-
-<br/>
-<hr>
-<br/>
-
 ## 비동기통신 
 
 * dataType : 서버에서 어떤 타입을 받을 것인지를 의미한다. 생략했을경우에는 jQuery가 MIME타입들을 보면서 자동으로 결정한다.
@@ -293,6 +277,7 @@ list = list.sort((a,b) => {
 <br/>
 
 ## eval
+
 ```javascript 
 let scriptElement = $(res).filter("script");
 if (scriptElement.length > 0) {
@@ -300,7 +285,7 @@ if (scriptElement.length > 0) {
     eval(scriptCode);
 }
 ```
-> api로 불러온 html 안 스크립트 태그가 실행되지 않아 eval 로 실행했었음. 
+> What the problem was : api로 불러온 html 안 스크립트 태그가 실행되지 않아 eval 로 실행했었음.
 
 
 
