@@ -187,6 +187,7 @@ groupedByCategory[i].forEach(v => {
 <br/>
 
 ## filter
+
 ```javascript
 Array1 = Array1.filter(item => !Array2.includes(item));
 ```
@@ -195,6 +196,113 @@ Array1 = Array1.filter(item => !Array2.includes(item));
 <br/>
 <hr>
 <br/>
+
+## async / await
+
+* async
+    - 함수 앞에 async 키워드를 붙여 비동기 함수로 정의한다. 
+
+* await 
+    - 비동기 작업의 결과를 기다릴 때 사용한다. 
+    - await 뒤에 Promise 객체를 반환하는 비동기 함수 또는 작업이어야 한다. 
+    -  비동기 작업이 완료될 때까지 실행을 일시 중지하고 결과를 기다리다. 
+
+* async, await : 네트워크 요청, 파일 읽기/쓰기, 데이터베이스 쿼리 등과 같이 시간이 걸리는 작업을 다룰 때 유용하게 사용한다. 
+
+```javascript
+getData : async () => {
+    try {
+        const offlineData = await prop.api.getYeonsuOfflineList();
+        const onlineData = await prop.api.getYeonsuOnlineList();
+
+        offlineData.list.forEach((v, i) => {
+            prop.data.list.push(v);
+        });
+
+        onlineData.list.forEach((v, i) => {
+            prop.data.list.push(v);
+        });
+
+        prop.draw.fnc.table(1);
+
+    } catch (error) {
+        console.error("데이터 가져오는 오류:", error);
+    }
+},
+```
+> What the problem was : async, await 키워드를 쓰기 전, 데이터를 모두 불러오지 못한 상황에 새 배열에 담으려 하니까, 모든 데이터가 배열에 담기지 않았음. 
+
+
+```javascript
+firstLiElement.onclick = async () => {
+    prop.data.pagingVO.currentPage = 1;
+    await prop.draw.fnc.table(1, data);
+}
+```
+> await 키워드를 사용하여 비동기통신이 완료될 때까지 기다리게 해서, prop.data.pagingVO.currentPage 의 값이 초기화 될 시간을 준다.
+> What the problem was : prop.data.pagingVO.currentPage 가 1로 초기화가 되지 않고 api 호출이 일어나서 페이징처리가 제대로 이루어지지 않았음.
+
+<br/>
+<hr>
+<br/>
+
+## hasOwnProperty
+
+```javascript
+if (list[i].certification === "Y") {
+    for (let field in list[i]) {
+        if (list[i].hasOwnProperty(field) && field === "lectureNo") {
+            if (!prop.data.lectureNoArray.includes(list[i].lectureNo)) {
+                prop.data.lectureNoArray.push(list[i].lectureNo);
+                certification.appendChild(certificationButton);
+            }
+        }
+    }
+}
+```
+
+<br/>
+<hr>
+<br/>
+
+## sort
+
+```javascript 
+list = list.sort((a,b) => {
+    const dateA = new Date(a.regDt);
+    const dateB = new Date(b.regDt);
+    return dateB - dateA; // 날짜가 큰 순서대로 (desc)
+})
+```
+> 객체가 담긴 배열을 객체의 특정 속성을 기준으로 재정렬한다. 
+
+<br/>
+<hr>
+<br/>
+
+## filter
+```javascript
+if (division !== "0") {
+    filtered = filtered.filter(v => {
+        return v.division === ""+division;
+    })
+}
+```
+> return 을 해줘야 필터된 데이터가 적용된다. 
+
+<br/>
+<hr>
+<br/>
+
+## eval
+```javascript 
+let scriptElement = $(res).filter("script");
+if (scriptElement.length > 0) {
+    let scriptCode = scriptElement.text();
+    eval(scriptCode);
+}
+```
+> api로 불러온 html 안 스크립트 태그가 실행되지 않아 eval 로 실행했었음. 
 
 
 

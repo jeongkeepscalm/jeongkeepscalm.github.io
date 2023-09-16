@@ -30,6 +30,7 @@ tags: [Git] # add tag
 * stage : 워킹디렉토리에서 제출된 tracked state 파일들을 관리 및 임시로 저장하는 공간. 
 
 * $ git reset HEAD [ file ] : git add 한 내용을 취소. ( file 이 없으면 add 한 파일 전체를 취소한다. )
+* $ git reset --hard : stage 에 올라간 파일 모두 취소. 
 
 * $ git status : 스테이지 상태 확인.
 
