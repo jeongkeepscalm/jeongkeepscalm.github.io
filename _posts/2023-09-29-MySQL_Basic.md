@@ -99,6 +99,7 @@ where color = 'white';
 * where 조건을 먼저 찾은 후 select 한 컬럼을 출력한다. where 절 안 컬럼은 select 후의 컬럼에 포함될 필요가 없다. 서로 독립적이다. 
 * CLI 에서 sql 소스를 import 할 수 있다. 
 mysql> source C:/Users/withy/Downloads/book_data.sql;
+* DISTINCT 는 SELECT 에 출력할 모든 필드에 적용이 된다. 
 
 <br/>
 <hr>
