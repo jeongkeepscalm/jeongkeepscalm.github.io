@@ -95,9 +95,7 @@ where color = 'white';
 * 데이터베이스 : 접근 가능한 인터페이스를 가진 컴퓨터화 된 데이터의 구조화된 집합.
 * 관계형 데이터베이스 ( Relational Databases ) - MySql, Oracle, SqLite, PostgreSql...
 * 엔트리 == 행. 즉, 각각의 데이터.
-
 <br/>
-
 * where 조건을 먼저 찾은 후 select 한 컬럼을 출력한다. where 절 안 컬럼은 select 후의 컬럼에 포함될 필요가 없다. 서로 독립적이다. 
 * CLI 에서 sql 소스를 import 할 수 있다. 
 mysql> source C:/Users/withy/Downloads/book_data.sql;
@@ -106,7 +104,7 @@ mysql> source C:/Users/withy/Downloads/book_data.sql;
 <hr>
 <br/>
 
-## 문자열 함수 
+## 자주 사용하는 문자열 함수 
 ```sql
 select concat_ws('-', 'oh', 'jeong', 'gil'); -- oh-jeong-gil
 
@@ -118,25 +116,26 @@ select reverse('abcde'); -- edcba
 select char_length('훌륭한 개발자'); -- 7 
 select length('훌륭한 개발자'); -- 19 
 
-select ucase('hello'); -- HELLO == upper()
-select lcase('HELLO'); -- hello == lower()
-
-select concat('I LOVE ', ucase(title), ' !!!') from books;
+select ucase('hello'); -- HELLO 
+select lcase('HELLO'); -- hello
 
 select insert('Hello World', 6, 0, ' Jeong\'s'); -- Hello Jeong's Wrold
 select left('OmgHahaLol~~', 3); -- Omg
 select right('OmgHahaLol~~', 5); -- Lol~~
 select repeat('ha', 3); -- hahaha
+
 select trim('    jeong   '); -- jeong 
 select trim(leading '.' from '.....this is for you..'); -- this is for you..
 select trim(trailing '.' from '.....this is for you..'); -- .....this is for you
 select trim(both '.' from '.....this is for you..'); -- this is for you
 ```
-> substring() == substr()
-> char_length() : 글자 길이 반환
-> length() : 바이트 길이 반환
-> ucase() == upper()
-> lcase() == lower()
+> substring() == substr() <br/>
+> char_length() : 글자 길이 반환 <br/>
+> length() : 바이트 길이 반환 <br/>
+> ucase() == upper() <br/>
+> lcase() == lower() <br/>
+
+
 
 
 
