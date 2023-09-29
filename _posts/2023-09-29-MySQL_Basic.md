@@ -7,7 +7,9 @@ img: mysql.png # Add image post (optional)
 tags: [mysql] # add tag
 ---
 
-## DataBase
+## Create
+
+#### Database
 
 ```sql
 SHOW DATABASES; 
@@ -21,7 +23,7 @@ SELECT <database name> -- 현재 사용중인 데이터베이스명을 알려준
 <hr>
 <br/>
 
-## Table
+#### Table
 
 ```sql
 CREATE TABLE cats  (
@@ -56,9 +58,11 @@ DROP TABLE <table-name>;
 <hr>
 <br/>
 
-## MULTI INSERT
+##  INSERT
 
-```SQL
+INSERT INTO <table name> (field names...) values (values...)
+
+```sql
 INSERT INTO cats (name, age) 
 VALUES 
     ('Meatball', 5), 
@@ -69,6 +73,73 @@ VALUES
 <br/>
 <hr>
 <br/>
+
+##  UPDATE
+
+update <table name> set <field name> = <value>, ... where ...
+
+```sql
+update 
+    shirts 
+set 
+    shirt_size = 'XS'
+    , color = 'off white' 
+where color = 'white';
+```
+
+<br/>
+<hr>
+<br/>
+
+## 개념정리
+* 데이터베이스 : 접근 가능한 인터페이스를 가진 컴퓨터화 된 데이터의 구조화된 집합.
+* 관계형 데이터베이스 ( Relational Databases ) - MySql, Oracle, SqLite, PostgreSql...
+* 엔트리 == 행. 즉, 각각의 데이터.
+
+<br/>
+
+* where 조건을 먼저 찾은 후 select 한 컬럼을 출력한다. where 절 안 컬럼은 select 후의 컬럼에 포함될 필요가 없다. 서로 독립적이다. 
+* CLI 에서 sql 소스를 import 할 수 있다. 
+mysql> source C:/Users/withy/Downloads/book_data.sql;
+
+<br/>
+<hr>
+<br/>
+
+## 문자열 함수 
+```sql
+select concat_ws('-', 'oh', 'jeong', 'gil'); -- oh-jeong-gil
+
+select substring('hello world', 7, 5); -- world
+select substring('hello world', -5); -- world
+
+select reverse('abcde'); -- edcba
+
+select char_length('훌륭한 개발자'); -- 7 
+select length('훌륭한 개발자'); -- 19 
+
+select ucase('hello'); -- HELLO == upper()
+select lcase('HELLO'); -- hello == lower()
+
+select concat('I LOVE ', ucase(title), ' !!!') from books;
+
+select insert('Hello World', 6, 0, ' Jeong\'s'); -- Hello Jeong's Wrold
+select left('OmgHahaLol~~', 3); -- Omg
+select right('OmgHahaLol~~', 5); -- Lol~~
+select repeat('ha', 3); -- hahaha
+select trim('    jeong   '); -- jeong 
+select trim(leading '.' from '.....this is for you..'); -- this is for you..
+select trim(trailing '.' from '.....this is for you..'); -- .....this is for you
+select trim(both '.' from '.....this is for you..'); -- this is for you
+```
+> substring() == substr()
+> char_length() : 글자 길이 반환
+> length() : 바이트 길이 반환
+> ucase() == upper()
+> lcase() == lower()
+
+
+
 
 
 
