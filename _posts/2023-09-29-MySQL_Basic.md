@@ -142,7 +142,6 @@ select trim(both '.' from '.....this is for you..'); -- this is for you
 
 ## 집계함수 (Aggregate function)
 ```sql
-
 -- count()
 select count(distinct author_fname) from books; -- 고유값의 갯수를 알고 싶을 경우.
  
@@ -187,6 +186,80 @@ group by name;
 
 ## 데이터 타입 (Data Type)
 
+#### 문자 데이터 유형
+
+* varchar(100) : variable + character
+* char(5) : 모든 문자열의 크기가 5. 문자열이 5보다 작은 데이터를 INSERT 시, 나머지 부분은 공백으로 채워진다. **데이터의 크기가 정해져 있으면 메모리 효율상 char를 사용하는게 낫다.** 
+
+#### 숫자 데이터 유형
+
+* tinyint : 메모리 1 byte 차지 (-128 ~ 127)
+
+* int : 메모리 4 byte 차지 
+```sql
+create table parent ( children tinyint unsigned ); -- 0 ~ 127 
+```
+
+*  decimal : 정확한 소수를 저장할 수 있다. 
+    - decimal(5, 2) => 소수점 앞에는 최대 3자리, 소수점 뒤에는 최대 2자리의 데이터가 삽입 가능하다. ex) 999.99 
+```sql
+create table products ( price decimal(5,2) );
+insert into products ( price ) values ( 9272.1 ); -- INSERT 불가능
+```
+
+* float vs double
+    - 둘 다 더 적은 공간으로 더 큰 수나 소수점 아래 숫자가 더 많은 수를 저장할 수 있다. 
+    - float 과 double 은 저장할 수 있는 각 자리의 수 범위를 벗어나면 부정확한 값이 INSERT 된다. 
+    - float : 메모리 4 byte 차지 (~ 7 digit)
+    - double : 메모리 8 byte 차지 (~ 15 digit)
+
+## 날짜와 시간과 관련된 데이터 유형
+
+date : 'YYYY-MM-DD'
+time : 'HH:MM:SS'
+datetime : 'YYYY-MM-DD HH:MM:SS'
+
+curdate() == current_date() ( 'YYYY-MM-DD' )
+curtime() == current_time() ( 'HH:MM:SS' )
+now() == current_timestamp() ( 'YYYY-MM-DD HH:MM:SS' )
+INSERT INTO people (name, birthdate, birthtime, birthdt)
+VALUES ( 'Hazel', CURDATE(), CURTIME(), NOW() );
+
+```sql
+SELECT
+    birthdate,
+    day(birthdate), -- day() == dayofmonth()
+    dayofweek(birthdate),
+    dayofyear(birthdate)
+FROM people;
+ 
+SELECT
+    birthdate,
+    monthname(birthdate),
+    year(birthdate)
+FROM people;
+```
+
+* select datediff(curdate(), '1993-01-03'); -- 두 날짜간 일수 차이를 출력한다. 
+* select date_add('1993-01-03', interval 2 day); -- 1993-01-05
+* select date_sub('1993-01-03', interval 10 year); -- 1983-01-03
+* select timediff(curtime(), '07:00:00'); -- 현재 시간을 기준으로 오전 7시부터 얼마나 깨어 있었는지 출력한다.
+* select name, birthdate, year(birthdate + interval 21 year) as willBe21 from people; -- 날짜 +/- 시 interval 을 사용한다.
+
+<br/>
+
+* timestamp : range ( 1970-01-01 ~ 2038-01-19 ), datetime 보다 메모리를 덜 차지.  
+* datetime : range ( 1000-01-01 ~ 9999-12-31 ) 
+
+```sql
+create table captions (
+	text varchar(150)
+	, created_at timestamp default current_timestamp
+	, updated_at timestamp on update current_timestamp 
+);
+```
+> default current_timestamp : 따로 INSERT 하지 않아도 현재 시간이 데이터로 입력된다. <br/>
+> on update current_timestamp : 행에서 어떤 열이 변경될 때마다 그 열을 current_timestamp == now() 로 업데이트한다. 
 
 
 
