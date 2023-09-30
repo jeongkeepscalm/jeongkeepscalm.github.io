@@ -136,8 +136,56 @@ select trim(both '.' from '.....this is for you..'); -- this is for you
 > ucase() == upper() <br/>
 > lcase() == lower() <br/>
 
+<br/>
+<hr>
+<br/>
 
+## 집계함수 (Aggregate function)
+```sql
 
+-- count()
+select count(distinct author_fname) from books; -- 고유값의 갯수를 알고 싶을 경우.
+ 
+-- group by  
+select
+	author_fname 
+	, author_lname 
+	, count(*)
+from books
+group by author_lname, author_fname ;
+
+-- min(), max(), sum(), avg()
+select 
+	title
+	, pages
+from books
+where pages = (select max(pages) from books);
+
+select 
+	author_fname 
+	, author_lname 
+	, min(released_year)
+from books
+group by author_fname, author_lname;
+-- ==
+select 
+	concat_ws(' ', author_fname, author_lname) as name
+	, count(title)
+	, min(released_year)
+	, max(released_year)
+	, sum(pages)
+	, avg(pages)
+from books
+group by name;
+```
+> count() : null 값을 제외한 괄호 안 컬럼 행에 들어있는 값의 갯수를 출력한다. <br/>
+> group by : 그룹핑 후 집계함수(count, min, max, avg)와 함께 쓰인다.
+
+<br/>
+<hr>
+<br/>
+
+## 데이터 타입 (Data Type)
 
 
 
