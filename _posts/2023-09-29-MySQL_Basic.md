@@ -213,7 +213,7 @@ insert into products ( price ) values ( 9272.1 ); -- INSERT 불가능
     - float : 메모리 4 byte 차지 (~ 7 digit)
     - double : 메모리 8 byte 차지 (~ 15 digit)
 
-## 날짜와 시간과 관련된 데이터 유형
+#### 날짜와 시간과 관련된 데이터 유형
 
 date : 'YYYY-MM-DD'
 time : 'HH:MM:SS'
