@@ -19,10 +19,6 @@ USE <database name> -- 사용할 데이터베이스를 지정한다.
 SELECT <database name> -- 현재 사용중인 데이터베이스명을 알려준다. 
 ```
 
-<br/>
-<hr>
-<br/>
-
 #### Table
 
 ```sql
@@ -56,7 +52,6 @@ DROP TABLE <table-name>;
 
 <br/>
 <hr>
-<br/>
 
 ##  INSERT
 
@@ -72,7 +67,6 @@ VALUES
 
 <br/>
 <hr>
-<br/>
 
 ##  UPDATE
 
@@ -89,7 +83,6 @@ where color = 'white';
 
 <br/>
 <hr>
-<br/>
 
 ## 개념정리
 * 데이터베이스 : 접근 가능한 인터페이스를 가진 컴퓨터화 된 데이터의 구조화된 집합.
@@ -103,7 +96,6 @@ mysql> source C:/Users/withy/Downloads/book_data.sql;
 
 <br/>
 <hr>
-<br/>
 
 ## 자주 사용하는 문자열 함수 
 ```sql
@@ -138,7 +130,6 @@ select trim(both '.' from '.....this is for you..'); -- this is for you
 
 <br/>
 <hr>
-<br/>
 
 ## 집계함수 (Aggregate function)
 ```sql
@@ -182,7 +173,6 @@ group by name;
 
 <br/>
 <hr>
-<br/>
 
 ## 데이터 타입 (Data Type)
 
