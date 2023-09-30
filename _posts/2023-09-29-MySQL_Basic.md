@@ -215,17 +215,16 @@ insert into products ( price ) values ( 9272.1 ); -- INSERT 불가능
 
 #### 날짜와 시간과 관련된 데이터 유형
 
-date : 'YYYY-MM-DD'
-time : 'HH:MM:SS'
-datetime : 'YYYY-MM-DD HH:MM:SS'
-
-curdate() == current_date() ( 'YYYY-MM-DD' )
-curtime() == current_time() ( 'HH:MM:SS' )
-now() == current_timestamp() ( 'YYYY-MM-DD HH:MM:SS' )
-INSERT INTO people (name, birthdate, birthtime, birthdt)
-VALUES ( 'Hazel', CURDATE(), CURTIME(), NOW() );
+* date : 'YYYY-MM-DD'
+* time : 'HH:MM:SS'
+* datetime : 'YYYY-MM-DD HH:MM:SS'
+* curdate() == current_date() ( 'YYYY-MM-DD' )
+* curtime() == current_time() ( 'HH:MM:SS' )
+* now() == current_timestamp() ( 'YYYY-MM-DD HH:MM:SS' )
 
 ```sql
+INSERT INTO people (name, birthdate, birthtime, birthdt) VALUES ( 'Hazel', CURDATE(), CURTIME(), NOW() );
+
 SELECT
     birthdate,
     day(birthdate), -- day() == dayofmonth()
@@ -238,6 +237,10 @@ SELECT
     monthname(birthdate),
     year(birthdate)
 FROM people;
+
+SELECT DATE_FORMAT(NOW(), '%W'); -- Saturday. select dayname(current_date);
+SELECT DATE_FORMAT(CURDATE(), '%m/%d/%Y'); -- 09/30/2023
+SELECT DATE_FORMAT(NOW(), '%M %D at %h:%i'); -- September 30th at 10:30
 ```
 
 * select datediff(curdate(), '1993-01-03'); -- 두 날짜간 일수 차이를 출력한다. 
@@ -245,9 +248,7 @@ FROM people;
 * select date_sub('1993-01-03', interval 10 year); -- 1983-01-03
 * select timediff(curtime(), '07:00:00'); -- 현재 시간을 기준으로 오전 7시부터 얼마나 깨어 있었는지 출력한다.
 * select name, birthdate, year(birthdate + interval 21 year) as willBe21 from people; -- 날짜 +/- 시 interval 을 사용한다.
-
 <br/>
-
 * timestamp : range ( 1970-01-01 ~ 2038-01-19 ), datetime 보다 메모리를 덜 차지.  
 * datetime : range ( 1000-01-01 ~ 9999-12-31 ) 
 
