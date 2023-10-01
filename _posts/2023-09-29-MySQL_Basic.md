@@ -7,9 +7,7 @@ img: mysql.png # Add image post (optional)
 tags: [mysql] # add tag
 ---
 
-## Create
-
-#### Database
+## Database
 
 ```sql
 SHOW DATABASES; 
@@ -19,7 +17,9 @@ USE <database name> -- 사용할 데이터베이스를 지정한다.
 SELECT <database name> -- 현재 사용중인 데이터베이스명을 알려준다. 
 ```
 
-#### Table
+## Table
+
+#### CREATE
 
 ```sql
 CREATE TABLE cats  (
@@ -48,6 +48,44 @@ SHOW COLUMNS FROM <table name> -- 필드와 타입 등 정보를 출력한다.
 == DESC <table name> 
 
 DROP TABLE <table-name>;
+```
+
+#### ALTER
+```sql
+-- 컬럼 추가
+alter table companies 
+add column city varchar(20);
+
+alter table companies 
+add column employee_count tinyint not null default 1;
+
+-- 컬럼 삭제
+alter table companies 
+drop column city;
+
+-- 테이블명 변경
+alter table company rename to companies;
+-- == rename table companies to company;
+
+-- 컬럼명 변경
+alter table companies 
+rename column employee_count to ec;
+
+-- 제약조건 수정
+alter table companies 
+modify name varchar(100) not null default 'unknown';
+
+-- 컬럼명 변경 && 데이터타입 수정
+alter table companies 
+change address adrs varchar(100);
+
+-- 제약조건 추가
+alter table users 
+add constraint positive_number check (age > 0);
+
+-- 제약조건 삭제
+alter table users
+drop constraint positive_number;
 ```
 
 <br/>
@@ -251,6 +289,56 @@ create table captions (
 ```
 > default current_timestamp : 따로 INSERT 하지 않아도 현재 시간이 데이터로 입력된다. <br/>
 > on update current_timestamp : 행에서 어떤 열이 변경될 때마다 그 열을 current_timestamp == now() 로 업데이트한다. 
+
+#### 날짜비교
+* mysql 은 문자열과 날짜를 비교해서 결과를 알려주지만 정확하지 않을 수도 있다. 
+```sql
+select now() > cast('12:03:00' as time); -- cast 로 문자를 시간으로 변경하여 값을 비교한다. 
+
+SELECT * FROM people WHERE HOUR(birthtime) BETWEEN 12 AND 16;
+```
+
+<br/>
+<hr/>
+
+## 제약조건
+
+#### unique
+```sql
+CREATE TABLE contacts (
+	name VARCHAR(100) NOT NULL
+    , phone VARCHAR(15) NOT NULL UNIQUE
+);
+```
+> Primary Key 와 Unique 제약조건을 하나의 컬럼에 동시에 쓰지는 않는다. 
+
+```sql
+create table companies (
+	name varchar(50) not null
+	, address varchar(100) not null
+	, constraint test unique (name, address) -- name 과 address 가 모두 중복일 경우 test 제약조건 위반.
+);
+```
+
+#### check
+```sql
+CREATE TABLE users (
+	username VARCHAR(20) NOT NULL
+    , age INT 
+    , CONSTRAINT age_over_18 CHECK(age > 18) -- 제약조건명을 설정할 수 있다. 
+);
+ 
+CREATE TABLE palindromes (
+  word VARCHAR(100) 
+  , CONSTRAINT word_is_palindrome CHECK(REVERSE(word) = word)
+)
+```
+
+<br/>
+<hr/>
+
+
+
 
 
 
