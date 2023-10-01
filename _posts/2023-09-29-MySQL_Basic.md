@@ -292,6 +292,7 @@ create table captions (
 
 #### 날짜비교
 * mysql 은 문자열과 날짜를 비교해서 결과를 알려주지만 정확하지 않을 수도 있다. 
+
 ```sql
 select now() > cast('12:03:00' as time); -- cast 로 문자를 시간으로 변경하여 값을 비교한다. 
 
@@ -336,6 +337,8 @@ CREATE TABLE palindromes (
 
 <br/>
 <hr/>
+
+
 
 
 
