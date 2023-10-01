@@ -338,6 +338,52 @@ CREATE TABLE palindromes (
 <br/>
 <hr/>
 
+## 일대다 ( One To Many & Joins )
+
+```sql
+create table customers (
+	customer_id int primary key auto_increment
+	, first_name varchar(50) not null
+	, last_name varchar(50) not null
+	, email varchar(100)
+);
+
+create table orders (
+	order_id int auto_increment
+	, order_date timestamp default current_timestamp
+	, amount decimal(8,2) not null
+	, customer_id int 
+	, primary key (order_id)
+	, foreign key (customer_id) references customers(customer_id) 
+        on delete cascade 
+);
+```
+> **on delete cascade : 부모의 데이터가 삭제될 경우, 자식테이블 내 해당 데이터를 참조하고 있는 데이터도 삭제한다. => 즉 부모데이터를 삭제 가능하게 하며 그와 관련된 데이터는 모두 삭제된다.** 
+
+#### inner join
+
+```sql
+select 
+	c.first_name
+	, c.last_name
+	, sum(o.amount)
+from customers c inner join orders o on c.customer_id = o.customer_id
+group by c.first_name, c.last_name;
+```
+
+#### left/right join 
+
+```sql 
+select 
+	c.first_name
+	, c.last_name
+	, ifnull(sum(o.amount), 0) as 'money_spent'
+from customers c left join orders o on c.customer_id = o.customer_id
+group by c.first_name, c.last_name;
+```
+
+
+
 
 
 
