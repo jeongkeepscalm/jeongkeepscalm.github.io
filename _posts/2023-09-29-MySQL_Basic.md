@@ -175,12 +175,12 @@ select trim(both '.' from '.....this is for you..'); -- this is for you
 select count(distinct author_fname) from books; -- 고유값의 갯수를 알고 싶을 경우.
  
 -- group by  
-select
-	author_fname 
-	, author_lname 
-	, count(*)
-from books
-group by author_lname, author_fname ;
+select 
+	title
+	, avg(rating)
+from full_reviews
+group by title 
+having count(rating) >= 2; -- having : group by 로 생성한 그룹을 필더링해준다. 
 
 -- min(), max(), sum(), avg()
 select 
@@ -338,7 +338,7 @@ CREATE TABLE palindromes (
 <br/>
 <hr/>
 
-## 일대다 ( One To Many & Joins )
+## 일대다 ( One To Many & Many:Many & Joins )
 
 ```sql
 create table customers (
@@ -380,7 +380,91 @@ select
 	, ifnull(sum(o.amount), 0) as 'money_spent'
 from customers c left join orders o on c.customer_id = o.customer_id
 group by c.first_name, c.last_name;
+
+select 
+	title as 'unreviewed series'
+from series s left join reviews r on s.id = r.series_id
+where r.rating is null;
 ```
+
+<br/>
+<hr/>
+
+## VIEW
+
+* view를 활용하여 결과를 반환하는 쿼리를 저장하고 이름을 지정한 다음 실제 테이블처럼 취급할 수 있다. => **관계성이 깊고 자주 사용하는 테이블들을 JOIN 하여 새 VIEW 테이블을 만들고, Group By 혹은 Where 를 사용해서 VIEW를 통해 원하는 데이터를 가져올 수 있다.**
+* view 는 테이블 기능을 가지고 있지만 실제 테이블은 아니다. view 안 데이터는 삽입, 업데이트, 삭제가 안된다. (일부의 view 에서만 가능)
+
+```sql
+CREATE VIEW full_reviews AS
+SELECT title, released_year, genre, rating, first_name, last_name FROM reviews
+JOIN series ON series.id = reviews.series_id
+JOIN reviewers ON reviewers.id = reviews.reviewer_id;
+```
+
+```sql
+-- 해당 view 가 존재하면 update, 그렇지 않다면 해당 view 를 생성.
+create or replace view ordered_series as
+select * from series order by released_year desc;
+
+-- 해당 view 수정.
+alter view ordered_series as
+select * from series order by released_year desc;
+
+-- 해당 view 삭제
+drop view ordered_series;
+```
+
+## WITH ROLLUP
+
+```sql
+select 
+	title
+	, avg(rating)
+	, count(rating)
+from full_reviews
+group by title with rollup;
+```
+> with rollup : group by 와 함께 쓰이며 그룹화 된 정보를 바탕으로, 사용된 집계함수에 대한 전체 데이터를 하위에 출력한다. 
+
+
+## SQL MODE
+
+```sql
+-- 글로벌 범위의 sql 모드 (영구적인 변경을 원할 경우)
+select @@global.sql_mode; 
+-- ONLY_FULL_GROUP_BY ( group by 뒤에 있어야할 컬럼이 있지 않을경우 오류 발생 )
+-- , STRICT_TRANS_TABLES  ( 컬럼에 맞는 데이터타입이 들어가게 해준다. )
+-- , NO_ZERO_IN_DATE ( 날짜 0월 0일 방지 )
+-- , NO_ZERO_DATE 
+-- , ERROR_FOR_DIVISION_BY_ZERO ( 0으로 나눌수 없다. )
+-- , NO_ENGINE_SUBSTITUTION
+
+-- 세션 범위의 sql 모드
+select @@session.sql_mode; 
+
+select 3/0; -- warning : Division by 0
+
+-- Division by 0 warning 을 나오게 하고 싶지 앟을 경우 sql_mode에 RROR_FOR_DIVISION_BY_ZERO 을 제외한 나머지 설정을 set 해준다. 
+set session sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
+```
+> SQL MODE 에는 글로벌 모드, 세션 모드가 있다. <br/>
+> Division by 0 경고를 나오게 하고 싶지 앟을 경우 sql_mode에 RROR_FOR_DIVISION_BY_ZERO 을 제외한 나머지 설정들을 set 해준다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
