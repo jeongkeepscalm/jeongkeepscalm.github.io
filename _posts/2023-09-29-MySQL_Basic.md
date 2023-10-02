@@ -402,6 +402,8 @@ JOIN series ON series.id = reviews.series_id
 JOIN reviewers ON reviewers.id = reviews.reviewer_id;
 ```
 
+<br/>
+
 ```sql
 -- 해당 view 가 존재하면 update, 그렇지 않다면 해당 view 를 생성.
 create or replace view ordered_series as
