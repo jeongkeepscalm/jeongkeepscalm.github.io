@@ -454,8 +454,35 @@ set session sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,N
 > Division by 0 경고를 나오게 하고 싶지 앟을 경우 sql_mode에 RROR_FOR_DIVISION_BY_ZERO 을 제외한 나머지 설정들을 set 해준다.
 
 
+<br/>
+<hr>
+
+## 윈도우 함수 ( Window Function )
+
+#### over()
+
+```sql
+select 
+	department
+	, min(salary) over(partition by department)
+	, max(salary) over(partition by department)
+	, avg(salary) over(partition by department) 
+	, avg(salary) over() -- 전체 평균 급여가 각 행마다 출력된다. 
+from employees e 
+
+select 
+	department
+	, count(*) over(partition by department)
+from employees e ;
+```
+> 집계함수 뒤 over() 괄호 안에 명시되어있는 값이 없으면 전체를 기준으로 값을 산출해 각 행에 출력한다. <br/>
+> 집계함수 뒤 over ( partition by <column name> ) : 그룹을 짓지 않고 입력된 컬럼명으로 가상의 그룹을 지어 그에 해당하는 값을 각 행에 출력한다. 
+
+```sql
+over ( order by )
 
 
+```
 
 
 
