@@ -476,15 +476,79 @@ select
 from employees e ;
 ```
 > 집계함수 뒤 over() 괄호 안에 명시되어있는 값이 없으면 전체를 기준으로 값을 산출해 각 행에 출력한다. <br/>
-> 집계함수 뒤 over ( partition by <column name> ) : 그룹을 짓지 않고 입력된 컬럼명으로 가상의 그룹을 지어 그에 해당하는 값을 각 행에 출력한다. 
+> 집계함수 뒤 over ( partition by <column name> ) : 그룹을 짓지 않고 입력된 컬럼명으로 가상의 그룹을 지어 그에 해당하는 값을 각 행에 출력한다. <br/>
 
 ```sql
-over ( order by )
-
-
+select 
+	emp_no
+	, department
+	, salary 
+	, sum(salary) over(partition by department order by salary desc)
+from employees e ;
 ```
+> 부서별로 나뉜 상태에서 급여가 rolling 처럼 다음 행의 값은 이전 행의 모든 봉급의 합이 된다.
 
+* min max sum avg 는 집계함수로 group by 와 쓰이거나 window 함수로 사용가능하다.
 
+### only window function  
+
+#### rank(), row_number(), dense_rank()
+
+```sql
+select 	
+	emp_no
+	, department 
+	, salary 
+	, row_number() over(partition by department order by salary desc) as department_rowNumber
+	, rank() over(partition by department order by salary desc) as department_rank -- 부서별로 순위를 매긴다. (건너뛰는 숫자가 존재한다.)
+	, dense_rank() over(partition by department order by salary desc) as department_dense_rank -- 공동 순위가 있을 시, 다음 순위는 그 다음 번호로 매겨진다. (건너뛰는 숫자가 없다)
+	, rank() over(order by salary desc) as overall_rank -- partition 으로 나누지 않아, 전체 순위를 매긴다. 
+from employees e 
+order by department;
+```
+<img src="/assets/img/resultQuery.jpg" width="500px" border="3px"/>
+
+#### ntile()
+
+```sql
+select 
+	emp_no 
+	, department 
+	, salary
+	, ntile(4) over(partition by department order by salary desc)
+	, ntile(4) over(order by salary desc)
+from employees e 
+order by department ;
+```
+> ntile() : 괄호 안의 표현식 값을 기준으로 나눠 순위를 매긴다. 
+
+#### first_value()
+
+```sql
+select 
+	emp_no 
+	, department 
+	, salary
+	, first_value(emp_no) over(order by salary desc) as 'first_value' -- 급여가 가장 높은 emp_no가 보다 낮은 하위행에 모두 찍힌다. 
+	, nth_value(emp_no, 20) over(order by salary desc) as 'nth_value' -- 높은 급여를 기준으로 급여가 20번째인 emp_no가 모든 하위 행에 찍힌다. 
+	, first_value(emp_no) over(partition by department order by salary desc) as 'first_value_by_department' -- 급여가 가장 높은 emp_no가 부서별로 찍힌다. 
+from employees e 
+order by department ;
+```
+> 괄호 안의 표현식 값이 첫번째 행에서 반환된다. 
+
+#### lead(), lag()
+
+```sql
+select 
+	emp_no 
+	, department 
+	, salary
+-- 	, lag(salary) over(order by salary desc) -- 괄호 안의 표현식 값 이전 행의 값을 출력한다. 
+	, salary - lag(salary) over(partition by department order by salary desc) -- 부서별 이전 행의 급여와의 차이를 구한다.
+from employees e;
+```
+> lead(), lag() : 주로 한 행과 그 전 또는 다음 행 간의 차이를 찾기 위해 사용한다. 
 
 
 
