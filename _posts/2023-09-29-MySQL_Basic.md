@@ -417,6 +417,9 @@ select * from series order by released_year desc;
 drop view ordered_series;
 ```
 
+<br/>
+<hr>
+
 ## WITH ROLLUP
 
 ```sql
@@ -429,6 +432,8 @@ group by title with rollup;
 ```
 > with rollup : group by 와 함께 쓰이며 그룹화 된 정보를 바탕으로, 사용된 집계함수에 대한 전체 데이터를 하위에 출력한다. 
 
+<br/>
+<hr>
 
 ## SQL MODE
 
