@@ -458,7 +458,6 @@ set session sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,N
 > SQL MODE 에는 글로벌 모드, 세션 모드가 있다. <br/>
 > Division by 0 경고를 나오게 하고 싶지 앟을 경우 sql_mode에 RROR_FOR_DIVISION_BY_ZERO 을 제외한 나머지 설정들을 set 해준다.
 
-
 <br/>
 <hr>
 
@@ -555,6 +554,8 @@ from employees e;
 ```
 > lead(), lag() : 주로 한 행과 그 전 또는 다음 행 간의 차이를 찾기 위해 사용한다. 
 
+<br/>
+<hr>
 
 ## 마지막 과제 ( Instagram Clone )
 
