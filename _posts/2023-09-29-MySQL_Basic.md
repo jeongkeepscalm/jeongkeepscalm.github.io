@@ -556,7 +556,115 @@ from employees e;
 > lead(), lag() : 주로 한 행과 그 전 또는 다음 행 간의 차이를 찾기 위해 사용한다. 
 
 
+## 마지막 과제 ( Instagram Clone )
 
+```sql
+-- 1. 가장 오래된 유저 5명을 찾아라. 
+select * from users order by created_at asc limit 5;
+
+-- 2. 어떤 요일, 시간에 광고를 올리는게 좋을까? 어느 요일에 회원가입을 많이 했는가?
+select 
+	dayname(created_at) as dateValue
+	, count(*) as cnt
+from users
+group by dateValue
+order by cnt desc;
+
+-- 3. 사진을 게시하지 않은 유저를 찾아라. 
+select 
+	u.username 
+from users u left join photos p on u.id = p.user_id 
+where p.user_id is null;
+
+-- 4. 가장 인기있는 사진과 게시한 유저를 찾아라. 
+-- mine
+select 
+	u.id as userId
+	, u.username 
+	, p.id as photoId
+	, p.image_url 
+from photos p inner join users u on u.id = p.user_id 
+where p.id = (
+	select 
+		a.photo_id 
+	from (
+		select 
+			photo_id
+			, count(photo_id) as cnt
+		from likes l
+		group by photo_id
+		order by cnt desc
+		limit 1
+		) a
+	);
+
+-- teacher ( 조인을 해서 가져올 시 다양한 데이터를 가공해서 뿌려올 수 있다. ( 좋아요 수 등.. ) )
+select 
+	p.user_id 
+	, u.username 
+	, p.id as 'photo id'
+	, p.image_url 
+	, count(l.photo_id) as total
+from photos p 
+	inner join likes l on p.id = l.photo_id
+	inner join users u on u.id = p.user_id 
+group by p.id
+order by total desc
+limit 1;
+
+-- 5. 평균적으로 유저가 게시물을 얼마나 많이 올리는가? 전체 게시물 수 / 전체 유저 수
+-- mine
+select  
+	count(p.id) / (select count(id) from users) as avg
+from photos p;  
+
+-- teacher
+SELECT 
+	(SELECT Count(*) FROM photos) 
+	/ (SELECT Count(*) FROM users) AS avg; 
+
+-- 6. 가장 많이 사용되는 해시태그 5개를 찾아라. 
+select 
+	p.tag_id
+	, t.tag_name 
+	, count(p.photo_id) as total
+from photo_tags p inner join tags t on p.tag_id = t.id 
+group by p.tag_id, t.tag_name
+order by total desc
+limit 5;
+
+-- 7. 웹사이트에 존재하는 모든 사진에 좋아요를 누른 유저를 찾아라. 
+-- mine
+select 
+	u.id
+	, u.username 
+from
+	(
+		select 
+			user_id
+			, count(*) as total
+		from likes
+		group by user_id
+		order by total desc
+	) a 
+	inner join users u on a.user_id = u.id
+where a.total = (select count(*) from photos)
+order by u.username;
+
+-- teacher
+select 
+	u.username 
+	, count(*) as 'like_count'
+from users u 
+inner join likes l on u.id = l.user_id
+group by u.id
+having like_count = (select count(*) from photos)
+order by u.username;
+
+-- 1. 좋아요를 누르지 않은 유저는 해당되지 않으므로 inner join
+-- 2. 그룹화 된 후, having 절로 필터링하는 법을 잊지 말자. 
+
+```
 
 
 
