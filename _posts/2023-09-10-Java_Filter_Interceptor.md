@@ -272,8 +272,8 @@ public interface HandlerInterceptor {
   Exception {}
 }
 ```
-> 서블릿 필터의 경우 단순하게 doFilter() 하나만 제공되지만, 인터셉터는 컨트롤러 호출 전 (preHandle), 호출 후 (postHandle), 요청 완료 이후 (afterCompletion) 와 같이 단계적으로 세분화 되어 있다. <br/>
-> 서블릿 필터의 경우 단순히 request , response 만 제공했지만, 인터셉터는 어떤 컨트롤러( handler )가
+> - 서블릿 필터의 경우 단순하게 doFilter() 하나만 제공되지만, 인터셉터는 컨트롤러 호출 전 (preHandle), 호출 후 (postHandle), 요청 완료 이후 (afterCompletion) 와 같이 단계적으로 세분화 되어 있다. <br/>
+> - 서블릿 필터의 경우 단순히 request , response 만 제공했지만, 인터셉터는 어떤 컨트롤러( handler )가
 호출되는지 호출 정보도 받을 수 있다. 그리고 어떤 modelAndView 가 반환되는지 응답 정보도 받을 수
 있다.
 
@@ -351,8 +351,8 @@ public class LogInterceptor implements HandlerInterceptor {
   }
 }
 ```
-> request.setAttribute(LOG_ID, uuid) - 서블릿 필터의 경우 지역변수로 해결이 가능하지만, 스프링 인터셉터는 호출 시점이 완전히 분리되어 있다. 따라서 preHandle 에서 지정한 값을 postHandle , afterCompletion 에서 함께 사용하려면 어딘가에 담아두어야 한다. LogInterceptor 도 싱글톤 처럼 사용되기 때문에 맴버변수를 사용하면 위험하다. 따라서 request 에 담아두었다. 이 값은 afterCompletion 에서 request.getAttribute(LOG_ID) 로 찾아서 사용한다. <br/>
-> ResourceHttpRequestHandler - @Controller 가 아니라 /resources/static 와 같은 정적 리소스가 호출 되는 경우 ResourceHttpRequestHandler 가 핸들러 정보로 넘어오기 때문에 타입에 따라서 처리가 필요하다.
+> - request.setAttribute(LOG_ID, uuid) - 서블릿 필터의 경우 지역변수로 해결이 가능하지만, 스프링 인터셉터는 호출 시점이 완전히 분리되어 있다. 따라서 preHandle 에서 지정한 값을 postHandle , afterCompletion 에서 함께 사용하려면 어딘가에 담아두어야 한다. LogInterceptor 도 싱글톤 처럼 사용되기 때문에 맴버변수를 사용하면 위험하다. 따라서 request 에 담아두었다. 이 값은 afterCompletion 에서 request.getAttribute(LOG_ID) 로 찾아서 사용한다. <br/>
+> - ResourceHttpRequestHandler - @Controller 가 아니라 /resources/static 와 같은 정적 리소스가 호출 되는 경우 ResourceHttpRequestHandler 가 핸들러 정보로 넘어오기 때문에 타입에 따라서 처리가 필요하다.
 
 <br/>
 
