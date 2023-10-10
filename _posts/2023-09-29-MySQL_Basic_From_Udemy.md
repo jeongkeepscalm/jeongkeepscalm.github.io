@@ -1,6 +1,6 @@
 ---
 layout: post
-title: MySQL_Basic
+title: MySQL_Basic_From_Udemy
 date: 2023-09-29 00:00:00 +0900
 description: You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. # Add post description (optional)
 img: mysql.png # Add image post (optional)
