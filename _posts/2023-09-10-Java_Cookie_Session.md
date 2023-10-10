@@ -93,11 +93,11 @@ private void expireCookie(HttpServletResponse response, String cookieName) {
 
 <br/>
 
-<img src="/assets/img/sss.jpg" width="500px"  border="3px"/>
+<img src="/assets/img/sss.jpg" width="800px"  border="3px"/>
 
 <br/>
 
-<img src="/assets/img/sss2.jpg" width="500px"  border="3px"/>
+<img src="/assets/img/sss2.jpg" width="800px"  border="3px"/>
 
 <br/>
 
