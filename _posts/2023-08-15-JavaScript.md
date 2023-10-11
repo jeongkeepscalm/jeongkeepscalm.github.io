@@ -287,7 +287,15 @@ if (scriptElement.length > 0) {
 ```
 > What the problem was : api로 불러온 html 안 스크립트 태그가 실행되지 않아 eval 로 실행했었음.
 
+<br/>
+<hr>
+<br/>
 
+## Jquery 
+```javascript
+$("[id^='depositBtn_']").click(function(){})
+```
+> 해당 ID를 포함하고 있는 모든 ID를 배열에 담아 이벤트를 준다. 
 
 
 
