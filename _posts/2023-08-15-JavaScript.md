@@ -291,11 +291,36 @@ if (scriptElement.length > 0) {
 <hr>
 <br/>
 
-## Jquery 
+# Jquery 
+
 ```javascript
 $("[id^='depositBtn_']").click(function(){})
 ```
 > 해당 ID를 포함하고 있는 모든 ID를 배열에 담아 이벤트를 준다. 
+
+<br/>
+<hr>
+<br/>
+
+```javascript
+checkboxEvent : function () {
+    $("input[name='checkbox']").change(function() {
+        // 화살표 함수 (=>) 는 함수 내부에서 this 가 바인딩되지 않기 때문에, 상위 코드 $(this).prop("checked")에서 this 는 체크된 체크박스를 가리키지 않았다.
+        if ($(this).prop("checked")) {
+            $cate.data.checkedLv2cds.push($(this).attr("id"));
+            $cate.data.checkedCategories.push($(this).closest("tr").find("td:eq(1)").text());
+        } else {
+            $cate.data.checkedLv2cds = $cate.data.checkedLv2cds.filter(v => v != $(this).attr("id"));
+            $cate.data.checkedCategories = $cate.data.checkedCategories.filter(v => v != $(this).closest("tr").find("td:eq(1)").text());
+        }
+        $cate.draw.categoryButton();
+    })
+},
+```
+
+<br/>
+<hr>
+<br/>
 
 
 
