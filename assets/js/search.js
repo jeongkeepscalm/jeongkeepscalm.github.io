@@ -1,15 +1,17 @@
 (function() {
-    var searchTerm = decodeURIComponent(window.location.search.split('?q=')[1]);
-    if (searchTerm) {
-        searchTerm = searchTerm.toLowerCase();
-        var posts = document.querySelectorAll('.post-title');
+    var searchTermInput = document.getElementById('search-input');
+    var posts = document.querySelectorAll('.post-title');
+
+    searchTermInput.addEventListener('input', function() {
+        var searchTerm = searchTermInput.value.trim().toLowerCase();
         posts.forEach(function(post) {
             var title = post.innerText.toLowerCase();
+            var postElement = post.closest('.post');
             if (title.includes(searchTerm)) {
-                post.closest('.post').style.display = 'block';
+                postElement.style.display = 'block';
             } else {
-                post.closest('.post').style.display = 'none';
+                postElement.style.display = 'none';
             }
         });
-    }
+    });
 })();
