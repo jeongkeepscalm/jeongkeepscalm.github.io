@@ -1,8 +1,6 @@
 (function() {
     var searchTerm = decodeURIComponent(window.location.search.split('?q=')[1]);
 
-    console.log("searchTerm : ", searchTerm)
-
     if (searchTerm === 'undefined') {
         searchTerm = '';
     }
