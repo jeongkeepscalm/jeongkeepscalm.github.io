@@ -2,6 +2,13 @@
     var searchTerm = decodeURIComponent(window.location.search.split('?q=')[1]);
 
     console.log("searchTerm : ", searchTerm)
+
+    if (searchTerm === undefined) {
+        searchTerm = '';
+    }
+
+    console.log("searchTerm : ", searchTerm)
+
     if (searchTerm) {
         searchTerm = searchTerm.toLowerCase();
         var posts = document.querySelectorAll('.post-title');
@@ -9,9 +16,7 @@
         console.log("posts : ", posts);
         posts.forEach(function(post) {
 
-            if (searchTerm === undefined) {
-                searchTerm = '';
-            }
+            
             var title = post.innerText.toLowerCase();
             
             if (title.includes(searchTerm)) {
