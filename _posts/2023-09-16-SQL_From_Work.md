@@ -11,7 +11,7 @@ tags: [sql] # add tag
 
 ```sql
 <selectKey keyProperty="mnCd" resultType="string" order="BEFORE">
-    SELECT IFNULL(MAX(mnCd) + 1, 1) AS mnCd FROM kpa_cyberedu.edctnmn
+    SELECT IFNULL(MAX(mnCd) + 1, 1) AS mnCd FROM test
 </selectKey>
 ```
 > selectKey를 적용하여, insert 문 안에 있는 #{mnCd} 값을 적용할 수 있다. 
@@ -25,11 +25,11 @@ tags: [sql] # add tag
 select
     c.title
     , c.lv2Cd
-from kpa_cyberedu.cntntslv2 c
+from test c
 where 1=1
     and c.lv2Cd in (
-        select menu.lv2Cd from kpa_cyberedu.edctnmn menu 
-        where menu.title = (select e.title from kpa_cyberedu.edctnmn e where e.mnCd = #{mnCd})
+        select menu.lv2Cd from test menu 
+        where menu.title = (select e.title from test e where e.mnCd = #{mnCd})
     );
 ```
 > subquery 를 in 절에 넣어 원하는 결과를 얻을 수 있다. 
@@ -40,10 +40,10 @@ where 1=1
 
 ## how to fix posts on the top
 ```sql
-(select c.bdTitle, bdCon from cyberbdmng c where c.topFixYn = 'Y'
+(select c.bdTitle, bdCon from test c where c.topFixYn = 'Y'
 limit 0, 5)
 union all
-(select c.bdTitle, bdCon from cyberbdmng c where c.topFixYn <> 'Y'
+(select c.bdTitle, bdCon from test c where c.topFixYn <> 'Y'
 limit 0, 10); -- 10, 10 / 20, 10 ...
 ```
 

@@ -291,8 +291,84 @@ if (scriptElement.length > 0) {
 <hr>
 <br/>
 
+```javascript
+/** form 안 input value 초기화 **/
+function fnResetInput(inputIds) {
+    inputIds.forEach((item) => {
+        $("#" + item).val('');
+    })
+}
+```
 
+<br/>
+<hr>
+<br/>
 
+```javascript
+/** 휴대폰 번호 입력 시, '-' 붙여주는 형식으로 바꾸기 **/ 
+function telInputValidator(input){
+    let telno = input.value
+        .replace(/[^0-9]/g, '')
+        .replace(/(^02.{0}|^01.{1}|[0-9]{3,4})([0-9]{3,4})([0-9]{4})/g, "$1-$2-$3");
+    input.value = telno;
+}
+```
+
+<br/>
+<hr>
+<br/>
+
+```javascript
+/** 데이터를 받아와 form 안 input hidden 으로 값을 세팅해준다. **/
+function appendInputHidden(jsonData, formId) {
+    const form = document.getElementById(formId);
+    Object.entries(jsonData).forEach((item)=>{
+        if(item[1] !== "" && item[1] !== null ){
+            let inputEl = document.createElement('input');
+            inputEl.setAttribute('type','hidden');
+            inputEl.setAttribute('name',item[0]);
+            inputEl.setAttribute('value',item[1]);
+            form.appendChild(inputEl);
+        }
+    })
+}
+```
+
+<br/>
+<hr>
+<br/>
+
+```javascript
+/** 이메일 유효성 검사 **/
+function emailUpdate(){
+    const regExp = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.[a-zA-Z]{2,4}$/;
+
+    if($('#password').val() == ''){
+        $('#passAlarm').text("※ 비밀번호를 입력해주세요.")
+        return;
+    }
+
+    if($('#emailAdres').val() == ''){
+        $('#emailAlarm').text("※ 이메일을 입력해주세요.")
+        return;
+    }
+
+    if(!regExp.test($('#emailAdres').val())){
+        $('#emailAlarm').text("※ 입력 형식에 맞지 않습니다.")
+        return;
+    }
+
+    ... 
+}
+```
+
+<br/>
+<hr>
+<br/>
+
+```javascript
+
+```
 
 
 
