@@ -32,8 +32,8 @@ tags: [Js, Conference] # add tag
 ```javascript
 function getEduList(selectedYear, type) {
 
-        const url1 = '/kdrug/edumng/edusubmng/eduRecipientMngList.cm';
-        const url2 = '/kdrug/edumng/edusubmng/eduSubjectMngList.cm';
+        const url1 = '/.../.../...';
+        const url2 = '/.../.../...';
 
         const payLoad = new FormData();
         payLoad.set('thYr', selectedYear);
@@ -110,7 +110,7 @@ function updateTitle(type, pk, buttonId) {
           }
           let thisInputValue = document.getElementById('inputBox1Id'+pk).value;
           let selectedYear = document.getElementById('yearSelectBox').value;
-          let updateTitleUrl = '/kdrug/edumng/edusubmng/updateEduRecipientTitle.cm';
+          let updateTitleUrl = '/.../.../...';
           let param = {title : thisInputValue, thYr : selectedYear, lv1Cd : pk};
           return  {
               callInnerFunction: function () {
@@ -286,37 +286,6 @@ if (scriptElement.length > 0) {
 }
 ```
 > What the problem was : api로 불러온 html 안 스크립트 태그가 실행되지 않아 eval 로 실행했었음.
-
-<br/>
-<hr>
-<br/>
-
-# Jquery 
-
-```javascript
-$("[id^='depositBtn_']").click(function(){})
-```
-> 해당 ID를 포함하고 있는 모든 ID를 배열에 담아 이벤트를 준다. 
-
-<br/>
-<hr>
-<br/>
-
-```javascript
-checkboxEvent : function () {
-    $("input[name='checkbox']").change(function() {
-        // 화살표 함수 (=>) 는 함수 내부에서 this 가 바인딩되지 않기 때문에, 상위 코드 $(this).prop("checked")에서 this 는 체크된 체크박스를 가리키지 않았다.
-        if ($(this).prop("checked")) {
-            $cate.data.checkedLv2cds.push($(this).attr("id"));
-            $cate.data.checkedCategories.push($(this).closest("tr").find("td:eq(1)").text());
-        } else {
-            $cate.data.checkedLv2cds = $cate.data.checkedLv2cds.filter(v => v != $(this).attr("id"));
-            $cate.data.checkedCategories = $cate.data.checkedCategories.filter(v => v != $(this).closest("tr").find("td:eq(1)").text());
-        }
-        $cate.draw.categoryButton();
-    })
-},
-```
 
 <br/>
 <hr>
