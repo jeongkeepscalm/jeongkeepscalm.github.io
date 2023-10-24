@@ -3,7 +3,7 @@
 
     console.log("searchTerm : ", searchTerm)
 
-    if (searchTerm === undefined) {
+    if (searchTerm === 'undefined') {
         searchTerm = '';
     }
 
