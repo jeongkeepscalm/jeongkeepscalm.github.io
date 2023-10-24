@@ -2,14 +2,13 @@
 <html lang="en">
 {% include head.html %}
 
-<form id="search-form" action="/" method="get">
-  <input type="text" id="search-input" name="q" placeholder="Search...">
-  <button type="submit">Search</button>
-</form>
-<div id="search-results"></div>
-<script src="{{ '/assets/js/search.js' | relative_url }}"></script>
-
 <body>
+  <form id="search-form" action="/" method="get" style="margin-left: 260px;">
+    <input type="text" id="search-input" name="q" placeholder="Search...">
+    <button type="submit">Search</button>
+  </form>
+  <div id="search-results"></div>
+  <script src="{{ '/assets/js/search.js' | relative_url }}"></script>
   <div class="wrapper">
     {{ content }}
   </div>
