@@ -8,7 +8,12 @@
 
         console.log("posts : ", posts);
         posts.forEach(function(post) {
+
+            if (searchTerm === undefined) {
+                searchTerm = '';
+            }
             var title = post.innerText.toLowerCase();
+            
             if (title.includes(searchTerm)) {
                 post.closest('.post').style.display = 'block';
             } else {
