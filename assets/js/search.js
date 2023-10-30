@@ -15,16 +15,17 @@
         posts.forEach(function(post) {
             var title = post.innerText.toLowerCase();
             var postContainer = post.closest('.post');
+            var postContent = post.closest('.post-content');
             var thumbnail = postContainer.querySelector('.post-thumbnail');
 
             if (title.includes(searchTerm)) {
-                postContainer.style.display = 'inline-block';
+                postContent.style.display = 'block';
                 if (thumbnail) {
                     thumbnail.style.display = 'block';
                 }
                 console.log("closest post : ", postContainer);
             } else {
-                postContainer.style.display = 'none';
+                postContent.style.display = 'none';
                 if (thumbnail) {
                     thumbnail.style.display = 'none';
                 }
