@@ -18,7 +18,7 @@
             
             if (title.includes(searchTerm)) {
                 post.closest('.post').style.display = 'block';
-                post.closest('.post').closest('.post-thumbnail').style.display = 'block';
+                console.log("closest post : ",post.closest('.post'))
             } else {
                 post.closest('.post').style.display = 'none';
             }
