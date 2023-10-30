@@ -19,3 +19,8 @@
 </body>
 
 </html>
+
+<script>
+  let searchWord = decodeURIComponent(window.location.search.split('?q=')[1]);
+  document.getElementById('search-input').value = searchWord;
+</script>
