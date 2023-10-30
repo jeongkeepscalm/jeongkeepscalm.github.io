@@ -19,8 +19,10 @@
 
             if (title.includes(searchTerm)) {
                 postContainer.style.display = 'block';
+                postContainer.style.display = 'inline-block';
                 if (thumbnail) {
                     thumbnail.style.display = 'block';
+                    thumbnail.style.display = 'inline-block';
                 }
                 console.log("closest post : ", postContainer);
             } else {
