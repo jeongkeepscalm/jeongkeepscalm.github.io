@@ -33,4 +33,6 @@
             }
         });
     }
+
+    document.getElementById('search-input').value = searchTerm;
 })();
