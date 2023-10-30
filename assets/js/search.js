@@ -15,11 +15,12 @@
         posts.forEach(function(post) {
             var title = post.innerText.toLowerCase();
             var postContainer = post.closest('.post');
+            var postContent = post.closest('.post-content');
             var thumbnail = postContainer.querySelector('.post-thumbnail');
 
             if (title.includes(searchTerm)) {
                 postContainer.style.display = 'block';
-                postContainer.style.display = 'inline-block';
+                postContent.style.display = 'inline-block';
                 if (thumbnail) {
                     thumbnail.style.display = 'block';
                     thumbnail.style.display = 'inline-block';
