@@ -13,14 +13,21 @@
 
         console.log("posts : ", posts);
         posts.forEach(function(post) {
-
             var title = post.innerText.toLowerCase();
-            
+            var postContainer = post.closest('.post');
+            var thumbnail = postContainer.querySelector('.post-thumbnail');
+
             if (title.includes(searchTerm)) {
-                post.closest('.post').style.display = 'block';
-                console.log("closest post : ",post.closest('.post'))
+                postContainer.style.display = 'block';
+                if (thumbnail) {
+                    thumbnail.style.display = 'block';
+                }
+                console.log("closest post : ", postContainer);
             } else {
-                post.closest('.post').style.display = 'none';
+                postContainer.style.display = 'none';
+                if (thumbnail) {
+                    thumbnail.style.display = 'none';
+                }
             }
         });
     }
