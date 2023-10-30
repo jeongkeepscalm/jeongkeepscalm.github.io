@@ -25,6 +25,7 @@
                 }
                 console.log("closest post : ", postContainer);
             } else {
+                postContainer.style.display = 'none';
                 postContent.style.display = 'none';
                 if (thumbnail) {
                     thumbnail.style.display = 'none';
