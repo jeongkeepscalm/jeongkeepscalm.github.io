@@ -5,13 +5,10 @@
         searchTerm = '';
     }
 
-    console.log("searchTerm : ", searchTerm)
-
     if (searchTerm) {
         searchTerm = searchTerm.toLowerCase();
         var posts = document.querySelectorAll('.post-title');
 
-        console.log("posts : ", posts);
         posts.forEach(function(post) {
             var title = post.innerText.toLowerCase();
             var postContainer = post.closest('.post');
@@ -23,7 +20,6 @@
                 if (thumbnail) {
                     thumbnail.style.display = 'block';
                 }
-                console.log("closest post : ", postContainer);
             } else {
                 postContainer.style.display = 'none';
                 postContent.style.display = 'none';
