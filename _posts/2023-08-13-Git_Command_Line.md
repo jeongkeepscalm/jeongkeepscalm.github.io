@@ -48,17 +48,22 @@ tags: [Git] # add tag
 * $ git commit --allow-empty-message -m "" : 메시지가 없는 커밋을 작성한다.
 * $ git commit --amend : 마지막으로 작성한 커밋 메시지를 수정한다.
 * $ git commit -v : 커밋 간의 차이를 커밋메시지에 작성하고자 할 때 사용한다. 
-
-* $ git log : 최신 커밋 기록부터 확인할 수 있다. 
-  - $ git log --pretty=short : 커밋 메시지의 첫번째 줄만 출력된다. 
-  - $ git log --pretty=oneline : 각 커밋을 한 줄로 표현한다.
-  - $ git log file_name : 특정 파일(file_name)의 로그 기록을 확인할 때, 사용한다.  
-  - $ git log --stat : 히스토리를 출력한다. 
-
 * $ git checkout -- [ modified file ] : 해당파일의 마지막 커밋 때의 상태로 되돌린다. 
 ==&gt; $ git reset --hard [ commit_hash ] <br/>
 * $ git push origin HEAD:브랜치명 --force : 돌아간 뒤 변경사항을 리모트 저장소에 다시 푸쉬한다. <br/>
 ==&gt; git push origin +master 
+
+<br/>
+<hr>
+<br/>
+
+## Log
+
+* $ git log : 최신 커밋 기록부터 확인할 수 있다. 
+* $ git log --pretty=short : 커밋 메시지의 첫번째 줄만 출력된다. 
+* $ git log --pretty=oneline : 각 커밋을 한 줄로 표현한다.
+* $ git log file_name : 특정 파일(file_name)의 로그 기록을 확인할 때, 사용한다.  
+* $ git log --stat : 히스토리를 출력한다. 
 
 <br/>
 <hr>
@@ -88,3 +93,4 @@ tags: [Git] # add tag
 <br/>
 <hr>
 <br/>
+
