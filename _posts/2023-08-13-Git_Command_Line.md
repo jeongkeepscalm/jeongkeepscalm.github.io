@@ -7,7 +7,7 @@ img: git.jpg # Add image post (optional)
 tags: [Git] # add tag
 ---
 
-## 로컬저장소를 원격 저장소와 연결 
+## Connect local storage to remote storage
 
 * $ git remote -v : 원격저장소 확인(아무것도 뜨지 않으면 연결 x) 
 * $ git remote add origin https://github.com/... 
@@ -18,7 +18,7 @@ tags: [Git] # add tag
 <hr>
 <br/>
 
-## 커밋하기까지의 과정
+## Progress to Commit
 
 * $ git init [ directory_path ] : 로컬 저장소 생성.  
   - 기본적으로 로컬 저장소를 생성하는 명령어.  
@@ -38,7 +38,7 @@ tags: [Git] # add tag
   - rm : 파일을 등록 후 커밋을 하지 않고 등록을 취소하는 경우.
   - reset : 파일을 한 번이라도 커밋했을 경우. 
 
-#### 커밋과 관련된 정보
+#### About commit
 
 * Head : 커밋을 가리키는 묵시적 포인터. 마지막 커밋 위치. 
 * Snapshot : 변경된 파일의 전체를 저장하지 않고, 파일에서 변경된 부분만을 찾아 수정된 내용만 저장하는 방식. 
@@ -48,17 +48,47 @@ tags: [Git] # add tag
 * $ git commit --allow-empty-message -m "" : 메시지가 없는 커밋을 작성한다.
 * $ git commit --amend : 마지막으로 작성한 커밋 메시지를 수정한다.
 * $ git commit -v : 커밋 간의 차이를 커밋메시지에 작성하고자 할 때 사용한다. 
-
-* $ git log : 최신 커밋 기록부터 확인할 수 있다. 
-  - $ git log --pretty=short : 커밋 메시지의 첫번째 줄만 출력된다. 
-  - $ git log --pretty=oneline : 각 커밋을 한 줄로 표현한다.
-  - $ git log file_name : 특정 파일(file_name)의 로그 기록을 확인할 때, 사용한다.  
-  - $ git log --stat : 히스토리를 출력한다. 
-
 * $ git checkout -- [ modified file ] : 해당파일의 마지막 커밋 때의 상태로 되돌린다. 
 ==&gt; $ git reset --hard [ commit_hash ] <br/>
 * $ git push origin HEAD:브랜치명 --force : 돌아간 뒤 변경사항을 리모트 저장소에 다시 푸쉬한다. <br/>
 ==&gt; git push origin +master 
+
+<br/>
+<hr>
+<br/>
+
+## Log
+
+* $ git log : 최신 커밋 기록부터 확인할 수 있다. 
+* $ git log --pretty=short : 커밋 메시지의 첫번째 줄만 출력된다. 
+* $ git log --pretty=oneline : 각 커밋을 한 줄로 표현한다.
+* $ git log file_name : 특정 파일(file_name)의 로그 기록을 확인할 때, 사용한다.  
+* $ git log --stat : 히스토리를 출력한다. 
+
+<br/>
+<hr>
+<br/>
+
+## Stash
+
+* $ git stash
+* $ git stash list
+* $ git stash apply ( 가장 최근에 적용했던 stash 적용 )
+* $ git stash drop 
+
+<br/>
+<hr>
+<br/>
+
+## Branch
+
+* $ git branch ( 브랜치 명 ) : 브랜치 생성
+* $ git checkout -b ( 브랜치 명 ) : 브랜치 생성과 동시에 체크아웃.
+* $ git branch : 로컬 브랜치 목록 조회
+* $ git branch -r : 원격 브랜치 목록 조회
+* $ git checkout -b ( 로컬에 저장할 브랜치명 ) ( 체크아웃 할 원격 브랜치명 )
+* $ git branch -m ( 변경할 브랜치 명 )
+* $ git push origin ( 원격에 올릴 브랜치명 )
 
 <br/>
 <hr>

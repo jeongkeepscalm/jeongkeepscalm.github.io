@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 {% include head.html %}
+
 <body>
+  <form id="search-form" action="/" method="get" style="margin-left: 260px;">
+    <input type="text" id="search-input" name="q" placeholder="Search...">
+    <button type="submit">Search</button>
+  </form>
+  <div id="search-results"></div>
 
   <div class="wrapper">
     {{ content }}
   </div>
-  
+
   {% include analytics.html %}
+  <script src="{{ '/assets/js/search.js' }}"></script>
 </body>
+
 </html>
