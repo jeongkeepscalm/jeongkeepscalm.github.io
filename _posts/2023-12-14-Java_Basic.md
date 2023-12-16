@@ -151,6 +151,219 @@ speaker.volume = 200;
 <hr>
 <br/>
 
+## 자바 메모리 구조
+
+* 메소드 영역 : 클래스 정보를 보관한다. (여러 붕어빵 틀 보관)
+    클래스 정보 (필드, 메소드, 생성자 코드 등 모든 실행코드 존재)
+    static 변수들을 보관
+    런타임 상수 풀(프로그램을 효율적으로 관리하기 위해 상수들을 관리)
+* 힙 영역 : new 명령어를 사용한 인스턴스가 생성되는 영역이다. 배열도 new 명령어를 사용하므로 힙 영역에 쌓인다. (여러 붕어빵 보관)
+    가비지 컬렉션이 이루어지는 주요영역이다. 더 이상 참조되지 않는 객체는 GC에 의해 제거된다. 
+* 스택 영역 : 메소드를 실행할 때마다 하나씩 쌓인다. 
+    스택 프레임 : 스택 영역에 쌓이는 네모 박스. 메소드를 호출할 때마다 스택 프레임이 쌓이고 종료되면 스택프레임이 제거된다. 
+    * 참고 : 쓰레드 수 만큼 스택 영역이 생성된다. 
+
+* Stack : Last In First Out
+* Queue : First In First Out (선착순 이벤트)
+
+<br/>
+<hr>
+<br/>
+
+## Static 변수
+
+* static 키워드는 주로 멤버 변수와 메소드에 사용된다. 
+    멤버 변수에 static을 붙이게 되면 static 변수 / 정적 변수 / 클래스 변수라고 한다. 
+
+```java
+public class Data2 {
+
+    public String name;
+    public static int count; // 객체가 몇 개 생성되었는지 파악하는 용도.
+
+    public Data2(String name) {
+        this.name = name;
+        count++;
+    }
+}
+
+public class DataCountMain2 {
+    public static void main(String[] args) {
+
+        new Data2("aaa");
+        new Data2("bbb");
+        new Data2("ccc");
+
+        System.out.println("생성된 객체의 수 : " + Data2.count);
+    }
+}
+```
+> static 변수를 사용한 덕분에 공용 변수를 사용해서 편리하게 count를 알 수 있었다. <br/>
+> **static 변수는 메소드 영역에 저장되고 인스턴스들은 힙에 저장되어 각각 관리된다.** <br/>
+> 멤버변수 : name, count <br/>
+> 인스턴스 변수 : name <br/>
+> 클래스 변수, 정적변수, static 변수 : count <br/>
+
+<br/>
+<hr>
+<br/>
+
+## Static 메소드 (클래스메소드, 정적 메소드)
+
+* 멤버 메소드
+    * 인스턴스 메소드 : static 붙지 않은 메소드
+    * 클래스 메소드 : static 붙은 메소드 (정적 메소드, static 메소드)
+* 클래스 메소드는 객체 생성 필요 없이 메소드의 호출만으로 필요한 기능을 수행할 때 주로 사용한다. 
+* 클래스 메소드는 static이 붙은 클래스 변수, 클래스 메소드만 사용할 수 있다. 
+* main 메소드는 정적 메소드/클래스 메소드이다. 즉 객체생성 필요없이 실행 가능하다. 
+
+```java
+public class MathArrayUtils {
+
+    private MathArrayUtils() {} 
+
+    public static int sum(int[] nums) {
+        int sum = IntStream.of(nums).sum();
+        System.out.println("sum : " + sum);
+        return sum;
+    }
+
+    public static double average(int[] nums) {
+        int average = IntStream.of(nums).sum() / nums.length;
+        System.out.println("average : " + average);
+        return average;
+    }
+
+    public static int min(int[] nums) {
+        int min = Arrays.stream(nums).min().orElse(Integer.MIN_VALUE);
+        System.out.println("min : " + min);
+        return min;
+    }
+
+    public static int max(int[] nums) {
+        int max = Arrays.stream(nums).max().orElse(Integer.MAX_VALUE);
+        System.out.println("max : " + max);
+        return max;
+    }
+}
+
+```
+> private MathArrayUtils() {} : MathArrayUtils 의 인스턴스를 생성하지 못하게 막는다. 
+
+<br/>
+<hr>
+<br/>
+
+## final 변수와 상수
+
+```java
+public class FinalLocalMain {
+    public static void main(String[] args) {
+
+       /** 상수의 값 초기화는 한 번만 가능하다. **/
+
+        final int data1;
+        data1 = 10;
+//        data1 = 20; 컴파일 오류
+
+        final int data2 = 10;
+//        data2 = 20; 컴파일 오류
+
+        method(10);
+    }
+
+    static void method(final int num) {
+//        num = 20; 컴파일 오류
+    }
+}
+```
+> final 을 지역 변수에 설정한 경우 최초 한 번만 할당할 수 있다. <br/>
+
+```java
+public class ConstructorInit {
+    
+    final int value;
+
+    public ConstructorInit(int value) {
+        this.value = value;
+    }
+}
+```
+> final 을 멤버변수로 설정할 경우 생성자를 통해서 값을 초기화 해야한다 . <br/>
+
+```java
+public class FieldInit {
+    public static final int CONST_VALUE = 10;
+    final int value = 10;
+
+//    public FieldInit(int value) {
+//        this.value = value;
+//    }
+}
+```
+> static final 이 붙으면 관례로 대문자로 사용한다. (**상수 = static final 이 붙은 변수**) <br/>
+> final 이 붙은 멤버변수의 값이 초기화 되었다면 생성자로 값을 초기화 할 수 없다. <br/>
+
+* 상수(Constant) : 변하지 않고, 항상 일정한 값을 갖는 수. 자바에서는 단 하나만 존재하는 변하지 않는 고정된 값을 뜻한다. 
+    * static final 사용
+    * 대문자를 사용하고 _(언더스코어)로 한다. 
+    * static 변수를 직접 접근해서(값을 할당해서) 사용한다. 
+
+#### final 변수와 참조
+
+* final을 기본형 변수에 사용하면 값을 변경할 수 없다. 
+* final을 참조형 변수에 사용하면 참조값을 변경할 수 없다. (주소값 변경 불가) 
+    인스턴스 내 멤버변수의 값은 변경이 가능하다. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
