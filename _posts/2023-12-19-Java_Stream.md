@@ -9,6 +9,79 @@ tags: [Java] # add tag
 
 <br/>
 
+## IntStream 
+
+```java
+int[] intArr = {1, 2, 3, 4, 5};
+// IntStream intStream = Stream.of(intArr);
+IntStream intStream = Arrays.stream(intArr);
+System.out.println("intStream.sum() : " + intStream.sum());
+System.out.println("intStream.count() : " + intStream.count());
+System.out.println("intStream.average() : " + intStream.average());
+```
+> IntStream 은 sum(), count(), average(), min(), max() 등 숫자 관련 함수를 제공한다. <br/>
+
+<br/>
+<hr>
+<br/>
+
+## Sort
+
+```java
+Stream<Student> studentStream = Stream.of(
+        new Student("ojg",3,300),
+        new Student("ldn",1,200),
+        new Student("sns",2,100),
+        new Student("ees",2,150),
+        new Student("gxx",3,290),
+        new Student("dwz",3,180)
+);
+
+// 반별로 정렬
+// studentStream.sorted(Comparator.comparing(Student::getBan).reversed() 
+studentStream.sorted(Comparator.comparing((Student s) -> s.getBan()).reversed() // 람다로 변경.
+        .thenComparing(Comparator.naturalOrder())) // 기본 정렬
+        .forEach(System.out::println);
+```
+
+<br/>
+<hr>
+<br/>
+
+## Optional 
+
+```java
+Optional<String> optStr = Optional.of("abcde");
+Optional<Integer> optInt = optStr.map(String::length);
+
+System.out.println("optStr : "+optStr.get()); // abcde
+System.out.println("optInt : "+optInt.get()); // 5
+
+int result1 = Optional.of("123").filter(x -> x.length() > 0).map(Integer::parseInt).get();
+int result2 = Optional.of("").filter(x -> x.length() > 0).map(Integer::parseInt).orElse(-1); // 필터를 타지 않는다.
+
+System.out.println("result1 : "+result1); // 123
+System.out.println("result2 : "+result2); // -1
+
+Optional.of("456").map(Integer::parseInt).ifPresent(x-> System.out.printf("result3 : %s%n",x)); // 456
+
+OptionalInt optInt1 = OptionalInt.of(0); // 0 저장.
+OptionalInt optInt2 = OptionalInt.empty(); // 빈 객체 저장.
+
+System.out.println(optInt1); // OptionalInt[0]
+System.out.println(optInt2); // OptionalInt.empty
+
+System.out.println(optInt1.isPresent()); // true
+System.out.println(optInt2.isPresent()); // false
+
+System.out.println(optInt1.getAsInt()); // 0
+System.out.println(optInt1.equals(optInt2)); // false           
+```
+
+<br/>
+<hr>
+<br/>
+
 #### 1,2,3,4,5,6을 담고 있는 리스트를 만들고 역순 정렬 
 
 ```java
@@ -130,4 +203,6 @@ List<String> list = Arrays.stream(lineArr).flatMap(v -> Stream.of(v.split(" +"))
 <br/>
 <hr>
 <br/>
+
+
 
