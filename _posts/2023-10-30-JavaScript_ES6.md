@@ -1,10 +1,10 @@
 ---
 layout: post
-title: Java
+title: JavaScript_ES6
 date: 2023-10-30 00:00:00 +0900
 description: You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. # Add post description (optional)
-img: java.png # Add image post (optional)
-tags: [Java] # add tag
+img: es5.jpg # Add image post (optional)
+tags: [JavaScript] # add tag
 ---
 
 <br/>
