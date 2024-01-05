@@ -341,7 +341,86 @@ ElectricCar electricCar = new ElectricCar();
 
 메소드 오버라이딩 : 부모로부터 상속받은 메소드를 재정의한다. 
 
+<br/>
+<hr>
+<br/>
 
+## 다형성 ( Polymorphism )
+
+* 한 객체가 여러 타입의 객체로 취급될 수 있는 능력
+* 부모는 자식을 담을 수 있다. 
+
+```java
+Parent poly = new Child(); // ( o )
+Child poly = new Parent(); // ( x ) 컴파일 오류.
+```
+컴파일 오류 : 변수명 오타, 잘못된 클래스 이름 사용 등 자바 프로그램을 실행하기 전에 발생하는 오류.
+런타임 오류 : 프로그램이 실행되고 있는 시점에 발생하는 오류. 
+
+* upcasting : 부모 타입으로 변경. 기본 생략 가능. 
+* downcasting : 자식 타입으로 변경
+
+```java
+Parent poly = new Child(); 
+poly.parentMethod() // 사용 가능. 
+poly.childMethod() // 사용 불가. 다운캐스팅을 하여 사용 가능. (부모타입 -> 자식타입 변경)
+
+Parent poly = new Child();
+Child child = (Child) poly;
+child.childMethod();
+( ( Child ) poly ).childMethod() // == 일시적 다운 캐스팅
+```
+
+* 업캐스팅이 안전한 이유
+    하위 타입 생성 시 상위 부모 타입은 모두 함께 생성되기 때문에 문제가 발생하지 않는다. 
+
+* 다운캐스팅에 문제가 생길 수 있는 경우
+    반면 하위 타입으로 다운캐스팅 할 경우 기존 타입에 하위 타입이 없을 수도 있어 문제가 발생한다. 
+
+```java
+Parent poly = new Child();
+Child poly1 = (Child) poly;
+poly1.childMethod();
+((Child) poly).childMethod(); // 일시적 다운캐스팅
+
+Parent parent = new Parent();
+Child child = (Child) parent; // ClassCastException 런타임 오류 : parent 인스턴스에는 child 자체가 존재하지 않는다.
+child.childMethod();
+```
+
+#### instanceof 
+* 다운 캐스팅으로 인해 생기는 문제점을 발생하지 않게하기 위해, 타입을 확인한다. 
+
+```java
+public static void main(String[] args) {
+        Parent parent1 = new Parent();
+        call(parent1);
+        Parent parent2 = new Child();
+        call(parent2);
+    }
+
+private static void call(Parent parent) {
+
+//        JAVA16 이상인 경우
+//        if (parent instanceof Child child) {
+//            System.out.println("this is child instance");
+//            child.childMethod();
+//        }
+
+    if (parent instanceof Child) {
+        System.out.println("this is child instance");
+        ((Child) parent).childMethod();
+    } else {
+        System.out.println("this is not child instance");
+    }
+}
+
+new Parent() instanceof Parent // true
+new Child() instanceof Parent // true
+new Parent() instanceof Child // false
+new Child() instanceof Child // true
+```
+> instanceof 로 확인 후 다운캐스팅 하는 게 안전하다. 
 
 
 
