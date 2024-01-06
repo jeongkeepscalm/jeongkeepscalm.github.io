@@ -422,8 +422,75 @@ new Child() instanceof Child // true
 ```
 > instanceof 로 확인 후 다운캐스팅 하는 게 안전하다. 
 
+<br/>
+<hr>
+<br/>
+
+```java
+public static void main(String[] args) {
+        Animal cat = new Cat();
+        Animal dog = new Dog();
+        Animal caw = new Caw();
+        soundAnimal(cat);
+        soundAnimal(dog);
+        soundAnimal(caw);
+
+        Animal[] animals = {cat, dog, caw};
+        // iter
+        for (Animal animal : animals) {
+            animal.sound();
+        }
+    }
+    public static void soundAnimal(Animal animal) {
+        animal.sound();
+    }
+```
+> Animal 클래스는 다형성을 위해 만들어진 클래스이므로 Animal 클래스의 메소드를 직접 사용하는 일은 없다. (== 추상 클래스)<br/>
+
+#### 추상클래스
+* 실제 생성되면 안되는 클래스. 실체 인스턴스 생성 불가.   
+* 상속 목적으로 사용되며 부모클래스 역할을 한다. 
+* 추상 메소드는 메소드 바디가 존재하면 안된다. 
 
 
+```java
+public abstract class AbstractAnimal {
+    public abstract void sound();       // 자식이 무조건 override 를 해야한다.
+    public void move() {                // 자식이 override 할 필요없다.
+        System.out.println("animal is moving");
+    }
+}
+```
+> 추상메소드가 있는 클래스는 무조건 추상클래스가 되어야 한다. <br/>
+> 추상 클래스 덕분에 실수로 Animal 인스턴스를 생성할 근본적 문제를 방지해준다. <br/>
+> 추상 클래스 덕분에 실수로 부모클래스의 메소드를 override 하지 않았을 경우 생기는 문제를 방지해준다. 
+
+
+#### 순수 추상클래스 (== 인터페이스)
+* 모든 메소드가 추상 메소드인 클래스.
+* 부모타입으로 껍데기 역할만 제공한다. 
+* 순수 추상클래스를 상속 받은 자식 클래스는 부모의 모든 메소드를 구현해야 한다.
+
+#### 인터페이스
+* abstract 키워드 생략 가능.
+* 상속이라 하지 않고 구현이라 칭한다. 
+* 인터페이스는 메소드 이름만 있는 설계도이고, 이 설계도가 어떻게 작동해야 하는지를 하위 클래스에서 모두 구현해야한다. 
+* **인터페이스를 안정적으로 잘 설계하는 것은 매우 중요하다.**
+
+* 인터페이스를 사용해야하는 이유
+    **제약** : 자식 클래스가 부모 클래스의 모든 메소드를 override 하지 않았을 경우 생기는 문제를 미연에 방지한다. 
+    **다중구현가능** : 자바에서 클래스 상속은 부모 하나만 가능하지만 인터페이스는 부모를 여러명 두는 다중 상속이 가능하다. 
+자바가 다중 상속 기능을 지원하지 않는 이유 : A 부모, B 부모 로 부터 상속을 받았을 경우 이름이 같은 메소드가 있을 때, 어느 부모의 메소드를 호출해야 할지 모른다. 
+
+* 다형성의 본질
+    클라이언트를 변경하지 않고, 서버의 구현 기능을 유연하게 변경할 수 있다. 
+
+
+#### OCP( Open-Closed Principle )
+
+* Open for extension : 새로운 기능의 추가나 변경 사항이 생겼을 때, 기존 코드는 확장할 수 있어야 한다. 
+* Closed for modification : 기존 코드는 수정되지 않아야 한다. 
+**=> 기존 코드 수정 없이 새로운 기능을 추가할 수 있어야 한다.**
 
 
 
