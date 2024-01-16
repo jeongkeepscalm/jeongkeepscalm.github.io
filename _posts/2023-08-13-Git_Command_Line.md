@@ -9,10 +9,18 @@ tags: [Git] # add tag
 
 ## Connect local storage to remote storage
 
-* $ git remote -v : 원격저장소 확인(아무것도 뜨지 않으면 연결 x) 
-* $ git remote add origin https://github.com/... 
-* $ git remote remove origin : 원격 저장소의 연결해제 
-* $ git push origin main : 원격 저장소 사용 
+1. 프로젝트 우클릭 git bash 로 접속
+2. 
+  git config --global user.name "사용자"
+  git config --global user.name "이메일"
+3. git init : 로컬저장소 지정 및 생성
+4. git add .
+5. git commit -m "message"
+6. git remote add origin "코드 옮길 레퍼지토리 주소"
+7. 
+  git remote -v : 레퍼리토리 주소 확인
+  git remote remove origin : 원격저장소 연결 해제
+8. git push origin master
 
 <br/>
 <hr>
