@@ -51,6 +51,22 @@ limit 0, 10); -- 10, 10 / 20, 10 ...
 <hr>
 <br/>
 
+## with
+```sql
+with t1 as (
+    select count(*) as cnt from kpa_cyberedu.educoursecreditsfo e
+    where 1=1
+        and e.lcnsNo = #{licenseNumber}
+        and e.eduYear = #{eduYear}
+)
+select
+    m.MBER_ID as memberId
+        , t1.cnt as cnt
+from mbertninfo m left join t1 on 1=1
+where m.LCNS_NO = #{licenseNumber}
+```
+> cnt 개수에 따라 로직처리 할 때 사용.
 
-
-
+<br/>
+<hr>
+<br/>
