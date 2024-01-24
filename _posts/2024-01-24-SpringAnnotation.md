@@ -30,7 +30,6 @@ tags: [SpringAnnotation]
 > 컨트롤러를 요청할 때 regions 에서 반환한 값이 자동으로 모델( model )에 담기게 된다.   
 > 즉, "regions" 라는 이름으로 모델에 담기어 앞단에서 사용가능하다.   
 
-
 <br/>
 <hr>
 <br/>
@@ -54,7 +53,6 @@ public String addItemV6(Item item, RedirectAttributes redirectAttributes) {
   // redirectAttributes.addFlashAttribute() : 객체를 보낼 수 있다. 
 }
 ```
-
 
 <br/>
 <hr>
