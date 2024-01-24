@@ -9,7 +9,7 @@ tags: [URL Mapping] # add tag
 
 <br/>
 
-## URL Mapping
+## RedirectAttributes, @ModelAttribute()
 
 ```java
 // List
@@ -37,11 +37,12 @@ public String addItemV6(Item item, RedirectAttributes redirectAttributes) {
 
 /**
  * RedirectAttributes 
- *  URL 파라미터로 데이터를 전달하는 방식이라 addAttribute("test", ____ ) ____에 객체를 담을 수 없다.
- *  rediredt 로 넘어온 페이지에서 <h2 th:if="${param.status}" th:text="'저장 완료'"></h2> 처럼 사용 가능.
- *  매개변수를 사용하여 PathVariable 처럼 사용가능하며 인코딩 문제 해결.
- *  일반적으로 리다이렉트 시에는 쿼리스트링으로 데이터를 전달하여 데이터가 노출되고 보안에 취약할 수 있고 크기에 제한이 있지만, 
- *  RedirectAttributes 를 사용하면, 데이터를 url에 노출하지 않고 전달할 수 있고, 데이터 크기에도 제한이 없다. 
+ *    1. URL 파라미터로 데이터를 전달하는 방식이라 addAttribute("test", ____ ) ____에 객체를 담을 수 없다.
+ *    2. rediredt 로 넘어온 페이지에서 <h2 th:if="${param.status}" th:text="'저장 완료'"></h2> 처럼 사용 가능.
+ *    매개변수를 사용하여 PathVariable 처럼 사용가능하며 인코딩 문제 해결.
+ *    일반적으로 리다이렉트 시에는 쿼리스트링으로 데이터를 전달하여 데이터가 노출되고
+ *    보안에 취약할 수 있고 크기에 제한이 있지만
+ *    RedirectAttributes 를 사용하면, 데이터를 url에 노출하지 않고 전달할 수 있고, 데이터 크기에도 제한이 없다. 
  * 
  * redirectAttributes.addFlashAttribute() : 객체를 보낼 수 있다. 
  */
