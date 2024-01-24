@@ -7,26 +7,6 @@ img: js-1.png # Add image post (optional)
 tags: [Js, Conference] # add tag
 ---
 
-## 비동기통신 
-
-* dataType : 서버에서 어떤 타입을 받을 것인지를 의미한다. 생략했을경우에는 jQuery가 MIME타입들을 보면서 자동으로 결정한다.
-  - dataType 종류 ( xml, html, script, json, text )
-  - dataType : html 시, script 태그가 포함된 경우 처리한다. 
-* contentType : 서버로 데이터를 보낼 때 어떤 타입으로 보낼 것인지를 지정한다. 
-  - json 형식 - application/json; charset-utf-8
-  - form 형식( Default ) -  application/x-www-form-urlencoded; charset=utf-8
-* processData : ajax 통신을 통해 데이터를 전송할때, 기본적으로 key와 value값을 Query String으로 변환해서 보낸다. 데이터 값에 따라 (key=value&key=value) 또는 (key:value, key:value) 이런 식으로 보내게되는데, 이 때 processData 가 false 로 설정되어 있으면 Query String 으로 설정하지 않는다. (processData 는 파일 전송 시 사용)
-  - processData : false 설정 후 데이터를 보내면 ( ...?[object%20Object] 형식으로 나오는걸 볼 수 있다. )
-
-<br/>
-
-* Content-Type 을 JSON 형식 ( 'application/json' )으로 보내면, 컨트롤러에서 @RequestBody 로 받는다. 
-* new FormData() 객체를 생성해서 넘기거나 form태그 안의 데이터를 넘길 경우에는, 컨트롤러에서 @RequestParam 혹은 @ModelAttribute 로 받는다. 
-
-<br/>
-<hr>
-<br/>
-
 ## PromiseAll
 
 ```javascript
