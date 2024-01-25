@@ -18,17 +18,41 @@ tags: [SpringAnnotation]
 
 ```java
 @ModelAttribute("regions")
-    public Map<String, String> regions() {
-        Map<String, String> map = new LinkedHashMap<>();
-        map.put("SEOUL", "서울");
-        map.put("BUSAN", "부산");
-        map.put("JEJU", "제주");
-        return map;
-    }
+public Map<String, String> regions() {
+    Map<String, String> map = new LinkedHashMap<>();
+    map.put("SEOUL", "서울");
+    map.put("BUSAN", "부산");
+    map.put("JEJU", "제주");
+    return map;
+}
 ```
 > Controller 안에 있는 별도의 메소드를 적용할 수 있다.   
 > 컨트롤러를 요청할 때 regions 에서 반환한 값이 자동으로 모델( model )에 담기게 된다.   
 > 즉, "regions" 라는 이름으로 모델에 담기어 앞단에서 사용가능하다.   
+
+```java
+// ENUM 활용
+@ModelAttribute("itemTypes")
+public ItemType[] itemTypes() {
+    return ItemType.values();
+}
+
+public enum ItemType {
+    BOOK("도서"), FOOD("식품"), ETC("기타");
+    private final String description;
+
+    // @RequiredArgsConstructor
+    ItemType(String description) {
+        this.description = description;
+    }
+    // @Getter
+    public String getDescription() {
+        return description;
+    }
+}
+```
+> itemTypes 를 등록 폼, 조회, 수정 폼에서 모두 사용하므로 @ModelAttribute 를 메소드에 지정.   
+> 해당 ENUM 의 모든 정보를 배열로 반환 ex) [BOOK, FOOD, ETC]   
 
 <br/>
 <hr>
