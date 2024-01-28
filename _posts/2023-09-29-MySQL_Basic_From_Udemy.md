@@ -86,6 +86,11 @@ add constraint positive_number check (age > 0);
 -- 제약조건 삭제
 alter table users
 drop constraint positive_number;
+
+-- 컬럼순서 변경
+-- ALTER TABLE 테이블명 MODIFY COLUMN 컬럼명 데이터타입 제약조건 FIRST/AFTER 컬럼명;
+alter table `user` 
+modify column bloodType varchar(2) not null after age;
 ```
 
 <br/>
