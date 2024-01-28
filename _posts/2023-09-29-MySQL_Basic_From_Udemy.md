@@ -91,6 +91,11 @@ drop constraint positive_number;
 -- ALTER TABLE 테이블명 MODIFY COLUMN 컬럼명 데이터타입 제약조건 FIRST/AFTER 컬럼명;
 alter table `user` 
 modify column bloodType varchar(2) not null after age;
+
+-- 컬럼타입변경
+alter table `user`
+modify column id varchar(30) unique not null;
+
 ```
 
 <br/>
