@@ -237,9 +237,11 @@ public class RateDiscountPolicy implements DiscountPolicy { ... }
 생성자는 필수 정보(파라미터)를 받고, 메모리를 할당해서 객체를 생성하는 책임을 가진다. 반면에 초기화는 이렇게 생성된 값들을 활용해서 외부 커넥션을 연결하는등 무거운 동작을 수행한다. 따라서 생성자 안에서 무거운 초기화 작업을 함께 하는 것 보다는 객체를 생성하는 부분과 초기화 하는 부분을 명확하게 나누는 것이 유지보수 관점에서 좋다. 물론 초기화 작업이 내부 값들만 약간 변경하는 정도로 단순한 경우에는 생성자에서 한번에 다 처리하는게 더 나을 수 있다.  
   
 * 스프링 빈 생명주기 콜백을 지원하는 3가지 방법  
+  
 1. 인터페이스 ( InitializingBean, DisposableBean )  
   
 2. 설정 정보에 초기화 메소드, 종료 메소드 지정  
+  
 ```java
 @Configuration
 static class LifeCycleConfig {
@@ -254,6 +256,7 @@ static class LifeCycleConfig {
 NetworkClient 생성자 호출 -> networkClient.setUrl("http://hello-spring.dev"); -> NetworkClient.init() 실행 -> NetworkClient.close() 실행  
   
 3. @PostConstruct, @PreDestroy 애노테이션 지원  
+
 ```java
 public class NetworkClient {
 
@@ -306,6 +309,7 @@ static class LifeCycleConfig {
   }
 }
 ```
+
 @PostConstruct , @PreDestroy 이 두 애노테이션을 사용하면 가장 편리하게 초기화와 종료를 실행할 수 있다.  
 최신 스프링에서 가장 권장하는 방법이다.  
 코드를 고칠 수 없는 외부 라이브러리를 초기화, 종료해야 하면 @Bean 의 initMethod , destroyMethod 를 사용하자.  
