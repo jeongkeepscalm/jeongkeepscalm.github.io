@@ -187,8 +187,9 @@ a.b 프로젝트 시작 루트에 AppConfig 같은 메인 설정정보를 두고
 3. 임의의 테스트 클래스를 만들고 @Getter, @Setter 확인  
   
 * 조회 대상 빈이 2개 이상일 때 해결방법  
-1. @Autowired 필드명 매치  
-```java
+1. @Autowired 필드명 매치 
+
+```java 
 // 기존 코드
 @Autowired
 private DiscountPolicy discountPolicy
@@ -200,6 +201,7 @@ private DiscountPolicy rateDiscountPolicy
   
 2. @Qualifier -> @Qualifier 끼리 매칭 -> 빈 이름 매칭  
 빈 등록시 @Qualifier를 붙여 준다.  
+
 ```java
 @Component
 @Qualifier("mainDiscountPolicy")
@@ -234,6 +236,108 @@ public class RateDiscountPolicy implements DiscountPolicy { ... }
 * 객체의 생성과 초기화를 분리하자.  
 생성자는 필수 정보(파라미터)를 받고, 메모리를 할당해서 객체를 생성하는 책임을 가진다. 반면에 초기화는 이렇게 생성된 값들을 활용해서 외부 커넥션을 연결하는등 무거운 동작을 수행한다. 따라서 생성자 안에서 무거운 초기화 작업을 함께 하는 것 보다는 객체를 생성하는 부분과 초기화 하는 부분을 명확하게 나누는 것이 유지보수 관점에서 좋다. 물론 초기화 작업이 내부 값들만 약간 변경하는 정도로 단순한 경우에는 생성자에서 한번에 다 처리하는게 더 나을 수 있다.  
   
+* 스프링 빈 생명주기 콜백을 지원하는 3가지 방법  
+1. 인터페이스 ( InitializingBean, DisposableBean )  
+  
+2. 설정 정보에 초기화 메소드, 종료 메소드 지정  
+```java
+@Configuration
+static class LifeCycleConfig {
+  @Bean(initMethod = "init", destroyMethod = "close")
+  public NetworkClient networkClient() {
+    NetworkClient networkClient = new NetworkClient();
+    networkClient.setUrl("http://hello-spring.dev");
+    return networkClient;
+  }
+}
+```
+NetworkClient 생성자 호출 -> networkClient.setUrl("http://hello-spring.dev"); -> NetworkClient.init() 실행 -> NetworkClient.close() 실행  
+  
+3. @PostConstruct, @PreDestroy 애노테이션 지원  
+```java
+public class NetworkClient {
+
+  private String url;
+
+  public NetworkClient() {
+    System.out.println("생성자 호출, url = " + url);
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
+  }
+
+  //서비스 시작시 호출
+  public void connect() {
+    System.out.println("connect: " + url);
+  }
+
+  public void call(String message) {
+    System.out.println("call: " + url + " message = " + message);
+  }
+
+  //서비스 종료시 호출
+  public void disConnect() {
+    System.out.println("close + " + url);
+  }
+
+  @PostConstruct
+  public void init() {
+    System.out.println("NetworkClient.init");
+    connect();
+    call("초기화 연결 메시지");
+  }
+
+  @PreDestroy
+  public void close() {
+    System.out.println("NetworkClient.close");
+    disConnect();
+  }
+  
+}
+
+@Configuration
+static class LifeCycleConfig {
+  @Bean
+  public NetworkClient networkClient() {
+    NetworkClient networkClient = new NetworkClient();
+    networkClient.setUrl("http://hello-spring.dev");
+    return networkClient;
+  }
+}
+```
+@PostConstruct , @PreDestroy 이 두 애노테이션을 사용하면 가장 편리하게 초기화와 종료를 실행할 수 있다.  
+최신 스프링에서 가장 권장하는 방법이다.  
+코드를 고칠 수 없는 외부 라이브러리를 초기화, 종료해야 하면 @Bean 의 initMethod , destroyMethod 를 사용하자.  
+
+<br/>
+<hr>
+<br/>
+
+### 빈 스코프
+
+* 스프링 빈  
+스프링 컨테이너의 시작과 함께 생성되어서 스프링 컨테이너가 종료될 때 까지 유지된다. 이것은 스프링 빈이 기본적으로 싱글톤 스코프로 생성되기 때문이다.  
+  
+* 다양한 스코프  
+  
+1. 싱글톤 : 기본 스코프, 스프링 컨테이너의 시작과 종료까지 유지되는 가장 넓은 범위의 스코프이다.  
+  
+2. 프로토타입 : 스프링 컨테이너는 프로토타입 빈의 생성과 의존관계 주입까지만 관여하고 더는 관리하지 않는 매우 짧은 범위의 스코프이다.  
+싱글톤 스코프의 빈을 조회하면 스프링 컨테이너는 항상 같은 인스턴스의 스프링 빈을 반환한다. 반면에 프로토타입 스코프를 스프링 컨테이너에 조회하면 스프링 컨테이너는 항상 새로운 인스턴스를 생성해서 반환한다.  
+  
+3. 웹 관련 스코프  
+request : 웹 요청이 들어오고 나갈때 까지 유지되는 스코프이다.  
+session : 웹 세션이 생성되고 종료될 때 까지 유지되는 스코프이다.  
+application : 웹의 서블릿 컨텍스트와 같은 범위로 유지되는 스코프이다.  
+
+
+
+
+
+
+
+
 
 
 
