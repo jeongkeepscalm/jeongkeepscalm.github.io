@@ -378,7 +378,7 @@ public class SingletonTest {
 // org.springframework.context.annotation.AnnotationConfigApplicationContext -
 // Closing SingletonBean.destroy
 ```
-
+  
 ```java
 public class PrototypeTest {
   @Test
