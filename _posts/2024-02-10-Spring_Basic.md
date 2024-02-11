@@ -187,9 +187,16 @@ a.b 프로젝트 시작 루트에 AppConfig 같은 메인 설정정보를 두고
 3. 임의의 테스트 클래스를 만들고 @Getter, @Setter 확인  
   
 * 조회 대상 빈이 2개 이상일 때 해결방법  
-1. @Autowired 필드명 매치 
+1. @Autowired 필드명 매치  
+2. @Qualifier -> @Qualifier 끼리 매칭 -> 빈 이름 매칭  
+빈 등록시 @Qualifier를 붙여 준다.  
+3. @Primary 사용  
+우선순위를 정하는 방법이다. @Autowired 시에 여러 빈이 매칭되면 @Primary 가 우선권을 가진다.  
 
 ```java 
+
+// 1. @Autowired 필드명 매치  
+
 // 기존 코드
 @Autowired
 private DiscountPolicy discountPolicy
@@ -199,17 +206,14 @@ private DiscountPolicy discountPolicy
 private DiscountPolicy rateDiscountPolicy
 ```
   
-2. @Qualifier -> @Qualifier 끼리 매칭 -> 빈 이름 매칭  
-빈 등록시 @Qualifier를 붙여 준다.  
-
 ```java
+
+// 2. @Qualifier
+
 @Component
 @Qualifier("mainDiscountPolicy")
 public class RateDiscountPolicy implements DiscountPolicy { ... }
 ```
-  
-3. @Primary 사용  
-우선순위를 정하는 방법이다. @Autowired 시에 여러 빈이 매칭되면 @Primary 가 우선권을 가진다.  
   
 우선순위  
 @Primary 는 기본값 처럼 동작하는 것이고, @Qualifier 는 매우 상세하게 동작한다. 스프링은 자동보다는 수동이, 넒은 범위의 선택권 보다는 좁은 범위의 선택권이 우선 순위가 높다. 따라서 여기서도 @Qualifier 가 우선권이 높다.  
@@ -239,10 +243,13 @@ public class RateDiscountPolicy implements DiscountPolicy { ... }
 * 스프링 빈 생명주기 콜백을 지원하는 3가지 방법  
   
 1. 인터페이스 ( InitializingBean, DisposableBean )  
-  
 2. 설정 정보에 초기화 메소드, 종료 메소드 지정  
-  
+3. @PostConstruct, @PreDestroy 애노테이션 지원  
+
 ```java
+
+// 2. 설정 정보에 초기화 메소드, 종료 메소드 지정
+
 @Configuration
 static class LifeCycleConfig {
   @Bean(initMethod = "init", destroyMethod = "close")
@@ -255,9 +262,11 @@ static class LifeCycleConfig {
 ```
 NetworkClient 생성자 호출 -> networkClient.setUrl("http://hello-spring.dev"); -> NetworkClient.init() 실행 -> NetworkClient.close() 실행  
   
-3. @PostConstruct, @PreDestroy 애노테이션 지원  
 
 ```java
+
+// 3. @PostConstruct, @PreDestroy 애노테이션 지원
+
 public class NetworkClient {
 
   private String url;
@@ -329,12 +338,114 @@ static class LifeCycleConfig {
   
 2. 프로토타입 : 스프링 컨테이너는 프로토타입 빈의 생성과 의존관계 주입까지만 관여하고 더는 관리하지 않는 매우 짧은 범위의 스코프이다.  
 싱글톤 스코프의 빈을 조회하면 스프링 컨테이너는 항상 같은 인스턴스의 스프링 빈을 반환한다. 반면에 프로토타입 스코프를 스프링 컨테이너에 조회하면 스프링 컨테이너는 항상 새로운 인스턴스를 생성해서 반환한다.  
+스프링 컨테이너는 프로토타입 빈을 생성하고, 의존관계 주입, 초기화까지만 처리한다는 것이다. 그래서 @PreDestroy 같은 종료 메서드가 호출되지 않는다.  
+그러므로 프로토타입 빈은 프로토타입 빈을 조회한 클라이언트가 관리해야 한다. 종료 메서드에 대한 호출도 클라이언트가 직접 해야한다.  
   
 3. 웹 관련 스코프  
-request : 웹 요청이 들어오고 나갈때 까지 유지되는 스코프이다.  
-session : 웹 세션이 생성되고 종료될 때 까지 유지되는 스코프이다.  
-application : 웹의 서블릿 컨텍스트와 같은 범위로 유지되는 스코프이다.  
+request : 웹 요청이 들어오고 나갈때 까지 유지되는 스코프. 각각의 HTTP 요청마다 별도의 빈 인스턴스가 생성되고, 관리된다.  
+session : HTTP Session과 동일한 생명주기를 가지는 스코프      
+application : 서블릿 컨텍스트( ServletContext )와 동일한 생명주기를 가지는 스코프   
+websocket: 웹 소켓과 동일한 생명주기를 가지는 스코프  
+  
+```java
+public class SingletonTest {
+  @Test
+  public void singletonBeanFind() {
+    AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(SingletonBean.class);
+    SingletonBean singletonBean1 = ac.getBean(SingletonBean.class);
+    SingletonBean singletonBean2 = ac.getBean(SingletonBean.class);
+    System.out.println("singletonBean1 = " + singletonBean1);
+    System.out.println("singletonBean2 = " + singletonBean2);
+    assertThat(singletonBean1).isSameAs(singletonBean2);
+    ac.close(); //종료
+    }
 
+    @Scope("singleton")
+    static class SingletonBean {
+      @PostConstruct
+      public void init() {
+        System.out.println("SingletonBean.init");
+      }
+      @PreDestroy
+      public void destroy() {
+        System.out.println("SingletonBean.destroy");
+      }
+  }
+}
+// SingletonBean.init
+// singletonBean1 = hello.core.scope.PrototypeTest$SingletonBean@54504ecd
+// singletonBean2 = hello.core.scope.PrototypeTest$SingletonBean@54504ecd
+// org.springframework.context.annotation.AnnotationConfigApplicationContext -
+// Closing SingletonBean.destroy
+```
+
+```java
+public class PrototypeTest {
+  @Test
+  public void prototypeBeanFind() {
+    AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(PrototypeBean.class);
+    System.out.println("find prototypeBean1");
+    PrototypeBean prototypeBean1 = ac.getBean(PrototypeBean.class);
+    System.out.println("find prototypeBean2");
+    PrototypeBean prototypeBean2 = ac.getBean(PrototypeBean.class);
+    System.out.println("prototypeBean1 = " + prototypeBean1);
+    System.out.println("prototypeBean2 = " + prototypeBean2);
+    assertThat(prototypeBean1).isNotSameAs(prototypeBean2);
+    ac.close(); //종료
+  }
+  @Scope("prototype")
+  static class PrototypeBean {
+    @PostConstruct
+    public void init() {
+      System.out.println("PrototypeBean.init");
+    }
+    @PreDestroy
+    public void destroy() {
+      System.out.println("PrototypeBean.destroy");
+    }
+  }
+}
+// find prototypeBean1
+// PrototypeBean.init
+// find prototypeBean2
+// PrototypeBean.init
+// prototypeBean1 = hello.core.scope.PrototypeTest$PrototypeBean@13d4992d
+// prototypeBean2 = hello.core.scope.PrototypeTest$PrototypeBean@302f7971
+// org.springframework.context.annotation.AnnotationConfigApplicationContext - Closing
+```
+  
+싱글톤 빈에서 프로토타입 빈 사용 시 문제점  
+스프링은 일반적으로 싱글톤 빈을 사용하므로, 싱글톤 빈이 프로토타입 빈을 사용하게 된다. 그런데 싱글톤 빈은 생성 시점에만 의존관계 주입을 받기 때문에, 프로토타입 빈이 새로 생성되기는 하지만, 싱글톤 빈과 함께 계속 유지된다.  
+  
+해결 방안 ( 항상 새로운 프로토타입 빈이 생성 )  
+1. ObjectProvider  
+2. JSR-330 Provider  
+  
+* ObjectProvider  
+지정한 빈을 컨테이너에서 대신 찾아주는 DL(Dependency Lookup) 서비스를 제공하는 것.  
+ObjectProvider == ObjectFactory + 편의기능 추가  
+  
+```java
+@Autowired
+private ObjectProvider<PrototypeBean> prototypeBeanProvider;
+public int logic() {
+  PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
+  prototypeBean.addCount();
+  int count = prototypeBean.getCount();
+  return count;
+}
+```
+prototypeBeanProvider.getObject() 을 통해서 항상 새로운 프로토타입 빈이 생성된다.  
+  
+* 프로토타입 빈을 언제 사용할까?  
+매번 사용할 때마다 의존관계 주입이 완료된 새로운 객체가 필요할 때 사용한다.  
+싱글톤 빈으로 대부분의 문제를 해결할 수 있기 때문에 프로토타입 빈을 직접적으로 사용하는 일은 매우 드물다.  
+  
+* 웹 스코프  
+웹 스코프는 웹 환경에서만 동작한다.  
+웹 스코프는 프로토타입과 다르게 스프링이 해당 스코프의 종료시점까지 관리한다. 따라서 종료 메서드가 호출된다.  
+  
+빈 스코프 교안 나중에 다시 정리하자.
 
 
 
