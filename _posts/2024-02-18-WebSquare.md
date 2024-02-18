@@ -32,7 +32,7 @@ AlliasDataList : Page Coding에서 자식에서 부모의 dataList 객체를 참
 <hr>
 <br/>
 
-### Script 10
+### Script 11
 
 ```javascript
 swin.onpageload = function() {
