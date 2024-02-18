@@ -89,7 +89,7 @@ BeanFactory나 ApplicationContext를 스프링 컨테이너라 한다.
 * private 생성자를 사용해서 외부에서 임의로 new 키워드를 사용하지 못하게 막아햐 한다. 
 * 클라이언트의 요청이 올 때 마다 객체를 생성하는 것이 아니라 이미 만들어진 객체를 공유해서 효율적으로 사용할 수 있다. 
   
-싱글톤 패턴 문제점
+싱글톤 패턴 문제점  
   1. 클라이언트가 구체 클래스에 의존한다. ( DIP 위반 )  
   2. OCP 원칙 위반 가능성 높다.  
   3. 안티패턴이라 불리기도 한다.  
@@ -210,8 +210,8 @@ private DiscountPolicy discountPolicy
 @Autowired
 private DiscountPolicy rateDiscountPolicy
 ```
-  
-  
+<br/>
+
 ```java
 // 2. @Qualifier
 
@@ -320,7 +320,11 @@ static class LifeCycleConfig {
   }
 }
 ```
-
+  
+* @PostConstruct , @PreDestroy 어노테이션을 언제 사용할까?  
+빈이 생성된 후 특정한 설정을 해야 한다거나, DB에 초기 데이터를 채워야 하는 등의 작업을 할 때 사용된다.  
+빈이 소멸되기 전에 리소스를 해제하거나, 연결을 종료하는 등의 작업을 할 때 사용한다.    
+  
 @PostConstruct , @PreDestroy 이 두 애노테이션을 사용하면 가장 편리하게 초기화와 종료를 실행할 수 있다.  
 최신 스프링에서 가장 권장하는 방법이다.  
 코드를 고칠 수 없는 외부 라이브러리를 초기화, 종료해야 하면 @Bean 의 initMethod , destroyMethod 를 사용하자.  
@@ -380,7 +384,8 @@ public class SingletonTest {
 // org.springframework.context.annotation.AnnotationConfigApplicationContext -
 // Closing SingletonBean.destroy
 ```
-  
+
+<br/>
 
 ```java
 public class PrototypeTest {
