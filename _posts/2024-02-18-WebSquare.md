@@ -9,6 +9,8 @@ tags: [WebSquare] # add tag
 
 <br/>
 
+### Tab
+
 * Design Tab - 바디영역에 그려짐  
 속성, 이벤트, api ( 동적 )  
   
@@ -30,13 +32,20 @@ AlliasDataList : Page Coding에서 자식에서 부모의 dataList 객체를 참
 <hr>
 <br/>
 
-* Script3
+### Script55
 
 ```javascript
-
+swin.onpageload = function() {
+  ui_join.setValue($p.getCurrentServerTime());
+  ui_gender.setItem("M", "남자");
+  ui_gender.setItem("W", "여자");
+}
 ```
-$p : websquare 에서 제공하는 util 객체  
-  id.setValue($p.getCurrentServerTime())  
+> $p : websquare 에서 제공하는 util 객체  
+> 목록성 컴포넌트 : 체크박스, 라디오버튼 등.. dataList 타입으로 정해야한다.  
+  
+* 디버깅  
+Ctrl + 마우스 오른쪽 버튼 클릭  
 
 
-목록성 컴포넌트 : 체크박스, 라디오버튼 등.. 
+
