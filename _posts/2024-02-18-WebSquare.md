@@ -23,7 +23,6 @@ DataList : 다건 data 관리
 LinkedDataList : 생성된 dataList에서 별도의 조건을 주어 filter된 data를 확인한다(뷰어용으로 제한적으로 사용됨)  
 AlliasDataMap : Page Coding에서 자식에서 부모의 dataMap 객체를 참조할 때 사용   
 AlliasDataList : Page Coding에서 자식에서 부모의 dataList 객체를 참조할 때 사용    
-  
 타켓데이터 내 항목을 드래그하여 컴포넌트에 놓으면 레퍼런스가 걸려서 통신 후 데이터가 자동으로 해당 항목에 바인드된다.  
 컴포넌트 클릭 후, 속성 탭 검색창에 ref를 검색하면 해당 컴포넌트에 참조되어있는 데이터를 볼 수 있다.  
   
