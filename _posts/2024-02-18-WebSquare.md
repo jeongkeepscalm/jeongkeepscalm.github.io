@@ -9,7 +9,7 @@ tags: [WebSquare] # add tag
 
 <br/>
 
-### Tab 2
+### Tab
 
 * Design Tab - 바디영역에 그려짐  
 속성, 이벤트, api ( 동적 )  
