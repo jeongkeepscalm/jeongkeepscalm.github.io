@@ -12,7 +12,7 @@ tags: [WebSquare] # add tag
 ### Tab
 
 * Design Tab - 바디영역에 그려짐  
-속성, 이벤트, api ( 동적 )  
+속성, 이벤트, api (동적)  
   
 * Script Tab - 비지니스로직, 웹스퀘어 api 활용하여 로직 제어  
 	onpageload 로드 된 후 실행되는 함수   
