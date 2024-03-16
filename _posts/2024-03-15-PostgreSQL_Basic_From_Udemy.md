@@ -36,6 +36,7 @@ where extract(dow from payment_date) = 1; -- 2948
 select left(first_name,1) || lower(last_name) || '@gmail.com' from customer;
 ```
   
+  
 ### EXISTS
 
 ```sql
@@ -52,6 +53,7 @@ where exists
 	and p.amount > 11
 );
 ```
+  
   
 ### SELF JOIN
 
@@ -70,9 +72,10 @@ select * from cd.facilities f
 where f.name ilike '%tennis%';
 ```
   
+  
 ### DDL
 
-```SQL
+```sql
 -- create
 create table account (
 	user_id serial primary key
@@ -129,4 +132,31 @@ create table employees(
 	, hire_date date check (hire_date > birthdate)
 	, salary integer check (salary > 0)
 );
+```
+  
+  
+### CASE
+
+```sql
+-- 특정 컬럼들의 데이터 갯수를 알아보고 싶을 경우 case를 사용할 수 있다. 
+select
+	sum(
+		case rental_rate
+			when 0.99 then 1
+			else 0
+		end
+	) as bargains,
+	sum(
+		case rental_rate
+			when 2.99 then 1
+			else 0
+		end
+	) as regular,
+	sum(
+		case rental_rate
+			when 4.99 then 1
+			else 0
+		end
+	) as premium
+from film;
 ```
