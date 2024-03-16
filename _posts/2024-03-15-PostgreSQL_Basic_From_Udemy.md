@@ -35,7 +35,7 @@ where extract(dow from payment_date) = 1; -- 2948
 
 select left(first_name,1) || lower(last_name) || '@gmail.com' from customer;
 ```
-
+  
 ### EXISTS
 
 ```sql
@@ -52,7 +52,7 @@ where exists
 	and p.amount > 11
 );
 ```
-
+  
 ### SELF JOIN
 
 ```sql
@@ -62,12 +62,71 @@ inner join film f2 on f1.film_id != f2.film_id
 and f1.length = f2.length;
 ```
 <img src="/assets/img/pgsqlScreenShot1.jpg" width="600px" />  
-
+  
 ### ILIKE
 ```SQL
 -- like 대소문자구분 o, ilike 대소문자구분 x
 select * from cd.facilities f
 where f.name ilike '%tennis%';
 ```
+  
+### DDL
 
+```SQL
+-- create
+create table account (
+	user_id serial primary key
+	, username varchar(50) unique not null
+	, password varchar(50) not null
+	, email varchar(200) unique not null
+	, created_on timestamp not null
+	, last_login timestamp
+);
 
+create table job(
+	job_id serial primary key
+	, job_name varchar(200) unique not null
+);
+
+create table account_job (
+	user_id integer references account(user_id)
+	, job_id integer references job(job_id)
+	, hire_date timestamp
+);
+
+-- insert
+insert into account 
+	(username, password, email, created_on)
+values 
+	('ojg', 'ojg1234', 'ojg@gmail.com', current_timestamp);
+
+-- returning : CUD 후 returning 뒤에 오는 컬럼들을 조회한다. 
+update account
+set last_login = current_timestamp
+returning username, email, created_on, last_login;
+
+-- alter
+alter table account rename to users;
+alter table users rename column userNm to userName;
+alter table new_info alter column people drop/set not null;
+
+alter table new_info drop column people;
+alter table new_info drop column if exists people;
+alter table new_info drop column people cascade;
+
+-- 제약조건
+create table example(
+	ex_id serial primary key
+	, age smallint check (age > 18)
+	, parent_age smallint check (parent_age > age)
+);
+
+create table employees(
+	emp_id serial primary key
+	, first_name varchar(50) not null
+	, last_name varchar(50) not null
+	, birthdate date check (birthdate > '1979-12-31')
+	, hire_date date check (hire_date > birthdate)
+	, salary integer check (salary > 0)
+);
+```
