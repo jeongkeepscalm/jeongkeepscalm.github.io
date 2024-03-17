@@ -160,3 +160,56 @@ select
 	) as premium
 from film;
 ```
+  
+	
+### CAST
+
+```sql
+select cast('5' as integer);
+-- = select '5'::integer;
+
+select char_length(cast(inventory_id as varchar)) from rental;
+```
+  
+	
+### NULLIF
+
+```sql
+-- B가 없어 분모에 0이 들어갈 경우 에러발생. 에러방지로 nullif() 사용
+select 
+	(
+		sum(case when department = 'A' then 1 else 0 end) /
+		nullif(sum(case when department = 'B' then 1 else 0 end), 0)
+	) as department_ratio
+from depts;
+```
+  
+	
+### VIEW
+
+```sql
+-- view : 여러 테이블이 조인되어서 빈번히 사용될 때, view로 가상의 테이블을 만들어서 사용하자. 
+create view customer_info as
+select first_name, last_name, address from customer
+inner join address 
+on customer.address_id = address.address_id;
+
+select * from customer_info;
+
+create or replace view customer_info as 
+select first_name, last_name, address, district from customer
+inner join address 
+on customer.address_id = address.address_id;
+
+select * from customer_info;
+
+alter view customer_info rename to c_info;
+
+-- if exists : 에러방지
+-- 고객의 정보가 존재하면 view를 삭제해라. 
+drop view if exists c_info;
+```
+  
+  
+###
+
