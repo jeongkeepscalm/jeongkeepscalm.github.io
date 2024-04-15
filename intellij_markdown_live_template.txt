@@ -1,0 +1,892 @@
+<template name="and" value="∧" description="conjunction" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="KUBERNETES_RESOURCE" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+  </context>
+</template>
+<template name="biconditional" value="⇔" description="biconditional statements" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="KUBERNETES_RESOURCE" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+  </context>
+</template>
+<template name="ceiling" value="⌈⌉" description="천정함수" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="ECMAScript6" value="false" />
+    <option name="EDU_TASK_DESCRIPTION_HINT" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+    <option name="XML_ATTRIBUTE" value="false" />
+  </context>
+</template>
+<template name="composition" value="∘" description="합성기호" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="ECMAScript6" value="false" />
+    <option name="EDU_TASK_DESCRIPTION_HINT" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+    <option name="XML_ATTRIBUTE" value="false" />
+  </context>
+</template>
+<template name="conditional" value="⇒" description="conditional statements" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="KUBERNETES_RESOURCE" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+  </context>
+</template>
+<template name="element" value="∈" description="원소" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="ECMAScript6" value="false" />
+    <option name="EDU_TASK_DESCRIPTION_HINT" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+    <option name="XML_ATTRIBUTE" value="false" />
+  </context>
+</template>
+<template name="emptyset" value="∅" description="공집합" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="ECMAScript6" value="false" />
+    <option name="EDU_TASK_DESCRIPTION_HINT" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+    <option name="XML_ATTRIBUTE" value="false" />
+  </context>
+</template>
+<template name="equivalent" value="≡" description="equivalent" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="KUBERNETES_RESOURCE" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+  </context>
+</template>
+<template name="exclusive" value="⊕" description="배타적논리합" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="ECMAScript6" value="false" />
+    <option name="EDU_TASK_DESCRIPTION_HINT" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+    <option name="XML_ATTRIBUTE" value="false" />
+  </context>
+</template>
+<template name="existentialquantification" value="∃" description="특정 수량자" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="KUBERNETES_RESOURCE" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+  </context>
+</template>
+<template name="floor" value="⌊⌋" description="바닥함수" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="ECMAScript6" value="false" />
+    <option name="EDU_TASK_DESCRIPTION_HINT" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+    <option name="XML_ATTRIBUTE" value="false" />
+  </context>
+</template>
+<template name="function" value="ｆ" description="함수" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="ECMAScript6" value="false" />
+    <option name="EDU_TASK_DESCRIPTION_HINT" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+    <option name="XML_ATTRIBUTE" value="false" />
+  </context>
+</template>
+<template name="h2" value="&lt;h2&gt;&lt;/h2&gt;" description="title" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="ECMAScript6" value="false" />
+    <option name="EDU_TASK_DESCRIPTION_HINT" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+    <option name="XML_ATTRIBUTE" value="false" />
+  </context>
+</template>
+<template name="intersection" value="∩" description="교집합" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="ECMAScript6" value="false" />
+    <option name="EDU_TASK_DESCRIPTION_HINT" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+    <option name="XML_ATTRIBUTE" value="false" />
+  </context>
+</template>
+<template name="matrix" value="$$$ Q(x) =&#10;\begin{pmatrix}&#10;a &amp; b \\&#10;c &amp; d&#10;\end{pmatrix}&#10;$$$&#10;" description="행렬" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="ECMAScript6" value="false" />
+    <option name="EDU_TASK_DESCRIPTION_HINT" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+    <option name="XML_ATTRIBUTE" value="false" />
+  </context>
+</template>
+<template name="ne" value="≠" description="not equals" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="KUBERNETES_RESOURCE" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+  </context>
+</template>
+<template name="not" value="￢" description="Negation" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="KUBERNETES_RESOURCE" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+  </context>
+</template>
+<template name="notelement" value="∉" description="원소가아니다" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="ECMAScript6" value="false" />
+    <option name="EDU_TASK_DESCRIPTION_HINT" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+    <option name="XML_ATTRIBUTE" value="false" />
+  </context>
+</template>
+<template name="or" value="∨" description="disjunction" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="KUBERNETES_RESOURCE" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+  </context>
+</template>
+<template name="propersubset" value="⊂" description="진부분집합" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="ECMAScript6" value="false" />
+    <option name="EDU_TASK_DESCRIPTION_HINT" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+    <option name="XML_ATTRIBUTE" value="false" />
+  </context>
+</template>
+<template name="sub" value="&lt;sub&gt;&lt;/sub&gt;" description="아랫첨자" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="KUBERNETES_RESOURCE" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+  </context>
+</template>
+<template name="subset" value="⊆" description="부분집합" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="ECMAScript6" value="false" />
+    <option name="EDU_TASK_DESCRIPTION_HINT" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+    <option name="XML_ATTRIBUTE" value="false" />
+  </context>
+</template>
+<template name="sup" value="&lt;sup&gt;&lt;/sup&gt;" description="윗 첨자" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="KUBERNETES_RESOURCE" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+  </context>
+</template>
+<template name="tb" value="|a|b|c|&#10;|---|---|---|&#10;||||" description="mark down table" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="KUBERNETES_RESOURCE" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+  </context>
+</template>
+<template name="thus" value="∴" description="따라서" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="KUBERNETES_RESOURCE" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+  </context>
+</template>
+<template name="union" value="∪" description="합집합" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="ECMAScript6" value="false" />
+    <option name="EDU_TASK_DESCRIPTION_HINT" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+    <option name="XML_ATTRIBUTE" value="false" />
+  </context>
+</template>
+<template name="universalquantification" value="∀" description="전체 수량자" toReformat="false" toShortenFQNames="true">
+  <context>
+    <option name="ANY_OPENAPI_JSON_FILE" value="false" />
+    <option name="ANY_OPENAPI_YAML_FILE" value="false" />
+    <option name="Angular" value="false" />
+    <option name="CSS" value="false" />
+    <option name="CUCUMBER_FEATURE_FILE" value="false" />
+    <option name="GENERAL_JSON_FILE" value="false" />
+    <option name="GENERAL_YAML_FILE" value="false" />
+    <option name="GROOVY" value="false" />
+    <option name="HTML" value="false" />
+    <option name="HTTP_CLIENT_ENVIRONMENT" value="false" />
+    <option name="JAVA_CODE" value="false" />
+    <option name="JAVA_SCRIPT" value="false" />
+    <option name="JSON" value="false" />
+    <option name="JSP" value="false" />
+    <option name="KOTLIN" value="false" />
+    <option name="KUBERNETES_RESOURCE" value="false" />
+    <option name="MAVEN" value="false" />
+    <option name="OTHER" value="true" />
+    <option name="PROTO" value="false" />
+    <option name="PROTOTEXT" value="false" />
+    <option name="Properties" value="false" />
+    <option name="QUTE" value="false" />
+    <option name="REQUEST" value="false" />
+    <option name="SHELL_SCRIPT" value="false" />
+    <option name="SQL" value="false" />
+    <option name="TypeScript" value="false" />
+    <option name="Vue" value="false" />
+    <option name="XML" value="false" />
+  </context>
+</template>
