@@ -88,7 +88,7 @@ theme_mode: dark
 img_cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar: https://github.com/AngryPig123/angrypig123.github.io/assets/86225268/60c8eac8-a33e-455d-aae7-c7a72051c2e7
+avatar: /assets/img/headerImage.jpg
 
 # boolean type, the global switch for ToC in posts.
 toc: true
