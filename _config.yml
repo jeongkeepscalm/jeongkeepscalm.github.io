@@ -19,31 +19,31 @@ timezone: Asia/Seoul
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: 화난돼지 블로그                          # the main title
+title: JeongKeepsCalm                          # the main title
 
-tagline: 기록용 블로그   # it will display as the sub-title
+tagline: blog with my passion   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   back-end, BackEnd, Spring, Spring Boot
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
-url: 'https://angrypig123.github.io'
+url: 'https://jeongkeepscalm.github.io/'
 
 github:
-  username: Angrypig123
+  username: JeongGil
 
 twitter:
-  username: Angrypig123            # change to your twitter username
+  username: JeongGil            # change to your twitter username
 
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: angrypig back-end
-  email: shguddnr2@naver.com
+  name: Jeong Back-End
+  email: ojg01@naver.com
   links:
     # The first element serves as the copyright owner's link
-    - https://github.com/AngryPig123      # change to your twitter homepage
-    - https://github.com/AngryPig123       # change to your github homepage
+    - https://github.com/jeongkeepscalm      # change to your twitter homepage
+    - https://github.com/jeongkeepscalm       # change to your github homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
     # - https://www.linkedin.com/in/username
