@@ -1,0 +1,5 @@
+$$ \lfloor \frac{a}{b} \rfloor $$
+
+1 ] \lfloor, \rfloor : 왼쪽 버림함수, 오른쪽 버림함수
+2 ] \lceil, \rceil : 왼쪽 천장함수, 오른쪽 천장함수.
+3 ] \frac{a}{b} : 분자가 a 분모가 b

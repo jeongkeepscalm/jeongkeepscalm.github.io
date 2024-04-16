@@ -1,0 +1,6 @@
+1 ] git branch | grep -v 'main' | xargs git branch -d : 병합이 된 'main'이 아닌 모든 브런치를 지운다.
+2 ] git branch | grep -v 'main' | xargs git branch -D : 병합에 상관없이 'main'이 아닌 모든 브런치를 지운다.
+3 ] git branch -r | grep -v 'main' | sed 's/origin\///' | xargs -I {} git push origin --delete {} : 원격에 main이 아닌 모든 브런치를 지우고 push 한다.
+
+
+
