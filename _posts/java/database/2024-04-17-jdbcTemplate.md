@@ -59,7 +59,7 @@ public class test {
   }
 
   // JdbcTemplate 을 통해 쿼리를 수행한다.
-  private void insertLv3Url(String url, String name){
+  private void insertTest(String url, String name){
     JdbcTemplate jdbcTemplate = jdbcTemplate();
     String sql = "insert into test (name, url) values (? , ?)";
     jdbcTemplate.update(sql, url, name);
