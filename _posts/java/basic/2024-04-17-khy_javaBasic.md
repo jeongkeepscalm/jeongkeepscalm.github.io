@@ -2,7 +2,7 @@
 title: "[KYH] JAVA Basic"
 description: java
 date: 2024-04-17
-categories: [ java, basic]
+categories: [ java, basic ]
 tags: [ http, basic, kyh ]
 ---
 

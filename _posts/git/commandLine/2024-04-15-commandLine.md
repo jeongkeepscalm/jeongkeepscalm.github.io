@@ -2,7 +2,7 @@
 title: Git Command Line
 description: 깃 명령어 CLI
 date: 2024-04-15
-categories: [ git, command_line]
+categories: [ git, commandLine]
 tags: [ Git, CLI, CommandLine ]
 ---
 
