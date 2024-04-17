@@ -2,8 +2,8 @@
 title: "[KYH] JAVA Basic"
 description: java
 date: 2024-04-17
-categories: [ java, basic ]
-tags: [ http, basic, kyh ]
+categories: [ java, javaBasic ]
+tags: [ http, javaBasic, kyh ]
 ---
 
 ## 클래스(Class)
