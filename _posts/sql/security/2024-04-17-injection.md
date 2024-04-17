@@ -1,6 +1,6 @@
 ---
-title: Git Command Line
-description: 깃 명령어 CLI
+title: SQL Injection Attack
+description: SQL Injection Attack
 date: 2024-04-15
 categories: [ sql, injection]
 tags: [ sql, injection ]
