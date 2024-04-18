@@ -30,16 +30,16 @@ description: >-                        # used by seo meta and the atom feed
 url: 'https://jeongkeepscalm.github.io/'
 
 github:
-  username: JeongGil
+  username: jeongkeepscalm
 
 twitter:
-  username: JeongGil            # change to your twitter username
+  username: ""            # change to your twitter username
 
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: Jeong Back-End
-  email: ojg01@naver.com
+  name: Jeong full-stack developer
+  email: jeongkeepscalm@gmail.com
   links:
     # The first element serves as the copyright owner's link
     - https://github.com/jeongkeepscalm      # change to your twitter homepage
