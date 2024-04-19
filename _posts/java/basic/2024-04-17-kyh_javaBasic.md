@@ -135,15 +135,15 @@ speaker.volume = 200;
 
 ## 자바 메모리 구조  
 
-* 메소드 영역 : 클래스 정보를 보관한다. (여러 붕어빵 틀 보관)  
-    클래스 정보 (필드, 메소드, 생성자 코드 등 모든 실행코드 존재)  
-    static 변수들을 보관  
-    런타임 상수 풀(프로그램을 효율적으로 관리하기 위해 상수들을 관리)  
-* 힙 영역 : new 명령어를 사용한 인스턴스가 생성되는 영역이다. 배열도 new 명령어를 사용하므로 힙 영역에 쌓인다. (여러 붕어빵 보관)
-    가비지 컬렉션이 이루어지는 주요영역이다. 더 이상 참조되지 않는 객체는 GC에 의해 제거된다.  
-* 스택 영역 : 메소드를 실행할 때마다 하나씩 쌓인다.   
-    스택 프레임 : 스택 영역에 쌓이는 네모 박스. 메소드를 호출할 때마다 스택 프레임이 쌓이고 종료되면 스택프레임이 제거된다.   
-    * 참고 : 쓰레드 수 만큼 스택 영역이 생성된다.   
+* ```메소드 영역``` : 클래스 정보를 보관한다. (여러 붕어빵 틀 보관)  
+  클래스 정보 (필드, 메소드, 생성자 코드 등 모든 실행코드 존재)  
+  static 변수들을 보관  
+  런타임 상수 풀(프로그램을 효율적으로 관리하기 위해 상수들을 관리)  
+* ```힙 영역``` : new 명령어를 사용한 인스턴스가 생성되는 영역이다. 배열도 new 명령어를 사용하므로 힙 영역에 쌓인다. (여러 붕어빵 보관)
+  가비지 컬렉션이 이루어지는 주요영역이다. 더 이상 참조되지 않는 객체는 GC에 의해 제거된다.  
+* ```스택 영역``` : 메소드를 실행할 때마다 하나씩 쌓인다.   
+  스택 프레임 : 스택 영역에 쌓이는 네모 박스. 메소드를 호출할 때마다 스택 프레임이 쌓이고 종료되면 스택프레임이 제거된다.   
+  * 참고 : 쓰레드 수 만큼 스택 영역이 생성된다.   
 * Stack : Last In First Out  
 * Queue : First In First Out (선착순 이벤트)  
 
@@ -235,7 +235,7 @@ public class MathArrayUtils {
 public class FinalLocalMain {
   public static void main(String[] args) {
 
-      /** 상수의 값 초기화는 한 번만 가능하다. **/
+    /** 상수의 값 초기화는 한 번만 가능하다. **/
 
     final int data1;
     data1 = 10;
@@ -264,6 +264,7 @@ public class ConstructorInit {
   public ConstructorInit(int value) {
     this.value = value;
   }
+
 }
 ```
 > final 을 멤버변수로 설정할 경우 생성자를 통해서 값을 초기화 해야한다.  
@@ -378,12 +379,12 @@ private static void call(Parent parent) {
 //            child.childMethod();
 //        }
 
-    if (parent instanceof Child) {
-        System.out.println("this is child instance");
-        ((Child) parent).childMethod();
-    } else {
-        System.out.println("this is not child instance");
-    }
+  if (parent instanceof Child) {
+      System.out.println("this is child instance");
+      ((Child) parent).childMethod();
+  } else {
+      System.out.println("this is not child instance");
+  }
 }
 
 new Parent() instanceof Parent // true
@@ -397,22 +398,25 @@ new Child() instanceof Child // true
 
 ```java
 public static void main(String[] args) {
-        Animal cat = new Cat();
-        Animal dog = new Dog();
-        Animal caw = new Caw();
-        soundAnimal(cat);
-        soundAnimal(dog);
-        soundAnimal(caw);
 
-        Animal[] animals = {cat, dog, caw};
-        // iter
-        for (Animal animal : animals) {
-            animal.sound();
-        }
-    }
-    public static void soundAnimal(Animal animal) {
-        animal.sound();
-    }
+  Animal cat = new Cat();
+  Animal dog = new Dog();
+  Animal caw = new Caw();
+  soundAnimal(cat);
+  soundAnimal(dog);
+  soundAnimal(caw);
+
+  Animal[] animals = {cat, dog, caw};
+
+  // iter
+  for (Animal animal : animals) {
+      animal.sound();
+  }
+  
+}
+public static void soundAnimal(Animal animal) {
+    animal.sound();
+}
 ```
 > Animal 클래스는 다형성을 위해 만들어진 클래스이므로 Animal 클래스의 메소드를 직접 사용하는 일은 없다. (== 추상 클래스)  
 
