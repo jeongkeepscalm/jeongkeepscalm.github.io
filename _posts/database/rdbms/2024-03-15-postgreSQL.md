@@ -2,8 +2,8 @@
 title: PostgreSQL from Udemy
 description: PostgreSQL
 date: 2024-03-15
-categories: [ Database, PostgreSQL ]
-tags: [  Database, PostgreSQL ]
+categories: [ Database, RDBMS ]
+tags: [  Database, RDBMS, PostgreSQL ]
 ---
 
 ## TIMESTAMP
