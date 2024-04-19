@@ -1,7 +1,7 @@
 ---
 title: Stream API
 description: Stream API
-date: 2024-04-17
+date: 2023-12-19
 categories: [ java, dataProcessing ]
 tags: [ java, dataProcessing, streamAPI ]
 ---
