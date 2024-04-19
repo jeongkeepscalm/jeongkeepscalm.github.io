@@ -1,7 +1,7 @@
 ---
 title: "[KYH] Cookie Session"
 description: Cookie Session
-date: 2024-04-18
+date: 2023-09-18
 categories: [ java, javaBasic ]
 tags: [ http, javaBasic, kyh, cookie, session ]
 ---

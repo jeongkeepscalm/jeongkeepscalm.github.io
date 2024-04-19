@@ -2,6 +2,28 @@
   Style for Homepage
 */
 
+/* css added */
+.point {
+  cursor:pointer;
+}
+
+table tr {
+  background-color: transparent !important;
+}
+
+table tr:nth-child(odd) {
+  background-color: transparent !important;
+}
+
+table tr:nth-child(even) {
+  background-color: transparent !important;
+}
+
+table th,
+table td {
+  background-color: transparent !important;
+}
+
 .pagination {
   color: var(--btn-patinator-text-color);
   font-family: 'Lato', sans-serif;

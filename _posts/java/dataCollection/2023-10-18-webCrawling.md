@@ -1,7 +1,7 @@
 ---
 title: webCrawling
 description: webCrawling
-date: 2024-04-17
+date: 2023-10-18
 categories: [ java, dataCollection ]
 tags: [ java, dataCollection, webCrawling ]
 ---

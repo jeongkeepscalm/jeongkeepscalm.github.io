@@ -1,7 +1,7 @@
 ---
 title: JDBC template
 description: JDBC template
-date: 2024-04-17
+date: 2023-10-17
 categories: [ java, database ]
 tags: [ java, database, jdbc template ]
 ---

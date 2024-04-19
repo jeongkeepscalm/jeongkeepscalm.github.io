@@ -1,7 +1,7 @@
 ---
 title: "[KYH] JAVA Intermediate"
 description: java
-date: 2024-04-19
+date: 2024-04-06
 categories: [ java, javaBasic ]
 tags: [ http, javaBasic, kyh, intermediate ]
 ---
