@@ -1,9 +1,9 @@
 ---
-title: JDBC template
-description: JDBC template
+title: JDBC Template
+description: JDBC Template
 date: 2023-10-17
-categories: [ java, database ]
-tags: [ java, database, jdbc template ]
+categories: [ Java, Database ]
+tags: [ Java, Database, JDBC Template ]
 ---
 
 ## read file and execute query using JDBC template

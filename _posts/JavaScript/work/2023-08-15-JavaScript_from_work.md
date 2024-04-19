@@ -2,8 +2,8 @@
 title: JavaScript from work
 description: JavaScript from work
 date: 2023-08-15
-categories: [ JavaScript, work ]
-tags: [ JavaScript, work ]
+categories: [ JavaScript, Work ]
+tags: [ JavaScript, Work ]
 ---
 
 ## PromiseAll

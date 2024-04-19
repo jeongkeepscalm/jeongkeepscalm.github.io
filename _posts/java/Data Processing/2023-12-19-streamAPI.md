@@ -2,8 +2,8 @@
 title: Stream API
 description: Stream API
 date: 2023-12-19
-categories: [ java, dataProcessing ]
-tags: [ java, dataProcessing, streamAPI ]
+categories: [ Java, Data Processing ]
+tags: [ Java, Data Processing, StreamAPI ]
 ---
 
 ## Stream Pipeline(구조)

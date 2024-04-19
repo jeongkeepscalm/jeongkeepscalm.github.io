@@ -2,8 +2,8 @@
 title: AWS Instance
 description: AWS Instance
 date: 2024-01-16
-categories: [ cloud_computing, aws]
-tags: [ cloud_computing, aws ]
+categories: [ Cloud Computing, AWS]
+tags: [ Cloud Computing, AWS ]
 ---
 
 ## How to create and connect instance 

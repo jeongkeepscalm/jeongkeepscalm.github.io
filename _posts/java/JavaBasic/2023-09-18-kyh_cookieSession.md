@@ -2,8 +2,8 @@
 title: "[KYH] Cookie Session"
 description: Cookie Session
 date: 2023-09-18
-categories: [ java, javaBasic ]
-tags: [ http, javaBasic, kyh, cookie, session ]
+categories: [ Java, JavaBasic ]
+tags: [ Java, JavaBasic, KYH, cookie, session ]
 ---
 
 ## 쿠키 (Cookie)  

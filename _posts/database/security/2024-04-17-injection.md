@@ -2,8 +2,8 @@
 title: SQL Injection Attack
 description: SQL Injection Attack
 date: 2024-04-17
-categories: [ sql, security ]
-tags: [ sql, injection, security ]
+categories: [ SQL, Security ]
+tags: [ SQL, Securit, Injection ]
 ---
 
 <h2>How to do "SQL Injection Attack"?</h2>
