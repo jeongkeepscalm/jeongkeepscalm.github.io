@@ -2,8 +2,8 @@
 title: "[KYH] JAVA Intermediate"
 description: java
 date: 2024-04-06
-categories: [ Java, JavaBasic ]
-tags: [ Java, JavaBasic, kyh, intermediate ]
+categories: [ Java, Java Basic ]
+tags: [ Java, Java Basic, kyh, intermediate ]
 ---
 
 ## java.lang 패키지  

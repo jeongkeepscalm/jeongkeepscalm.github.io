@@ -2,8 +2,8 @@
 title: "[KYH] Filter Interceptor"
 description: Filter Interceptor
 date: 2023-09-10
-categories: [ Java, JavaBasic ]
-tags: [ Java, JavaBasic, KYH, Filter, Interceptor ]
+categories: [ Java, Java Basic ]
+tags: [ Java, Java Basic, KYH, Filter, Interceptor ]
 ---
 
 ## 필터 ( filter )

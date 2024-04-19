@@ -2,8 +2,8 @@
 title: webCrawling
 description: webCrawling
 date: 2023-10-18
-categories: [ Java, DataCollection ]
-tags: [ Java, DataCollection, WebCrawling ]
+categories: [ Java, Data Collection ]
+tags: [ Java, Data Collection, WebCrawling ]
 ---
 
 ## Web Crawling with Jsoap library

@@ -2,8 +2,8 @@
 title: "[KYH] Spring Basic"
 description: Spring Basic
 date: 2024-02-10
-categories: [ Spring, SpringBasic ]
-tags: [ Spring, SpringBasic ]
+categories: [ Spring, Spring Basic ]
+tags: [ Spring, Spring Basic ]
 ---
 
 
