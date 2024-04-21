@@ -1,7 +1,7 @@
 ---
 title: "[KYH] JAVA Intermediate"
 description: java
-date: 2024-04-06
+date: 2024-04-20
 categories: [ Java, Java Basic ]
 tags: [ Java, Java Basic, kyh, intermediate ]
 ---
@@ -1224,3 +1224,78 @@ public class Ex4Main {
 > ```함수형 인터페이스```: 하나의 추상 메소드를 가지는 인터페이스.  
 > 즉, 메소드를 2개 이상 가진 인터페이스는 람다로 표현할 수 없다.  
   
+```내부 클래스 활용```
+```java
+public class LibraryMain {
+
+  public static void main(String[] args) {
+    Library library = new Library(4); // 최대 4권의 도서를 저장할 수 있는 도서관 생성
+    library.addBook("책1", "저자1");
+    library.addBook("책2", "저자2");
+    library.addBook("책3", "저자3");
+    library.addBook("자바 ORM 표준 JPA 프로그래밍", "김영한");
+    library.addBook("OneMoreThing", "잡스");
+    library.showBooks(); // 도서관의 모든 도서 정보 출력
+  }
+
+}
+
+public class Library {
+
+  private Book[] books;
+  private int bookCount;
+  Library(int num) {
+    books =  new Book[num];
+    bookCount = 0;
+  }
+
+  private class Book {
+    private String title;
+    private String author;
+    public Book(String title, String author) {
+      this.title = title;
+      this.author = author;
+    }
+  }
+
+  public void addBook(String title, String author) {
+    if (bookCount < books.length) {
+      books[bookCount++] = new Book(title, author);
+    } else {
+      System.out.println("도서관 저장 공간이 부족합니다.");
+    }
+  }
+
+  public void showBooks() {
+    System.out.println("== 책 목록 출력 ==");
+    Arrays.stream(books).forEach(v -> {
+      if (v != null) {
+        System.out.println("도서 제목: " + v.title + ", 저자: " + v.author);
+      }
+    });
+  }
+
+}
+```
+  
+**중첩클래스 정리**  
+  
+- 정적 중첩 클래스  
+  - 클래스 내부에 static이 붙은 클래스.  
+  - 바깥 클래스오 밀접한 관련이 있지만, 인스턴스 간에 데이터 공유가 필요 없을 때 사용한다.   
+  
+- 내부 클래스  
+  - 클래스 내부에 클래스.  
+  - 바깥 클래스와 인스턴스와 연결되어 있고, 바깥 클래스의 인스턴스 상태에 의존하거나 강하게 연관된 작업을 수행할 때 사용한다.  
+  
+- 지역 클래스  
+  - 클래스 내부 메소드 내 클래스.  
+  - 지역 변수에 접근 가능. 접근하는 지역변수는 final / 사실상 final 이어야 한다.  
+  
+- 익명클래스  
+  - (메인메소드에서) 클래스를 생성과 동시에 선언.  
+  - 상위 타입을 상속 또는 구현하면서 바로 생성한다.   
+  - 주로 특정 상위 타입을 간단히 구현해서 일회성으로 사용할 때 유용하다.  
+
+## 예외처리
+
