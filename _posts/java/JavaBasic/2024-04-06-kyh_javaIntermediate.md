@@ -1057,7 +1057,7 @@ public class AnonymousOuter {
   - 익명 클래스는 AnonymousOuter$1 과 같이 자바 내부에서 바깥 클래스 이름 + $ + 숫자로 정의된다. 익명 클래스가 여러개면 $1 , $2 , $3 으로 숫자가 증가하면서 구분된다.  
   - 지역 클래스가 일회성으로 사용되는 경우나 간단한 구현을 제공할 때 사용한다.    
   
-- 리펙토링 전  
+```리펙토링 전```  
 ```java
 public class Ex1Main {
 
@@ -1084,7 +1084,7 @@ public class Ex1Main {
 }
 ```
   
-- 리팩토링 - 정적 중첩 클래스 사용  
+```리팩토링: 정적 중첩 클래스 사용```  
 ```java
 public interface Process {
   void run();
@@ -1126,7 +1126,7 @@ public class Ex1RefMainV1 {
 ```
 > process.run(): ```다형성을 활용```해서 외부에서 전달되는 인스턴스에 따라 각각 다른 코드 조각이 실행된다.  
   
-- 리팩토링 - 익명 클래스 사용  
+```리팩토링: 익명 클래스 사용```  
 ```java
 public class Ex2Main {
   public static void hello(Process process) {
@@ -1159,7 +1159,7 @@ public class Ex2Main {
 }
 ```
   
-- 리팩토링 - 익명 클래스(참조값 직접 전달)  
+```리팩토링: 익명 클래스(참조값 직접 전달)```  
 ```java 
 public class Ex3Main {
   public static void hello(Process process) {
@@ -1190,7 +1190,7 @@ public class Ex3Main {
 }
 ```
   
-- 람다: 메서드(더 정확히는 함수)를 인수로 전달한다.  
+```람다: 메서드(더 정확히는 함수)를 인수로 전달한다.```  
 ```java
 public interface Process {
   void run();
