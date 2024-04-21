@@ -1,6 +1,6 @@
 ---
-title: Jque
-description: Jquery
+title: Sync & Async
+description: Asynchronous
 date: 2024-01-23
 categories: [ JavaScript, Asynchronous ]
 tags: [ JavaScript, Asynchronous ]
