@@ -844,7 +844,383 @@ public static void main(String[] args) {
   - 캡슐화: 중첩 클래스는 바깥 클래스의 private 멤버에 접근할 수 있다.  
   **=> 특정 클래스에서만 활용이 될 경우에만 중첩클래스로 만들자.**  
   
+```정적 중첩클래스```
+```java
+public class Network {
 
+  public void sendMessage(String text) {
+    NetworkMessage networkMessage = new NetworkMessage(text);
+    networkMessage.print();
+  }
 
+  private static class NetworkMessage {
 
+    private String content;
 
+    public NetworkMessage(String content) {
+      this.content = content;
+    }
+
+    public void print() {
+    System.out.println(content);
+    }
+
+  }
+
+}
+```
+  
+```내부 클래스```
+```java
+public class Car {
+
+  private String model;
+  private int chargeLevel;
+  private Engine engine;
+
+  public Car(String model, int chargeLevel) {
+    this.model = model;
+    this.chargeLevel = chargeLevel;
+    this.engine = new Engine();
+  }
+
+  public void start() {
+    engine.start();
+    System.out.println(model + " 시작 완료");
+  }
+
+  private class Engine {
+    public void start() {
+      System.out.println("충전 레벨 확인: " + chargeLevel);
+      System.out.println(model + "의 엔진을 구동합니다.");
+    }
+  }
+
+}
+```
+  
+```지역 클래스```
+```java
+public class LocalOuterV1 {
+
+  private int a = 3;
+
+  public void process(int param) {
+
+    int b = 2;
+
+    class LocalPrinter {
+
+      int c = 1;
+
+      public void localPrint() {
+        System.out.println("a = " + a); // 3
+        System.out.println("b = " + b); // 2
+        System.out.println("c = " + c); // 1
+        System.out.println("param = " + param); // 100
+      }
+
+    }
+
+    LocalPrinter localPrinter = new LocalPrinter();
+    localPrinter.localPrint();
+
+  }
+
+  public static void main(String[] args) {
+    LocalOuterV1 localOuterV1 = new LocalOuterV1();
+    localOuterV1.process(100);
+  }
+
+}
+```
+  
+#### 지역 클래스 - 지역 변수 캡처  
+
+<img src="/assets/img/variableLifeCycle.jpg" width="600px" />  
+
+> **변수의 생명주기**  
+> ```클래스 변수(static)```: ```메서드 영역```에 존재하고, 자바가 클래스 정보를 읽어 들이는 순간부터 프로그램 종료까지 존재한다.  
+> ```인스턴스 변수```: ```힙 영역```에 존재하고, 본인이 소속된 인스턴스가 GC 되기 전까지 존재한다. 생존 주기가 긴 편이다.  
+> ```지역 변수```: ```스택 영역의 스택 프레임``` 안에 존재한다. 따라서 메서드가 호출 되면 생성되고, 메서드 호출이 종료되면 스택 프레임이 제거되면서 그 안에 있는 지역 변수도 모두 제거된다. 생존 주기가 아주 짧다. 참고로 매개변수도 지역 변수의 한 종류이다.  
+  
+```java
+public class LocalOuterV3 {
+
+  private int a = 3;
+
+  public Printer process(int param) {
+
+    int b = 2; // 지역 변수는 스택 프레임이 종료되는 순간 함께 제거된다.
+
+    // 인터페이스 구현해서 사용 가능하다.
+    class LocalPrinter implements Printer {
+
+      int c = 1;
+
+      @Override
+      public void print() {
+        System.out.println("a = " + a); // 3
+        System.out.println("b = " + b); // 2
+        System.out.println("c = " + c); // 1
+        System.out.println("param = " + param); // 100
+      }
+
+    }
+
+    LocalPrinter localPrinter = new LocalPrinter();
+//    localPrinter.print(); V3에서는 LocalPrinter 를 반환한다.
+    return localPrinter;
+
+  }
+
+  public static void main(String[] args) {
+
+    LocalOuterV3 localOuter = new LocalOuterV3();
+    Printer printer = localOuter.process(2);
+    //printer.print()를 나중에 실행한다. process()의 스택 프레임이 사라진 이후에 실행
+    printer.print();
+
+    //추가
+    System.out.println("필드 확인");
+    Field[] fields = printer.getClass().getDeclaredFields();
+    for (Field field : fields) {
+      System.out.println("field = " + field);
+    }
+    /*
+      field = int nested.nested.local.LocalOuterV3$1LocalPrinter.c
+      field = final int nested.nested.local.LocalOuterV3$1LocalPrinter.val$b
+      field = final int nested.nested.local.LocalOuterV3$1LocalPrinter.val$param
+      field = final nested.nested.local.LocalOuterV3 nested.nested.local.LocalOuterV3$1LocalPrinter.this$0
+    */
+  }
+
+}
+```
+> 지역 클래스로 만든 객체도 인스턴스이기 때문에 힙 영역에 존재한다. 따라서 GC 전까지 생존한다.  
+> LocalPrinter 인스턴스는 process() 메서드 안에서 생성된다. 그리고 process() 에서 main()으로 생성한 LocalPrinter 인스턴스를 반환하고 printer 변수에 참조를 보관한다. 따라서 LocalPrinter 인스턴스는 main() 이 종료될 때 까지 생존한다.  
+> param, b 와 같은 지역 변수는 process() 메서드를 실행하는 동안에만 스택 영역에서 생존한다. process() 메서드가 종료되면 process() 스택 프레임이 스택 영역에서 제거 되면서 함께 제거된다.  
+> param, b 는 변경이 불가능한 ```사실상 final```이다.  
+  
+- 캡쳐변수의 값을 변경하지 못하는 이유는?  
+  1. 지역 변수의 값을 변경하면 인스턴스에 캡처한 변수의 값도 변경해야 한다.  
+  2. 반대로 인스턴스에 있는 캡처 변수의 값을 변경하면 해당 지역 변수의 값도 다시 변경해야 한다.  
+  3. 지역 변수의 값과 인스턴스에 있는 캡처 변수의 값을 서로 동기화 해야 하는데, 멀티쓰레드 상황에서 이런 동기화는 매우 어렵고, 성능에 나쁜 영향을 줄 수 있다.  
+  
+자바는 캡처한 지역 변수의 값을 변하지 못하게 막아서 이런 복잡한 문제들을 근본적으로 차단한다.  
+=> **지역 클래스가 접근하는 지역 변수의 값은 변경하면 안된다.**  
+  
+#### 익명 클래스 
+
+익명 클래스: 익명 클래스를 사용하면 클래스의 이름을 생략하고, ```클래스의 선언과 생성을 한번에 처리```할 수 있다.  
+  
+```java
+public class AnonymousOuter {
+
+  private int a = 3;
+
+  public void process(int param) {
+
+    int b = 2;
+
+    /** 익명클래스: 클래스의 선언과 생성을 한번에 처리한다. **/
+    Printer printer = new Printer() {
+
+      int c = 1;
+
+      @Override
+      public void print() {
+        System.out.println("a = " + a);
+        System.out.println("b = " + b);
+        System.out.println("c = " + c);
+        System.out.println("param = " + param);
+      }
+
+    };
+
+    printer.print();
+
+  }
+
+  public static void main(String[] args) {
+    AnonymousOuter anonymousOuter = new AnonymousOuter();
+    anonymousOuter.process(100);
+  }
+  
+}
+```
+  
+- 익명클래스 특징  
+  - 익명 클래스는 이름 없는 지역 클래스를 선언하면서 동시에 생성한다.  
+  - 익명 클래스는 부모 클래스를 상속 받거나, 또는 인터페이스를 구현해야 한다. 익명 클래스를 사용할 때는 상위 클래스나 인터페이스가 필요하다.  
+  - 이름을 가지지 않으므로, 생성자를 가질 수 없다. (기본 생성자만 사용됨)  
+  - 익명 클래스는 AnonymousOuter$1 과 같이 자바 내부에서 바깥 클래스 이름 + $ + 숫자로 정의된다. 익명 클래스가 여러개면 $1 , $2 , $3 으로 숫자가 증가하면서 구분된다.  
+  - 지역 클래스가 일회성으로 사용되는 경우나 간단한 구현을 제공할 때 사용한다.    
+  
+- 리펙토링 전  
+```java
+public class Ex1Main {
+
+  public static void helloDice() {
+    System.out.println("프로그램 시작");
+    int randomValue = new Random().nextInt(6) + 1;
+    System.out.println("주사위 = " + randomValue);
+    System.out.println("프로그램 종료");
+  }
+
+  public static void helloSum() {
+    System.out.println("프로그램 시작");
+    for (int i = 1; i <= 3; i++) {
+    System.out.println("i = " + i);
+    }
+    System.out.println("프로그램 종료");
+  }
+
+  public static void main(String[] args) {
+    helloDice();
+    helloSum();
+  }
+
+}
+```
+  
+- 리팩토링 - 정적 중첩 클래스 사용  
+```java
+public interface Process {
+  void run();
+}
+
+public class Ex1RefMainV1 {
+
+  public static void hello(Process process) {
+    System.out.println("프로그램 시작");
+    process.run();
+    System.out.println("프로그램 종료");
+  }
+
+  static class Dice implements Process {
+    @Override
+    public void run() {
+      int randomValue = new Random().nextInt(6) + 1;
+      System.out.println("주사위 = " + randomValue);
+    }
+  }
+
+  static class Sum implements Process {
+    @Override
+    public void run() {
+      for (int i = 1; i <= 3; i++) {
+        System.out.println("i = " + i);
+      }
+    } 
+  }
+
+  public static void main(String[] args) {
+    Process dice = new Dice();
+    Process sum = new Sum();
+    System.out.println("Hello 실행");
+    hello(dice);
+    hello(sum);
+  }
+}
+```
+> process.run(): ```다형성을 활용```해서 외부에서 전달되는 인스턴스에 따라 각각 다른 코드 조각이 실행된다.  
+  
+- 리팩토링 - 익명 클래스 사용  
+```java
+public class Ex2Main {
+  public static void hello(Process process) {
+    System.out.println("프로그램 시작");
+    process.run();
+    System.out.println("프로그램 종료");
+  }
+
+  public static void main(String[] args) {
+    Process dice = new Process() {
+      @Override
+      public void run() {
+        int randomValue = new Random().nextInt(6) + 1;
+        System.out.println("주사위 = " + randomValue);
+      }
+    };
+
+    Process sum = new Process() {
+      @Override
+      public void run() {
+        for (int i = 1; i <= 3; i++) {
+          System.out.println("i = " + i);
+        }
+      }
+    };
+
+    hello(dice);
+    hello(sum);
+  }
+}
+```
+  
+- 리팩토링 - 익명 클래스(참조값 직접 전달)  
+```java 
+public class Ex3Main {
+  public static void hello(Process process) {
+    System.out.println("프로그램 시작");
+    process.run();
+    System.out.println("프로그램 종료");
+  }
+
+  public static void main(String[] args) {
+    hello(new Process() {
+      @Override
+      public void run() {
+        int randomValue = new Random().nextInt(6) + 1;
+        System.out.println("주사위 = " + randomValue);
+      }
+    });
+
+    hello(new Process() {
+      @Override
+      public void run() {
+        for (int i = 1; i <= 3; i++) {
+          System.out.println("i = " + i);
+        }
+      }
+    });
+
+  }
+}
+```
+  
+- 람다: 메서드(더 정확히는 함수)를 인수로 전달한다.  
+```java
+public interface Process {
+  void run();
+}
+
+public class Ex4Main {
+
+  public static void hello(Process process) {
+    System.out.println("프로그램 시작");
+    process.run();
+    System.out.println("프로그램 종료");
+  }
+
+  public static void main(String[] args) {
+
+    hello(() -> {
+      int randomValue = new Random().nextInt(6) + 1;
+      System.out.println("주사위 = " + randomValue);
+    });
+
+    hello(() -> {
+      for (int i = 1; i <= 3; i++) {
+        System.out.println("i = " + i);
+      }
+    });
+
+  }
+}
+```
+> ```람다 표현식```은 함수형 인터페이스에만 사용된다.  
+> ```함수형 인터페이스```: 하나의 추상 메소드를 가지는 인터페이스.  
+> 즉, 메소드를 2개 이상 가진 인터페이스는 람다로 표현할 수 없다.  
+  
