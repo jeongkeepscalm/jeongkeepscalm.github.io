@@ -110,7 +110,7 @@ function updateTitle(type, pk, buttonId) {
   }
 }
 ```
-> updateTitle() 함수 매개변수를 활용해서 다른 서비스를 호출하고 싶을 경우, return { 함수명 : () => {} } 을 줘서  updateTitle.callInnerFunction() 처럼 활용할 수 있다.  
+> updateTitle() 함수 매개변수를 활용해서 다른 서비스를 호출하고 싶을 경우, return { 함수명 : () => {} } 을 줘서 updateTitle.callInnerFunction() 처럼 활용할 수 있다.  
 
 <br/>
 
@@ -252,8 +252,6 @@ if (scriptElement.length > 0) {
 ```
 > What the problem was : api로 불러온 html 안 스크립트 태그가 실행되지 않아 eval 로 실행했었음.  
 
-<br/>
-<hr>
 <br/>
 
 ```javascript
