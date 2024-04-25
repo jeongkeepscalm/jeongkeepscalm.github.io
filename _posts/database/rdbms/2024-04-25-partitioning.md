@@ -28,7 +28,7 @@ tags: [ Database, RDBMS, Partitioning ]
 
 ## 파티셔닝 타입
 
-1. 범위 파티셔닝  
+1. 범위 파티셔닝(range partitioning)  
   - 연속적인 숫자나 날짜를 기준으로 파티셔닝 한다.
 2. 목록 파티셔닝(List Partitioning)  
   - 특정 컬럼을 지정하여 컬럼별로 파티셔닝 한다. 
