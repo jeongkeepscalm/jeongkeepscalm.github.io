@@ -1,6 +1,6 @@
 ---
-title: 파티셔닝(PostgreSQL)
-description: 파티셔닝(PostgreSQL)
+title: Table Partioning(PostgreSQL)
+description: Table Partioning(PostgreSQL)
 date: 2024-04-25
 categories: [ Database, RDBMS ]
 tags: [ Database, RDBMS, Partitioning ]
