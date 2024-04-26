@@ -1299,3 +1299,35 @@ public class Library {
 
 ## 예외처리
 
+자바는 GC가 있기에 JVM 메모리에 있는 인스턴스는 자동으로 해제된다.  
+하지만 외부 연결과 같은 자바 외부의 자원은 자동으로 해제가 되지 않는다.  
+따라서 외부 자원을 사용한 후에는 연결을 해제해서 ```외부 자원을 반드시 반납```해야 한다.  
+  
+```예외처리하는 이유```: 프로그램의 안정성과 신뢰성을 높여주는 중요한 역할을 한다.  
+  
+- 예외 계층 도식화  
+<img src="/assets/img/exception.jpg" width="600px" />
+
+Object
+  - Throwable
+    - Exception
+      - SQL Exception
+      - IO Exception
+      - Runtime Exception
+        - NullPointoer Exception
+        - IllegalArgument Exception
+    - Error
+      OutOfMemoryError
+  
+Object: 자바에서 기본형을 제외한 모든 것은 객체다. ```예외도 객체```이다.   
+```Throwable```: 최상위 예외이다.  
+Error: 메모리 부족이나 심각한 시스템 오류와 같이 애플리케이션에서 복구가 불가능한 시스템 예외이다.  
+  
+- 체크 예외 vs 언체크 예외(런타임 예외)  
+  체크 예외: 발생한 예외를 개발자가 명시적으로 처리해야 한다. 그렇지 않으면 컴파일 오류가 발생한다.  
+  언체크 예외: 개발자가 발생한 예외를 명시적으로 처리하지 않아도 된다.  
+  
+
+
+
+
