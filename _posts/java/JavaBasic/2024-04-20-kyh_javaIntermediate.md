@@ -1317,7 +1317,7 @@ Object
         - NullPointoer Exception
         - IllegalArgument Exception
     - Error
-      OutOfMemoryError
+      - OutOfMemoryError
   
 > Object: 자바에서 기본형을 제외한 모든 것은 객체다. ```예외도 객체```이다.   
 > ```Throwable```: 최상위 예외이다.  
