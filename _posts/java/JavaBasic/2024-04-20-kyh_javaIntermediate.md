@@ -844,7 +844,7 @@ public static void main(String[] args) {
   - 캡슐화: 중첩 클래스는 바깥 클래스의 private 멤버에 접근할 수 있다.  
   **=> 특정 클래스에서만 활용이 될 경우에만 중첩클래스로 만들자.**  
   
-```정적 중첩클래스```
+- 정적 중첩클래스
 ```java
 public class Network {
 
@@ -870,7 +870,7 @@ public class Network {
 }
 ```
   
-```내부 클래스```
+- 내부 클래스
 ```java
 public class Car {
 
@@ -899,7 +899,7 @@ public class Car {
 }
 ```
   
-```지역 클래스```
+- 지역 클래스
 ```java
 public class LocalOuterV1 {
 
@@ -1361,7 +1361,7 @@ Object
 > Error: 메모리 부족이나 심각한 시스템 오류와 같이 애플리케이션에서 복구가 불가능한 시스템 예외이다. 애플리케이션 개발자는 이 예외를 잡으려고 하면 안된다.   
 > Exception과 그 하위 예외(RuntimeException)는 모두 컴파일러가 체크하는 예외이다.  
   
-- 체크 예외 vs 언체크 예외(런타임 예외)  
+- ```체크 예외``` vs ```언체크 예외```(런타임 예외)  
   체크 예외: 발생한 예외를 개발자가 명시적으로 처리해야 한다. 그렇지 않으면 컴파일 오류가 발생한다.  
   언체크 예외: 개발자가 발생한 예외를 명시적으로 처리하지 않아도 된다.  
   
@@ -1576,6 +1576,4 @@ public class MainV2 {
 }
 ```
 > finally 없이 client.disconnect(); 호출 시, 정상흐름이든 예외처리 후 흐름이든 항상 disconnect()이 호출된다. 하지만 catch 에서 놓치는 오류( RuntimeException 등.. ) 발생 시, 하위 client.disconnect() 는 호출되지 못한다.  
-
-
 
