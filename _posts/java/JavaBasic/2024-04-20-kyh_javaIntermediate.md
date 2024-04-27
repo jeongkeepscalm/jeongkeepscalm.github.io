@@ -827,7 +827,7 @@ public static void main(String[] args) {
 
 <br/>
 
-## 중첩 클래스, 내부클래스 1  
+## 중첩 클래스, 내부클래스
 
 - 중첩클래스(Nested Class)  
   1. 정적 중첩클래스(static)  
@@ -1057,7 +1057,11 @@ public class AnonymousOuter {
   - 익명 클래스는 AnonymousOuter$1 과 같이 자바 내부에서 바깥 클래스 이름 + $ + 숫자로 정의된다. 익명 클래스가 여러개면 $1 , $2 , $3 으로 숫자가 증가하면서 구분된다.  
   - 지역 클래스가 일회성으로 사용되는 경우나 간단한 구현을 제공할 때 사용한다.    
   
-```리펙토링 전```  
+
+<details>
+<summary><span style="color:yellow" class="point"><b>리펙토링 전</b></span></summary>
+<div markdown="1">       
+
 ```java
 public class Ex1Main {
 
@@ -1083,8 +1087,14 @@ public class Ex1Main {
 
 }
 ```
+
+</div>
+</details>
   
-```리팩토링: 정적 중첩 클래스 사용```  
+<details>
+<summary><span style="color:yellow" class="point"><b>리팩토링: 정적 중첩 클래스 사용</b></span></summary>
+<div markdown="1">       
+
 ```java
 public interface Process {
   void run();
@@ -1125,8 +1135,14 @@ public class Ex1RefMainV1 {
 }
 ```
 > process.run(): ```다형성을 활용```해서 외부에서 전달되는 인스턴스에 따라 각각 다른 코드 조각이 실행된다.  
+
+</div>
+</details>
   
-```리팩토링: 익명 클래스 사용```  
+<details>
+<summary><span style="color:yellow" class="point"><b>리팩토링: 익명 클래스 사용</b></span></summary>
+<div markdown="1">       
+
 ```java
 public class Ex2Main {
   public static void hello(Process process) {
@@ -1158,8 +1174,14 @@ public class Ex2Main {
   }
 }
 ```
+
+</div>
+</details>
   
-```리팩토링: 익명 클래스(참조값 직접 전달)```  
+<details>
+<summary><span style="color:yellow" class="point"><b>리팩토링: 익명 클래스(참조값 직접 전달)</b></span></summary>
+<div markdown="1">       
+
 ```java 
 public class Ex3Main {
   public static void hello(Process process) {
@@ -1189,8 +1211,14 @@ public class Ex3Main {
   }
 }
 ```
+
+</div>
+</details>
   
-```람다: 메서드(더 정확히는 함수)를 인수로 전달한다.```  
+<details>
+<summary><span style="color:yellow" class="point"><b>람다: 메서드(더 정확히는 함수)를 인수로 전달한다.</b></span></summary>
+<div markdown="1">       
+
 ```java
 public interface Process {
   void run();
@@ -1223,8 +1251,14 @@ public class Ex4Main {
 > ```람다 표현식```은 함수형 인터페이스에만 사용된다.  
 > ```함수형 인터페이스```: 하나의 추상 메소드를 가지는 인터페이스.  
 > 즉, 메소드를 2개 이상 가진 인터페이스는 람다로 표현할 수 없다.  
+
+</div>
+</details>
   
-```내부 클래스 활용```
+<details>
+<summary><span style="color:yellow" class="point"><b>내부 클래스 활용</b></span></summary>
+<div markdown="1">       
+
 ```java
 public class LibraryMain {
 
@@ -1277,6 +1311,11 @@ public class Library {
 
 }
 ```
+
+</div>
+</details>
+
+
   
 **중첩클래스 정리**  
   
@@ -1322,6 +1361,7 @@ Object
 > Object: 자바에서 기본형을 제외한 모든 것은 객체다. ```예외도 객체```이다.   
 > ```Throwable```: 최상위 예외이다.  
 > Error: 메모리 부족이나 심각한 시스템 오류와 같이 애플리케이션에서 복구가 불가능한 시스템 예외이다. 애플리케이션 개발자는 이 예외를 잡으려고 하면 안된다.   
+> Exception과 그 하위 예외(RuntimeException)는 모두 컴파일러가 체크하는 예외이다.  
   
 - 체크 예외 vs 언체크 예외(런타임 예외)  
   체크 예외: 발생한 예외를 개발자가 명시적으로 처리해야 한다. 그렇지 않으면 컴파일 오류가 발생한다.  
@@ -1337,4 +1377,76 @@ Object
 - 예외 처리를 하지 못하고 계속 던지면 어떻게 될까?  
   자바 main() 밖으로 예외를 던지면 예외 로그를 출력하면서 시스템이 종료된다.  
   
+## 체크 예외
+
+체크 예외는 잡아서 처리하거나 밖으로 던지도록 개발자가 직접 명시적으로 처리해야한다. 그렇지 않을 경우 컴파일 오류가 발생한다.  
+  
+```java
+/**
+   MyCheckedException 클래스의 생성자는 Exception 클래스의 생성자를 오버로딩한다.
+   자식 클래스에서 부모 클래스의 생성자를 호출하여 부모 클래스의 필드나 메소드를 초기화한다.
+
+   부모 Exception 클래스에 메세지를 보관
+    -> Throwable Class 내 String detailMessage 필드에 메시지 저장.
+    -> getMessage()를 통해 조회 가능.
+**/
+public class MyCheckedException extends Exception {
+  public MyCheckedException(String message) {
+    super(message);
+  }
+}
+
+public void call() throws MyCheckedException {
+  throw new MyCheckedException("exception message");
+}
+
+public class Service {
+
+  Client client = new Client();
+  
+  // 체크 예외를 잡아서 처리하는 코드
+  public void callCatch() {
+
+    try {
+      client.call();
+    } catch (MyCheckedException ex) {
+      // 예외 처리 로직
+      System.out.println("예외 처리, message= " + ex.getMessage());
+    }
+    System.out.println("catch 문에서 예외 처리 후 정상흐름으로 돌아온다.");
+
+  }
+
+  // 체크 예외를 밖으로 던지는 코드
+  public void callThrow() throws MyCheckedException {
+    client.call();
+  }
+
+}
+
+public class CheckedExceptionCatchMain {
+  public static void main(String[] args) {
+    Service service = new Service();
+    service.callCatch();
+    System.out.println("정상 종료");
+  }
+}
+
+public class CheckedExceptionThrowMain {
+  public static void main(String[] args) throws MyCheckedException {
+    Service service = new Service();
+    service.callThrow(); // 컴파일 오류.
+    System.out.println("정상 종료"); // 출력 x
+  }
+}
+```
+> 예외 클래스를 만들려면 예외 클래스를 상속 받으면 된다. Exception 을 상속받은 예외는 체크 예외가 된다.  
+> 예외가 밖으로 던져지면 예외 정보와 Stack Trace 를 출력하고 프로그램이 종료된다.  
+> StackTrace: 예외가 어디서 발생했는지, 어떤 경로를 거쳐서 넘어왔는지 확인할 수 있다.  
+
+## 언체크 예외
+
+
+
+
 
