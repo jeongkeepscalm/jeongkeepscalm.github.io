@@ -1314,8 +1314,6 @@ public class Library {
 
 </div>
 </details>
-
-
   
 **중첩클래스 정리**  
   
@@ -1338,9 +1336,9 @@ public class Library {
 
 ## 예외처리
 
-자바는 GC가 있기에 JVM 메모리에 있는 인스턴스는 자동으로 해제된다.  
-하지만 외부 연결과 같은 자바 외부의 자원은 자동으로 해제가 되지 않는다.  
-따라서 외부 자원을 사용한 후에는 연결을 해제해서 ```외부 자원을 반드시 반납```해야 한다.  
+- 자바는 GC가 있기에 JVM 메모리에 있는 인스턴스는 자동으로 해제된다.  
+- 하지만 외부 연결과 같은 자바 외부의 자원은 자동으로 해제가 되지 않는다.  
+- 따라서 외부 자원을 사용한 후에는 연결을 해제해서 ```외부 자원을 반드시 반납```해야 한다.  
   
 ```예외처리하는 이유```: 프로그램의 안정성과 신뢰성을 높여주는 중요한 역할을 한다.  
   
@@ -1377,9 +1375,9 @@ Object
 - 예외 처리를 하지 못하고 계속 던지면 어떻게 될까?  
   자바 main() 밖으로 예외를 던지면 예외 로그를 출력하면서 시스템이 종료된다.  
   
-## 체크 예외
+### 체크 예외
 
-체크 예외는 잡아서 처리하거나 밖으로 던지도록 개발자가 직접 명시적으로 처리해야한다. 그렇지 않을 경우 컴파일 오류가 발생한다.  
+- 체크 예외는 잡아서 처리하거나 밖으로 던지도록 개발자가 직접 명시적으로 처리해야한다. 그렇지 않을 경우 컴파일 오류가 발생한다.  
   
 ```java
 /**
@@ -1396,9 +1394,13 @@ public class MyCheckedException extends Exception {
   }
 }
 
+// ---------------------------------------
+
 public void call() throws MyCheckedException {
   throw new MyCheckedException("exception message");
 }
+
+// ---------------------------------------
 
 public class Service {
 
@@ -1424,6 +1426,8 @@ public class Service {
 
 }
 
+// ---------------------------------------
+
 public class CheckedExceptionCatchMain {
   public static void main(String[] args) {
     Service service = new Service();
@@ -1431,6 +1435,8 @@ public class CheckedExceptionCatchMain {
     System.out.println("정상 종료");
   }
 }
+
+// ---------------------------------------
 
 public class CheckedExceptionThrowMain {
   public static void main(String[] args) throws MyCheckedException {
@@ -1444,9 +1450,132 @@ public class CheckedExceptionThrowMain {
 > 예외가 밖으로 던져지면 예외 정보와 Stack Trace 를 출력하고 프로그램이 종료된다.  
 > StackTrace: 예외가 어디서 발생했는지, 어떤 경로를 거쳐서 넘어왔는지 확인할 수 있다.  
 
-## 언체크 예외
+### 언체크 예외
 
+- ```RuntimeException```과 그 하위 예외는 언체크 예외로 분류된다.  
+- ```컴파일러가 예외를 체크하지 않는다.``` 
+  
+- 체크 예외 vs 언체크 예외
+  - 체크 예외: 예외를 던질 시 항상 throws 키워드를 사용해서 던지는 예외를 선언해야 한다. 
+  - 언체크 예외: 예외를 던질 시 throws 키워드 생략이 가능하다. 생략할 경우, 자동으로 예외를 던진다.  
 
+### 예외 처리 도입
+
+```java
+// CheckedException
+public class NetworkClientExceptionV2 extends Exception {
+
+  private String errorCode;
+
+  public NetworkClientExceptionV2(String errorCode, String message) {
+    super(message);
+    this.errorCode = errorCode;
+  }
+
+  public String getErrorCode() {
+    return errorCode;
+  }
+
+}
+
+// ---------------------------------------
+
+public class NetworkClientV2 {
+
+  private String address;
+
+  public boolean connectError;
+  public boolean sendError;
+
+  public NetworkClientV2(String address) {
+    this.address = address;
+  }
+
+  public void connect() throws NetworkClientExceptionV2{
+    if (connectError) {
+      throw new NetworkClientExceptionV2("connectError", address+ " 서버 연결 실패");
+    }
+    System.out.println(address + " 서버 연결 성공");
+  }
+
+  public void send(String data) throws NetworkClientExceptionV2{
+    if (sendError) {
+      throw new NetworkClientExceptionV2("sendError", address + " 서버에 데이터 전송 실패: " + data);
+
+      // 중간에 NetworkClientExceptionV2 예외가 아닌 다른 예외가 발생했다 가정할 때,
+      // throw new RuntimeException("RuntimeException Message");
+    }
+    System.out.println(address + " 서버에 데이터 전송: " + data);
+  }
+
+  public void disconnect() {
+    System.out.println(address + " 서버 연결 해제");
+  }
+
+  public void initError(String data) {
+    if (data.contains("error1")) {
+      connectError = true;
+    }
+    if (data.contains("error2")) {
+      sendError = true;
+    }
+  }
+  
+}
+
+// ---------------------------------------
+
+public class NetworkServiceV2_5 {
+
+  public void sendMessage(String data) {
+
+    String address = "https://example.com";
+    NetworkClientV2 client = new NetworkClientV2(address);
+
+    client.initError(data);
+
+    try {
+      client.connect();
+      client.send(data);
+    } catch (NetworkClientExceptionV2 e) {
+      System.out.println("[오류] 코드: + " + e.getErrorCode() + ", 메시지 : " + e.getMessage());
+    } finally {
+      client.disconnect();
+    }
+
+    // client.disconnect();
+
+  }
+
+}
+
+// ---------------------------------------
+
+public class MainV2 {
+
+  public static void main(String[] args) throws NetworkClientExceptionV2 {
+
+    NetworkServiceV2_5 service = new NetworkServiceV2_5();
+
+    Scanner scanner = new Scanner(System.in);
+
+    while (true) {
+      System.out.println("전송할 문자: ");
+      String input = scanner.nextLine();
+      if (input.equals("exit")) {
+        break;
+      }
+      service.sendMessage(input);
+      System.out.println();
+    }
+
+    System.out.println("프로그램을 종료합니다.");
+
+  }
+
+}
+```
+> finally 없이 client.disconnect(); 호출 시, 정상흐름이든 예외처리 후 흐름이든 항상 disconnect()이 호출된다. 하지만 catch 에서 놓치는 오류( RuntimeException 등.. ) 발생 시, 하위 client.disconnect() 는 호출되지 못한다.  
 
 
 
