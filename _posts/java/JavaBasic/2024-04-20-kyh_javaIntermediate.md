@@ -1577,3 +1577,7 @@ public class MainV2 {
 ```
 > finally 없이 client.disconnect(); 호출 시, 정상흐름이든 예외처리 후 흐름이든 항상 disconnect()이 호출된다. 하지만 catch 에서 놓치는 오류( RuntimeException 등.. ) 발생 시, 하위 client.disconnect() 는 호출되지 못한다.  
 
+## 예외 계층
+
+예외를 단순히 오류 코드로 분류하는 것이 아니라 ```예외를 계층화```해서 다양하게 만들면 더 세밀하게 예외를 처리할 수 있다.  
+  
