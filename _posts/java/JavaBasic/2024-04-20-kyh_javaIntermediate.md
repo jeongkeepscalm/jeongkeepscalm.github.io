@@ -1600,6 +1600,313 @@ public class MainV2 {
 
 Service 에서도 예외를 던져고 메인에서 ```공통 예외 처리```를 한다.  
   
+```java 
 
+// ================== Exception ==================
 
+public class NetworkClientExceptionV4 extends RuntimeException {
+  public NetworkClientExceptionV4(String message) {
+    super(message);
+  }
+}
 
+public class ConnectExceptionV4 extends NetworkClientExceptionV4 {
+
+  // 서버의 주소를 넣어둔다.
+  private final String address;
+
+  public ConnectExceptionV4(String address, String message) {
+    super(message);
+    this.address = address;
+  }
+
+  public String getAddress() {
+    return address;
+  }
+
+}
+
+public class SendExceptionV4 extends NetworkClientExceptionV4 {
+
+  private final String sendData;
+
+  public SendExceptionV4(String sendData, String message) {
+    super(message);
+    this.sendData = sendData;
+  }
+
+  public String getSendData() {
+    return sendData;
+  }
+
+}
+
+// ================== object ==================
+
+public class NetworkClientV4 {
+
+  private String address;
+
+  public boolean connectError;
+  public boolean sendError;
+
+  public NetworkClientV4(String address) {
+    this.address = address;
+  }
+
+  public void connect(){
+    if (connectError) {
+      // UnChecked(RuntimeException) 이므로 throws 할 필요없다.
+      throw new ConnectExceptionV4(address, " 서버 연결 실패");
+    }
+    System.out.println(address + " 서버 연결 성공");
+  }
+
+  public void send(String data) {
+    if (sendError) {
+      // UnChecked(RuntimeException) 이므로 throws 할 필요없다.
+      throw new SendExceptionV4(data, address+ " 서버에 데이터 전송 실패: "+ data);
+    }
+    System.out.println(address + " 서버에 데이터 전송: " + data);
+  }
+
+  public void disconnect() {
+    System.out.println(address + " 서버 연결 해제");
+  }
+
+  public void initError(String data) {
+    if (data.contains("error1")) {
+      connectError = true;
+    }
+    if (data.contains("error2")) {
+      sendError = true;
+    }
+  }
+
+}
+
+// ================== service ==================
+
+public class NetworkServiceV4 {
+
+  public void sendMessage(String data) {
+
+    String address = "https://example.com";
+    NetworkClientV4 client = new NetworkClientV4(address);
+
+    client.initError(data);
+
+    try {
+      client.connect();
+      client.send(data);
+    } finally {
+      client.disconnect();
+    }
+
+    /**
+     * 언체크 예외이므로 throws 를 사용하지 않는다.
+     * NetworkClientV4 예외들은 복구할 수 없으며 해당 예외들을 생각하지 않는 것이 더 나은 선택일 수 있다.
+     *
+     * => 해결할 수 없는 예외들은 다른 곳에서 공통으로 처리된다.
+     * 이런 방식 덕 분에 NetworkServiceV4 는 해결할 수 없는 예외보다는 본인 스스로의 코드에 더 집중할 수 있으며, 코드가 깔끔해진다.
+     */
+
+  }
+
+}
+
+// ================== main ==================
+
+public class MainV4 {
+
+  public static void main(String[] args) {
+
+    NetworkServiceV4 service = new NetworkServiceV4();
+
+    Scanner scanner = new Scanner(System.in);
+
+    while (true) {
+      System.out.println("전송할 문자: ");
+      String input = scanner.nextLine();
+      if (input.equals("exit")) {
+        break;
+      }
+
+      try {
+        service.sendMessage(input);
+      } catch (Exception e) {
+        exceptionHandler(e);
+      }
+
+      System.out.println();
+    }
+
+    System.out.println("프로그램을 종료합니다.");
+
+  }
+
+  // 공통 예외 처리
+  private static void exceptionHandler(Exception e) {
+
+    // 공통 처리
+    System.out.println("사용자 메시지: 죄송합니다. 알 수 없는 문제가 발생했습니다."); // 사용자용: html 에 출력된다 가정
+    System.out.println("==개발자용 디버깅 메시지=="); // 개발자용: 파일로 남겨지는 내용으로 가정
+
+    e.printStackTrace(System.out); // 스택 트레이스 출력
+    // e.printStackTrace(System.err);
+
+    // 필요하면 예외 별로 별도의 추가 처리 가능
+    if (e instanceof SendExceptionV4 sendEx) {
+      System.out.println("[전송 오류] 전송 데이터: "+ sendEx.getSendData());
+    }
+
+  }
+
+  /**
+   * e.printStackTrace(System.out); vs e.printStackTrace(System.err); || e.printStackTrace();
+   * out 과 err 의 흐름이 달라서 출력 순서가 달라질 수 있음. (코드 실행 시 의도된 순서대로 콘솔에 찍히게 하기 위해 System.out 사용)
+   * 일반적으로 e.printStackTrace() 쓰면 됨.
+   *
+   * 실무에서는 Slf4J, logback 같은 별도의 로그 라이브러리를 사용해서 콘솔과 특정 파일에 함께 결과를 출력한다.
+   * 그런데, e.printStackTrace() 를 직접 호출하면 결과가 콘솔에만 출력되어 서버에서 로그를 확인하기 어렵다.
+   */
+
+}
+```
+
+### try with resources 
+
+- try with resources
+  1. AutoClosable 인터페이스를 구현한 객체
+  2. close() 메소드 오버라이딩. try문 종료 시 호출할 메소드를 추가한다.
+  3. try 문 안 괄호 내 서비스에서 해당 객체 인스턴스 생성  
+  
+- try with resources 장점
+  1. 리소스 누수 방지: 모든 리소스가 제대로 닫히도록 보장한다. 
+  2. 코드 간결성 및 가독성 향상: 명시적인 close() 호출이 필요없어 코드가 더 간결하다.
+  3. 조금 더 빠른 자원 해제: try -> catch -> finally 로 catch 이후에 자원을 반납하는 대신, try with resources 구문은 try 블럭이 끝나는 즉시 close() 메소드를 호출한다. 
+  
+```java
+
+// =================== object ===================
+
+public class NetworkClientV5 implements AutoCloseable {
+
+  private String address;
+
+  public boolean connectError;
+  public boolean sendError;
+
+  public NetworkClientV5(String address) {
+    this.address = address;
+  }
+
+  public void connect(){
+    if (connectError) {
+      // UnChecked(RuntimeException) 이므로 throws 할 필요없다.
+      throw new ConnectExceptionV4(address, " 서버 연결 실패");
+    }
+    System.out.println(address + " 서버 연결 성공");
+  }
+
+  public void send(String data) {
+    if (sendError) {
+      // UnChecked(RuntimeException) 이므로 throws 할 필요없다.
+      throw new SendExceptionV4(data, address+ " 서버에 데이터 전송 실패: "+ data);
+    }
+    System.out.println(address + " 서버에 데이터 전송: " + data);
+  }
+
+  public void disconnect() {
+    System.out.println(address + " 서버 연결 해제");
+  }
+
+  public void initError(String data) {
+    if (data.contains("error1")) {
+      connectError = true;
+    }
+    if (data.contains("error2")) {
+      sendError = true;
+    }
+  }
+
+  /**
+   * AutoCloseable 인터페이스를 구현하여 메소드 오버라이딩.
+   * try 문에서 벗어날 시 바로 close() 메소드가 호출된다.
+   */
+  @Override
+  public void close() {
+    this.disconnect();
+  }
+
+}
+
+// =================== serevice ===================
+
+public class NetworkServiceV5 {
+
+  public void sendMessage(String data) {
+
+    String address = "https://example.com";
+
+    try (NetworkClientV5 client = new NetworkClientV5(address)) {
+
+      client.initError(data);
+      client.connect();
+      client.send(data);
+
+    }
+
+  }
+
+}
+
+// =================== main ===================
+
+public class MainV5 {
+
+  public static void main(String[] args) {
+
+    NetworkServiceV5 service = new NetworkServiceV5();
+
+    Scanner scanner = new Scanner(System.in);
+
+    while (true) {
+      System.out.println("전송할 문자: ");
+      String input = scanner.nextLine();
+      if (input.equals("exit")) {
+        break;
+      }
+
+      try {
+        service.sendMessage(input);
+      } catch (Exception e) {
+        exceptionHandler(e);
+      }
+
+      System.out.println();
+    }
+
+    System.out.println("프로그램을 종료합니다.");
+
+  }
+
+  // 공통 예외 처리
+  private static void exceptionHandler(Exception e) {
+
+    // 공통 처리
+    System.out.println("사용자 메시지: 죄송합니다. 알 수 없는 문제가 발생했습니다."); // 사용자용: html 에 출력된다 가정
+    System.out.println("==개발자용 디버깅 메시지=="); // 개발자용: 파일로 남겨지는 내용으로 가정
+
+    e.printStackTrace(System.out); // 스택 트레이스 출력
+    // e.printStackTrace(System.err);
+
+    // 필요하면 예외 별로 별도의 추가 처리 가능
+    if (e instanceof SendExceptionV4 sendEx) {
+      System.out.println("[전송 오류] 전송 데이터: "+ sendEx.getSendData());
+    }
+
+  }
+
+}
+```
