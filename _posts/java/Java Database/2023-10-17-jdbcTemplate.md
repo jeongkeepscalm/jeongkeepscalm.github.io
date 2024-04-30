@@ -2,8 +2,8 @@
 title: JDBC Template
 description: JDBC Template
 date: 2023-10-17
-categories: [ Java, Database ]
-tags: [ Java, Database, JDBC Template ]
+categories: [ Java, Java Database ]
+tags: [ Java, Java Database, JDBC Template ]
 ---
 
 ## read file and execute query using JDBC template
