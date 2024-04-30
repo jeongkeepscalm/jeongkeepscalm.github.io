@@ -1,9 +1,9 @@
 ---
-title: JavaScript from work
-description: JavaScript from work
+title: JS Utility & Methods
+description: JS Utility & Methods
 date: 2023-08-15
-categories: [ JavaScript, Work ]
-tags: [ JavaScript, Work ]
+categories: [ JavaScript, Utility JS Functions ]
+tags: [ JavaScript, Utility JS Functions ]
 ---
 
 ## PromiseAll
