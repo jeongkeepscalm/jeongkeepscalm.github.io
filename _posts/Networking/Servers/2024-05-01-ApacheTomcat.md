@@ -52,5 +52,5 @@ tags: [ Networking, Servers ]
 
 ## 정리
 
-- 아파치: Apache Web Server로 HTTP 요청에 대한 처리를 하며 정적 타입의 데이터만 처리한다.  
-- 톰캣 WAS: 동적인 타입의 데이터를 처리한다.  
+- 아파치: Apache ```Web Server```로 HTTP 요청에 대한 처리를 하며 정적 타입의 데이터만 처리한다.  
+- 톰캣 WAS: ```Web Application Server```로 동적인 타입의 데이터를 처리한다.  
