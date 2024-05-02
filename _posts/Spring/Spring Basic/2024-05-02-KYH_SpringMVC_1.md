@@ -321,3 +321,15 @@ public class ResponseJsonServlet extends HttpServlet {
 > HTTP 응답으로 JSON을 반환할 때는 content-type을 application/json 로 지정해야 한다.  
 > objectMapper.writeValueAsString(): 객체를 JSON 문자로 변환  
 
+## 서블릿으로 웹 애플리케이션 만들기
+
+참고링크: 
+
+- 템플릿 엔진이란?
+  HTML 문서에서 필요한 곳만 코드를 적용해서 동적으로 변경할 수 있는 기능을 제공한다. 
+  
+- 템플릿 엔진이 나온 이유
+  서블릿과 자바 코드만으로 HTML을 만들 수 있지만, 동적 HTML 문서를 만들 수는 없다. 
+  
+
+
