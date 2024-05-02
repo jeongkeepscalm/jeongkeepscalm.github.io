@@ -14,6 +14,8 @@ tags: [ Git, CLI, CommandLine ]
 4. 
   git remote -v : 레퍼리토리 주소 확인   
   git remote remove origin : 원격저장소 연결 해제  
+5. git fetch
+6. git pull origin master
 5. git add .
 6. git commit -m "message" 
 7. git push origin (+)master
