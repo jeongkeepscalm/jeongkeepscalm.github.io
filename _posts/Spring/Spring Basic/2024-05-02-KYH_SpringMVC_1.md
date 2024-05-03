@@ -323,13 +323,155 @@ public class ResponseJsonServlet extends HttpServlet {
 
 ## 서블릿으로 웹 애플리케이션 만들기
 
-참고링크: 
-
+참고링크: <https://github.com/jeongkeepscalm/KYH_SpringMVC_1/tree/master/src/main/java/hello/servlet/web/servlet>  
+  
 - 템플릿 엔진이란?
-  HTML 문서에서 필요한 곳만 코드를 적용해서 동적으로 변경할 수 있는 기능을 제공한다. 
+  HTML과 데이터를 결합하여 최종적으로 사용자에게 보여질 뷰를 생성(VIEW 렌더링 최적화)  
+  HTML 문서에서 필요한 곳만 코드를 적용해서 동적으로 변경할 수 있는 기능을 제공한다.  
+  (JSP, Thymleaf, Freemarker, Velocity 등..)  
   
-- 템플릿 엔진이 나온 이유
-  서블릿과 자바 코드만으로 HTML을 만들 수 있지만, 동적 HTML 문서를 만들 수는 없다. 
+- 템플릿 엔진이 나온 이유 (서블릿의 단점)
+  서블릿과 자바 코드만으로 HTML을 만들 수 있지만 매우 복잡하고 비효율적일 뿐더러, 동적 HTML 문서를 만들 수는 없다. 
   
 
+## JSP
 
+```jsp
+
+<!-- save.jsp -->
+<%@ page import="hello.servlet.domain.member.MemberRepository" %>
+<%@ page import="hello.servlet.domain.member.Member" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+  // request, response 사용 가능
+  MemberRepository memberRepository = MemberRepository.getInstance();
+  System.out.println("save.jsp");
+  String username = request.getParameter("username");
+  int age = Integer.parseInt(request.getParameter("age"));
+  Member member = new Member(username, age);
+  System.out.println("member = " + member);
+  memberRepository.save(member);
+%>
+<html>
+<head>
+  <meta charset="UTF-8">
+  </head>
+<body>
+  성공
+  <ul>
+  <li>id=<%=member.getId()%></li>
+  <li>username=<%=member.getUsername()%></li>
+  <li>age=<%=member.getAge()%></li>
+  </ul>
+  <a href="/index.html">메인</a>
+</body>
+</html>
+
+<!-- members.jsp -->
+<%@ page import="java.util.List" %>
+<%@ page import="hello.servlet.domain.member.MemberRepository" %>
+<%@ page import="hello.servlet.domain.member.Member" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+  MemberRepository memberRepository = MemberRepository.getInstance();
+  List<Member> members = memberRepository.findAll();
+%>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <a href="/index.html">메인</a>
+  <table>
+    <thead>
+      <th>id</th>
+      <th>username</th>
+      <th>age</th>
+    </thead>
+    <tbody>
+      <%
+        for (Member member : members) {
+        out.write(" <tr>");
+        out.write(" <td>" + member.getId() + "</td>");
+        out.write(" <td>" + member.getUsername() + "</td>");
+        out.write(" <td>" + member.getAge() + "</td>");
+        out.write(" </tr>");
+        }
+      %>
+    </tbody>
+  </table>
+</body>
+</html>
+```
+> <%@ page contentType="text/html;charset=UTF-8" language="java" %>: 첫 줄은 ```JSP문서```라는 뜻이다. JSP 문서는 이렇게 시작해야 한다.  
+> ```JSP는 서버 내부에서 서블릿으로 변환된다.```  
+> <% ~~ %>: 자바 코드 입력 가능  
+> <%= ~~ %>: 자바 코드 출력 가능  
+  
+### 서블릿과 JSP의 한계
+
+- ```서블릿의 한계```  
+  - 뷰(View)화면을 위한 HTML을 만드는 작업이 자바 코드에 섞여서 지저분하고 복잡하다.  
+
+- ```JSP의 한계```
+  - 비지니스 로직과 뷰 영역이 한 화면에 공존하여 복잡하며 유지보수하기가 어렵다.  
+  
+## MVC 패턴  
+
+- 비즈니스 로직 처리와 뷰 렌더링의 역할을 Controller 와 View 영역으로 나눈다.  
+  (JSP 같은 뷰 템플릿은 화면을 렌더링하는데 최적화 되어 있어 해당 업무만 담당하는 것이 효과적이다.)  
+- ```컨트롤러```: HTTP 요청을 받아서 파라미터를 검증하고, 비즈니스 로직을 실행한다. 그리고 뷰에 전달할 결과 데이터를
+조회해서 모델에 담는다.  
+- ```모델```: 뷰에 출력할 데이터를 담아둔다. 뷰가 필요한 데이터를 모두 모델에 담아서 전달해주는 덕분에 뷰는 비즈니스 로
+직이나 데이터 접근을 몰라도 되고, 화면을 렌더링 하는 일에 집중할 수 있다.  
+- ```뷰```: 모델에 담겨있는 데이터를 사용해서 화면을 그리는 일에 집중한다. 여기서는 HTML을 생성하는 부분을 말한다.  
+  
+<img src="/assets/img/mvcPattern.png" width="600px">  
+  
+## MVC Pattern 적용
+
+- Model은 HttpServletRequest 객체를 사용한다.  
+
+```java
+@WebServlet(name = "mvcMemberFormServlet", urlPatterns = "/servlet-mvc/members/ new-form")
+public class MvcMemberFormServlet extends HttpServlet {
+  @Override
+  protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String viewPath = "/WEB-INF/views/new-form.jsp";
+    RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
+    dispatcher.forward(request, response);
+  }
+}
+```
+> dispatcher.forward(): 다른 서블릿이나 JSP로 이동할 수 있는 기능이다. 서버 내부에서 다시 호출이 발생한다.  
+> /WEB-INF: 이 경로안에 JSP가 있으면 외부에서 직접 JSP를 호출할 수 없다. 우리가 기대하는 것은 항상 컨트롤러를 통해서 JSP를 호출하는 것이다.  
+  
+### redirect vs forward
+
+- 리다이렉트는 실제 클라이언트(웹 브라우저)에 응답이 나갔다가, 클라이언트가 redirect 경로로 다시 요청한다. 따라서 클라이언트가 인지할 수 있고, URL 경로도 실제로 변경된다.  
+- 반면에 포워드는 서버 내부에서 일어나는 호출이기 때문에 클라이언트가 전혀 인지하지 못한다.  
+  
+```jsp
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<c:forEach var="item" items="${members}">
+  <tr>
+    <td>${item.id}</td>
+    <td>${item.username}</td>
+    <td>${item.age}</td>
+  </tr>
+</c:forEach>
+
+<ul>
+  <li>id=${member.id}</li>
+  <li>username=${member.username}</li>
+  <li>age=${member.age}</li>
+</ul>
+```
+> taglib 사용 (<c:forEach>)  
+> ${}: JSP는 해당 문법을 제공하는데, 이 문법을 사용하면 request의 attribute에 담긴 데이터를 편리하게 조회 가능하다.  
+  
+## Front Controller
+
+- 컨트롤러 호출 전에 먼저 공통 기능을 처리한다.  
