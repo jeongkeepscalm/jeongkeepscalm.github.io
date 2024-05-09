@@ -1830,7 +1830,7 @@ public class MainV4 {
   3. 조금 더 빠른 자원 해제: try -> catch -> finally 로 catch 이후에 자원을 반납하는 대신, try with resources 구문은 try 블럭이 끝나는 즉시 close() 메소드를 호출한다. 
   
 <details>
-<summary><span style="color:yellow" class="point"><b>리펙토링 전</b></span></summary>
+<summary><span style="color:yellow" class="point"><b>try with resources 코드</b></span></summary>
 <div markdown="1">      
 
 ```java
