@@ -31,8 +31,10 @@ tags: [ Spring, Spring Basic ]
   
 ```HttpServletRequest, HttpServletResponse```: **HTTP 요청/응답 메시지를 편리하게 사용하도록 도와주는 객체이다.**  
   
+<details>
+<summary><span style="color:yellow" class="point"><b>HttpServletRequest 내 HTTP 메시지의 start_line, header 정보 출력</b></span></summary>
+<div markdown="1"> 
 
-- HttpServletRequest 내 HTTP 메시지의 start_line, header 정보 출력
 ```java
 @WebServlet(name = "requestHeaderServlet", urlPatterns = "/request-header")
 public class RequestHeaderServlet extends HttpServlet {
@@ -135,6 +137,9 @@ public class RequestHeaderServlet extends HttpServlet {
     }
 }
 ```
+
+</div>
+</details>
 
 ## HTTP 요청 데이터
 
@@ -335,81 +340,6 @@ HTML 문서에서 필요한 곳만 코드를 적용해서 동적으로 변경할
 
 서블릿과 자바 코드만으로 HTML을 만들 수 있지만 매우 복잡하고 비효율적일 뿐더러, 동적 HTML 문서를 만들 수는 없다.  
 
-## JSP
-
-```jsp
-
-<!-- save.jsp -->
-<%@ page import="hello.servlet.domain.member.MemberRepository" %>
-<%@ page import="hello.servlet.domain.member.Member" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-  // request, response 사용 가능
-  MemberRepository memberRepository = MemberRepository.getInstance();
-  System.out.println("save.jsp");
-  String username = request.getParameter("username");
-  int age = Integer.parseInt(request.getParameter("age"));
-  Member member = new Member(username, age);
-  System.out.println("member = " + member);
-  memberRepository.save(member);
-%>
-<html>
-<head>
-  <meta charset="UTF-8">
-  </head>
-<body>
-  성공
-  <ul>
-  <li>id=<%=member.getId()%></li>
-  <li>username=<%=member.getUsername()%></li>
-  <li>age=<%=member.getAge()%></li>
-  </ul>
-  <a href="/index.html">메인</a>
-</body>
-</html>
-
-<!-- members.jsp -->
-<%@ page import="java.util.List" %>
-<%@ page import="hello.servlet.domain.member.MemberRepository" %>
-<%@ page import="hello.servlet.domain.member.Member" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-  MemberRepository memberRepository = MemberRepository.getInstance();
-  List<Member> members = memberRepository.findAll();
-%>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
-  <a href="/index.html">메인</a>
-  <table>
-    <thead>
-      <th>id</th>
-      <th>username</th>
-      <th>age</th>
-    </thead>
-    <tbody>
-      <%
-        for (Member member : members) {
-        out.write(" <tr>");
-        out.write(" <td>" + member.getId() + "</td>");
-        out.write(" <td>" + member.getUsername() + "</td>");
-        out.write(" <td>" + member.getAge() + "</td>");
-        out.write(" </tr>");
-        }
-      %>
-    </tbody>
-  </table>
-</body>
-</html>
-```
-> <%@ page contentType="text/html;charset=UTF-8" language="java" %>: 첫 줄은 ```JSP문서```라는 뜻이다. JSP 문서는 이렇게 시작해야 한다.  
-> ```JSP는 서버 내부에서 서블릿으로 변환된다.```  
-> <% ~~ %>: 자바 코드 입력 가능  
-> <%= ~~ %>: 자바 코드 출력 가능  
-  
 ### 서블릿과 JSP의 한계
 
 - ```서블릿의 한계```  
@@ -452,28 +382,7 @@ public class MvcMemberFormServlet extends HttpServlet {
 
 > 리다이렉트는 실제 클라이언트(웹 브라우저)에 응답이 나갔다가, 클라이언트가 redirect 경로로 다시 요청한다. 따라서 클라이언트가 인지할 수 있고, URL 경로도 실제로 변경된다.  
 > 반면에 포워드는 서버 내부에서 일어나는 호출이기 때문에 클라이언트가 전혀 인지하지 못한다.  
-  
-  
-```jsp
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<c:forEach var="item" items="${members}">
-  <tr>
-    <td>${item.id}</td>
-    <td>${item.username}</td>
-    <td>${item.age}</td>
-  </tr>
-</c:forEach>
-
-<ul>
-  <li>id=${member.id}</li>
-  <li>username=${member.username}</li>
-  <li>age=${member.age}</li>
-</ul>
-```
-> taglib 사용 (<c:forEach>)  
-> ${}: JSP는 해당 문법을 제공하는데, 이 문법을 사용하면 request의 attribute에 담긴 데이터를 편리하게 조회 가능하다.  
-  
 ## MVC 프레임워크 만들기  
 
 #### FrontController
@@ -496,7 +405,6 @@ public class MvcMemberFormServlet extends HttpServlet {
 > 어댑터 패턴을 사용해서 프론트 컨트롤러가 다양한 방식의 컨트롤러를 처리할 수 있도록 한다.  
 > 어댑터 패턴을 사용하여 V3방식 / V4방식을 선택하여 사용할 수 있게 한다.   
   
-
 <details>
 <summary><span style="color:yellow" class="point"><b>MVC Pattern V5</b></span></summary>
 <div markdown="1">  
@@ -720,3 +628,20 @@ public class FrontControllerServletV5 extends HttpServlet {
 
 </div>
 </details>
+  
+정리  
+- v1: 프론트 컨트롤러를 도입  
+  기존 구조를 최대한 유지하면서 프론트 컨트롤러를 도입  
+- v2: View 분류  
+  단순 반복 되는 뷰 로직 분리  
+- v3: Model 추가  
+  서블릿 종속성 제거  
+  뷰 이름 중복 제거  
+- v4: 단순하고 실용적인 컨트롤러  
+  v3와 거의 비슷  
+  구현 입장에서 ModelView를 직접 생성해서 반환하지 않도록 편리한 인터페이스 제공  
+- v5: 유연한 컨트롤러  
+  어댑터 도입  
+  어댑터를 추가해서 프레임워크를 유연하고 확장성 있게 설계  
+  
+참고 링크 : <https://github.com/jeongkeepscalm/KYH_SpringMVC_1/tree/master/src/main/java/hello/servlet/web/frontController>  

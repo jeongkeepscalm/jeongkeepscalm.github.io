@@ -844,7 +844,8 @@ public static void main(String[] args) {
   - 캡슐화: 중첩 클래스는 바깥 클래스의 private 멤버에 접근할 수 있다.  
   **=> 특정 클래스에서만 활용이 될 경우에만 중첩클래스로 만들자.**  
   
-- 정적 중첩클래스
+- 정적 중첩클래스  
+
 ```java
 public class Network {
 
@@ -870,7 +871,8 @@ public class Network {
 }
 ```
   
-- 내부 클래스
+- 내부 클래스  
+
 ```java
 public class Car {
 
@@ -900,6 +902,7 @@ public class Car {
 ```
   
 - 지역 클래스
+  
 ```java
 public class LocalOuterV1 {
 
