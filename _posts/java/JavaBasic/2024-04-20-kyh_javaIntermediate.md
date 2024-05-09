@@ -844,7 +844,9 @@ public static void main(String[] args) {
   - 캡슐화: 중첩 클래스는 바깥 클래스의 private 멤버에 접근할 수 있다.  
   **=> 특정 클래스에서만 활용이 될 경우에만 중첩클래스로 만들자.**  
   
-- 정적 중첩클래스  
+<details>
+<summary><span style="color:yellow" class="point"><b>정적 중첩클래스</b></span></summary>
+<div markdown="1">      
 
 ```java
 public class Network {
@@ -870,8 +872,15 @@ public class Network {
 
 }
 ```
-  
-- 내부 클래스  
+
+</div>
+</details>
+
+<br/>
+
+<details>
+<summary><span style="color:yellow" class="point"><b>내부 클래스</b></span></summary>
+<div markdown="1">      
 
 ```java
 public class Car {
@@ -900,9 +909,16 @@ public class Car {
 
 }
 ```
-  
-- 지역 클래스
-  
+
+</div>
+</details>
+
+<br/>
+
+<details>
+<summary><span style="color:yellow" class="point"><b>지역 클래스</b></span></summary>
+<div markdown="1">      
+
 ```java
 public class LocalOuterV1 {
 
@@ -937,7 +953,10 @@ public class LocalOuterV1 {
 
 }
 ```
-  
+
+</div>
+</details>
+
 #### 지역 클래스 - 지역 변수 캡처  
 
 <img src="/assets/img/variableLifeCycle.jpg" width="600px" />  
@@ -1382,6 +1401,10 @@ Object
 
 - 체크 예외는 잡아서 처리하거나 밖으로 던지도록 개발자가 직접 명시적으로 처리해야한다. 그렇지 않을 경우 컴파일 오류가 발생한다.  
   
+<details>
+<summary><span style="color:yellow" class="point"><b>체크 예외</b></span></summary>
+<div markdown="1">      
+
 ```java
 /**
    MyCheckedException 클래스의 생성자는 Exception 클래스의 생성자를 오버로딩한다.
@@ -1453,6 +1476,9 @@ public class CheckedExceptionThrowMain {
 > 예외가 밖으로 던져지면 예외 정보와 Stack Trace 를 출력하고 프로그램이 종료된다.  
 > StackTrace: 예외가 어디서 발생했는지, 어떤 경로를 거쳐서 넘어왔는지 확인할 수 있다.  
 
+</div>
+</details>
+
 ### 언체크 예외
 
 - ```RuntimeException```과 그 하위 예외는 언체크 예외로 분류된다.  
@@ -1463,6 +1489,10 @@ public class CheckedExceptionThrowMain {
   - 언체크 예외: 예외를 던질 시 throws 키워드 생략이 가능하다. 생략할 경우, 자동으로 예외를 던진다.  
 
 ### 예외 처리 도입
+
+<details>
+<summary><span style="color:yellow" class="point"><b>예외처리 도입 코드</b></span></summary>
+<div markdown="1">      
 
 ```java
 // CheckedException
@@ -1580,6 +1610,9 @@ public class MainV2 {
 ```
 > finally 없이 client.disconnect(); 호출 시, 정상흐름이든 예외처리 후 흐름이든 항상 disconnect()이 호출된다. 하지만 catch 에서 놓치는 오류( RuntimeException 등.. ) 발생 시, 하위 client.disconnect() 는 호출되지 못한다.  
 
+</div>
+</details>
+
 ## 예외 계층
 
 예외를 단순히 오류 코드로 분류하는 것이 아니라 ```예외를 계층화```해서 다양하게 만들면 더 세밀하게 예외를 처리할 수 있다.  
@@ -1603,6 +1636,10 @@ public class MainV2 {
 
 Service 에서도 예외를 던져고 메인에서 ```공통 예외 처리```를 한다.  
   
+<details>
+<summary><span style="color:yellow" class="point"><b>공통 예외 처리</b></span></summary>
+<div markdown="1">      
+
 ```java 
 
 // ================== Exception ==================
@@ -1777,7 +1814,10 @@ public class MainV4 {
 }
 ```
 
-### try with resources 
+</div>
+</details>
+
+## try with resources 
 
 - try with resources
   1. AutoClosable 인터페이스를 구현한 객체
@@ -1789,6 +1829,10 @@ public class MainV4 {
   2. 코드 간결성 및 가독성 향상: 명시적인 close() 호출이 필요없어 코드가 더 간결하다.
   3. 조금 더 빠른 자원 해제: try -> catch -> finally 로 catch 이후에 자원을 반납하는 대신, try with resources 구문은 try 블럭이 끝나는 즉시 close() 메소드를 호출한다. 
   
+<details>
+<summary><span style="color:yellow" class="point"><b>리펙토링 전</b></span></summary>
+<div markdown="1">      
+
 ```java
 
 // =================== object ===================
@@ -1913,3 +1957,7 @@ public class MainV5 {
 
 }
 ```
+
+</div>
+</details>
+
