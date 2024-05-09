@@ -218,9 +218,12 @@ public class RequestBodyJsonServlet extends HttpServlet {
   - HTTP 응답코드 지정
   - 헤더 생성
   - 바디 생성
-2. 편의 기능 제공
-  - Content-Type, 쿠키, Redirect  
-  
+2. 편의 기능 제공  
+
+<details>
+<summary><span style="color:yellow" class="point"><b>Content-Type, 쿠키, Redirect</b></span></summary>
+<div markdown="1">      
+
 ```java
 @WebServlet(name = "responseHeaderServlet", urlPatterns = "/response-header")
 public class ResponseHeaderServlet extends HttpServlet {
@@ -276,7 +279,14 @@ public class ResponseHeaderServlet extends HttpServlet {
 }
 ```
 
-### HttpServletResponse - HTML 응답
+</div>
+</details>
+
+### HttpServletResponse
+
+<details>
+<summary><span style="color:yellow" class="point"><b>HTML 응답</b></span></summary>
+<div markdown="1">      
 
 ```java
 @WebServlet(name = "responseHtmlServlet", urlPatterns = "/response-html")
@@ -299,7 +309,16 @@ public class ResponseHtmlServlet extends HttpServlet {
 }
 ```
 
-### HttpServletResponse - JSON 응답
+</div>
+</details>
+
+
+
+### HttpServletResponse
+
+<details>
+<summary><span style="color:yellow" class="point"><b>JSON 응답</b></span></summary>
+<div markdown="1">      
 
 ```java
 @WebServlet(name = "responseJsonServlet", urlPatterns = "/response-json")
@@ -325,6 +344,9 @@ public class ResponseJsonServlet extends HttpServlet {
 ```
 > HTTP 응답으로 JSON을 반환할 때는 content-type을 application/json 로 지정해야 한다.  
 > objectMapper.writeValueAsString(): 객체를 JSON 문자로 변환  
+
+</div>
+</details>
 
 ## 서블릿으로 웹 애플리케이션 만들기
 
