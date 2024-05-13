@@ -80,7 +80,6 @@ class Tic_Tac_Toe:
         if win == True:
             return win
         
-
         return False
         
     # 잔여 빈칸 여부 확인
