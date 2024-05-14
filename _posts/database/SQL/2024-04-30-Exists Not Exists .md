@@ -1,6 +1,6 @@
 ---
-title: Exists / Not Exists 
-description: Exists / Not Exists
+title: "[SQL]" xists / Not Exists 
+description: "[SQL]" Exists / Not Exists
 date: 2024-04-30
 categories: [ Database, SQL ]
 tags: [ Database, SQL ]
