@@ -63,6 +63,7 @@ and f1.length = f2.length;
 <img src="/assets/img/pgsqlScreenShot1.jpg" width="600px" />  
   
 ### ILIKE
+
 ```SQL
 -- like 대소문자구분 o, ilike 대소문자구분 x
 select * from cd.facilities f
