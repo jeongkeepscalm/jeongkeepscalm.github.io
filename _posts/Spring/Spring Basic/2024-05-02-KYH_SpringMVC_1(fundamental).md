@@ -1,6 +1,6 @@
 ---
-title: "[KYH] Spring MVC 1"
-description: "[KYH] Spring MVC 1"
+title: "[KYH] Spring MVC 1 (fundamental)"
+description: "[KYH] Spring MVC 1 (fundamental)"
 date: 2024-05-02
 categories: [ Spring, Spring Basic ]
 tags: [ Spring, Spring Basic ]
@@ -311,8 +311,6 @@ public class ResponseHtmlServlet extends HttpServlet {
 
 </div>
 </details>
-
-
 
 ### HttpServletResponse
 
@@ -667,3 +665,182 @@ public class FrontControllerServletV5 extends HttpServlet {
   어댑터를 추가해서 프레임워크를 유연하고 확장성 있게 설계  
   
 참고 링크 : <https://github.com/jeongkeepscalm/KYH_SpringMVC_1/tree/master/src/main/java/hello/servlet/web/frontController>  
+
+## Spring MVC
+
+<img src="/assets/img/springMVC1.png" width="600px">  
+
+<br/>
+
+<img src="/assets/img/springMVC2.png" width="600px">  
+
+<br/>
+
+> 직접 만든 프레임워크 ->   스프링 MVC 비교  
+> FrontController ->      DispatcherServlet  
+> handlerMappingMap ->    HandlerMapping  
+> MyHandlerAdapter ->     HandlerAdapter  
+> ModelView ->            ModelAndView  
+> viewResolver ->         ViewResolver  
+> MyView ->               View  
+  
+**- 스프링 MVC의 핵심: 디스패쳐 서블릿(Front Controller)**  
+  DispatcherServlet 도 부모 클래스에서 HttpServlet 을 상속 받아서 사용하고, 서블릿으로 동작한다.  
+  ( DispatcherServlet > FrameworkServlet > HttpServletBean > HttpServlet )  
+  스프링 부트는 DispatcherServlet을 서블릿으로 자동으로 등록하면서 모든 경로(urlPatterns="/")에 대하여 매핑힌다.  
+  모든 클라이언트의 요청을 받아 요청에 맞은 컨트롤러를 찾아 호출한다.  
+  
+- 요청 흐름  
+  1. 서블릿이 호출되면 HttpServlet 이 제공하는 service() 가 호출된다. 
+  2. 스프링 MVC는 DispatcherServlet 의 부모인 FrameworkServlet 에서 service()를 오버라이드 해뒀다. 
+  3. FrameworkServlet.service() 를 시작으로 여러 메소드가 호출되면서 DispatcherServlet.doDispatch()가 호출된다.  
+  
+<details>
+<summary><span style="color:yellow" class="point"><b>DispatcherServlet.doDispatch()</b></span></summary>
+<div markdown="1">      
+
+```java
+protected void doDispatch(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+  HttpServletRequest processedRequest = request;
+  HandlerExecutionChain mappedHandler = null;
+  ModelAndView mv = null;
+
+  // 1. 핸들러 조회
+  mappedHandler = getHandler(processedRequest);
+  if (mappedHandler == null) {
+    noHandlerFound(processedRequest, response);
+    return;
+  }
+
+  // 2. 핸들러 어댑터 조회 - 핸들러를 처리할 수 있는 어댑터
+  HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());
+
+  // 3. 핸들러 어댑터 실행 -> 4. 핸들러 어댑터를 통해 핸들러 실행 -> 5. ModelAndView 반환
+  mv = ha.handle(processedRequest, response, mappedHandler.getHandler());
+  processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException);
+
+}
+
+private void processDispatchResult(HttpServletRequest request, HttpServletResponse response, HandlerExecutionChain mappedHandler, ModelAndView mv, Exception exception) throws Exception {
+  // 뷰 렌더링 호출
+  render(mv, request, response);
+}
+
+protected void render(ModelAndView mv, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+  View view;
+
+  String viewName = mv.getViewName();
+
+  // 6. 뷰 리졸버를 통해서 뷰 찾기, 7. View 반환
+  view = resolveViewName(viewName, mv.getModelInternal(), locale, request);
+
+  // 8. 뷰 렌더링
+  view.render(mv.getModelInternal(), request, response);
+
+}
+```
+
+</div>
+</details>
+  
+- 동작 순서  
+  1. ```핸들러 조회```: ```HandlerAdapter```를 통해 URL에 매핑된 핸들러(컨트롤러)를 조회
+  2. ```HandlerAdapter 조회```: 핸들러를 실행할 수 있는 핸들러 어댑터를 조회
+  3. ```HandlerAdapter 실행```
+  4. ```핸들러 실행```: 핸들러 어댑터가 실제 핸들러를 실행
+  5. ```ModelAndView 반환```: 핸들러 어댑터는 핸들러가 반환하는 정보를 ModelAndView로 변환해서 반환
+  6. ```viewResolver 호출```: 뷰 리졸버를 찾고 실행
+  7. ```View 반환```: 뷰 리졸버는 뷰의 논리 이름을 물리 이름으로 바꾸고, 렌더링 역할을 담당하는 뷰 객체를 반환
+  8. ```뷰 렌더링```: 뷰를 통해서 뷰를 렌더링한다.  
+
+- 요청 흐름정리  
+요청  
+-> FrameworkServlet.service() 호출( HttpServlet.service() )  
+-> DispatcherServlet.doDispatch()이 호출됨  
+-> 핸들러 조회 -> 핸들러 어댑터 조회 -> 핸들러 어댑터 실행 -> 핸들러 실행 -> ModelAndView 반환 -> viewResolver 호출 -> View 반환 -> 뷰 렌더링  
+  
+### HttpRequestHandler
+  
+HttpRequestHandler: 서블릿과 가장 유사한 형태의 핸들러  
+
+```java
+public interface HttpRequestHandler {
+  void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+}
+
+@Component("/springmvc/request-handler")
+public class MyHttpRequestHandler implements HttpRequestHandler {
+  @Override
+  public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    System.out.println("MyHttpRequestHandler.handleRequest");
+  }
+}
+```
+> ```핸들러 매핑으로 핸들러 조회```  
+> 1. HandlerMapping 으로 핸들러(컨트롤러) 조회  
+> 2. BeanNameUrlHandlerMapping 이 실행되어 핸들러인 MyHttpRequestHandler 를 반환  
+> ```핸들러 어댑터 조회```  
+> 1. HandlerAdapter 의 supports()를 순서대로 호출  
+> 2. HttpRequestHandlerAdapter 가 HttpRequestHandler 인터페이스를 지원하므로 대상이 된다.  
+> ```핸들러 어댑터 실행```  
+> 1. 디스패처 서블릿이 조회한 HttpRequestHandlerAdapter 를 실행하면서 핸들러 정보도 함께 넘겨준다.  
+> 2. HttpRequestHandlerAdapter 는 핸들러인 MyHttpRequestHandler 를 내부에서 실행하고, 그 결과를
+반환한다.  
+  
+**정리 - MyHttpRequestHandler 핸들러매핑, 어댑터**  
+MyHttpRequestHandler 를 실행하면서 사용된 객체는 다음과 같다.  
+- HandlerMapping = BeanNameUrlHandlerMapping  
+- HandlerAdapter = HttpRequestHandlerAdapter  
+
+### ViewResolver
+
+```java
+@Component(value = "/springmvc/old-controller")
+public class OldController implements Controller {
+  @Override
+  public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    System.out.println("OldController.handleRequest");
+    return new ModelAndView("new-form");
+    // return new ModelAndView("/WEB-INF/views/new-form.jsp"); 권장 x
+  }
+}
+```
+> 스프링 부트는 InternalResourceViewResolver 라는 뷰리졸버를 자동으로 등록하는데,  
+> 이 때 application.properties 에 등록한 spring.mvc.view.prefix, spring.mvc.view.suffix 설정 정보를 사용해서 등록한다.  
+  
+- 스프링 부트가 자동 등록하는 뷰 리졸버  
+  BeanNameViewResolver: 빈 이름으로 뷰를 찾아서 반환  
+  InternalResourceViewResolver: JSP를 처리할 수 있는 뷰를 반환  
+  
+1. 핸들러 어댑터 호출: 핸들러 어댑터를 통해 new-form이라는 논리 뷰 이름을 획득  
+2. ViewResolver 호출  
+  new-form이라는 뷰 이름으로 viewResolver를 순서대로 호출한다.   
+  BeanNameViewResolver 는 new-form 이라는 이름의 스프링 빈으로 등록된 뷰를 찾아야하는데 없다.   
+  InternalResourceViewResolver가 호출된다.   
+3. InternalResourceViewResolver  
+  이 뷰 리졸버는 InternalResourceView를 반환하고  
+4. 뷰 - InternalResourceView  
+  InternalResourceView 는 JSP처럼 forward()를 호출해서 처리할 수 있는 경우에 사용한다.  
+5. view.rander()  
+  view.rander() 가 호출되고 InternalResourceView 는 forward()를 사용해서 JSP를 실행한다.  
+  
+참고  
+- 다른 뷰는 실제 뷰를 렌더링하지만, JSP의 경우 forward() 통해서 해당 JSP로 이동(실행)해야 렌더링이 된다. JSP를 제외한 나머지 뷰 템플릿들은 forward() 과정 없이 바로 렌더링 된다.  
+- Thymeleaf 뷰 템플릿을 사용하면 ThymeleafViewResolver 를 등록해야 한다. 최근에는 라이브러리만 추
+가하면 스프링 부트가 이런 작업도 모두 자동화해준다.  
+
+## 스프링 MVC - 시작하기
+
+스프링이 제공하는 컨트롤러는 ```애노테이션 기반```으로 동작한다. (매우 유연하고 실용적)  
+@RequestMapping 기반의 애노테이션 컨트롤러  
+
+### @RequestMapping
+
+가장 우선순위가 높은 핸들러 매핑과 핸들러 어댑터는 ```RequestMappingHandlerMapping``` ,
+```RequestMappingHandlerAdapter``` 이다.  
+@RequestMapping의 앞글자를 따서 만든 이름인데, 이것이 바로 지금 스프링에서 주로 사용하는 애노테이션 기반의 컨트롤러를 지원하는 매핑과 어댑터이다.  
+
+
+
