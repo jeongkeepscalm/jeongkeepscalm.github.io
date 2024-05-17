@@ -2,8 +2,8 @@
 title: "Spring Application Properties"
 description: "Spring Application Properties"
 date: 2024-05-02
-categories: [ Spring, Settings ]
-tags: [ Spring, Settings ]
+categories: [ Spring, Spring Settings ]
+tags: [ Spring, Spring Settings ]
 ---
 
 ## Log
