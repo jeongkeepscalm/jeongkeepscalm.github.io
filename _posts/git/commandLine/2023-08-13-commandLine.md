@@ -61,7 +61,7 @@ tags: [ Git, CLI, CommandLine ]
 <br/>
 <hr>
 
-<h2> Log </h2>
+<h2> log </h2>
 
 * git log : 최신 커밋 기록부터 확인할 수 있다. 
 * git log --pretty=short : 커밋 메시지의 첫번째 줄만 출력된다. 
@@ -72,7 +72,7 @@ tags: [ Git, CLI, CommandLine ]
 <br/>
 <hr>
 
-<h2> Stash </h2>
+<h2> stash </h2>
 
 * git stash
 * git stash list
@@ -82,15 +82,15 @@ tags: [ Git, CLI, CommandLine ]
 <br/>
 <hr>
 
-<h2> Branch </h2>
+<h2> branch </h2>
 
-* git branch <브랜치 명>: 브랜치 생성
-* git checkout -b <브랜치 명>: 브랜치 생성과 동시에 체크아웃.
+* git branch ( 브랜치 명 ) : 브랜치 생성
+* git checkout -b ( 브랜치 명 ) : 브랜치 생성과 동시에 체크아웃.
 * git branch : 로컬 브랜치 목록 조회
 * git branch -r : 원격 브랜치 목록 조회
-* git checkout -b <로컬에 저장할 브랜치명> <체크아웃 할 원격 브랜치명>
-* git branch -m  <변경할 브랜치 명>
-* git push origin <원격에 올릴 브랜치명>
+* git checkout -b ( 로컬에 저장할 브랜치명 ) ( 체크아웃 할 원격 브랜치명 )
+* git branch -m ( 변경할 브랜치 명 )
+* git push origin ( 원격에 올릴 브랜치명 )
 
 <br/>
 <hr>
