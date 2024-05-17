@@ -22,7 +22,6 @@ tags: [ Spring, Spring Basic ]
 
 <br/>
 <hr>
-<br/>
 
 ## 메소드 단위
 
@@ -31,7 +30,6 @@ tags: [ Spring, Spring Basic ]
 
 <br/>
 <hr>
-<br/>
 
 ## 파라미터 내
 
