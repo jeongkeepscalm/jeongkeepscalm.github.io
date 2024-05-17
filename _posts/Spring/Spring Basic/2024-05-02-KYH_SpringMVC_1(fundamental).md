@@ -141,6 +141,9 @@ public class RequestHeaderServlet extends HttpServlet {
 </div>
 </details>
 
+<br/>
+<hr>
+
 ## HTTP 요청 데이터
 
 ```HTTP 요청 메시지```: 클라이언트에서 서버로 데이터를 전달할 때 사용.  
@@ -346,6 +349,9 @@ public class ResponseJsonServlet extends HttpServlet {
 </div>
 </details>
 
+<br/>
+<hr>
+
 ## 서블릿으로 웹 애플리케이션 만들기
 
 참고링크: <https://github.com/jeongkeepscalm/KYH_SpringMVC_1/tree/master/src/main/java/hello/servlet/web/servlet>  
@@ -367,7 +373,10 @@ HTML 문서에서 필요한 곳만 코드를 적용해서 동적으로 변경할
 
 - ```JSP의 한계```
   - 비지니스 로직과 뷰 영역이 한 화면에 공존하여 복잡하며 유지보수하기가 어렵다.  
-  
+
+<br/>
+<hr>
+
 ## MVC 패턴  
 
 - 비즈니스 로직 처리와 뷰 렌더링의 역할을 Controller 와 View 영역으로 나눈다.  
@@ -402,6 +411,9 @@ public class MvcMemberFormServlet extends HttpServlet {
 
 > 리다이렉트는 실제 클라이언트(웹 브라우저)에 응답이 나갔다가, 클라이언트가 redirect 경로로 다시 요청한다. 따라서 클라이언트가 인지할 수 있고, URL 경로도 실제로 변경된다.  
 > 반면에 포워드는 서버 내부에서 일어나는 호출이기 때문에 클라이언트가 전혀 인지하지 못한다.  
+
+<br/>
+<hr>
 
 ## MVC 프레임워크 만들기  
 
@@ -666,6 +678,9 @@ public class FrontControllerServletV5 extends HttpServlet {
   
 참고 링크 : <https://github.com/jeongkeepscalm/KYH_SpringMVC_1/tree/master/src/main/java/hello/servlet/web/frontController>  
 
+<br/>
+<hr>
+
 ## Spring MVC
 
 <img src="/assets/img/springMVC1.png" width="600px">  
@@ -831,6 +846,9 @@ public class OldController implements Controller {
 - Thymeleaf 뷰 템플릿을 사용하면 ThymeleafViewResolver 를 등록해야 한다. 최근에는 라이브러리만 추
 가하면 스프링 부트가 이런 작업도 모두 자동화해준다.  
 
+<br/>
+<hr>
+
 ## 스프링 MVC - 시작하기
 
 스프링이 제공하는 컨트롤러는 ```애노테이션 기반```으로 동작한다. (매우 유연하고 실용적)  
@@ -842,5 +860,5 @@ public class OldController implements Controller {
 ```RequestMappingHandlerAdapter``` 이다.  
 @RequestMapping의 앞글자를 따서 만든 이름인데, 이것이 바로 지금 스프링에서 주로 사용하는 애노테이션 기반의 컨트롤러를 지원하는 매핑과 어댑터이다.  
 
-
+다음으로: <https://jeongkeepscalm.github.io/posts/KYH_SpringMVC_1(applied)/>  
 

@@ -76,6 +76,7 @@ private void expireCookie(HttpServletResponse response, String cookieName) {
   - **이렇게 서버에 중요한 정보를 보관하고 연결을 유지하는 방법을 세션이라고 한다.**  
 
 <br/>
+<hr>
 
 ## 세션 ( Session )
 

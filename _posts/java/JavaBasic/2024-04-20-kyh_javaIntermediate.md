@@ -16,6 +16,7 @@ tags: [ Java, Java Basic, kyh, intermediate ]
   - System : 시스템과 관련된 기본 기능들을 제공  
 
 <br/>
+<hr>
 
 ## Object Class  
 
@@ -124,6 +125,7 @@ public boolean equals(Object obj) {
   - notify(), notifyAll(), wait() : 멀티쓰레드용 메소드.  
 
 <br/>
+<hr>
 
 ## 불변 객체(Immutable Object)  
 
@@ -255,6 +257,7 @@ public static void main(String[] args) {
 </details>
 
 <br/>
+<hr>
 
 ## String Class - 불변 객체 
 
@@ -350,6 +353,7 @@ System.out.println(str.matches(regex)); // true
 </details>
 
 <br/>
+<hr>
 
 ## MethodChaining  
 
@@ -379,6 +383,7 @@ public static void main(String[] args) {
 ```
 
 <br/>
+<hr>
 
 ## StringBuilder - 가변 String  
 
@@ -420,6 +425,7 @@ System.out.println(endTime-startTime);
   - StringBuffer : 내부 동기화가 되어 있어, 멀티쓰레드 상황에서 안전하지만 오버헤드로 인해 성능이 느리다.  
 
 <br/>
+<hr>
 
 ## Wrapper Class: ```기본형의 객체 버전```  
 
@@ -515,6 +521,7 @@ public static void main(String[] args) {
 우 빠르기 때문에 메모리 상에서 발생하는 연산을 몇 번 줄인다고해도 실질적인 도움이 되지 않는 경우가 많다.  
 
 <br/>
+<hr>
 
 ## Class 클래스  
 
@@ -666,6 +673,7 @@ public class RandomMain {
 > 씨드 값이 같으면 여러번 반복 실행해도 실행 결과가 같다.  
 
 <br/>
+<hr>
 
 ## ENUM Type  
 
@@ -766,6 +774,7 @@ public static void main(String[] args) {
 </details>
 
 <br/>
+<hr>
 
 ## 날짜와 시간  
 
@@ -826,6 +835,7 @@ public static void main(String[] args) {
 참고링크 : <https://github.com/jeongkeepscalm/Java_Intermediate/tree/master/src/time/>  
 
 <br/>
+<hr>
 
 ## 중첩 클래스, 내부클래스
 
@@ -1355,6 +1365,9 @@ public class Library {
   - (메인메소드에서) 클래스를 생성과 동시에 선언.  
   - 상위 타입을 상속 또는 구현하면서 바로 생성한다.   
   - 주로 특정 상위 타입을 간단히 구현해서 일회성으로 사용할 때 유용하다.  
+
+<br/>
+<hr>
 
 ## 예외처리
 

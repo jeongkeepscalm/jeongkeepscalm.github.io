@@ -331,14 +331,4 @@ public class RequestParamController {
 
 <br/>
 
-## @ModelAttribute
 
-```java
-@RequestParam String username;
-@RequestParam int age;
-
-HelloData data = new HelloData();
-data.setUsername(username);
-data.setAge(age);
-```
-> @ModelAttribute: 해당 과정을 자동화해준다. 

@@ -20,6 +20,9 @@ tags: [ Git, CLI, CommandLine ]
 6. git commit -m "message" 
 7. git push origin (+)master
 
+<br/>
+<hr>
+
 <h2> Progress to Commit </h2>
 
 * git init [ directory_path ] : 로컬 저장소 생성.   
@@ -55,6 +58,9 @@ tags: [ Git, CLI, CommandLine ]
 * git push origin HEAD:브랜치명 --force : 돌아간 뒤 변경사항을 리모트 저장소에 다시 푸쉬한다.  
   ==&gt; git push origin +master  
 
+<br/>
+<hr>
+
 <h2> Log </h2>
 
 * git log : 최신 커밋 기록부터 확인할 수 있다. 
@@ -63,6 +69,9 @@ tags: [ Git, CLI, CommandLine ]
 * git log file_name : 특정 파일(file_name)의 로그 기록을 확인할 때, 사용한다.  
 * git log --stat : 히스토리를 출력한다. 
 
+<br/>
+<hr>
+
 <h2> Stash </h2>
 
 * git stash
@@ -70,17 +79,33 @@ tags: [ Git, CLI, CommandLine ]
 * git stash apply ( 가장 최근에 적용했던 stash 적용 )
 * git stash drop 
 
+<br/>
+<hr>
+
 <h2> Branch </h2>
 
-* git branch ( 브랜치 명 ) : 브랜치 생성
-* git checkout -b ( 브랜치 명 ) : 브랜치 생성과 동시에 체크아웃.
+* git branch <브랜치 명>: 브랜치 생성
+* git checkout -b <브랜치 명>: 브랜치 생성과 동시에 체크아웃.
 * git branch : 로컬 브랜치 목록 조회
 * git branch -r : 원격 브랜치 목록 조회
-* git checkout -b ( 로컬에 저장할 브랜치명 ) ( 체크아웃 할 원격 브랜치명 )
-* git branch -m ( 변경할 브랜치 명 )
-* git push origin ( 원격에 올릴 브랜치명 )
+* git checkout -b <로컬에 저장할 브랜치명> <체크아웃 할 원격 브랜치명>
+* git branch -m  <변경할 브랜치 명>
+* git push origin <원격에 올릴 브랜치명>
+
+<br/>
+<hr>
+
+## reset / revert
+
+- ```reset```  
+  시간을 과거 특정 사건으로 되돌린다. ( 커밋 이력을 남기지 않고 그 시점으로 간다. )  
+  commit 이력을 남기지 않고 원하는 시점으로 완전히 되돌아가고 싶을 때 사용  
   
-<h2>revert: 특점 시점으로 돌아가기</h2>
+- ```revert```
+  현재에 위치해있으면서 특정 사건을 없던 일로 만든다. ( 커밋 이력을 남긴다. )  
+  이전의 commit 내역을 남겨두고 새로운 commit을 생성하면서 과거로 돌아가게 된다.  
+
+### revert 사용
 
 1. git revert [ 해쉬코드 ] : 해당 커밋 전으로 돌아간다.   
 2. :wq 저장후 종료  
