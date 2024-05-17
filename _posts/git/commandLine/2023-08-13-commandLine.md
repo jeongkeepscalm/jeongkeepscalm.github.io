@@ -110,6 +110,3 @@ tags: [ Git, CLI, CommandLine ]
 1. git revert [ 해쉬코드 ] : 해당 커밋 전으로 돌아간다.   
 2. :wq 저장후 종료  
 3. 커밋이 완료된 상태이므로 git push origin master
-
-
-
