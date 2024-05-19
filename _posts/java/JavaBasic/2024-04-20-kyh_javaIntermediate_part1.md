@@ -1,5 +1,5 @@
 ---
-title: "[KYH] JAVA Intermediate"
+title: "[KYH] JAVA Intermediate_part1"
 description: java
 date: 2024-04-20
 categories: [ Java, Java Basic ]
