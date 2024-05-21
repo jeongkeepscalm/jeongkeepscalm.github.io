@@ -92,3 +92,10 @@ HTTP 헤더 내 host 정보를 조회
 @ModelAttribute User user  
 지정된 객체를 생성해주고 파라미터로 넘어온 값을 바인딩해준다.   
   
+```@RequestBody```   
+HTTP 메시지 바디 정보를 편리하게 조회  
+  
+```@RequestParam, @ModelAttribute vs @RequestBody```  
+@RequestParam, @ModelAttribute: 요청 파라미터를 조회하는 기능  
+@RequestBody: HTTP 메시지 바디를 직접 조회하는 기능  
+  

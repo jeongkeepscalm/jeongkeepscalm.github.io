@@ -319,8 +319,9 @@ public class RequestParamController {
   }
 
   /**
-   * MultiValueMap 이점
+   * MultiValueMap
    * @RequestParam 내 속성 required, defaultValue 속성을 신경 쓸 필요없다.
+   * 하지만 어떤 파라미터가 넘어오는지 명확하지 않아 불편하다.  
    */
 
 }
@@ -330,5 +331,170 @@ public class RequestParamController {
 </details>
 
 <br/>
+
+**@ModelAttribute**
+
+```java
+@ResponseBody
+@RequestMapping("/model-attribute-v1")
+public String modelAttributeV1(@ModelAttribute HelloData helloData) {
+  log.info("username={}, age={}", helloData.getUsername(), helloData.getAge());
+  return "ok";
+}
+```
+> HelloData 인스턴스 생성 후, 넘어온 파라미터 값을 해당 인스턴스에 set 해준다.  
+
+<br/>
+<hr>
+
+## HTTP 요청 메시지
+
+**메시지 바디에 데이터를 직접 담아 값을 넘길 경우 @RequestParam, @ModelAttribute를 사용할 수 없다.**  
+  
+<details>
+<summary><span style="color:yellow" class="point"><b>메시지바디의 데이터: TEXT</b></span></summary>
+<div markdown="1">      
+
+```java
+@Slf4j
+@Controller
+public class RequestBodyStringController {
+
+  @PostMapping("/request-body-string-v1")
+  public void requestBodyString(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    ServletInputStream inputStream = request.getInputStream();
+    String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+    log.info("messageBody = {}", messageBody);
+    response.getWriter().write("ok");
+  }
+
+  @PostMapping("/request-body-string-v2")
+  public void requestBodyStringV2(InputStream inputStream, Writer responseWriter)
+          throws IOException {
+    String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+    log.info("messageBody={}", messageBody);
+    responseWriter.write("ok");
+    /**
+     * InputStream(Reader): HTTP 요청 메시지 바디의 내용을 직접 조회
+     * OutputStream(Writer): HTTP 응답 메시지의 바디에 직접 결과 출력
+     */
+  }
+
+  @PostMapping("/request-body-string-v3")
+  public HttpEntity<String> requestBodyStringV3(HttpEntity<String> httpEntity) {
+    String messageBody = httpEntity.getBody();
+    log.info("messageBody={}", messageBody);
+    return new HttpEntity<>("ok");
+    /**
+     * 매개변수 HttpEntity 를 사용하여 HTTP header, body 정보를 편리하게 조회가능하다.
+     * return new HttpEntity<>("ok");: 응답에도 HttpEntity 사용 가능하다.
+     *
+     * HttpEntity
+     *    요청 HTTP header, message body 정보 조회
+     *    응답 또한 가능
+     *
+     * RequestEntity, ResponseEntity 둘 다 HttpEntity 상속 받음
+     *
+     * RequestEntity
+     *    HttpMethod, url 정보가 추가, 요청에서 사용
+     * ResponseEntity
+     *    HTTP 상태 코드 설정 가능, 응답에서 사용
+     *    return new ResponseEntity<String>("Hello World", responseHeaders, HttpStatus.CREATED)
+     */
+  }
+
+  @ResponseBody
+  @PostMapping("/request-body-string-v4")
+  public String requestBodyStringV4(@RequestBody String messageBody) {
+    log.info("messageBody={}", messageBody);
+    return "ok";
+  }
+
+}
+```
+
+</div>
+</details>
+
+<br/>
+
+<details>
+<summary><span style="color:yellow" class="point"><b>메시지바디의 데이터: JSON</b></span></summary>
+<div markdown="1">      
+
+```java
+@Slf4j
+@Controller
+public class RequestBodyJsonController {
+
+  private ObjectMapper objectMapper = new ObjectMapper();
+
+  @PostMapping("/request-body-json-v1")
+  public void requestBodyJsonV1(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+    ServletInputStream inputStream = request.getInputStream();
+    String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+    log.info("messageBody={}", messageBody);
+
+    HelloData data = objectMapper.readValue(messageBody, HelloData.class);
+    log.info("username={}, age={}", data.getUsername(), data.getAge());
+    response.getWriter().write("ok");
+
+    /**
+     * 메소드의 리턴타입이 없을 경우 뷰 리졸버가 매핑된 url 명의 뷰를 찾아 반환한다.
+     * @ResponseBody 를 사용하지 않고 메시지바디로 응답줄 수 있는 이유는 response.getWriter() 때문이다.
+     */
+  }
+
+  @ResponseBody
+  @PostMapping("/request-body-json-v2")
+  public String requestBodyJsonV2(@RequestBody String messageBody) throws
+          IOException {
+    HelloData data = objectMapper.readValue(messageBody, HelloData.class);
+    log.info("username={}, age={}", data.getUsername(), data.getAge());
+    return "ok";
+  }
+
+  @ResponseBody
+  @PostMapping("/request-body-json-v3")
+  public String requestBodyJsonV3(@RequestBody HelloData data) {
+    log.info("username={}, age={}", data.getUsername(), data.getAge());
+    return "ok";
+
+    /**
+     * HttpEntity, @RequestBody 를 사용하면 HTTP 메시지 컨버터가 HTTP 메시지 바디의 내용을 우리가 원하는 문자나 객체로 변환해준다.
+     */
+  }
+
+  @ResponseBody
+  @PostMapping("/request-body-json-v4")
+  public String requestBodyJsonV4(HttpEntity<HelloData> httpEntity) {
+    HelloData data = httpEntity.getBody();
+    log.info("username={}, age={}", data.getUsername(), data.getAge());
+    return "ok";
+  }
+
+  @ResponseBody
+  @PostMapping("/request-body-json-v5")
+  public HelloData requestBodyJsonV5(@RequestBody HelloData data) {
+    log.info("username={}, age={}", data.getUsername(), data.getAge());
+    return data;
+
+    /**
+     * @RequestBody 요청: JSON 요청 -> HTTP MessageConvertor -> 객체 
+     * @ResponseBody 응답: 객체 -> HTTP MessageConvertor -> JSON 응답
+     */
+  }
+
+}
+```
+
+</div>
+</details>
+
+<br/>
+<hr>
+
+## HTTP 응답
 
 
