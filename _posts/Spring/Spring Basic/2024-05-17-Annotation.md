@@ -6,6 +6,42 @@ categories: [ Spring, Spring Basic ]
 tags: [ Spring, Spring Basic ]
 ---
 
+## Spring Basic 
+
+```@Configuration```  
+스프링 설정 정보에 사용되는 어노테이션으로 싱들톤을 보장한다.  
+  
+```@ComponentScan```  
+@Component 가 붙은 모든 클래스를 스프링 빈으로 등록  
+  
+```@Component```  
+Bean을 자동으로 등록하는데 사용  
+  
+```@Autowired```  
+의존 관계를 자동으로 주입해준다.  
+
+```@Repository```  
+스프링 데이터 접근 계층으로 인식하고, 데이터 계층의 예외를 스프링 예외로 변환해준다.  
+  
+```@RequiredArgsConstructor```  
+final이 붙은 필드를 모아서 생성자를 자동으로 만들어준다.  
+  
+```@AllArgsConstructor```  
+모든 멤버 변수를 인자로 받는 생성자를 자동으로 생성해준다.  
+  
+```@Qualifier / @Primary```  
+둘 다 같은 타입의 빈이 여러 개 있을 때, 어떤 빈을 주입할지 선택하는데 사용된다.  
+우선순위: @Qualifier > @Primary   
+  
+```@PostConstruct```  
+빈이 생성되고 의존성 주입이 완료된 후에 자동으로 호출된다. 특정한 설정을 해야한다거나, DB에 초기 데이터를 채워야 하는 작업을 할 때 사용한다.  
+  
+```@PreDestroy```  
+스프링 빈의 생명주기가 끝나기 직전에 호출되는 메서드에 붙인다. 주로 리소스 해제 등을 위해 사용된다.  
+
+<br/>
+<hr>
+
 ## 클래스 단위
 
 ```@Controller```  
