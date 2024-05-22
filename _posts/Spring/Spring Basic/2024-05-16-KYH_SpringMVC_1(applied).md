@@ -6,7 +6,6 @@ categories: [ Spring, Spring Basic ]
 tags: [ Spring, Spring Basic ]
 ---
 
-
 ## 요청 매핑
 
 <details>
@@ -332,7 +331,9 @@ public class RequestParamController {
 
 <br/>
 
-**@ModelAttribute**
+<details>
+<summary><span style="color:oranage" class="point"><b>@ModelAttribute</b></span></summary>
+<div markdown="1">      
 
 ```java
 @ResponseBody
@@ -343,6 +344,9 @@ public String modelAttributeV1(@ModelAttribute HelloData helloData) {
 }
 ```
 > HelloData 인스턴스 생성 후, 넘어온 파라미터 값을 해당 인스턴스에 set 해준다.  
+
+</div>
+</details>
 
 <br/>
 <hr>
@@ -442,7 +446,6 @@ public class RequestBodyJsonController {
 
     /**
      * 메소드의 리턴타입이 없을 경우 뷰 리졸버가 매핑된 url 명의 뷰를 찾아 반환한다.
-     * @ResponseBody 를 사용하지 않고 메시지바디로 응답줄 수 있는 이유는 response.getWriter() 때문이다.
      */
   }
 
@@ -488,6 +491,8 @@ public class RequestBodyJsonController {
 
 }
 ```
+> 리턴타입이 없고 @ResponseBody를 사용하지도 않았는데 뷰 리졸버가 실행되지 않고 메시지바디로 응답하는 이유는 뭘까?  
+> HttpServletResponse, OutputStream(Writer) 를 파라미터로 받고 있으면 메시지 바디로 응답한다.  
 
 </div>
 </details>
@@ -497,4 +502,129 @@ public class RequestBodyJsonController {
 
 ## HTTP 응답
 
+스프링(서버)에서 응답 데이터를 만드는 방법 3가지  
+1. ```정적 리소스```: 웹 브라우저에 정적인 HTML, CSS, JS 를 제공할 경우
+2. ```뷰 템플릿 사용```: 웹브라우저에 동적인 HTML을 제공할 경우
+3. ```HTTP 메시지 사용```: HTTP API를 제공하는 경우 HTML이 아니라 데이터를 전달해야 하므로, HTTP 메시지 바디에 JSON 같은 형식으로 데이터를 실어 보낸다.   
+  
+- 정적리소스  
+스프링 부트의 정적 리소스 클래스패스  
+/static , /public , /resources , /META-INF/resources  
+  
+- 뷰 템플릿  
+뷰 템플릿을 거쳐 HTML이 생성되고 뷰가 응답을 만들어서 전달한다.  
+뷰 템플릿 경로: src/main/resources/templates  
+  
+<details>
+<summary><span style="color:oranage" class="point"><b>뷰 템플릿 호출</b></span></summary>
+<div markdown="1">      
 
+```java
+@Controller
+public class ResponseViewController {
+
+  @GetMapping("/response-view-v1")
+  public ModelAndView responseViewV1() {
+    return new ModelAndView("response/hello").addObject("data", "hello!");
+  }
+
+  @RequestMapping("/response-view-v2")
+  public String responseViewV2(Model model) {
+    model.addAttribute("data", "hello!!");
+    return "response/hello";
+  }
+
+  @RequestMapping("/response/hello")
+  public void responseViewV3(Model model) {
+    model.addAttribute("data", "hello!!");
+  }
+
+}
+```
+
+</div>
+</details>
+
+<br/>
+
+<details>
+<summary><span style="color:oranage" class="point"><b>HTTP API, 메시지 바디에 직접 입력</b></span></summary>
+<div markdown="1">      
+
+```java
+
+```
+
+</div>
+</details>
+
+
+**HTTP 응답 정리**  
+
+- @ResponseBody가 없다면 뷰 리졸버가 실행되어 뷰를 찾고, 뷰가 응답을 만들어서 클라이언트에게 전달한다.  
+- @ResponseBody가 있다면 HttpMessageConverter가 사용되어 반환값을 적절한 형식(JSON, XML..)으로 변환 후 메시지 바디로 응답을 한다.  
+
+<br/>
+
+- **메시지 바디로 응답할 경우**  
+  1. @ResponseBody
+  2. @RestController
+  3. HttpEntity, ResponseEntity 반환
+  4. HttpResponse, OutputStream(Writer) 파라미터  
+
+### HTTP Message Converter
+
+<img src="/assets/img/responsebody.png" width="600px">  
+  
+> 기본 문자처리: StringHttpMessageConverter  
+> 기본 객체처리: MappingJackson2HttpMessageConverter  
+> **응답의 경우 클라이언트의 HTTP Accept 헤더와 서버의 컨트롤러 반환 타입 정보 둘을 조합하여 HttpMessageConverter가 선택된다.**  
+  
+- HTTP 메시지 컨버터 적용  
+  HTTP 요청: @RequestBody , HttpEntity(RequestEntity)  
+  HTTP 응답: @ResponseBody , HttpEntity(ResponseEntity)  
+  
+ByteArrayHttpMessageConverter  
+  클래스 타입: byte[] , 미디어타입: */*   
+  요청 예) @RequestBody byte[] data  
+  응답 예) @ResponseBody return byte[] 쓰기 미디어타입 application/octet-stream  
+  
+StringHttpMessageConverter  
+  클래스 타입: String , 미디어타입: */*  
+  요청 예) @RequestBody String data  
+  응답 예) @ResponseBody return "ok" 쓰기 미디어타입 text/plain  
+  
+MappingJackson2HttpMessageConverter  
+  클래스 타입: 객체 또는 HashMap , 미디어타입 application/json 관련  
+  요청 예) @RequestBody HelloData data  
+  응답 예) @ResponseBody return helloData 쓰기 미디어타입 application/json 관련  
+  
+HTTP 요청 데이터 읽기  
+1. HTTP 요청이 오고, 컨트롤러에서 @RequestBody , HttpEntity 파라미터를 사용한다.  
+2. 메시지 컨버터가 메시지를 읽을 수 있는지 확인하기 위해 canRead() 를 호출한다.  
+  대상 클래스 타입을 지원하는지, HTTP 요청의 Content-Type 미디어 타입을 지원하는지 확인한다.  
+  예: @RequestBody 의 대상 클래스 ( byte[] , String , HelloData )  
+  예: text/plain , application/json , */*  
+3. canRead() 조건을 만족하면 read() 를 호출해서 객체 생성하고, 반환한다.  
+  
+HTTP 응답 데이터 생성  
+1. 컨트롤러에서 @ResponseBody , HttpEntity 로 값이 반환된다.  
+2. 메시지 컨버터가 메시지를 쓸 수 있는지 확인하기 위해 canWrite() 를 호출한다.  
+  대상 클래스 타입을 지원하는지, HTTP 요청의 Accept 미디어 타입을 지원하는지 확인한다.  
+  예: return의 대상 클래스 ( byte[] , String , HelloData )  
+  예: text/plain , application/json , */*  
+3. canWrite() 조건을 만족하면 write() 를 호출해서 HTTP 응답 메시지 바디에 데이터를 생성한다.  
+
+<br/>
+
+<img src="/assets/img/mvc.png" width="600px">  
+
+<br/>
+
+<img src="/assets/img/requestmappinghandleradapter.png" width="600px">  
+
+<br/>
+
+<img src="/assets/img/msgconverter.png" width="600px">  
+
+<br/>

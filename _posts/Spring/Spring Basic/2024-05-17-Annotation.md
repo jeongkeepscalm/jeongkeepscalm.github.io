@@ -50,6 +50,8 @@ final이 붙은 필드를 모아서 생성자를 자동으로 만들어준다.
   
 ```@RestController```  
 반환값으로 뷰를 찾는 것이 아니라, Http MessageBody 에 바로 입력한다. 따라서 실행 결과로 상태 메시지를 받을 수 있다.  
+컨트롤러의 모든 메소드에 @ResponseBody가 적용되는 효과  
+Rest API(HTTP API)를 만들 때 사용하는 컨트롤러  
   
 ```@SLF4J```  
 스프링에서 제공하는 Logback 로깅 라이브러리를 사용할 수 있다.  
@@ -64,6 +66,9 @@ final이 붙은 필드를 모아서 생성자를 자동으로 만들어준다.
 
 ```@ResponseBody```  
 뷰 조회를 무시하고 HTTP MessageBody 에 직접 반환 값을 입력한다.    
+  
+```@ResponseStatus(HttpStatus.OK)```  
+상태코드를 설정후 응답  
 
 <br/>
 <hr>
