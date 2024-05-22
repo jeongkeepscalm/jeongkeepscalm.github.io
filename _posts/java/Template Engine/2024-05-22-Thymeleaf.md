@@ -81,6 +81,7 @@ tags: [ Java, Java Template Engine ]
   <input type="text" id="itemId" name="itemId" class="form-control" value="1" th:value="${item.id}" readonly>
 </div>
 
+
 <!-- th:action -->
 <form action="item.html" th:action method="post">
   <div></div>
