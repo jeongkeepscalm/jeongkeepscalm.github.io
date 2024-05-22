@@ -103,6 +103,3 @@ tags: [ Java, Java Template Engine ]
 > ```th:value="${item.id}"```   
 > 모델에 있는 item 정보를 획득하고 프로퍼티 접근법으로 출력한다. ( item.getId() )  
 > value 속성을 th:value 속성으로 변경한다.  
->  
-> 
-

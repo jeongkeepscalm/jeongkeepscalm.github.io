@@ -664,4 +664,3 @@ public String addItemV6(Item item, RedirectAttributes redirectAttributes) {
 ```html
 <h2 th:if="${param.status}" th:text="'저장 완료!'"></h2>
 ```
-
