@@ -32,7 +32,7 @@ tags: [ Spring, Spring Basic ]
 ```HttpServletRequest, HttpServletResponse```: **HTTP 요청/응답 메시지를 편리하게 사용하도록 도와주는 객체이다.**  
   
 <details>
-<summary><span style="color:yellow" class="point"><b>HttpServletRequest 내 HTTP 메시지의 start_line, header 정보 출력</b></span></summary>
+<summary><span style="color:orange" class="point"><b>HttpServletRequest 내 HTTP 메시지의 start_line, header 정보 출력</b></span></summary>
 <div markdown="1"> 
 
 ```java
@@ -224,7 +224,7 @@ public class RequestBodyJsonServlet extends HttpServlet {
 2. 편의 기능 제공  
 
 <details>
-<summary><span style="color:yellow" class="point"><b>Content-Type, 쿠키, Redirect</b></span></summary>
+<summary><span style="color:orange" class="point"><b>Content-Type, 쿠키, Redirect</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -288,7 +288,7 @@ public class ResponseHeaderServlet extends HttpServlet {
 ### HttpServletResponse
 
 <details>
-<summary><span style="color:yellow" class="point"><b>HTML 응답</b></span></summary>
+<summary><span style="color:orange" class="point"><b>HTML 응답</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -318,7 +318,7 @@ public class ResponseHtmlServlet extends HttpServlet {
 ### HttpServletResponse
 
 <details>
-<summary><span style="color:yellow" class="point"><b>JSON 응답</b></span></summary>
+<summary><span style="color:orange" class="point"><b>JSON 응답</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -438,7 +438,7 @@ public class MvcMemberFormServlet extends HttpServlet {
 > 어댑터 패턴을 사용하여 V3방식 / V4방식을 선택하여 사용할 수 있게 한다.   
   
 <details>
-<summary><span style="color:yellow" class="point"><b>MVC Pattern V5</b></span></summary>
+<summary><span style="color:orange" class="point"><b>MVC Pattern V5</b></span></summary>
 <div markdown="1">  
 
 ```java
@@ -711,7 +711,7 @@ public class FrontControllerServletV5 extends HttpServlet {
   3. FrameworkServlet.service() 를 시작으로 여러 메소드가 호출되면서 DispatcherServlet.doDispatch()가 호출된다.  
   
 <details>
-<summary><span style="color:yellow" class="point"><b>DispatcherServlet.doDispatch()</b></span></summary>
+<summary><span style="color:orange" class="point"><b>DispatcherServlet.doDispatch()</b></span></summary>
 <div markdown="1">      
 
 ```java

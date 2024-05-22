@@ -154,7 +154,7 @@ public boolean equals(Object obj) {
   2. final을 필드에 설정하여 불변객체라는 의도를 명확히 표현했다.  
   
 <details>
-<summary><span style="color:yellow" class="point"><b>Source Code</b></span></summary>
+<summary><span style="color:orange" class="point"><b>Source Code</b></span></summary>
 <div markdown="1">       
 
 ```java
@@ -202,7 +202,7 @@ public static void main(String[] args) {
 <br/>
 
 <details>
-<summary><span style="color:yellow" class="point"><b>불변객체의 내부 값 변경</b></span></summary>
+<summary><span style="color:orange" class="point"><b>불변객체의 내부 값 변경</b></span></summary>
 <div markdown="1">       
 
 ```java
@@ -295,7 +295,7 @@ System.out.println(str1.equals(str2)); // true
   - 문자열 풀에서 문자열을 찾을 때, 해시 알고리즘을 사용하여 매우 빠른 속도로 원하는 String 인스턴스를 찾을 수 있다.  
   
 <details>
-<summary><span style="color:yellow" class="point"><b>String은 왜 equals()를 사용해서 비교해야할까?</b></span></summary>
+<summary><span style="color:orange" class="point"><b>String은 왜 equals()를 사용해서 비교해야할까?</b></span></summary>
 <div markdown="1">       
   1. String 클래스도 Object.equals()를 오버라이딩 하여 참조 주소 값이 아닌 객체 내용 자체를 비교하기 때문이다.  
   2. 문자열은 String 인스턴스를 생성하거나 문자열 리터럴로 만들수 있다. 그러므로 문자열 비교시 어느 경로로 해당 문자열이 만들어 졌는지 알아야하는 번거로움이 있다. 따라서 문자열 비교는 항상 equals()를 사용해야 한다.   
@@ -303,7 +303,7 @@ System.out.println(str1.equals(str2)); // true
 </details>
   
 <details>
-  <summary><span style="color:yellow" class="point"><b>String은 왜 불변객체일까?</b></span></summary>
+  <summary><span style="color:orange" class="point"><b>String은 왜 불변객체일까?</b></span></summary>
   <div markdown="1">       
     스트링 풀에 있는 인스턴스의 값을 중간에 변경하게 되면 해당 인스턴스를 참조하고 있는 모든 문자열들이 변하게 되기 때문에, 사이드 이펙트 문제가 발생한다.  
   </div>
@@ -314,7 +314,7 @@ System.out.println(str1.equals(str2)); // true
 ## String 주요 메소드  
 
 <details>
-<summary><span style="color:yellow" class="point"><b>String Methods</b></span></summary>
+<summary><span style="color:orange" class="point"><b>String Methods</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -479,7 +479,7 @@ System.out.println("max: " + Integer.max(10, 20));
 > Integer.valueOf() : 래퍼 타입 반환  
   
 <details>
-<summary><span style="color:yellow" class="point"><b>기본형 연산 vs 래퍼 클래스 연산</b></span></summary>
+<summary><span style="color:orange" class="point"><b>기본형 연산 vs 래퍼 클래스 연산</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -532,7 +532,7 @@ public static void main(String[] args) {
   - 애노테이션 처리 : 클래스에 적용된 애노테이션(annotation)을 조회하고 처리하는 기능을 제공한다.  
   
 <details>
-<summary><span style="color:yellow" class="point"><b>메타 데이터 조회</b></span></summary>
+<summary><span style="color:orange" class="point"><b>메타 데이터 조회</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -708,7 +708,7 @@ public static void main(String[] args) {
   - 열거형에 추상 메소드를 선언하고 구현할 수 있다.(익명 클래스와 같은 방식을 사용한다.)  
   
 <details>
-<summary><span style="color:yellow" class="point"><b>Source Code</b></span></summary>
+<summary><span style="color:orange" class="point"><b>Source Code</b></span></summary>
 <div markdown="1">       
 
 ```java
@@ -855,7 +855,7 @@ public static void main(String[] args) {
   **=> 특정 클래스에서만 활용이 될 경우에만 중첩클래스로 만들자.**  
   
 <details>
-<summary><span style="color:yellow" class="point"><b>정적 중첩클래스</b></span></summary>
+<summary><span style="color:orange" class="point"><b>정적 중첩클래스</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -889,7 +889,7 @@ public class Network {
 <br/>
 
 <details>
-<summary><span style="color:yellow" class="point"><b>내부 클래스</b></span></summary>
+<summary><span style="color:orange" class="point"><b>내부 클래스</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -926,7 +926,7 @@ public class Car {
 <br/>
 
 <details>
-<summary><span style="color:yellow" class="point"><b>지역 클래스</b></span></summary>
+<summary><span style="color:orange" class="point"><b>지역 클래스</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -1091,7 +1091,7 @@ public class AnonymousOuter {
   
 
 <details>
-<summary><span style="color:yellow" class="point"><b>리펙토링 전</b></span></summary>
+<summary><span style="color:orange" class="point"><b>리펙토링 전</b></span></summary>
 <div markdown="1">       
 
 ```java
@@ -1124,7 +1124,7 @@ public class Ex1Main {
 </details>
   
 <details>
-<summary><span style="color:yellow" class="point"><b>리팩토링: 정적 중첩 클래스 사용</b></span></summary>
+<summary><span style="color:orange" class="point"><b>리팩토링: 정적 중첩 클래스 사용</b></span></summary>
 <div markdown="1">       
 
 ```java
@@ -1172,7 +1172,7 @@ public class Ex1RefMainV1 {
 </details>
   
 <details>
-<summary><span style="color:yellow" class="point"><b>리팩토링: 익명 클래스 사용</b></span></summary>
+<summary><span style="color:orange" class="point"><b>리팩토링: 익명 클래스 사용</b></span></summary>
 <div markdown="1">       
 
 ```java
@@ -1211,7 +1211,7 @@ public class Ex2Main {
 </details>
   
 <details>
-<summary><span style="color:yellow" class="point"><b>리팩토링: 익명 클래스(참조값 직접 전달)</b></span></summary>
+<summary><span style="color:orange" class="point"><b>리팩토링: 익명 클래스(참조값 직접 전달)</b></span></summary>
 <div markdown="1">       
 
 ```java 
@@ -1248,7 +1248,7 @@ public class Ex3Main {
 </details>
   
 <details>
-<summary><span style="color:yellow" class="point"><b>람다: 메서드(더 정확히는 함수)를 인수로 전달한다.</b></span></summary>
+<summary><span style="color:orange" class="point"><b>람다: 메서드(더 정확히는 함수)를 인수로 전달한다.</b></span></summary>
 <div markdown="1">       
 
 ```java
@@ -1288,7 +1288,7 @@ public class Ex4Main {
 </details>
   
 <details>
-<summary><span style="color:yellow" class="point"><b>내부 클래스 활용</b></span></summary>
+<summary><span style="color:orange" class="point"><b>내부 클래스 활용</b></span></summary>
 <div markdown="1">       
 
 ```java
@@ -1415,7 +1415,7 @@ Object
 - 체크 예외는 잡아서 처리하거나 밖으로 던지도록 개발자가 직접 명시적으로 처리해야한다. 그렇지 않을 경우 컴파일 오류가 발생한다.  
   
 <details>
-<summary><span style="color:yellow" class="point"><b>체크 예외</b></span></summary>
+<summary><span style="color:orange" class="point"><b>체크 예외</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -1504,7 +1504,7 @@ public class CheckedExceptionThrowMain {
 ### 예외 처리 도입
 
 <details>
-<summary><span style="color:yellow" class="point"><b>예외처리 도입 코드</b></span></summary>
+<summary><span style="color:orange" class="point"><b>예외처리 도입 코드</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -1650,7 +1650,7 @@ public class MainV2 {
 Service 에서도 예외를 던져고 메인에서 ```공통 예외 처리```를 한다.  
   
 <details>
-<summary><span style="color:yellow" class="point"><b>공통 예외 처리</b></span></summary>
+<summary><span style="color:orange" class="point"><b>공통 예외 처리</b></span></summary>
 <div markdown="1">      
 
 ```java 
@@ -1843,7 +1843,7 @@ public class MainV4 {
   3. 조금 더 빠른 자원 해제: try -> catch -> finally 로 catch 이후에 자원을 반납하는 대신, try with resources 구문은 try 블럭이 끝나는 즉시 close() 메소드를 호출한다. 
   
 <details>
-<summary><span style="color:yellow" class="point"><b>try with resources 코드</b></span></summary>
+<summary><span style="color:orange" class="point"><b>try with resources 코드</b></span></summary>
 <div markdown="1">      
 
 ```java
