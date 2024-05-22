@@ -10,7 +10,7 @@ tags: [ Spring, Spring Basic ]
 ## 요청 매핑
 
 <details>
-<summary><span style="color:yellow" class="point"><b>PathVariable 다중 사용</b></span></summary>
+<summary><span style="color:orange" class="point"><b>PathVariable 다중 사용</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -27,7 +27,7 @@ tags: [ Spring, Spring Basic ]
 <br/>
 
 <details>
-<summary><span style="color:yellow" class="point"><b>특정 파라미터 조건 매핑</b></span></summary>
+<summary><span style="color:orange" class="point"><b>특정 파라미터 조건 매핑</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -52,7 +52,7 @@ public String mappingParam() {
 <br/>
 
 <details>
-<summary><span style="color:yellow" class="point"><b>특정 헤더 조건 매핑</b></span></summary>
+<summary><span style="color:orange" class="point"><b>특정 헤더 조건 매핑</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -78,7 +78,7 @@ public String mappingHeader() {
 <br/>
 
 <details>
-<summary><span style="color:yellow" class="point"><b>미디어 타입 조건 매핑 - HTTP 요청 Content-Type, consume</b></span></summary>
+<summary><span style="color:orange" class="point"><b>미디어 타입 조건 매핑 - HTTP 요청 Content-Type, consume</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -110,7 +110,7 @@ public String mappingConsumes() {
 <br/>
 
 <details>
-<summary><span style="color:yellow" class="point"><b>미디어 타입 조건 매핑 - HTTP 요청 Accept, produce</b></span></summary>
+<summary><span style="color:orange" class="point"><b>미디어 타입 조건 매핑 - HTTP 요청 Accept, produce</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -142,7 +142,7 @@ public String mappingProduces() {
 <br/>
 
 <details>
-<summary><span style="color:yellow" class="point"><b>요청 매핑 - API 예시</b></span></summary>
+<summary><span style="color:orange" class="point"><b>요청 매핑 - API 예시</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -199,7 +199,7 @@ public class MappingClassController {
 <br/>
 
 <details>
-<summary><span style="color:yellow" class="point"><b>HTTP 요청 - 기본, 헤더 조회</b></span></summary>
+<summary><span style="color:orange" class="point"><b>HTTP 요청 - 기본, 헤더 조회</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -240,7 +240,7 @@ public class RequestHeaderController {
 <br/>
 
 <details>
-<summary><span style="color:yellow" class="point"><b>HTTP 요청 파라미터 - @RequestParam</b></span></summary>
+<summary><span style="color:orange" class="point"><b>HTTP 요청 파라미터 - @RequestParam</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -352,7 +352,7 @@ public String modelAttributeV1(@ModelAttribute HelloData helloData) {
 **메시지 바디에 데이터를 직접 담아 값을 넘길 경우 @RequestParam, @ModelAttribute를 사용할 수 없다.**  
   
 <details>
-<summary><span style="color:yellow" class="point"><b>메시지바디의 데이터: TEXT</b></span></summary>
+<summary><span style="color:orange" class="point"><b>메시지바디의 데이터: TEXT</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -419,7 +419,7 @@ public class RequestBodyStringController {
 <br/>
 
 <details>
-<summary><span style="color:yellow" class="point"><b>메시지바디의 데이터: JSON</b></span></summary>
+<summary><span style="color:orange" class="point"><b>메시지바디의 데이터: JSON</b></span></summary>
 <div markdown="1">      
 
 ```java
