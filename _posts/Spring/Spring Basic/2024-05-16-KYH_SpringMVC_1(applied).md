@@ -628,3 +628,40 @@ HTTP 응답 데이터 생성
 <img src="/assets/img/msgconverter.png" width="600px">  
 
 <br/>
+
+참고  
+> HTTP FORM 요청은 POST, GET만 사용할 수 있다.   
+> PUT, PATCH는 HTTP API 전송시에 사용한다.  
+  
+**PRG(Post / Redirect / Get)를 해야하는 이유**  
+POST 요청 후 저장프로세스를 실행 후 다른 페이지로 이동하였다 하더라도 URL은 그대로이다.  
+이 상태에서 계속 새로고침을 하게 되면 다중 저장이 발생하는 문제를 겪게 된다.  
+  
+***PRG***
+```java
+@PostMapping("/add")
+public String addItemV5(Item item) {
+  itemRepository.save(item);
+  return "redirect:/basic/items/" + item.getId();
+}
+
+@PostMapping("/add")
+public String addItemV6(Item item, RedirectAttributes redirectAttributes) {
+  Item savedItem = itemRepository.save(item);
+  redirectAttributes.addAttribute("itemId", savedItem.getId());
+  redirectAttributes.addAttribute("status", true);
+  return "redirect:/basic/items/{itemId}";
+  /**
+   * RedirectAttributes
+   *    URL 인코딩, PathVariable, 쿼리 파라미터까지 처리해준다.
+   * 
+   * http://localhost:8080/basic/items/3?status=true
+   */
+}
+```
+> URL에 변수를 더해서 사용하는 것은 URL 인코딩이 안되기 때문에 위험하기에 ```RedirectAttributes```를 사용하자.  
+  
+```html
+<h2 th:if="${param.status}" th:text="'저장 완료!'"></h2>
+```
+

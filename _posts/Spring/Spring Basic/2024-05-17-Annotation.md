@@ -78,24 +78,29 @@ Rest API(HTTP API)를 만들 때 사용하는 컨트롤러
 ```@RequestParam```  
 @RequestParam("username") String username   
 @RequestParam(required = false, defaultValue = "-1") int age   
-파라미터 이름으로 바인딩  
-request.getParameter("username");  
+  파라미터 이름으로 바인딩  
+  request.getParameter("username");  
   
 ```@RequestHeader```  
 @RequestHeader MultiValueMap<String, String> headerMap  
-모든 HTTP 헤더를 MultiValueMap 형식으로 조회  
+  모든 HTTP 헤더를 MultiValueMap 형식으로 조회  
   
 ```@RequestHeader```  
 @RequestHeader("host") String host  
-HTTP 헤더 내 host 정보를 조회  
+  HTTP 헤더 내 host 정보를 조회  
   
 ```@CookieValue```  
 @CookieValue(value = "myCookie", required = false) String cookie  
-특정 값의 쿠키 조회  
+  특정 값의 쿠키 조회  
   
 ```@ModelAttribute```  
 @ModelAttribute User user  
-지정된 객체를 생성해주고 파라미터로 넘어온 값을 바인딩해준다.   
+  지정된 객체를 생성해주고 파라미터로 넘어온 값을 바인딩해준다.   
+@ModelAttribute("hello") Item item  
+  model에 hello라는 이름으로 item을 set해준다(== model.addAttribute("hello", item)) 
+@ModelAttribute Item item  
+  ModelAttribute에 이름을 지정해주지 않으면 지정된 클래스의 첫글자만 소문자로 변경해서 모델에 속성을 등록한다.  
+  (==model.addAttribute("item", item))  
   
 ```@RequestBody```   
 HTTP 메시지 바디 정보를 편리하게 조회  
