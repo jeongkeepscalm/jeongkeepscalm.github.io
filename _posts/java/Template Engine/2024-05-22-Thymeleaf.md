@@ -1,7 +1,7 @@
 ---
 title: "Thymeleaf"
 description: "Thymeleaf"
-date: 2024-05-09
+date: 2024-05-22
 categories: [ Java, Java Template Engine ]
 tags: [ Java, Java Template Engine ]
 ---
@@ -74,7 +74,6 @@ tags: [ Java, Java Template Engine ]
 </div> <!-- /container -->
 </body>
 </html>
-
 
 <div>
   <label for="itemId">상품 ID</label>
