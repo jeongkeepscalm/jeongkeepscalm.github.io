@@ -232,3 +232,110 @@ public class MethodMain2 {
 
 <br/>
 
+- 와일드 카드
+  와일드카드는 제네릭타입이 아니라 이미 만들어진 제네릭타입을 활용할 때 사용된다.  
+  제네릭타입을 쉽게 사용할 수 있게해주는 도구  
+  
+<details>
+<summary><span style="color:orange" class="point"><b>Wildcard ex</b></span></summary>
+<div markdown="1">   
+
+```java
+
+public class Box<T> {
+  private T value;
+  public void set(T value) {
+    this.value = value;
+  }
+  public T get() {
+    return value;
+  }
+}
+
+public class WildcardEx {
+  static <T> void printGenericV1(Box<T> box) { // Box 라는 제네릭 타입을 받는다.
+    System.out.println("T = "+ box.get());
+  }
+  static void printWildcardV1(Box<?> box) { // wildcard 변환
+    System.out.println("? = "+ box.get());
+  }
+
+  static <T extends Animal> void printGenericV2(Box<T> box) { // Box 라는 제네릭 타입을 받지만 Animal 이 들어있는 박스
+    T t = box.get();
+    System.out.println("동물 이름: " + t.getName());
+  }
+  static void printWildcardV2(Box<? extends Animal> box) { // wildcard 변환
+    Animal animal = box.get();
+    System.out.println("동물 이름: " + animal.getName());
+  }
+
+  static <T extends Animal> T printAndReturnGeneric(Box<T> box) { // 동물이름 출력 후 반환
+    T t = box.get();
+    System.out.println("동물 이름: " + t.getName());
+    return t;
+  }
+  static Animal printAndReturnWildcard(Box<? extends Animal> box) { // wildcard 변환
+    Animal animal = box.get();
+    System.out.println("동물 이름: " + animal.getName());
+    return animal;
+  }
+  
+}
+
+public class WildcardMain1 {
+  public static void main(String[] args) {
+    Box<Object> objectBox = new Box<>();
+    Box<Dog> dogBox = new Box<>();
+    Box<Cat> catBox = new Box<>();
+
+    dogBox.set(new Dog("멍멍이", 100));
+    WildcardEx.printGenericV1(dogBox);
+    WildcardEx.printWildcardV1(dogBox);
+
+    WildcardEx.printGenericV2(dogBox);
+    WildcardEx.printWildcardV2(dogBox);
+
+    Dog dog = WildcardEx.printAndReturnGeneric(dogBox);
+    Animal animal = WildcardEx.printAndReturnWildcard(dogBox);
+  }
+  
+}
+```
+
+<div>
+</details>
+
+<br/>
+
+***제네릭 메소드 실행 예시***
+
+```java
+//1. 전달
+printGenericV1(dogBox)
+//2. 제네릭 타입 결정 dogBox는 Box<Dog> 타입, 타입 추론 -> T의 타입은 Dog
+static <T> void printGenericV1(Box<T> box) {
+  System.out.println("T = " + box.get());
+}
+//3. 타입 인자 결정
+static <Dog> void printGenericV1(Box<Dog> box) {
+  System.out.println("T = " + box.get());
+}
+//4. 최종 실행 메서드
+static void printGenericV1(Box<Dog> box) {
+  System.out.println("T = " + box.get());
+}
+```
+
+***와일드 카드 실행 예시***
+
+```java
+// 1. 전달(제네릭 메서드가 아닌 일반적인 메서드)
+printWildcardV1(dogBox)
+//2. 최종 실행 메서드, 와일드카드 ?는 모든 타입을 받을 수 있다.
+static void printWildcardV1(Box<?> box) {
+  System.out.println("? = " + box.get());
+}
+```
+> 특정 시점에 타입 매개변수에 타입 인자를 전달해서 타입을 결정해야 하는 것은 번거롭다.  
+> **제네릭 타입이나 제네릭 메서드를 정의하는게 꼭 필요한 상황이 아니라면, 더 단순한 와일드카드 사용하자**  
+  
