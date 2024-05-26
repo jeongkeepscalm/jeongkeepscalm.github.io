@@ -6,7 +6,7 @@ categories: [ Java, Java Basic ]
 tags: [ Java, Java Basic, kyh, intermediate ]
 ---
 
-## Generic
+# Generic
 
 * 제네릭 타입  
   제네릭 클래스, 제네릭 인터페이스를 모두 합쳐 제네릭 타입으로 부른다.  
@@ -175,7 +175,7 @@ public class AnimalHospitalMainV3 {
 
 <br/>
 
-- 제네릭 메소드
+- 제네릭 메소드  
   정의: <T> T genericMethod(T t)  
   메소드를 호출하는 시점에 타입인자를 전달한다.  
   
@@ -237,7 +237,7 @@ public class MethodMain2 {
   제네릭타입/제네릭메소드를 쉽게 사용할 수 있게해주는 도구  
   
 <details>
-<summary><span style="color:orange" class="point"><b>Wildcard ex</b></span></summary>
+<summary><span style="color:orange" class="point"><b>Wildcard Example</b></span></summary>
 <div markdown="1">   
 
 ```java
@@ -342,3 +342,47 @@ static void printWildcardV1(Box<?> box) {
 - 제네릭 메소드를 사용해야 하는 경우  
   상한 와일드카드 메소드 사용 시 리턴 타입을 최상위 부모클래스로 정해져있다.   
   **즉, 리턴 타입을 하위 타입으로 지정하고 싶을 경우에** 제네릭 메소드를 사용해야 한다.  
+  
+<details>
+<summary><span style="color:orange" class="point"><b>하한 와일드 카드</b></span></summary>
+<div markdown="1">   
+
+```java
+public class WildcardMain2 {
+  public static void main(String[] args) {
+    Box<Object> objectBox = new Box<>();
+    Box<Animal> animalBox = new Box<>();
+    Box<Dog> dogBox = new Box<>();
+    Box<Cat> catBox = new Box<>();
+
+    // Animal 포함 상위 타입 전달 가능
+    writeBox(objectBox);
+    writeBox(animalBox);
+    // writeBox(dogBox);
+    // writeBox(catBox);
+
+  }
+
+  // 하한 와일드카드: Animal 포함 상위 클래스만 받는다.
+  static void writeBox(Box<? super Animal> box) {
+    box.set(new Dog("dog", 100));
+  }
+
+}
+
+```
+
+</div>
+</details>
+
+<br/>
+
+- 타입 이레이저(Eraser)  
+  자바의 제네릭 타입은 컴파일 시점에만 존재하고, 런타임 시에는 제네릭 정보가 지워진다.  
+  제네릭은 타입매개변수가 지정되고 컴파일되고 난 후에 사라진다.  
+  (클래스 파일에 지정된 타입매개변수가 Object로 변한 것을 확인 할 수 있다.)  
+  하지만 내부적으로 다음 컴파일 시 지정된 타입매개변수로 캐스팅하여 실행하므로 문제가 되지 않는다.   
+
+<br/>
+
+
