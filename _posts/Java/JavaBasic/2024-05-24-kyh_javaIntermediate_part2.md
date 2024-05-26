@@ -97,7 +97,7 @@ public class RawTypeMain {
 }
 ```
 
-<div>
+</div>
 </details>
 
 <br/>
@@ -170,7 +170,7 @@ public class AnimalHospitalMainV3 {
 }
 ```
 
-<div>
+</div>
 </details>
 
 <br/>
@@ -227,14 +227,14 @@ public class MethodMain2 {
 }
 ```
 
-<div>
+</div>
 </details>
 
 <br/>
 
 - 와일드 카드
-  와일드카드는 제네릭타입이 아니라 이미 만들어진 제네릭타입을 활용할 때 사용된다.  
-  제네릭타입을 쉽게 사용할 수 있게해주는 도구  
+  와일드카드는 제네릭타입/제네릭메소드가 아니라 이미 만들어진 제네릭타입/제네릭메소드를 활용할 때 사용된다.  
+  제네릭타입/제네릭메소드를 쉽게 사용할 수 있게해주는 도구  
   
 <details>
 <summary><span style="color:orange" class="point"><b>Wildcard ex</b></span></summary>
@@ -302,7 +302,7 @@ public class WildcardMain1 {
 }
 ```
 
-<div>
+</div>
 </details>
 
 <br/>
