@@ -1,6 +1,6 @@
 ---
-title: "Python Game Tic_Tac_Toe From U-KNOU"
-description: Python Game Tic_Tac_Toe
+title: "[U-KNOU] Python Game Tic_Tac_Toe"
+description: "[U-KNOU] Python Game Tic_Tac_Toe"
 date: 2024-05-13
 categories: [ Python, Python Game ]
 tags: [ Python, Python Game ]
