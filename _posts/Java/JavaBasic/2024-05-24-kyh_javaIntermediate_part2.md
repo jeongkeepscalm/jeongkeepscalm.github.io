@@ -82,7 +82,7 @@ public class BoxMain3 {
   권장하지 않으므로, Object 타입 인자로 명시하는 것을 권장한다.  
 
 <details>
-<summary><span style="color:yellow" class="point"><b>메타 데이터 조회</b></span></summary>
+<summary><span style="color:orange" class="point"><b>메타 데이터 조회</b></span></summary>
 <div markdown="1">   
 
 ```java
@@ -103,7 +103,7 @@ public class RawTypeMain {
 <br/>
 
 <details>
-<summary><span style="color:yellow" class="point"><b>타입 매개변수 상한</b></span></summary>
+<summary><span style="color:orange" class="point"><b>타입 매개변수 상한</b></span></summary>
 <div markdown="1">   
 
 ```java
@@ -172,3 +172,63 @@ public class AnimalHospitalMainV3 {
 
 <div>
 </details>
+
+<br/>
+
+- 제네릭 메소드
+  정의: <T> T genericMethod(T t)  
+  메소드를 호출하는 시점에 타입인자를 전달한다.  
+  
+<details>
+<summary><span style="color:orange" class="point"><b>Generic Method</b></span></summary>
+<div markdown="1">   
+
+```java
+
+public class AnimalMethod {
+
+  /**
+   * Created Static Generic Method
+   */
+  public static <T extends Animal> void checkup(T t) {
+    System.out.println("동물 이름: " + t.getName());
+    System.out.println("동물 크기: " + t.getSize());
+    t.sound();
+  }
+
+  public static <T extends Animal> T bigger(T t1, T t2) {
+    return t1.getSize() > t2.getSize() ? t1 : t2;
+  }
+  
+}
+
+public class MethodMain2 {
+
+  public static void main(String[] args) {
+
+    Dog dog = new Dog("dog1", 100);
+    Cat cat = new Cat("cat1", 200);
+
+    /**
+     * 타입 매개변수 추론으로 생략 가능
+     */
+    AnimalMethod.checkup(dog);
+    AnimalMethod.checkup(cat);
+    // AnimalMethod.<Dog>checkup(dog);
+    // AnimalMethod.<Cat>checkup(cat);
+
+    Dog targetDog = new Dog("targetDog", 150);
+    Dog biggerOne = AnimalMethod.bigger(targetDog, dog);
+    // Dog biggerOne = AnimalMethod.<Dog>bigger(targetDog, dog);
+    System.out.println("biggerOne = " + biggerOne);
+
+  }
+
+}
+```
+
+<div>
+</details>
+
+<br/>
+
