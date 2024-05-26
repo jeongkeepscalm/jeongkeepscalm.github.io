@@ -155,7 +155,7 @@ public class AnimalHospitalMainV3 {
 
     // 문제2: 개 타입 반환
     dogHospital.set(dog1);
-    Dog biggerDog = dogHospital.bigger(new Dog("dog2", 500));
+    Dog biggerDog = dogHospital.bigger(new Dog("dog2", 500)); 
     System.out.println("biggerDog = " + biggerDog);
 
     /**

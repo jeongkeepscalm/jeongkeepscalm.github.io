@@ -1,9 +1,9 @@
 ---
-title: "Python Basic From U-KNOU"
-description: Python Basic
+title: "[U-KNOU] Python Basic"
+description: "[U-KNOU] Python Basic"
 date: 2024-05-13
-categories: [ Python, Python Basic ]
-tags: [ Python, Python Basic ]
+categories: [ U-KNOU, Python Basic ]
+tags: [ U-KNOU, Python Basic ]
 ---
 
 ## 원뿔의 부피 구하기( range(), zip() )
