@@ -1,6 +1,6 @@
 ---
-title: Stream API
-description: Stream API
+title: Java Stream API
+description: Java Stream API
 date: 2023-12-19
 categories: [ Java, Data Processing ]
 tags: [ Java, Data Processing, StreamAPI ]
