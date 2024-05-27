@@ -209,13 +209,16 @@ List<String> list = Arrays.stream(lineArr).flatMap(v -> Stream.of(v.split(" +"))
 
 ```java
 // filter
-List<CmmnDetailCode> chpList = chbrList.stream().filter(x -> "00".equals(x.getCode().substring(2, x.getCode().length()))
+List<CmmnDetailCode> chpList = chbrList.stream()
+  .filter(x -> "00".equals(x.getCode().substring(2, x.getCode().length()))
         && !"0000".equals(x.getCode())
         && !x.getCode().matches(".*[a-zA-Z].*")
-)
-.collect(Collectors.toList());
+  )
+  .collect(Collectors.toList());
 
-List<CodeDetail> collect = codeList.stream().filter(i -> i.getCode().startsWith("00", 2)).collect(Collectors.toList()); 
+List<CodeDetail> collect = codeList.stream()
+  .filter(i -> i.getCode().startsWith("00", 2))
+  .collect(Collectors.toList()); 
 
 // groupingBy
 Map<String, List<LectureHistoryResponseVO>> groupedByCategory = lectureList.stream().collect(Collectors.groupingBy(LectureHistoryResponseVO::getCategoryNo));
@@ -230,4 +233,23 @@ list.stream().forEach(x -> x.setReStatus( x.getReStatus().equals("Y") ? "완료"
 // sum
 reception = lssVOS.stream().mapToInt(item -> Integer.parseInt(item.getReception())).sum();
 
+// Map 활용
+public List<Map<String, Object>>  selectList(Map<String, Object> param) {
+  
+  Map<String, String> keyToValue = new HashMap<>();
+
+  keyToValue.put("person", "1");
+  keyToValue.put("anonymity", "2");
+  keyToValue.put("company", "3");  
+
+  List<String> checkedList = keyToValue.entrySet().stream()
+    .filter(v -> "1".equals(param.get(v.getKey())))
+    .map(Map.Entry::getValue)
+    .collect(Collectors.toList());  
+
+  param.put("checkedList", checkedList);  
+
+  return dao.selectList01(param);
+
+}
 ```
