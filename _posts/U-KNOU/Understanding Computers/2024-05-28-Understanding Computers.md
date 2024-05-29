@@ -80,6 +80,7 @@ RFID(Radio-Frequency IDentification): IC칩과 전자기장을 이용한 무선�
   
 - 자기테이프
   - 순차적 저장 및 검색
+  - 카트리지테이프 형태를 주로 사용
   - 백업용
   - 대용량 저장공간을 구성하고자 할 때 `테이프 라이브러리`를 사용한다.    
 - 자기디스크
@@ -87,14 +88,39 @@ RFID(Radio-Frequency IDentification): IC칩과 전자기장을 이용한 무선�
   - 하드디스크 
     - 하드디스크 드라이브
     - 디스크어레이(하드디스크 집합)
-- 광디스크
-  - 광학적 기록 및 판독  
-- 반도체  
-  - 반도체 메모리를 사용    
+- 광디스크: 광학적 기록 및 판독  
+- 반도체: 반도체 메모리를 사용    
   - SSD
     - 빠른 데이터 엑세스
     - 일기에 비해 쓰기 속도가 느림
     - 단위 용량당 가격이 하드디스크에 비해 비싸다.
+
+### 하드디스크 
+
+RAID(Redundant Array Independent Disks): 여러 개의 하드디스크를 이용하여 데이터와 여분의 데이터를 분산하여 저장함으로써 접근 성능을 높이거나 장치의 결함에 대응할 수 있도록 구성된 저장장치  
+  
+실리더: 하나의 디스크 팩에서 회전축으로부터 동일한 반경에 위치하는 트랙의 집합  
+트랙: 디스크 면 위에 데이터를 기록하기 위한 동심원   
+섹터: 각 트랙의 저장영역. 디스크 엑세스의 기본단위  
+  
+탐구 시간: 헤드가 트랙을 찾아가는데 걸리는 시간  
+회전지연시간: 트랙 내 섹터를 찾아가는데 걸리는 시간  
+전송시간: 섹터 내 데이터를 찾는게 걸리는 시간  
+
+### 광디스크
+
+- 광디스크: 레이저를 이용하여 데이터를 기록하거나 읽는 방식, 나선형 트랙 구조를 갖는 CLV형식 사용
+  - ROM
+    - CD-ROM
+    - DVD-ROM
+    - LD
+    - BD-ROM
+  - WORM: 한 번만 기록 가능
+    - CD-R, DVD-R, BD-R
+  - RW: 반복적으로 쓰고 지울 수 있어 데이터 수정/보안 등 자료관리에 효율적
+    - CD-RW, DVD-RW, DVD-RAM, BD-RE  
+  
+파일 호스팅 서비스: 클라우드 저장장치에 파일을 저장/공유 가능하게 하여 인터넷이 연결된 곳이면 자원 이용 가능하게 하는 서비스
   
 - 대규모 저장장치 시스템
   DAS(Direct-Attached Storage) + NAS(Network Attached System)/SAN(Storage Area Networks)  
@@ -120,6 +146,8 @@ RFID(Radio-Frequency IDentification): IC칩과 전자기장을 이용한 무선�
   - 하드웨어 관리
   - 파일 시스템 관리  
   
+유틸리티 소프트웨어: 컴퓨터 시스템의 환경 설정을 변경하거나 시스템을 최적화하거나 관리하는 등 컴퓨터 시스템을 사용하는데 유용하게 사용할 수 있는 프로그램  
+  
 <img src="/assets/img/understandingComputer/5.png" width="600px">  
   
 - 언어 번역기  
@@ -134,13 +162,15 @@ RFID(Radio-Frequency IDentification): IC칩과 전자기장을 이용한 무선�
   
 `쉐어웨어(체험판)`: 사유 소프트웨어에 해당되며 일정 기간 또는 정품에 비해 제한된 기능만 사용할 수 있도록 무료로 제공되는 소프트웨어  
   
+GNU프로젝트: 사용자가 소프트웨어를 사용/공유/분석/수정할 수 있는 자유를 누리게 하는 것을 목표로 한다.  
+  
 - 기업에서 활용하는 정보 시스템  
-  - 경영정보 시스템(MIS: Management Information System)
+  - 경영정보 시스템(MIS: Management Information System): 기업경영에 관한 정보를 제공해주는 시스템  
   - 거래처리 시스템(TPS: Transaction Processing System)
   - 의사결정지원 시스템(DSS: Decision Support System)
   - 중역정보 시스템(EIS: Executive Information System)
-  - 전사적 자원관리(ERP: Enterprise Resource Planning)
-  - 고객관계 관리(CRM: Customer Relationship Management)  
+  - 전사적 자원관리(ERP: Enterprise Resource Planning): 기업의 전반적인 업무 프로세스를 하나의 체계로 통합/재구축하여 관련 정보를 서로 공유하고 신속한 의사결정/업무수행을 도와주는 시스템
+  - 고객관계 관리(CRM: Customer Relationship Management): 공급자에서 소비자로 거치는 진행과정을 감독하는 시스템  
 
 <br/>
 <hr>
@@ -149,6 +179,16 @@ RFID(Radio-Frequency IDentification): IC칩과 전자기장을 이용한 무선�
 
 파일: 컴퓨터 프로그램에 필요한 데이터 집합을 자기디스크와 같은 보조기억장치에 보관해 놓은 것  
   
+- 파일 데이터 구성방법
+  - 순차적 구성
+  - 상대적/직접적 구성: 상대적으로 지정된 위치에 레코드를 검색
+  - 인덱스된 구성: 인덱스 활용
+  
+- 파일 엑세스 방식
+  - 순차접근
+  - 임의접근  
+  
+
 외부 스키마: 사용자나 응용프로그래머가 접근하는 데이터베이스  
 개념 스키마: 전체 입장에서 데이터베이스를 정의  
 내부 스키마: 저장장치 입장에서 데이터베이스 전체가 저장되는 방법의 명세를 정의한 것  
