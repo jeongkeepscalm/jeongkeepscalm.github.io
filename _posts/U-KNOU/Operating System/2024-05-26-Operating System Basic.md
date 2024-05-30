@@ -664,7 +664,7 @@ void v(semaphore s) {
   - LAN(local Area Network)
   - WAN(Wide Area Network)
   
-### 분산 웅영체제
+### 분산 운영체제
 
 **분산 시스템을 관리하기 위한 운영체제**  
   
