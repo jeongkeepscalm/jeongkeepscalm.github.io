@@ -1,6 +1,6 @@
 ---
-title: "[U-KNOU] Python Code"
-description: "[U-KNOU] Python Code"
+title: "[U-KNOU] Python Basic Code"
+description: "[U-KNOU] Python Basic Code"
 date: 2024-05-13
 categories: [ U-KNOU, Python Basic ]
 tags: [ U-KNOU, Python Basic ]
