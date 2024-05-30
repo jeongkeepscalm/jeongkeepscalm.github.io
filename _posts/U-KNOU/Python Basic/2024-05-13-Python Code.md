@@ -1,6 +1,6 @@
 ---
-title: "[U-KNOU] Python Basic Code"
-description: "[U-KNOU] Python Basic Code"
+title: "[U-KNOU] 파이썬 기초 코드"
+description: "[U-KNOU] 파이썬 기초 코드"
 date: 2024-05-13
 categories: [ U-KNOU, Python Basic ]
 tags: [ U-KNOU, Python Basic ]

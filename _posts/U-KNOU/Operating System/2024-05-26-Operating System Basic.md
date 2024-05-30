@@ -1,6 +1,6 @@
 ---
-title: "[U-KNOU] Operating System Basic"
-description: "[U-KNOU] Operating System Basic"
+title: "[U-KNOU] 운영체제"
+description: "[U-KNOU] 운영체제"
 date: 2024-05-26
 categories: [ U-KNOU, Operating System ]
 tags: [ U-KNOU, Operating System ]
