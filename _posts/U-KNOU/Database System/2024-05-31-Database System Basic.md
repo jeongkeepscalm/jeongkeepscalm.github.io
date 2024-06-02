@@ -172,6 +172,8 @@ tags: [ U-KNOU, Database System ]
   - 개체집합(entity set): 테이블  
   - 속성: 컬럼  
   - 생년월일의 속성: 복합 속성 && 단일값 속성 && 유도 속성  
+  
+- <img src="/assets/img/knou_database_system/0.jpg" width="600px">  
 
 ### 제약조건
 
@@ -179,14 +181,14 @@ tags: [ U-KNOU, Database System ]
   
 - 제약조건의 종류  
   1. 사상수(Mapping Cardinality): 관계집합에 참가한 개체집합에 대해 한 개체가 다른 개체와 관계를 맺을 수 있는 수량을 명시  
-    - <img src="/assets/img/knou_database_system/mapping.jpg" 
+    - <img src="/assets/img/knou_database_system/1.jpg" width="600px">
     - 일대일(1:1)
     - 일대다(1:N)
     - 다대일(N:1)
     - 다대다(N:N)
     width="600px">  
   2. 참가 제약 조건(Participation Constraints)  
-    - <img src="/assets/img/knou_database_system/participation constraints.jpg" width="400px">  
+    - <img src="/assets/img/knou_database_system/2.jpg" width="600px">  
     - 전체적 참가: 어떤 개체집합의 모든 개체가 관계집합에 참여하는 조건(과목개체집합)
     - 부분적 참가: 어떤 개체집합의 일부 개체가 관계집합에 참여하는 조건(교수개체집합)  
   3. 키 속성  
@@ -197,6 +199,8 @@ tags: [ U-KNOU, Database System ]
     - <img src="/assets/img/knou_database_system/mapping2.jpg" width="400px">
     - `관계집합의 속성`: 두 개체집합의 관계에서 생성되는 값을 저장하는 속성(신청시각)
     - 재귀적 관계: 한 개체집합이 자기 자신과 집합을 형성하는 관계(선수과목)  
+    
+    - <img src="/assets/img/knou_database_system/3.jpg" width="600px">  
     - <u>학생 개체집합과 계좌 개체집합이 보유 관계집합으로 연결되어 있을 경우</u>
       - `약한 개체집합`(== 계좌 개체집합)
         - 개체의 존재 유무가 관계를 맺고 있는 개체의 존재에 종속되는 개체집합
@@ -248,8 +252,23 @@ tags: [ U-KNOU, Database System ]
   - 개체 무결성 제약조건: 기본키의 값 null 불가
   - 참조 무결성 제약조건: 다른 레코드의 기본키만 참조가능
   
-- <u>교수 개체집합과 과목 개체집합이 강의 관계집합으로 연결될 경우</u>
+- <img src="/assets/img/knou_database_system/4.jpg" width="600px">  
   - 일대다
   - 과목 개체집합은 모든 개체가 관계집합에 참여하는 전체적 참가(===== 두 줄로 표현)
   - 전체적 참가하는 과목 개체집합에 FK 생성(교수번호)
+  
+- <img src="/assets/img/knou_database_system/5.jpg" width="600px"> 
+  - 다대다
+  - `다대다 관계에서는 새로운 릴레이션 생성 필요`
+  - 새 릴레이션 구성 {학생번호(PK, FK), 과목번호(PK, FK), 신청시각}
+  
+- <img src="/assets/img/knou_database_system/6.jpg" width="600px"> 
+  - 일대일
+  - 보유 관계집합: 약한 관계집합(2중선)
+  - 계좌 개체집합: 약한 개체집합
+  - `일대일 관계`에서는 양쪽 다 외래키 존재가능하지만 보통 `컬럼 수가 적은 곳에 외래키 위치`
+  - `약한 개체집합에서 참조된 외래키`는 기본키로 추가되어 `복합키`를 이룬다. 
+    - 학생 릴레이션{학생번호(PK), 학생이름, 성별 ...}
+    - 계좌 릴레이션{계좌번호(PK), 잔액, 학생번호(PK, FK)}
+    - 복합키로 설정을 하면 학생이 전학을 갔을 때, 학생 릴레이션에서 삭제되고 계좌 릴레이션에서 학생번호는 PK이기 때문에 무조건 같이 삭제되어야 한다.
   
