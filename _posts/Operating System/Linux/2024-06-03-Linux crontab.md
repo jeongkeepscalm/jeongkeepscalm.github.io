@@ -40,7 +40,7 @@ crontab -e                                  <!-- crontab editor mode -->
 
 <br/>
 
-***이미지 삭제 shell***  
+***이미지 삭제 shell(crio-unused-image-del.sh)***  
 
 ```html
 crictl images -q | xargs -n 1 crictl rmi 2>/dev/null
