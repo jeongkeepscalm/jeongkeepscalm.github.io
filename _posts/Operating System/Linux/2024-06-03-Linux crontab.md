@@ -1,6 +1,6 @@
 ---
-title: "crontab"
-description: "crontab"
+title: "Linux crontab"
+description: "Linux crontab"
 date: 2024-06-03
 categories: [ Operating System, Linux ]
 tags: [ Operating System, Linux ]
@@ -30,8 +30,8 @@ tags: [ Operating System, Linux ]
 ```html
 sudo su -                                   <!-- root 권한 빌려오기 -->
 
-crontab -l:                                 <!-- crontab 목록 확인 -->
-crontab -e:                                 <!-- crontab editor mode -->
+crontab -l                                  <!-- crontab 목록 확인 -->
+crontab -e                                  <!-- crontab editor mode -->
 
 00 02 1 * * /root/crio-unused-image-del.sh  <!-- 명령어 추가 -->
 ```
