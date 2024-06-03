@@ -535,27 +535,27 @@ create view 뷰이름 as
 - 제 1정규화
   - 원자성을 만족해야 한다. 
   - `원자성`: 한 컬럼의 값은 하나이어야 한다.
-  - <img src="/assets/img/knou_database_system/11.png" width="800px"> 
+  - <img src="/assets/img/knou_database_system/11.png" width="600px"> 
   
 - 제 2정규화
   - 제 1정규화 + 기본키를 제외한 컬럼들은 모두 기본키에 종속
-  - <img src="/assets/img/knou_database_system/12.png" width="800px"> 
-  - <img src="/assets/img/knou_database_system/13.png" width="800px"> 
+  - <img src="/assets/img/knou_database_system/12.png" width="600px"> 
+  - <img src="/assets/img/knou_database_system/13.png" width="600px"> 
   
 - 제 3정규화
   - 제 2정규화 + 기본키가 아닌 속성들이 어떤 키에도 이행적 종속성이 없는 하는 상태
   - (기본키를 제외한 컬럼들 중 한 컬럼이 다른 컬럼을 종속하는 경우)
-  - <img src="/assets/img/knou_database_system/14.png" width="800px"> 
+  - <img src="/assets/img/knou_database_system/14.png" width="600px"> 
   
 - BC정규화
   - 제 3정규형 + x → y 를 종속한다라는 모든 상태에 대해서 x는 수퍼키여야 한다. 
   - {도크번호, 입항시간} → {목적}
   - {도크번호, 입항시간} → {출항시간}
   - {목적} → {도크번호}: 목적은 기본키가 아님에도불구하고 결정자인 상태(BC정규화 필요)
-  - <img src="/assets/img/knou_database_system/15.png" width="800px"> 
+  - <img src="/assets/img/knou_database_system/15.png" width="600px"> 
   
 - 정규형 결과
-  - <img src="/assets/img/knou_database_system/16.png" width="800px"> 
+  - <img src="/assets/img/knou_database_system/16.png" width="600px"> 
   
 - ***정리***
   - `정규화`
