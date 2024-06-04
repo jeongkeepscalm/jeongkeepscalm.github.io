@@ -748,4 +748,48 @@ create view 뷰이름 as
 
 ### B+ Tree 인덱스(이진탐색트리를 다단계 인덱스와 결합)
 
-
+***이진 탐색 트리(Binary Search Tree)***
+<img src="/assets/img/knou_database_system/29.png" width="400px">
+  
+***B+ Tree 구조***
+- <img src="/assets/img/knou_database_system/28.png" width="400px">
+- 탐색키 2개가 묶인 B+트리구조
+- `단말노드`(제일 하단 노드)는 서로 연결되어 있는 `연결 리스트 형태`
+  
+- `B+트리 인덱스`
+  - 루트노드로 부터 모든 단말노드에 이르는 경로의 길이가 같은 높이 균형 트리
+  - 순서 인덱스는 파일이 커질수록 데이터 탐색에 있어서 접근 비용이 커지는 문제점을 해결하기 위해 제안되었다. 
+  - 상용 DBMS에서도 널리 사용되는 대표적인 순서 인덱스  
+  
+- B+트리 노드 구조
+  - <img src="/assets/img/knou_database_system/30.png" width="400px">
+  - P: 팬아웃(fanout)
+  - 팬아웃 20개 == 노드의 하위 노드가 20개
+  
+- B+트리 구성 요소
+  - `인덱스 세트`
+    - 구성: 루트노드 + 중간노드 
+    - 단말노드의 탐색키 값을 신속하게 찾을 수 있도록 경로를 제공하는 목적으로 사용
+    - n/2 ~ n 사이의 개수를 자식으로 소유
+    - 포인터(화살표)는 실제 레코드를 지칭하지 않고 하위 노드를 가르킨다.
+  - `순차 세트`
+    - 구성: 단말노드
+    - 모든 노드가 순차적으로 서로 연결
+    - 단말노드는 적어도 (n-1)/2 개의 탐색키를 포함
+    - 단말노드만 실제 레코드를 지칭하는 `포인터` 제공
+  
+- 'COM44'의 과목명은?
+  - <img src="/assets/img/knou_database_system/31.png" width="600px">
+  1. COM44와 같거나 큰 것들 중에서 가장 작은 노드를 찾는다. 
+  2. 아무 것도 없으면 가장 오른쪽 포인터를 따라서 찾는다. 
+  3. 단말 노드에서 탐색 키를 찾으면 실제 레코드를 지칭하는 포인터를 따라 실제 레코드에 접근한다. 
+  4. 디스크에서 찾은 레코드를 메모리에 올려서 사용자에게 응답한다. 
+  
+- 'COM24' 삽입
+  - <img src="/assets/img/knou_database_system/32.png" width="400px">
+  - 'COM12', 'COM31' 분할
+  - 우측 단말 노드에 'COM24' 삽입
+  
+- 'COM12' 삭제
+  - <img src="/assets/img/knou_database_system/33.png" width="400px">
+  - <img src="/assets/img/knou_database_system/34.png" width="400px">
