@@ -43,6 +43,9 @@ tags: [ U-KNOU, Database System ]
 - 데이터베이스: 애플리케이션 시스템에서 사용되는 데이터의 집합
 - DBMS(Database Management System): 데이터베이스에 저장된 데이터의 구성, 저장, 관리, 사용을 위한 소프트웨어 패키지
 - 데이터베이스 시스템: 정보를 데이터베이스에 저장, 관리하여 사용자에게 요구된 형태의 정보로 제공하는 컴퓨터 기반 시스템
+  
+- 시스템 카탈로그(=데이터 사전)
+  - 특정 데이터베이스에 저장된 파일 구조를 파악하기 위한 데이터 타입/포맷/물리적 정보/데이터의 의미, 설명 등 논리적 정보를 관리 
 
 ### DBMS 3단계 구조
 
@@ -52,16 +55,17 @@ tags: [ U-KNOU, Database System ]
   - 데이터가 어디에 어떻게 저장되어 있는지와 같이 `데이터의 물리적인 저장 방식`을 관리      
 - `개념단계`    
   - 전체 데이터베이스의 구조와 데이터 간의 관계를 정의   
+  - 물리적인 상세사항은 배제
   - 메타데이터를 사용하여 데이터의 규모, 구조, 의미 등을 명시   
+  - 보안성, 무결성 검사
 - `외부단계`   
   - 사용자 또는 응용 프로그램이 데이터에 접근하는 방식을 정의  
-  - 자신의 목적에 맞는 필요한 데이터를 볼 수 있다.  
-  - 사용자의 요구에 따라 다양한 뷰를 제공하여 데이터를 보다 쉽게 이해하고 사용할 수 있게 한다.   
+  - 사용자가 관심 갖는 데이터베이스의 일부만 기술(다른 부분은 은폐)
 - `외부-개념사상`   
-  - 논리적 데이터 독립성이 확보되는 과정   
+  - 논리적 데이터 독립성: 개념 스키마에 변화 → 외부-개념 사상에만 반영(외부 스키마 영향 x)
 - `개념-내부사상`   
-  - 데이터베이스의 논리적 구조와 물리적 저장 방식 사이의 매핑을 관리  
-  - 애플리케이션이 데이터베이스의 물리적 구조에 영향을 받지 않도록 한다.   
+  - 개념 단계 데이터 스키마가 디스크 내 내부 필드와 어떻게 대응하는가를 정의
+  - 물리적 데이터 독립성: 다른 디스크로의 데이터 이동 / 파일 구조 변경 등 물리적 변화가 발생해도 개념-내부 사상에만 반영(개념 스키마에 영향 x)  
   
 - `DBMS 3단계 구조의 특징`  
   - 데이터의 물리적인 저장 방식과 사용자의 데이터 접근 방식 사이의 독립성을 보장   
@@ -102,8 +106,12 @@ tags: [ U-KNOU, Database System ]
   
 <img src="/assets/img/knou_database_system/modeling.png" width="600px">   
   
-- 데이터 모델: 의미, 데이터 타입, 연산 등을 명시하기 위해 사용할 수 있는 개념들의 집합  
-- 데이터 모델링: 실세계의 일부분을 DBMS가 지원하는 데이터 모델의 형태로 나타내는 과정  
+- 데이터 모델
+  - 데이터베이스 구조 명시
+  - 의미, 데이터 타입, 연산 등을 명시하기 위해 사용할 수 있는 개념들의 집합  
+- 데이터 모델링
+  - 실세계의 일부분을 DBMS가 지원하는 데이터 모델의 형태로 나타내는 과정  
+  - 데이터에 대한 요구사항을 정의, 분석, 추상화하는 과정
   1. 개념적 데이터 모델링(어떤 데이터를 저장할 것인가?)  
     - 사용자의 요구사항의 분석  
     - 실세계의 데이터를 개념적으로 일반화하여 데이터 구조, 데이터 타입, 속성, 관계, 제약조건 등을 이끌어내는 과정  
@@ -173,7 +181,7 @@ tags: [ U-KNOU, Database System ]
   - 속성: 컬럼  
   - 생년월일의 속성: 복합 속성 && 단일값 속성 && 유도 속성  
   
-- <img src="/assets/img/knou_database_system/0.jpg" width="600px">  
+- <img src="/assets/img/knou_database_system/0.jpg" width="800px">  
 
 ### 제약조건
 
@@ -181,14 +189,14 @@ tags: [ U-KNOU, Database System ]
   
 - 제약조건의 종류  
   1. 사상수(Mapping Cardinality): 관계집합에 참가한 개체집합에 대해 한 개체가 다른 개체와 관계를 맺을 수 있는 수량을 명시  
-    - <img src="/assets/img/knou_database_system/1.jpg" width="600px">
+    - <img src="/assets/img/knou_database_system/1.jpg" width="400px">
     - 일대일(1:1)
     - 일대다(1:N)
     - 다대일(N:1)
     - 다대다(N:N)
     width="600px">  
   2. 참가 제약 조건(Participation Constraints)  
-    - <img src="/assets/img/knou_database_system/2.jpg" width="600px">  
+    - <img src="/assets/img/knou_database_system/2.jpg" width="400px">  
     - 전체적 참가: 어떤 개체집합의 모든 개체가 관계집합에 참여하는 조건(과목개체집합)
     - 부분적 참가: 어떤 개체집합의 일부 개체가 관계집합에 참여하는 조건(교수개체집합)  
   3. 키 속성  
@@ -200,7 +208,7 @@ tags: [ U-KNOU, Database System ]
     - `관계집합의 속성`: 두 개체집합의 관계에서 생성되는 값을 저장하는 속성(신청시각)
     - 재귀적 관계: 한 개체집합이 자기 자신과 집합을 형성하는 관계(선수과목)  
     
-    - <img src="/assets/img/knou_database_system/3.jpg" width="600px">  
+    - <img src="/assets/img/knou_database_system/3.jpg" width="400px">  
     - <u>학생 개체집합과 계좌 개체집합이 보유 관계집합으로 연결되어 있을 경우</u>
       - `약한 개체집합`(== 계좌 개체집합)
         - 개체의 존재 유무가 관계를 맺고 있는 개체의 존재에 종속되는 개체집합
@@ -232,6 +240,7 @@ tags: [ U-KNOU, Database System ]
   - 컬럼: 속성, 필드
   - 행: 레코드, 투플
   - 여러 행: 인스턴스
+  - 카디널리티: 레코드의 개수
   
 - 릴레이션의 특징
   - 레코드의 유일성: 중복된 레코드 존재 불가
@@ -252,7 +261,7 @@ tags: [ U-KNOU, Database System ]
   - 개체 무결성 제약조건: 기본키의 값 null 불가
   - 참조 무결성 제약조건: 다른 레코드의 기본키만 참조가능
   
-- <img src="/assets/img/knou_database_system/4.jpg" width="600px">  
+- <img src="/assets/img/knou_database_system/4.jpg" width="400px">  
   - 일대다
   - 과목 개체집합은 모든 개체가 관계집합에 참여하는 전체적 참가(===== 두 줄로 표현)
   - 전체적 참가하는 과목 개체집합에 FK 생성(교수번호)
@@ -261,7 +270,7 @@ tags: [ U-KNOU, Database System ]
   - `다대다 관계에서는 새로운 릴레이션 생성 필요`
   - 새 릴레이션 구성 {학생번호(PK, FK), 과목번호(PK, FK), 신청시각}
   
-- <img src="/assets/img/knou_database_system/3.jpg" width="600px"> 
+- <img src="/assets/img/knou_database_system/3.jpg" width="400px"> 
   - 일대일
   - 보유 관계집합: 약한 관계집합(2중선)
   - 계좌 개체집합: 약한 개체집합
@@ -305,10 +314,10 @@ tags: [ U-KNOU, Database System ]
   - 두 컬럼의 도메인(영역: 데이터타입)이 일치해야한다.
   
 - 카티시언 프로덕트 연산: 두 릴레이션을 하나의 릴레이션으로 결합
-- <img src="/assets/img/knou_database_system/5.jpg" width="600px"> 
+- <img src="/assets/img/knou_database_system/5.jpg" width="400px"> 
   
 - 조인 연산: 조건에 만족하는 레코드들만 결합
-- <img src="/assets/img/knou_database_system/7.jpg" width="600px"> 
+- <img src="/assets/img/knou_database_system/7.jpg" width="400px"> 
   
 - Quiz 1. ‘컴퓨터과학과’ 소속의 교수가 강의하는 과목의 과목명과 과목코드는?
   - 카티시언 프로덕트 사용
@@ -748,7 +757,7 @@ create view 뷰이름 as
 
 ### B+ Tree 인덱스(이진탐색트리를 다단계 인덱스와 결합)
 
-***이진 탐색 트리(Binary Search Tree)***
+***이진 탐색 트리(Binary Search Tree)***  
 <img src="/assets/img/knou_database_system/29.png" width="400px">
   
 ***B+ Tree 구조***
@@ -814,7 +823,7 @@ create view 뷰이름 as
   - <img src="/assets/img/knou_database_system/35.png" width="400px">
   - 해시 함수는 버킷ID 반환
   
-- <img src="/assets/img/knou_database_system/36.png" width="400px">
+- <img src="/assets/img/knou_database_system/36.png" width="600px">
 
 ### 정적해싱
 
@@ -832,7 +841,7 @@ create view 뷰이름 as
   
 - 해시 인덱스
   - 해시 파일 구조와 동작 방식을 레코드가 아닌 인덱스 엔트리에 적용한 인덱스
-  - <img src="/assets/img/knou_database_system/37.png" width="400px">
+  - <img src="/assets/img/knou_database_system/37.png" width="600px">
   - 인덱스 엔트리를 해싱
   - 버킷에 해시 인덱스를 저장(레코드 저장 x)
   
