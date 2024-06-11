@@ -23,6 +23,11 @@ IntStream intStream = Arrays.stream(intArr);
 System.out.println("intStream.sum() : " + intStream.sum());
 System.out.println("intStream.count() : " + intStream.count());
 System.out.println("intStream.average() : " + intStream.average());
+
+// 인덱스 반환
+public int indexOf(Object o) {
+        return IntStream.range(0, size).filter(i -> o.equals(elementData[i])).findFirst().orElse(-1);
+}
 ```
 > IntStream 은 sum(), count(), average(), min(), max() 등 숫자 관련 함수를 제공한다. <br/>
 
