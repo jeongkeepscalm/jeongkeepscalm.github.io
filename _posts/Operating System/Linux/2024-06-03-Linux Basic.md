@@ -10,11 +10,14 @@ tags: [ Operating System, Linux ]
 
 ```html
 sudo su -
+
+exit
 ```
 > root 권한 빌려옴  
 > sudo: superuser do    
 > su: switch user   
 > sudo su -: 슈퍼유저 권한을 가지고 su - 명령 실행. 슈퍼유저(root)로 전환되어 - 옵션에 의해 슈퍼유저의 환경 설정을 로드한다.  
+> 다른 권한에서 자신의 권한으로 돌아온다.
 
 <br/>
 <hr>
@@ -51,7 +54,40 @@ cat cron-20240602 | grep "image-del"
 > -f: 실시간으로 로그 볼 경우   
 > cat cron-20240602 | grep "image-del": 해당 파일 내 "image-del" 단어를 찾아 출력  
 
+<br/>
+<hr>
 
+# 포트/프로세스 확인
 
+```html
+netstat -tnl          <!-- 현재 시스템에서 열려 있는 TCP 포트를 확인 -->
 
+ps ef                 <!-- 실행 중인 프로세스의 정보 확인 -->
+ps ef | grep java     <!-- 시스템에서 실행 중인 Java 프로세스의 정보 확인 -->
+```
+> t: TCP 프로토콜에 대한 연결만 표시  
+> n: 서비스 이름 대신 숫자로 포트를 표시  
+> l: 현재 열려 있는(즉, LISTEN 상태인) 연결만 표시  
+>   
+> ps: process status    
+> e: 모든 프로세스를 보여줌  
+> f: "full format"을 의미. 프로세스에 대한 자세한 정보 보여줌  
 
+<br/>
+<hr>
+
+# unit 확인
+
+```html
+systemctl (--all) list-units          <!-- 실행중인 유닛 목록 -->
+systemctl -t service list-units       <!-- 실행중인 서비스 유닛 목록 확인 -->
+systemctl -t service list-unit-files  <!-- 모든 서비스 유닛 목록 확인 -->
+```
+> unit: systemd 시스템 및 서비스 매니저에서 관리하는 작업의 기본 단위  
+  
+- systemd
+  - Linux 시스템의 초기화, 관리 및 트래킹을 위한 시스템 및 서비스 매니저
+  - 부팅시간 단축, 시스템 리소스(서비스, 프로세스, 소켓, 타이머) 관리
+  - 유닛(unit)을 사용하여 다양한 리소스 관리되며 유닛들은 파일로서 시스템에 저장된다. 
+- systemctl
+  - systemd 시스템을 제어하기 위한 명령어 라인 유틸리티
