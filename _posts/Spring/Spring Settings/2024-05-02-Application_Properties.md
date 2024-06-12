@@ -19,9 +19,8 @@ tags: [ Spring, Spring Settings ]
   spring.mvc.view.prefix=/WEB-INF/views/  
   spring.mvc.view.suffix=.jsp  
 
+## 타임리프 실시간 반영
 
-
-
-
-
+spring.thymeleaf.cache=false
+spring.thymeleaf.prefix=file:src/main/resources/templates/
 

@@ -6,7 +6,7 @@ categories: [ Java, Java Basic ]
 tags: [ Java, Java Basic, kyh, intermediate ]
 ---
 
-# Generic
+# 제네릭(Generic)
 
 * 제네릭 타입  
   제네릭 클래스, 제네릭 인터페이스를 모두 합쳐 제네릭 타입으로 부른다.  
@@ -434,7 +434,7 @@ public class WildcardMain2 {
 <br/>
 <hr>
 
-# 리스트(List)
+# 3. 리스트(List)
 
 - 배열 vs 리스트
   - 배열: 순서 존재, 중복 허용. 크기가 정적으로 고정
@@ -1073,3 +1073,9 @@ public class MyLinkedListV3 <E> {
 
 </div>
 </details>
+
+<br/>
+<hr>
+
+# next title
+
