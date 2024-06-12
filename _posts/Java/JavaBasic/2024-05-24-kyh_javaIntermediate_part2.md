@@ -455,7 +455,7 @@ public class WildcardMain2 {
   - 앞, 중간에 데이터 추가/삭제 성능이 좋지 않다. 
   
 <details>
-<summary><span style="color:oranage" class="point"><b>MyArrayList Code</b></span></summary>
+<summary><span style="color:orange" class="point"><b>MyArrayList Code</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -553,7 +553,7 @@ public class MyArrayListV3 {
 </details>
   
 <details>
-<summary><span style="color:oranage" class="point"><b>MyArrayList Generic Code</b></span></summary>
+<summary><span style="color:orange" class="point"><b>MyArrayList Generic Code</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -676,7 +676,7 @@ public class MyArrayListV4_generic<E> {
   - LinkedList: 앞쪽에 데이터 추가/삭제 시
   
 <details>
-<summary><span style="color:oranage" class="point"><b>Node Code</b></span></summary>
+<summary><span style="color:orange" class="point"><b>Node Code</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -801,7 +801,7 @@ private static void printAll(Node node) {
 <br/>
 
 <details>
-<summary><span style="color:oranage" class="point"><b>LinkedList Code</b></span></summary>
+<summary><span style="color:orange" class="point"><b>LinkedList Code</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -914,7 +914,7 @@ public class MyLinkedListV2 {
 <br/>
 
 <details>
-<summary><span style="color:oranage" class="point"><b>이중 연결 리스트 예시</b></span></summary>
+<summary><span style="color:orange" class="point"><b>이중 연결 리스트 예시</b></span></summary>
 <div markdown="1">      
 
 ```java
@@ -937,7 +937,7 @@ public class LinkedList {
 <br/>
 
 <details>
-<summary><span style="color:oranage" class="point"><b>LinkedList Generic Code</b></span></summary>
+<summary><span style="color:orange" class="point"><b>LinkedList Generic Code</b></span></summary>
 <div markdown="1">      
 
 ```java
