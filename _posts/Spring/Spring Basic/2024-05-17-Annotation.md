@@ -69,6 +69,9 @@ Rest API(HTTP API)를 만들 때 사용하는 컨트롤러
   
 ```@ResponseStatus(HttpStatus.OK)```  
 상태코드를 설정후 응답  
+  
+```@SuppressWarnings("unchecked")```
+프로그래머가 보장하니 오류를 체크하지 않는다. 
 
 <br/>
 <hr>

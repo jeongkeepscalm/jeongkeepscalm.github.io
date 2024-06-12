@@ -394,7 +394,7 @@ public class WildcardMain2 {
   - 가장 기본적인 자료 구조이고, 인덱스를 사용할 때 최고의 효율
   
 - 배열의 인덱스 활용
-  - <img src="/assets/img/kyh_java/1.jpg" width="600px" />  
+  - <img src="/assets/img/kyh_java/array_index.png" width="600px" />  
   - 공식: 배열의 시작 참조 + (자료의 크기 * 인덱스 위치)
   - O(1): 한번의 계산으로 필요한 위치를 찾아서 처리 
 
@@ -451,10 +451,345 @@ public class WildcardMain2 {
 - 데이터 검색: O(n)
   
 - ***정리***
-  - 배열 리스트는 데이터를 순서대로 입력, 출력하는 경우에 가장 효율적
+  - 배열 리스트는 순서대로 데이터를 추가/삭제 시 성능이 좋다.  
+  - 앞, 중간에 데이터 추가/삭제 성능이 좋지 않다. 
+  
+<details>
+<summary><span style="color:oranage" class="point"><b>MyArrayList Code</b></span></summary>
+<div markdown="1">      
 
+```java
+public class MyArrayListV3 {
 
+  private static final int DEFAULT_CAPACITY = 5;
 
+  private Object[] elementData;
+  private int size = 0;
 
+  // 생성자
+  public MyArrayListV3() {
+    elementData = new Object[DEFAULT_CAPACITY];
+  }
+  public MyArrayListV3(int initialCapacity) {
+    elementData = new Object[initialCapacity];
+  }
 
+  public int size() {
+    return size;
+  }
 
+  public void add(Object e) {
+    if (size == elementData.length) {
+      grow();
+    }
+    elementData[size] = e;
+    size++;
+  }
+
+  // 특정 인덱스에 값을 추가한다.
+  public void add(int index, Object e) {
+    if (elementData.length == size) {
+      grow();
+    }
+    getShiftRightFrom(index);
+    elementData[size] = e;
+    size++;
+  }
+
+  // 배열의 길이를 2배로 늘린다.
+  public void grow() {
+    elementData = Arrays.copyOf(elementData, elementData.length * 2);
+  }
+
+  // 해당 인덱스부터 값을 한 칸씩 오른쪽으로 옮김
+  public void getShiftRightFrom(int index) {
+    for (int i = size; i > index; i--) {
+      elementData[i] = elementData[i - 1];
+    }
+  }
+
+  // 인덱스에 해당되는 값을 리턴
+  public Object get(int index) {
+    return elementData[index];
+  }
+
+  // 해당 인덱스의 값 변경(변경되기 전 값 리턴)
+  public Object set(int index, Object e) {
+    Object oldValue = get(index);
+    elementData[index] = e;
+    return oldValue;
+  }
+
+  public Object remove(int index) {
+    Object oldValue = get(index);
+    shiftLeftFrom(index);
+    size--;
+    elementData[size] = null;
+    return oldValue;
+  }
+
+  // 해당 인덱스까지 들어있는 값들을 왼쪽으로 옮김
+  public void shiftLeftFrom(int index) {
+    for (int i = index; i < size - 1; i++) {
+      elementData[i] = elementData[i + 1];
+    }
+  }
+
+  // 인덱스 반환
+  public int indexOf (Object o) {
+    return IntStream.range(0, size).filter(i -> o.equals(elementData[i])).findFirst().orElse(-1);
+  }
+
+  @Override
+  public String toString() {
+    return Arrays.toString(Arrays.copyOf(elementData, size)) + " size=" +
+            size + ", capacity=" + elementData.length;
+  }
+
+}
+```
+
+</div>
+</details>
+  
+<details>
+<summary><span style="color:oranage" class="point"><b>MyArrayList Generic Code</b></span></summary>
+<div markdown="1">      
+
+```java
+public class MyArrayListV4_generic<E> {
+
+  /**
+   * Object -> E 타입변경
+   *    변경 x
+   *    필드: Object[]
+   *    생성자: Object
+   */
+
+  private static final int DEFAULT_CAPACITY = 5;
+
+  private Object[] elementData;
+  private int size = 0;
+
+  // 생성자
+  public MyArrayListV4_generic() {
+    elementData = new Object[DEFAULT_CAPACITY];
+  }
+  public MyArrayListV4_generic(int initialCapacity) {
+    elementData = new Object[initialCapacity];
+  }
+
+  public int size() {
+    return size;
+  }
+
+  public void add(E e) {
+    if (size == elementData.length) {
+      grow();
+    }
+    elementData[size] = e;
+    size++;
+  }
+
+  // 특정 인덱스에 값을 추가한다.
+  public void add(int index, E e) {
+    if (elementData.length == size) {
+      grow();
+    }
+    getShiftRightFrom(index);
+    elementData[size] = e;
+    size++;
+  }
+
+  // 배열의 길이를 2배로 늘린다.
+  public void grow() {
+    elementData = Arrays.copyOf(elementData, elementData.length * 2);
+  }
+
+  // 해당 인덱스부터 값을 한 칸씩 오른쪽으로 옮김
+  public void getShiftRightFrom(int index) {
+    for (int i = size; i > index; i--) {
+      elementData[i] = elementData[i - 1];
+    }
+  }
+
+  // 인덱스에 해당되는 값을 리턴
+  public E get(int index) {
+    return (E) elementData[index];
+  }
+
+  // 해당 인덱스의 값 변경(변경되기 전 값 리턴)
+  public E set(int index, E e) {
+    E oldValue = get(index);
+    elementData[index] = e;
+    return oldValue;
+  }
+
+  public E remove(int index) {
+    E oldValue = get(index);
+    shiftLeftFrom(index);
+    size--;
+    elementData[size] = null;
+    return oldValue;
+  }
+
+  // 해당 인덱스까지 들어있는 값들을 왼쪽으로 옮김
+  public void shiftLeftFrom(int index) {
+    for (int i = index; i < size - 1; i++) {
+      elementData[i] = elementData[i + 1];
+    }
+  }
+
+  // 인덱스 반환
+  public int indexOf (E o) {
+    return IntStream.range(0, size).filter(i -> o.equals(elementData[i])).findFirst().orElse(-1);
+  }
+
+  @Override
+  public String toString() {
+    return Arrays.toString(Arrays.copyOf(elementData, size)) + " size=" +
+            size + ", capacity=" + elementData.length;
+  }
+
+}
+```
+> Object[]: 제네릭의 한계  
+> 제네릭은 런타임에 이레이저에 의해 타입 정보가 사라진다.  
+> 따라서, 런타임에 타입 정보가 필요한 생성자에 사용할 수 없다.  
+> **생성자에는 제네릭의 타입 매개변수를 사용할 수 없다.**  
+
+</div>
+</details>
+
+### 연결 리스트(LinkedList)
+
+- 낭비되는 메모리 없이 필요한 만큼만 메모리를 확보해서 사용
+- 앞/중간에 데이터 추가/삭제 시 효율적인 자료 구조
+  
+- 노드 구조
+  - <img src="/assets/img/kyh_java/node.png" width="600px" />  
+  - 는 각각의 노드가 참조를 통해 연결(Link, 링크) 되어 있다.
+  
+<details>
+<summary><span style="color:oranage" class="point"><b>Node Code</b></span></summary>
+<div markdown="1">      
+
+```java
+public class Node {
+
+  Object item;
+  Node next;
+
+  public Node(Object item) {
+    this.item = item;
+  }
+
+  @Override
+  public String toString() {
+
+    StringBuilder sb = new StringBuilder();
+
+    Node x = this;
+    sb.append("[");
+    while (x != null) {
+      sb.append(x.item);
+      if (x.next != null) {
+        sb.append(" -> ");
+      }
+      x = x.next;
+    }
+    sb.append("]");
+
+    return sb.toString();
+  }
+
+  public String toString2() {
+
+    StringBuilder sb = new StringBuilder("[");
+    for (Node x = this; x != null; x = x.next) {
+      sb.append(x.item).append(x.next != null ? " -> " : "");
+    }
+    return sb.append("]").toString();
+  }
+
+}
+```
+
+```java
+public static void main(String[] args) {
+
+  Node first = new Node("A");
+  first.next =  new Node("B");
+  first.next.next = new Node("C");
+  first.next.next.next = new Node("D");
+
+  System.out.println(first); // [A -> B -> C -> D]
+
+}
+```
+
+```java
+public static void main(String[] args) {
+
+  // 노드 생성하고 연결하기: A -> B -> C
+  Node first = new Node("A");
+  first.next = new Node("B");
+  first.next.next = new Node("C");
+  System.out.println(first);
+
+  // 모든 노드 탐색하기
+  System.out.println("모든 노트 탐색하기");
+  printAll(first);
+
+  // 마지막 노드 조회하기
+  Node lastNode = getLastNode(first);
+  System.out.println("lastNode = " + lastNode);
+
+  // 특정 index 노드 조회하기
+  int index = 2;
+  Node index2Node = getNode(first, index);
+  System.out.println("index2Node = " + index2Node.item);
+
+  // 데이터 추가하기
+  System.out.println("데이터 추가하기");
+  add(first, "D");
+  System.out.println(first);
+  add(first, "E");
+  System.out.println(first);
+  add(first, "F");
+  System.out.println(first);
+}
+
+private static void add(Node node, Object object) {
+  Node lastNode = getLastNode(node);
+  lastNode.next = new Node(object);
+}
+
+private static Node getNode(Node node, int index) {
+  Node x = node;
+  for (int i = 0; i < index; i++) {
+    x = x.next;
+  }
+  return x;
+}
+
+private static Node getLastNode(Node node) {
+  Node x = node;
+  while (x.next != null) {
+    x = x.next;
+  }
+  return x;
+}
+
+private static void printAll(Node node) {
+  Node x = node;
+  while (x != null) {
+    System.out.println(x.item);
+    x = x.next;
+  }
+}
+```
+
+</div>
+</details>
+  
