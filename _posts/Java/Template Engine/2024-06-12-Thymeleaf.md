@@ -31,8 +31,8 @@ tags: [ Java, Java Template Engine ]
   - 링크 URL 표현식: @{...}
   - 조각 표현식: ~{...}
 - 문자 연산
-  - <code>문자 합치기: +</code>
-  - <code>리터럴 대체: |The name is ${name}|</code>
+  - 문자 합치기: <code>+</code>
+  - 리터럴 대체: <code>|The name is ${name}|</code>
 - 비교 동등
   - 비교: >, <, >=, <= (gt, lt, ge, le)
   - 동등 연산: ==, != (eq, ne)
@@ -48,8 +48,8 @@ tags: [ Java, Java Template Engine ]
 
 ```html
 <ul>
-    <li>th:text 사용 <span th:text="${data}"></span></li>
-    <li>컨텐츠 안에서 직접 출력하기 = [[${data}]]</li>
+  <li>th:text 사용 <span th:text="${data}"></span></li>
+  <li>컨텐츠 안에서 직접 출력하기 = [[${data}]]</li>
 </ul>
 ```
 
@@ -61,8 +61,8 @@ tags: [ Java, Java Template Engine ]
 - escape
   - html에서 사용하는 특수 문자를 html 엔티팉로 변경
   - 타임리프에서 제공하는 th:text, [[...]] 는 기본적으로 이스케이프를 제공
-  - <code>< → &lt; 변경</code> 
-  - <code>> → &gt; 변경</code>
+  - <code><</code> → &lt 변경 
+  - <code>></code> → &gt 변경
 
 ### Unescape
 
@@ -275,7 +275,7 @@ boolean a = true;       // 불리언 리터럴
 - checked x <input type="checkbox" name="active" th:checked="false"/><br/>
 - checked=false <input type="checkbox" name="active" checked="false"/><br/>
 ```
-> <code>HTML에서는 <input type="checkbox" name="active" checked="false" /> 이 경우에도 checked 속성이 있기 때문에 checked 처리가 되어버린다.</code>    
+> HTML에서는 `<input type="checkbox" name="active" checked="false" />` 이 경우에도 checked 속성이 있기 때문에 checked 처리가 되어버린다.  
 > 타임리프의 th:checked 는 값이 false 인 경우 checked 속성 자체를 제거한다.  
 
 <br/>
