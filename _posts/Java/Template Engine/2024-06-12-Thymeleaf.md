@@ -260,7 +260,8 @@ boolean a = true;       // 불리언 리터럴
 <br/>
 <hr>
 
-# 속성 값 추가(th:attrappend, th:attrprepend, th:classappend, th:checked)
+# 속성 값 추가
+### (th:attrappend, th:attrprepend, th:classappend, th:checked)
 
 ```html
 <h1>속성 설정</h1>
@@ -274,7 +275,7 @@ boolean a = true;       // 불리언 리터럴
 - checked x <input type="checkbox" name="active" th:checked="false"/><br/>
 - checked=false <input type="checkbox" name="active" checked="false"/><br/>
 ```
-> HTML에서는 <input type="checkbox" name="active" checked="false" /> 이 경우에도 checked 속성이 있기 때문에 checked 처리가 되어버린다.  
+> <code>HTML에서는 <input type="checkbox" name="active" checked="false" /> 이 경우에도 checked 속성이 있기 때문에 checked 처리가 되어버린다.</code>    
 > 타임리프의 th:checked 는 값이 false 인 경우 checked 속성 자체를 제거한다.  
 
 <br/>
