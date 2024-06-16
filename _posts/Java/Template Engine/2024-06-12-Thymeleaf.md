@@ -31,8 +31,8 @@ tags: [ Java, Java Template Engine ]
   - 링크 URL 표현식: @{...}
   - 조각 표현식: ~{...}
 - 문자 연산
-  - 문자 합치기: +
-  - 리터럴 대체: |The name is ${name}|
+  - 문자 합치기: '+'
+  - 리터럴 대체: '|The name is ${name}|'
 - 비교 동등
   - 비교: >, <, >=, <= (gt, lt, ge, le)
   - 동등 연산: ==, != (eq, ne)
