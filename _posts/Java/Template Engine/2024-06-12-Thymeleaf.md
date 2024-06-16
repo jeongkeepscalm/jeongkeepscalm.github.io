@@ -260,7 +260,7 @@ boolean a = true;       // 불리언 리터럴
 <br/>
 <hr>
 
-# 속성 값 추가
+# 속성 값 추가(th:attrappend, th:attrprepend, th:classappend, th:checked)
 
 ```html
 <h1>속성 설정</h1>
@@ -280,4 +280,340 @@ boolean a = true;       // 불리언 리터럴
 <br/>
 <hr>
 
-# 반복
+# 반복(th:each, Stat)
+
+```html
+<h1>기본 테이블</h1>
+<table border="1">
+  <tr>
+    <th>username</th>
+    <th>age</th>
+  </tr>
+  <tr th:each="user : ${users}">
+    <td th:text="${user.username}">username for html</td>
+    <td th:text="${user.age}">age for html</td>
+  </tr>
+</table>
+<h1>반복 상태 유지</h1>
+<table>
+  <tr>
+    <th>count</th>
+    <th>username</th>
+    <th>age</th>
+    <th>etc</th>
+  </tr>
+  <tr th:each="user, userStat : ${users}">
+    <td th:text="${userStat.count}">username</td>
+    <td th:text="${user.username}">username</td>
+    <td th:text="${user.age}">0</td>
+    <td>
+      index = <span th:text="${userStat.index}"></span>
+      count = <span th:text="${userStat.count}"></span>
+      size = <span th:text="${userStat.size}"></span>
+      even? = <span th:text="${userStat.even}"></span>
+      odd? = <span th:text="${userStat.odd}"></span>
+      first? = <span th:text="${userStat.first}"></span>
+      last? = <span th:text="${userStat.last}"></span>
+      current = <span th:text="${userStat.current}"></span>
+      <!--
+        첫 번째 행
+          index = 0         : 0부터 시작 
+          count = 1         : 1부터 시작
+          size = 3          
+          even? = false 
+          odd? = true 
+          first? = true 
+          last? = false
+          BasicController.User(username=userA, age=10)
+      -->
+    </td>
+  </tr>
+</table>
+</body>
+</html>
+```
+
+- th:each
+  - List, 배열, java.util.Iterable, java.util.Enumeration 을 구현한 모든 객체를 반복에 사용
+  - 변수에 Map.Entry가 담겨 Map도 사용 가능
+  
+- 반복 상태 유지
+  - 반복의 두번째 파라미터를 설정하여 반복 상태 확인
+  - 두번째 파라미터 생략 가능(지정한 변수명 + Stat로 사용가능)
+  - 위 예시의 userStat 생략 가능
+
+<br/>
+<hr>
+
+# 조건(th:if, th:unless, th:switch, th:case)
+
+```html
+<h1>if, unless</h1>
+<table border="1">
+  <tr>
+    <th>count</th>
+    <th>username</th>
+    <th>age</th>
+  </tr>
+  <tr th:each="user : ${users}">
+    <td th:text="${userStat.count}">1</td>
+    <td th:text="${user.username}">username</td>
+    <td>
+      <span th:text="${user.age}">0</span>
+      <span th:text="'미성년자'" th:if="${user.age lt 20}"></span>
+      <span th:text="'미성년자'" th:unless="${user.age ge 20}"></span>
+      <!--
+        age 컬럼 값
+          10 미성년자 미성년자
+          20
+          30
+      -->
+    </td>
+  </tr>
+</table>
+<h1>switch</h1>
+<table border="1">
+  <tr>
+    <th>count</th>
+    <th>username</th>
+    <th>age</th>
+  </tr>
+  <tr th:each="user : ${users}">
+    <td th:text="${userStat.count}">1</td>
+    <td th:text="${user.username}">username</td>
+    <td th:switch="${user.age}">
+      <span th:case="10">10살</span>
+      <span th:case="20">20살</span>
+      <span th:case="*">기타</span>
+    </td>
+  </tr>
+</table>
+```
+> **타임리프는 해당 조건이 맞지 않으면 태그 자체를 렌더링하지 않는다.**   
+> th:if        : 해당 조건을 만족할 경우 표시  
+> th:unless    : 해당 조건을 만족하기 않을 경우 표시  
+> th:case="*"  : 만족하는 조건이 없을 때 사용하는 디폴트   
+
+<br/>
+<hr>
+
+# 주석
+
+```html
+<h1>예시</h1>
+<span th:text="${data}">html data</span>
+<h1>1. 표준 HTML 주석</h1>
+<!--
+<span th:text="${data}">html data</span>
+-->
+<h1>2. 타임리프 파서 주석</h1>
+<!--/* [[${data}]] */-->
+<!--/*-->
+<span th:text="${data}">html data</span>
+<!--*/-->
+<h1>3. 타임리프 프로토타입 주석</h1>
+<!--/*/
+<span th:text="${data}">html data</span>
+/*/-->
+```
+> `<!--/* [[${data}]] */-->`: 타임리프 코드 주석  
+> `<!--/*/ ... /*/-->`: html 화면에 보이진 않지만 타임리프를 렌더링 할 경우 보여진다.  
+
+<br/>
+<hr>
+
+# block
+
+```html
+<th:block th:each="user : ${users}">
+  <div>
+    사용자 이름1 <span th:text="${user.username}"></span>
+    사용자 나이1 <span th:text="${user.age}"></span>
+  </div>
+  <div>
+    요약 <span th:text="${user.username} + ' / ' + ${user.age}"></span>
+  </div>
+</th:block>
+```
+> <th:block> 은 렌더링시 제거됨  
+
+<br/>
+<hr>
+
+# 자바스크립트 인라인
+
+- 자바스크립트에서 타임리프를 편리하게 사용할 수 있다.
+
+```html
+<!-- 자바스크립트 인라인 사용 전 -->
+<script>
+  var username = [[${user.username}]];
+  var age = [[${user.age}]];
+  //자바스크립트 내추럴 템플릿
+  var username2 = /*[[${user.username}]]*/ "test username";
+  //객체
+  var user = [[${user}]];
+</script>
+
+<!-- 자바스크립트 인라인 사용 후 -->
+<script th:inline="javascript">
+  var username = [[${user.username}]];
+  var age = [[${user.age}]];
+  //자바스크립트 내추럴 템플릿
+  var username2 = /*[[${user.username}]]*/ "test username";
+  //객체
+  var user = [[${user}]];
+</script>
+
+<!-- 자바스크립트 인라인 each -->
+<script th:inline="javascript">
+  [# th:each="user, stat : ${users}"]
+  var user[[${stat.count}]] = [[${user}]];
+  [/]
+</script>
+
+<!--
+  자바스크립트 인라인 사용 전
+    var username = userA;
+    var age = 10;
+    //자바스크립트 내추럴 템플릿
+    var username2 = /*userA*/ "test username";
+    //객체
+    var user = BasicController.User(username=userA, age=10);
+      : ToString()이 호출된 값
+
+  자바스크립트 인라인 사용 후
+    var username = "userA";                     : "" 추가됨
+    var age = 10;
+    //자바스크립트 내추럴 템플릿
+    var username2 = "userA";                    : "" 추가됨
+    //객체
+    var user = {"username":"userA","age":10};   : JSON 객체 자동 변환
+  
+  자바스크립트 인라인 each
+    var user1 = {"username":"userA","age":10};
+    var user2 = {"username":"userB","age":20};
+    var user3 = {"username":"userC","age":30};
+-->
+```
+
+<br/>
+<hr>
+
+# 템플릿 조각(th:fragment, th:insert, th:replace)
+
+- 일부 코드 조각을 가져와서 사용
+
+```html
+<!-- footer.html -->
+<footer th:fragment="copy">
+  푸터 자리 입니다.
+</footer>
+<footer th:fragment="copyParam (param1, param2)">
+  <p>파라미터 자리 입니다.</p>
+  <p th:text="${param1}"></p>
+  <p th:text="${param2}"></p>
+</footer>
+
+<!-- main.html -->
+<body>
+<h1>부분 포함</h1>
+
+<h2>부분 포함 insert</h2>
+<div th:insert="~{template/fragment/footer :: copy}"></div>
+
+<h2>부분 포함 replace</h2>
+<div th:replace="~{template/fragment/footer :: copy}"></div>
+
+<h2>부분 포함 단순 표현식</h2>
+<div th:replace="template/fragment/footer :: copy"></div>
+
+<h1>파라미터 사용</h1>
+<div th:replace="~{template/fragment/footer :: copyParam ('데이터1', '데이터2')}"></div>
+<!--
+  파라미터 사용
+  파라미터 자리 입니다.
+  데이터1
+  데이터
+-->
+</body>
+```
+
+<br/>
+<hr>
+
+# 템플릿 레이아웃
+
+- 일부 코드 조각을 레이아웃에 넘겨서 사용
+- < head >에 공통으로 사용하는 css, js 같은 공통 정보들을 모아 사용하지만, 각 페이지마다 필요한 정보를 더 추가해서 사용하고 싶을 경우 사용한다. 
+
+```html
+<!-- base.html -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="common_header(title, links)">
+  <title th:replace="${title}">레이아웃 타이틀</title>
+  <!-- 공통 -->
+  <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/awesomeapp.css}">
+  <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+  <script type="text/javascript" th:src="@{/sh/scripts/codebase.js}"></script>
+  <!-- 추가 -->
+  <th:block th:replace="${links}" />
+</head>
+
+<!-- main.html -->
+<head th:replace="template/layout/base :: common_header(~{::title},~{::link})">
+    <title>메인 타이틀</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/themes/smoothness/jquery-ui.css}">
+</head>
+<body>
+메인 컨텐츠
+</body>
+```
+> main.html에서 base.html을 가져와 활용  
+> main.html에서 값들이 base.html에 적용된다.  
+> `::title`: 현재 페이지의 title 태그들을 전달  
+> `::link`: 현재 페이지의 link 태그들을 전달  
+
+<br/>
+
+```html
+<!-- layoutFile.html -->
+<html th:fragment="layout (title, content)" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:replace="${title}">레이아웃 타이틀</title>
+</head>
+<body>
+<h1>레이아웃 H1</h1>
+<div th:replace="${content}">
+  <p>레이아웃 컨텐츠</p>
+</div>
+<footer>
+  레이아웃 푸터
+</footer>
+</body>
+</html>
+
+<!-- layoutFileMain.html -->
+<html th:replace="~{template/layoutExtend/layoutFile :: layout(~{::title}, ~{::section})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>메인 페이지 타이틀</title>
+</head>
+<body>
+<section>
+  <p>메인 페이지 컨텐츠</p>
+  <div>메인 페이지 포함 내용</div>
+</section>
+<!--
+  레이아웃 H1
+  메인 페이지 컨텐츠
+  메인 페이지 포함 내용
+  레이아웃 푸터
+-->
+</body>
+</html>
+```
+
+
+
+
