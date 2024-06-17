@@ -73,6 +73,11 @@ Rest API(HTTP API)를 만들 때 사용하는 컨트롤러
 ```@SuppressWarnings("unchecked")```
 프로그래머가 보장하니 오류를 체크하지 않는다. 
 
+```@ModelAttribute```  
+public Map<String, String> @ModelAttribute("abc") {}  
+컨트롤러 내 메소드 호출 시 해당 메소드에 담은 값이 model에 담긴다.   
+model.addAttribute("abc", 리턴하는 맵)  
+
 <br/>
 <hr>
 

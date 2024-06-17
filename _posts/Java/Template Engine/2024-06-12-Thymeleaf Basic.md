@@ -614,7 +614,3 @@ boolean a = true;       // 불리언 리터럴
 </body>
 </html>
 ```
-
-
-
-
