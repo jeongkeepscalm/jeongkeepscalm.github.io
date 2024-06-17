@@ -73,7 +73,7 @@ tags: [ Java, Java Template Engine ]
 <br/>
 <hr>
 
-# 다양한 상황을 통해 form의 데이터를 어떻게 받는지 확인해보자.
+# how to get form data
 
 ```java
 public enum ItemType {
@@ -124,6 +124,7 @@ public class Item {
 ```
 
 <br/>
+<hr>
 
 ***single checkbox***
 
@@ -169,6 +170,7 @@ public String addItemV6(Item item, RedirectAttributes redirectAttributes) {
 >   값이 true면, 체크를 자동으로 처리(checked="checked")  
 
 <br/>
+<hr>
 
 ***multi checkbox***
 
@@ -221,6 +223,7 @@ public String addItemV6(Item item, RedirectAttributes redirectAttributes) {
 > 선택된 값을 서버에서 List로 받는다.  
 
 <br/>
+<hr>
 
 ***radio button***
 
@@ -248,6 +251,7 @@ public ItemType[] itemTypes() {
 ```
 
 <br/>
+<hr>
 
 ***select box***
 
