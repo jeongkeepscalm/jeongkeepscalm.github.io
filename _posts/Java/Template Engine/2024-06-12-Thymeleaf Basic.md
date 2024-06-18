@@ -441,6 +441,20 @@ boolean a = true;       // 불리언 리터럴
 <br/>
 <hr>
 
+# message 적용: #{...}
+
+- 렌더링 전  
+  - <code><div th:text="#{label.item}"></h2></code>  
+- 렌더링 후  
+  - <code><div>상품</h2></code>  
+  
+- 파라미터 추가
+  - hello.name=안녕 {0}
+  - <p th:text="#{hello.name(${item.itemName})}"></p>
+
+<br/>
+<hr> 
+
 # 자바스크립트 인라인
 
 - 자바스크립트에서 타임리프를 편리하게 사용할 수 있다.

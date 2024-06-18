@@ -59,6 +59,11 @@ Rest API(HTTP API)를 만들 때 사용하는 컨트롤러
 ```@Data```   
 @Getter , @Setter , @ToString , @EqualsAndHashCode , @RequiredArgsConstructor 를 자동으로 적용해준다.  
 
+```@SpringBootTest```  
+스프링 부트에서 제공하는 어노테이션으로 통합 테스트를 위한 환경을 설정한다.  
+@SpringBootApplication이나 @SpringBootConfiguration이 선언된 클래스를 찾아 그 위치부터 설정을 시작  
+테스트 시 필요한 모든 빈(Bean)을 자동으로 등록하고, 애플리케이션의 프로퍼티 설정도 적용  
+
 <br/>
 <hr>
 
