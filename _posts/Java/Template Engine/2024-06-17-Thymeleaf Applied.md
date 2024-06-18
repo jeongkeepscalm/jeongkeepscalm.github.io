@@ -1,6 +1,6 @@
 ---
-title: "Thymeleaf Applied"
-description: "Thymeleaf Applied"
+title: "[KYH] Thymeleaf Applied"
+description: "[KYH] Thymeleaf Applied"
 date: 2024-06-17
 categories: [ Java, Java Template Engine ]
 tags: [ Java, Java Template Engine ]
