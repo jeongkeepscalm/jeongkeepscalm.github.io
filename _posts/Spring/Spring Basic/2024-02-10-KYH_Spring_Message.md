@@ -117,7 +117,7 @@ public class MessageSourceTest {
   
 - 파라미터 추가
   - hello.name=안녕 {0}
-  - <p th:text="#{hello.name(${item.itemName})}"></p>
+  - <code><p th:text="#{hello.name(${item.itemName})}"></p></code>
 
 <br/>
 <hr> 
@@ -143,6 +143,6 @@ public interface LocaleResolver {
   void setLocale(HttpServletRequest request
     , @Nullable HttpServletResponseresponse
     , @Nullable Locale locale);
-    
+
 }
 ```
