@@ -128,7 +128,7 @@ public class MessageSourceTest {
   -  HTTP 요청 헤더 내 Accept-Language 속성의 값이 변경된다.
 
 <br/>
-<hr>
+<hr>  
 
 # LocaleResolver
 

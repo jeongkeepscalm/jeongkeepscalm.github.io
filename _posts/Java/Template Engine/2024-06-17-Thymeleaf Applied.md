@@ -275,3 +275,67 @@ public ItemType[] itemTypes() {
   </select>
 </div>
 ```
+
+<br/>
+<hr>
+
+# Validation 적용 
+
+```html
+<div class="container">
+  <div class="py-5 text-center">
+    <h2 th:text="#{page.addItem}">상품 등록</h2>
+  </div>
+  <form action="item.html" th:action th:object="${item}" method="post">
+    <div th:if="${errors?.containsKey('globalError')}">
+        <p class="field-error" th:text="${errors['globalError']}">전체 오류 메시지</p>
+    </div>
+    <div>
+        <label for="itemName" th:text="#{label.item.itemName}">상품명</label>
+          <input type="text" id="itemName" th:field="*{itemName}"
+              th:classappend="${errors?.containsKey('itemName')} ? 'fielderror' : _"
+              class="form-control" placeholder="이름을 입력하세요">
+          <div class="field-error" th:if="${errors?.containsKey('itemName')}"
+              th:text="${errors['itemName']}">상품명 오류
+          </div>
+    </div>
+    <div>
+        <label for="price" th:text="#{label.item.price}">가격</label>
+        <input type="text" id="price" th:field="*{price}"
+                th:class="${errors?.containsKey('price')} ? 'form-controlfield-error' : 'form-control'"
+                class="form-control" placeholder="가격을 입력하세요">
+        <div class="field-error" th:if="${errors?.containsKey('price')}" th:text="${errors['price']}">가격 오류
+        </div>
+    </div>
+    <div>
+      <label for="quantity" th:text="#{label.item.quantity}">수량</label>
+      <input type="text" id="quantity" th:field="*{quantity}"
+              th:class="${errors?.containsKey('quantity')} ? 'form-controlfield-error' : 'form-control'"
+              class="form-control" placeholder="수량을 입력하세요">
+      <div class="field-error" th:if="${errors?.containsKey('quantity')}" th:text="${errors['quantity']}">수량 오류
+      </div>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+      <div class="col">
+        <button class="w-100 btn btn-primary btn-lg" type="submit" th:text="#{button.save}">저장</button>
+      </div>
+      <div class="col">
+        <button class="w-100 btn btn-secondary btn-lg"
+                onclick="location.href='items.html'"
+                th:onclick="|location.href='@{/validation/v1/items}'|"
+                type="button" th:text="#{button.cancel}">취소</button>
+      </div>
+    </div>
+  </form>
+</div>
+```
+> `errors?.`  
+>   errors 가 null 일 경우, NullPointerException 발생 x  
+>   errors 가 null 일 경우, null 반환  
+>   th:if 에서 null 은 실패로 처리되므로 오류 메시지가 출력되지 않는다.  
+> <code><input type="text" th:classappend="${errors?.containsKey('itemName')} ? 'fielderror' : _" class="form-control"></code>  
+>   classappend 를 사용해서 해당 필드에 오류가 있으면 field-error 라는 클래스 정보를 더해서 폼의 색깔을 빨간
+색으로 강조한다. 만약 값이 없으면 _ (No-Operation)을 사용해서 아무것도 하지 않는다.  
+
+<br/>
