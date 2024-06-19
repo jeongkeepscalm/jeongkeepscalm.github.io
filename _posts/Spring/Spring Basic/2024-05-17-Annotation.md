@@ -8,36 +8,36 @@ tags: [ Spring, Spring Basic ]
 
 ## Spring Basic 
 
-```@Configuration```  
-스프링 설정 정보에 사용되는 어노테이션으로 싱들톤을 보장한다.  
+- ```@Configuration```  
+- 스프링 설정 정보에 사용되는 어노테이션으로 싱들톤을 보장한다.  
   
-```@ComponentScan```  
-@Component 가 붙은 모든 클래스를 스프링 빈으로 등록  
+- ```@ComponentScan```  
+- @Component 가 붙은 모든 클래스를 스프링 빈으로 등록  
   
-```@Component```  
-Bean을 자동으로 등록하는데 사용  
+- ```@Component```  
+- Bean을 자동으로 등록하는데 사용  
   
-```@Autowired```  
-의존 관계를 자동으로 주입해준다.  
+- ```@Autowired```  
+- 의존 관계를 자동으로 주입해준다.  
 
-```@Repository```  
-스프링 데이터 접근 계층으로 인식하고, 데이터 계층의 예외를 스프링 예외로 변환해준다.  
+- ```@Repository```  
+- 스프링 데이터 접근 계층으로 인식하고, 데이터 계층의 예외를 스프링 예외로 변환해준다.  
   
-```@RequiredArgsConstructor```  
-final이 붙은 필드를 모아서 생성자를 자동으로 만들어준다.  
+- ```@RequiredArgsConstructor```  
+  - final이 붙은 필드를 모아서 생성자를 자동으로 만들어준다.  
   
-```@AllArgsConstructor```  
-모든 멤버 변수를 인자로 받는 생성자를 자동으로 생성해준다.  
+- ```@AllArgsConstructor```  
+  - 모든 멤버 변수를 인자로 받는 생성자를 자동으로 생성해준다.  
   
-```@Qualifier / @Primary```  
-둘 다 같은 타입의 빈이 여러 개 있을 때, 어떤 빈을 주입할지 선택하는데 사용된다.  
-우선순위: @Qualifier > @Primary   
+- ```@Qualifier / @Primary```  
+  - 둘 다 같은 타입의 빈이 여러 개 있을 때, 어떤 빈을 주입할지 선택하는데 사용된다.  
+  - 우선순위: @Qualifier > @Primary   
   
-```@PostConstruct```  
-빈이 생성되고 의존성 주입이 완료된 후에 자동으로 호출된다. 특정한 설정을 해야한다거나, DB에 초기 데이터를 채워야 하는 작업을 할 때 사용한다.  
+- ```@PostConstruct```  
+  - 빈이 생성되고 의존성 주입이 완료된 후에 자동으로 호출된다. 특정한 설정을 해야한다거나, DB에 초기 데이터를 채워야 하는 작업을 할 때 사용한다.  
   
-```@PreDestroy```  
-스프링 빈의 생명주기가 끝나기 직전에 호출되는 메서드에 붙인다. 주로 리소스 해제 등을 위해 사용된다.  
+- ```@PreDestroy```  
+  - 스프링 빈의 생명주기가 끝나기 직전에 호출되는 메서드에 붙인다. 주로 리소스 해제 등을 위해 사용된다.  
 
 <br/>
 <hr>
@@ -60,6 +60,7 @@ Rest API(HTTP API)를 만들 때 사용하는 컨트롤러
 @Getter , @Setter , @ToString , @EqualsAndHashCode , @RequiredArgsConstructor 를 자동으로 적용해준다.  
 
 ```@SpringBootTest```  
+스프링 부트 애플리케이션의 전체 컨텍스트를 로드하여 통합 테스트를 수행  
 스프링 부트에서 제공하는 어노테이션으로 통합 테스트를 위한 환경을 설정한다.  
 @SpringBootApplication이나 @SpringBootConfiguration이 선언된 클래스를 찾아 그 위치부터 설정을 시작  
 테스트 시 필요한 모든 빈(Bean)을 자동으로 등록하고, 애플리케이션의 프로퍼티 설정도 적용  
@@ -82,6 +83,14 @@ Rest API(HTTP API)를 만들 때 사용하는 컨트롤러
 public Map<String, String> @ModelAttribute("abc") {}  
 컨트롤러 내 메소드 호출 시 해당 메소드에 담은 값이 model에 담긴다.   
 model.addAttribute("abc", 리턴하는 맵)  
+
+`@Validated`  
+검증기를 실행하라는 어노테이션  
+WebDataBinder 에 등록한 검증기를 찾아서 실행  
+스프링 전용 검증 어노테이션
+
+`@Valid`  
+자바 표준 검증 어노테이션
 
 <br/>
 <hr>

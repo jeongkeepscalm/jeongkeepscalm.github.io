@@ -282,6 +282,8 @@ public ItemType[] itemTypes() {
 # Validation 적용 
 
 ```html
+<!-- Map에 에러 메시지를 담을 경우 -->
+
 <div class="container">
   <div class="py-5 text-center">
     <h2 th:text="#{page.addItem}">상품 등록</h2>
@@ -339,3 +341,65 @@ public ItemType[] itemTypes() {
 색으로 강조한다. 만약 값이 없으면 _ (No-Operation)을 사용해서 아무것도 하지 않는다.  
 
 <br/>
+
+```html
+<!-- BuindingResult 활용 -->
+
+<form action="item.html" th:action th:object="${item}" method="post">
+  <div th:if="${#fields.hasGlobalErrors()}">
+    <p class="field-error" th:each="err:${#fields.globalErrors()}" th:text="${err}">global error message</p>
+  </div>
+
+  <div>
+    <label for="itemName" th:text="#{label.item.itemName}">상품명</label>
+    <input type="text" id="itemName" th:field="*{itemName}"
+      th:classappend="${errors?.containsKey('itemName')} ? 'fielderror' : _"
+      class="form-control" placeholder="이름을 입력하세요">
+
+    <div class="field-error" th:errors="*{itemName}">
+        상품명 오류
+    </div>
+
+  </div>
+  <div>
+    <label for="price" th:text="#{label.item.price}">가격</label>
+    <input type="text" id="price" th:field="*{price}"
+      th:errorclass="field-error" class="form-control" placeholder="가격을 입력하세요">
+
+    <div class="field-error" th:errors="*{price}">
+      가격오류
+    </div>
+
+  </div>
+  <div>
+      <label for="quantity" th:text="#{label.item.quantity}">수량</label>
+      <input type="text" id="quantity" th:field="*{quantity}"
+        th:class="${errors?.containsKey('quantity')} ? 'form-controlfield-error' : 'form-control'"
+        class="form-control" placeholder="수량을 입력하세요">
+
+      <div class="field-error" th:errors="*{quantity}">
+        수량 오류
+      </div>
+
+  </div>
+  <hr class="my-4">
+  <div class="row">
+      <div class="col">
+        <button class="w-100 btn btn-primary btn-lg" type="submit" th:text="#{button.save}">저장</button>
+      </div>
+      <div class="col">
+          <button class="w-100 btn btn-secondary btn-lg"
+            onclick="location.href='items.html'"
+            th:onclick="|location.href='@{/validation/v2/items}'|"
+            type="button" th:text="#{button.cancel}">취소</button>
+      </div>
+  </div>
+</form>
+
+```
+> `#fields`: BindingResult가 제공하는 검증 오류에 접근 가능  
+> `th:errors`: 해당 필드에 오류가 있는 경우 태그 출력(th:if 편의 버전)  
+> `th:errorclass` : th:field 에서 지정한 필드에 오류가 있으면 class 정보를 추가  
+
+<br/>
+

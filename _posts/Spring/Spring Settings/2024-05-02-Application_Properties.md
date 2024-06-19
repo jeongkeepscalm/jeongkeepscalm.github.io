@@ -44,5 +44,5 @@ tags: [ Spring, Spring Settings ]
 
 # 메시지 소스 설정
 
-- spring.messages.basename=messages,config.i18n.messages
+- spring.messages.basename=messages,errors
 
