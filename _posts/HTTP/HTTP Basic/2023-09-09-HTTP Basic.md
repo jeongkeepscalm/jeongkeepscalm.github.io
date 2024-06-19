@@ -1,6 +1,6 @@
 ---
-title: "[KYH] HTTP Basic"
-description: http
+title: "HTTP Basic"
+description: HTTP Basic
 date: 2023-09-09
 categories: [ HTTP, HTTP Basic ]
 tags: [ HTTP, HTTP Basic, KYH ]

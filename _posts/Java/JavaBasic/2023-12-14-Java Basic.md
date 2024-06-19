@@ -1,6 +1,6 @@
 ---
-title: "[KYH] JAVA Basic"
-description: java
+title: "Java Basic"
+description: Java Basic
 date: 2023-12-14
 categories: [ Java, Java Basic ]
 tags: [ Java, Java Basic, kyh ]

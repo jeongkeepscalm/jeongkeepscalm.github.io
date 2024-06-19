@@ -1,6 +1,6 @@
 ---
-title: "[KYH] Spring MVC 1 (fundamental)"
-description: "[KYH] Spring MVC 1 (fundamental)"
+title: "Servlet & Spring MVC Pattern"
+description: "Servlet & Spring MVC Pattern"
 date: 2024-05-02
 categories: [ Spring, Spring Basic ]
 tags: [ Spring, Spring Basic ]

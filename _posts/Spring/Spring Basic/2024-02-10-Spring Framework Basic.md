@@ -1,6 +1,6 @@
 ---
-title: "[KYH] Spring Basic"
-description: Spring Basic
+title: "Spring Framework Basic"
+description: Spring Framework Basic
 date: 2024-02-10
 categories: [ Spring, Spring Basic ]
 tags: [ Spring, Spring Basic ]

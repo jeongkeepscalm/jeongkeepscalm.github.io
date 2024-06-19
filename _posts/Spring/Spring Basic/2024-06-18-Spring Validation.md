@@ -1,6 +1,6 @@
 ---
-title: "[KYH] Spring Validation"
-description: "[KYH] Spring Validation"
+title: "Spring Validation"
+description: "Spring Validation"
 date: 2024-06-18
 categories: [ Spring, Spring Basic ]
 tags: [ Spring, Spring Basic ]

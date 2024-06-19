@@ -1,6 +1,6 @@
 ---
-title: "[KYH] JAVA Intermediate_part1"
-description: java
+title: "Java Intermediate"
+description: Java Intermediate
 date: 2024-04-20
 categories: [ Java, Java Basic ]
 tags: [ Java, Java Basic, kyh, intermediate ]

@@ -1,6 +1,6 @@
 ---
-title: "[KYH] Spring MVC 1 (applied)"
-description: "[KYH] Spring MVC 1 (applied)"
+title: "HTTP Request and Response & Spring MVC"
+description: "HTTP Request and Response & Spring MVC"
 date: 2024-05-16
 categories: [ Spring, Spring Basic ]
 tags: [ Spring, Spring Basic ]
