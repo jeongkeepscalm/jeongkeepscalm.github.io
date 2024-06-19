@@ -284,10 +284,10 @@ if (!StringUtils.hasText(item.getItemName())) {
     - 3.: code + "." + field type
     - 4.: code
     - 예) 오류 코드: typeMismatch, object name "user", field "age", field type: int
-    - 1. "typeMismatch.user.age"
-    - 2. "typeMismatch.age"
-    - 3. "typeMismatch.int"
-    - 4. "typeMismatch"
+    - "typeMismatch.user.age"
+    - "typeMismatch.age"
+    - "typeMismatch.int"
+    - "typeMismatch"
 
 <br/>
 <hr>
@@ -439,7 +439,7 @@ public class ItemServiceApplication implements WebMvcConfigurer {
 >     WebDataBinder에 등록한 검증기를 찾아서 실행한다.  
 >     검증기 실행시 supports()가 사용되어 검증기를 특정하여 실행한다.  
 
-</br>
+<br/>
 
 - 글로벌 설정을 하면 BeanValidator가 자동으로 등록되지 않는다.  
 - 검증 어노테이션으로 `@Validated`, `@Valid` 둘 다 사용 가능
