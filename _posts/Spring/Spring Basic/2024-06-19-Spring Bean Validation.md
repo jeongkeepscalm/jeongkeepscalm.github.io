@@ -378,15 +378,18 @@ public class ValidationItemApiController {
 **_2. JSON 객체 생성 실패(타입 오류)_**
 
 ```json
-// request
 {
+  "_comment" : "Request",
+
   "itemName": "test item",
   "price": "String",
   "quantity": 10000
 }
 
-// response
+
 {
+  "_comment" : "Response",
+
   "timestamp": "2024-06-20T08:13:44.354+00:00",
   "status": 400,
   "error": "Bad Request",
@@ -402,16 +405,18 @@ public class ValidationItemApiController {
 **_3. 검증 오류 실패_**
 
 ```json
-// request
 {
+  "_comment" : "Request",
+
   "itemName": "test item",
   "price": 20,
   "quantity": 10000
 }
 
-// response
 [
   {
+    "_comment" : "Response",
+
     "codes": [
       "Max.itemSaveRequest.quantity",
       "Max.quantity",
