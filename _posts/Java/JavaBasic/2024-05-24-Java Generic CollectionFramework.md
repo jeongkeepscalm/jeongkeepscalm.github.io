@@ -1,6 +1,6 @@
 ---
-title: "Java Intermediate2"
-description: "Java Intermediate2"
+title: "Java Generic CollectionFramework"
+description: "Java Generic CollectionFramework"
 date: 2024-05-24
 categories: [ Java, Java Basic ]
 tags: [ Java, Java Basic, kyh, intermediate ]
@@ -1077,5 +1077,52 @@ public class MyLinkedListV3 <E> {
 <br/>
 <hr>
 
-# next title
+# 리스트 추상화 
 
+***구체적인 클레스에 의존하는 코드***
+
+```java
+public class BatchProcessor {
+  private final MyLinkedList<Integer> list = new MyLinkedList<>(); 
+  public void logic(int size) {
+    for (int i = 0; i < size; i++) {
+      list.add(0, i); //앞에 추가
+    }
+  }
+}
+```
+
+<br/>
+
+***추상적인 클래스에 의존***
+
+```java
+public class BatchProcessor {
+  private final MyList<Integer> list;
+  public BatchProcessor(MyList<Integer> list) {
+    this.list = list;
+  }
+  public void logic(int size) {
+    for (int i = 0; i < size; i++) {
+      list.add(0, i); // 앞에 추가
+    }
+  }
+}
+
+main() {
+  new BatchProcessor(new MyArrayList()); // MyArrayList를 사용하고 싶을 때
+  new BatchProcessor(new MyLinkedList()); // MyLinkedList를 사용하고 싶을 때
+}
+```
+
+<br/>
+
+## 컴파일 타임 의존관계 vs 런타임 의존관계
+
+- 컴파일 타임 의존관계
+  - <img src="/assets/img/kyh_java/compile.jpg" width="600px" />  
+  - 실행하지 않은 소스 코드에 정적으로 나타나는 의존관계
+  - BatchProcessor 클래스는 MyList 인터페이스에만 의존
+  
+- 런타임 의존관계
+  - <img src="/assets/img/kyh_java/runtime.jpg" width="600px" /> 
