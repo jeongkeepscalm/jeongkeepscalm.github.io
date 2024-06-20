@@ -88,6 +88,7 @@ tags: [ Spring, Spring Basic ]
   - 검증기를 실행하라는 어노테이션  
   - WebDataBinder 에 등록한 검증기를 찾아서 실행  
   - 스프링 전용 검증 어노테이션
+  - 내부에 groups 라는 기능을 포함
 
 - `@Valid`  
   - 자바 표준 검증 어노테이션
