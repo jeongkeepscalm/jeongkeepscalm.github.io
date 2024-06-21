@@ -132,3 +132,6 @@ tags: [ Spring, Spring Basic ]
   - @RequestParam, @ModelAttribute: 요청 파라미터를 조회하는 기능  
   - @RequestBody: HTTP 메시지 바디를 직접 조회하는 기능  
   
+- `@CookieValue`
+  - 웹브라우저 쿠키 값을 편리하게 조회한다. 
+  
