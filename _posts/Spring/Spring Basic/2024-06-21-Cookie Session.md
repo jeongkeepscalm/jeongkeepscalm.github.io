@@ -105,6 +105,32 @@ private void expireCookie(HttpServletResponse response, String cookieName) {
 }
 ```
 
+<br/>
+<hr>
+
+# 쿠키 보안 문제
+
+- 보안 문제
+  - 쿠키 값은 임의로 변경 가능
+  - 쿠키에 보관된 정보는 훔쳐갈 수 있다.
+  
+- 대안
+  - 쿠키에 중요한 값을 노출하지 않고, 예측 불가능한 임의의 토큰을 노출하여, 서버에서 토큰과 사용자 ID를 매핑해서 인식한다. 해당 토큰은 서버에서 관리한다. 
+  - 토큰은 임의의 값을 넣어도 찾을 수 없도록 예상 불가능 해야 한다. 
+  - 토큰 정보가 탈취될 경우를 대비하여 토큰의 만료시간을 짧게 유지한다.
+
+<br/>
+<hr>
+
+# 세션
+
+1. 로그인 성공
+2. 세션 저장소
+  - sessionId: UUID
+  - value: user = {id: test, password: test1234}
+3. sessionId를 쿠키로 전달
+
+
 
 
 
