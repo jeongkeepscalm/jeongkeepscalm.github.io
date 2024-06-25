@@ -135,3 +135,6 @@ tags: [ Spring, Spring Basic ]
 - `@CookieValue`
   - 웹브라우저 쿠키 값을 편리하게 조회한다. 
   
+- `@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)`
+  - 세션에 담겨있는 값을 조회하여 사용한다. 
+  - == HttpServletRequest.getSession(false).getAttribute(SessionConst.LOGIN_MEMBER)

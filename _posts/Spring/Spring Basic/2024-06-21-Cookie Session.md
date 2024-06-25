@@ -130,6 +130,305 @@ private void expireCookie(HttpServletResponse response, String cookieName) {
   - value: user = {id: test, password: test1234}
 3. sessionId를 쿠키로 전달
 
+<br/>
+<hr>
+
+***session manager code***
+
+```java
+@Component
+public class SessionManager {
+
+  public static final String SESSION_COOKIE_NAME = "mySessionId";
+  private Map<String, Object> sessionStore = new ConcurrentHashMap<>();
+
+  /**
+   * 세션 생성
+   */
+  public void createSession(Object value, HttpServletResponse response) {
+    String sessionId = UUID.randomUUID().toString();
+    sessionStore.put(sessionId, value);
+
+    Cookie cookie = new Cookie(SESSION_COOKIE_NAME, sessionId);
+    response.addCookie(cookie);
+  }
+
+  /**
+   * 세션 조회
+   */
+  public Object getSession(HttpServletRequest request) {
+    Cookie sessionCookie = findCookie(request, SESSION_COOKIE_NAME);
+    if (sessionCookie == null) {
+      return null;
+    }
+    return sessionStore.get(sessionCookie.getValue());
+  }
+
+  public Cookie findCookie(HttpServletRequest request, String cookieName) {
+    Cookie[] cookies = request.getCookies();
+    if (cookies == null) {
+      return null;
+    }
+    return Arrays.stream(cookies)
+            .filter(v -> v.getName().equals(cookieName))
+            .findAny()
+            .orElse(null);
+  }
+
+  /**
+   * 세션 만료
+   */
+  public void expire(HttpServletRequest request) {
+    Cookie sessionCookie = findCookie(request, SESSION_COOKIE_NAME);
+    if (sessionCookie != null) {
+      sessionStore.remove(sessionCookie.getValue());
+    }
+  }
+
+}
+```
+
+<br/?
+
+***session manager test***
+
+```java
+public class SessionManagerTest {
+
+  SessionManager sessionManager = new SessionManager();
+
+  @Test
+  void sessionTest() {
+
+    // 세션 생성
+    MockHttpServletResponse response = new MockHttpServletResponse();
+    Member member = new Member();
+    sessionManager.createSession(member, response);
+
+    // 요청에 응답 쿠키 저장
+    MockHttpServletRequest request = new MockHttpServletRequest();
+    request.setCookies(response.getCookies());
+
+    // 세션 조회
+    Object result = sessionManager.getSession(request);
+    Assertions.assertThat(result).isEqualTo(member);
+
+    // 세션 만료
+    sessionManager.expire(request);
+    Object expiredSession = sessionManager.getSession(request);
+    Assertions.assertThat(expiredSession).isNull();
+  }
+
+}
+```
+
+<br/>
+
+***LoginController code changed***
+
+```java
+@PostMapping("/login")
+public String loginV2(@Validated @ModelAttribute LoginRequest request
+        , BindingResult bindingResult
+        , HttpServletResponse response) {
+
+  // 오류 확인
+  if (bindingResult.hasErrors()) {
+    return "login/loginForm";
+  }
+
+  // 유저 조회
+  Member loginMember = loginService.login(request.getLoginId(), request.getPassword());
+  log.info("login member = {}", loginMember);
+
+  // 실제 유저 검증
+  if (loginMember == null) {
+    bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+    return "login/loginForm";
+  }
+
+  // 세션저장소에 유저 추가 및 쿠키 추가
+  sessionManager.createSession(loginMember, response);
+  return "redirect:/";
+
+}
+
+@PostMapping("/logout")
+public String logoutV2(HttpServletRequest request) {
+  sessionManager.expire(request);
+  return "redirect:/";
+}
+```
+
+<br/>
+
+***HomeController code changed***
+
+```java
+// "/" url 접근시 세션 체크
+@GetMapping("/")
+public String homeLoginV2(HttpServletRequest request, Model model) {
+  Member loginMember = (Member) sessionManager.getSession(request);
+  if (loginMember == null) {
+    return "home";
+  }
+  model.addAttribute("member", loginMember);
+  return "loginHome";
+}
+```
+
+<br/>
+<hr>
+
+# HttpSession
+
+- HttpSession 생성 시 JSESSIONID 쿠키 생성
+- e.g. Cookie: JSESSIONID=5B78E23B513F50164D6FDD8C97B0AD05
+
+
+***HttpSession code in LoginController***
+
+```java
+@PostMapping("/login")
+public String LoginV3(@Validated @ModelAttribute(name = "loginForm") LoginRequest loginRequest
+        , BindingResult bindingResult
+        , HttpServletRequest request) {
+
+  // 오류 확인
+  if (bindingResult.hasErrors()) {
+    return "login/loginForm";
+  }
+
+  // 유저 조회
+  Member loginMember = loginService.login(loginRequest.getLoginId(), loginRequest.getPassword());
+  log.info("login member = {}", loginMember);
+
+  // 실제 유저 검증
+  if (loginMember == null) {
+    bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+    return "login/loginForm";
+  }
+
+  // 세션이 있으면 세션 반환, 없으면 세션 생성
+  HttpSession session = request.getSession();
+
+  // 세션에 로그인 회원 정보 보관
+  session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+
+  return "redirect:/";
+
+}
+
+@PostMapping("/logout")
+public String logoutV3(HttpServletRequest request) {
+  HttpSession session = request.getSession(false);
+  if (session != null) {
+    // 세션 제거
+    session.invalidate();
+  }
+  return "redirect:/";
+}
+```
+> request.getSession(true) == request.getSession()  
+>     세션이 존재하면 기존 세션 반환  
+>     없다면, 새로운 세션 생성 후 반환  
+>   
+> request.getSession(false)  
+>     세션이 존재하면 기존 세션 반환  
+>     없다면, 새로운 세션 생성 x. null 반환  
+
+<br/>
+
+***HttpSession code in HomeController***
+
+```java 
+@GetMapping("/")
+public String homeLoginV3(HttpServletRequest request, Model model) {
+
+  // 세션이 없을 경우
+  HttpSession session = request.getSession();
+  if (session == null) {
+    return "home";
+  }
+
+  // 세션에 회원 정보가 없을 경우
+  Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+  if (loginMember == null) {
+    return "home";
+  }
+
+  // 세션이 유지되면 로그인으로 이동
+  model.addAttribute("member", loginMember);
+  return "loginHome";
+
+}
+```
+
+<br/>
+<hr>
+
+# @SessionAttribute 활용
+
+- @SessionAttribute
+  - 세션을 찾고, 세션에 들어있는 데이터를 찾는 번거로움을 한 번에 처리해준다. 
+
+***HomeController code changed***
+
+```java
+@GetMapping("/")
+public String homeLoginV4(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember
+        , Model model) {
+
+  // 세션에 회원 정보가 없을 경우
+  if (loginMember == null) {
+    return "home";
+  }
+
+  // 세션이 유지되면 로그인 이동
+  model.addAttribute("member", loginMember);
+  return "loginHome";
+
+}
+```
+
+<br/>
+<hr>
+
+# 세션 정보와 타임아웃 설정
+
+```java 
+@GetMapping("/session-info")
+public String sessionInfo(HttpServletRequest request) {
+
+  HttpSession session = request.getSession(false);
+  if (session == null) {
+    return "세션이 없습니다. ";
+  }
+
+  session.getAttributeNames()
+          .asIterator()
+          .forEachRemaining(name -> log.info("session name = {}, value = {}", name, session.getAttribute(name)));
+  // session name = loginMember, value = Member(id=1, loginId=test, name=tester, password=test123)
+
+  log.info("sessionId = {}", session.getId());
+  log.info("maxInactiveInterval = {}", session.getMaxInactiveInterval());
+  log.info("creation time = {}", new Date(session.getCreationTime()));
+  log.info("lastAccessedTime = {}", new Date(session.getLastAccessedTime()));
+  log.info("isNew = {}", session.isNew());
+
+  /*
+    sessionId = B98D33180535717ACE4525C5756F84A3
+    maxInactiveInterval = 1800
+    creation time = Tue Jun 25 13:57:51 KST 2024
+    lastAccessedTime = Tue Jun 25 13:57:52 KST 2024
+    isNew = false
+  */
+
+  return "print session";
+
+}
+```
+
 
 
 

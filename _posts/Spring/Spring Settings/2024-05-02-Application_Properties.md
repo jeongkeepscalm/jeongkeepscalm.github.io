@@ -46,3 +46,15 @@ tags: [ Spring, Spring Settings ]
 
 - spring.messages.basename=messages,errors
 
+<br/>
+<hr>
+
+# 쿠키를 통한 세션 유지 or Not
+
+- server.servlet.session.tracking-modes=cookie
+  - Session 유지하기 위한 URL 전달 방식을 끄고 쿠키를 통해서만 세션을 유지한다.
+  - URL에 jsessionid 포함을 막는다. 
+- spring.mvc.pathmatch.matching-strategy=ant_path_matcher
+  - URL에 jsessionid 포함해야할 경우 옵션
+
+
