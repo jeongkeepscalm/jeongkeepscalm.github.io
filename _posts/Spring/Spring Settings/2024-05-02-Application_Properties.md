@@ -57,4 +57,14 @@ tags: [ Spring, Spring Settings ]
 - spring.mvc.pathmatch.matching-strategy=ant_path_matcher
   - URL에 jsessionid 포함해야할 경우 옵션
 
+<br/>
+<hr>
+
+# 세션 타임아웃 설정
+
+- server.servlet.session.timeout=1800
+  - 분 단위로 설정해야한다. 
+  - JSESSIONID를 전달하는 HTTP 요청이 있으면 현재 시간으로 다시 초기화 된다. 
+  - 즉, 해당 설정으로 최근에 요청한 시간을 기준으로 설정한 시간 정도를 유지할 수 있다.  
+
 
