@@ -89,9 +89,18 @@ tags: [ Spring, Spring Basic ]
   - WebDataBinder 에 등록한 검증기를 찾아서 실행  
   - 스프링 전용 검증 어노테이션
   - 내부에 groups 라는 기능을 포함
-
+  
 - `@Valid`  
   - 자바 표준 검증 어노테이션
+  
+- `@Builder`
+  
+  
+- `@JsonCreator` / `@JsonProperty`
+  - @Builder를 사용할 때는 Jackson이 객체를 생성하기 위한 충분한 정보가 없다.
+  - 따라서, Jackson이 객체를 올바르게 생성할 수 있도록 도와주는 추가 설정이 필요하다.
+  - 역직렬화 생성자를 명시적으로 정의
+  - 생성자 단위의 @Builder 어노테이션과 함께 사용할 때 유용 
 
 <br/>
 <hr>
