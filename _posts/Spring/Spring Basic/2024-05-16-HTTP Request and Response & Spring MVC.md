@@ -567,10 +567,10 @@ public class ResponseViewController {
 <br/>
 
 - **메시지 바디로 응답할 경우**  
-  1. @ResponseBody
-  2. @RestController
-  3. HttpEntity, ResponseEntity 반환
-  4. HttpResponse, OutputStream(Writer) 파라미터  
+  1. 메소드 단위에 @ResponseBody
+  2. 클래스 단위에 @RestController
+  3. 메소드 리턴타입으로 HttpEntity, ResponseEntity 반환
+  4. 메소드 파라미터 값으로 HttpResponse, OutputStream(Writer)  
 
 ### HTTP Message Converter
 
@@ -664,3 +664,4 @@ public String addItemV6(Item item, RedirectAttributes redirectAttributes) {
 ```html
 <h2 th:if="${param.status}" th:text="'저장 완료!'"></h2>
 ```
+
