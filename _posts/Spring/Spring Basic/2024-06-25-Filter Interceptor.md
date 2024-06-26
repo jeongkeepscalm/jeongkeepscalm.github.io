@@ -54,7 +54,7 @@ public interface Filter {
 
 <br/>
 
-***필터 인터페이스 구현***
+***Log Filter***
 
 ```java
 @Slf4j
@@ -97,6 +97,65 @@ public class LogFilter implements Filter {
 
 <br/>
 
+***Login Check Filter***
+
+```java
+@Slf4j
+public class LoginCheckFilter implements Filter {
+
+  private static final String[] whiteList = {"/", "/members/add", "/login", "/logout", "/css/*"};
+
+  @Override
+  public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+
+    // 다운 캐스팅
+    HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
+    HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+
+    String requestURI = httpRequest.getRequestURI();
+
+    try {
+
+      log.info("로그인 인증 체크 필터 시작: {}", requestURI);
+
+      // whiteList 에 포함되어 있지 않다면, 세션에서 사용자 정보를
+      if (is_not_contained_in_whiteList(requestURI)) {
+
+        HttpSession session = httpRequest.getSession(false);
+
+        if (session == null) {
+          log.info("미인증 사용자 요청: {}", requestURI);
+
+          // 로그인으로 이동(요청 URI 파라미터 값 추가)
+          httpResponse.sendRedirect("/login?redirectURL=" + requestURI);
+          return;
+        }
+
+      }
+
+      filterChain.doFilter(servletRequest, servletResponse);
+
+    } catch (Exception e) {
+      throw e; // 예외 로깅 가능하지만, 톰캣까지 예외를 보내주어야 함
+    } finally {
+      log.info("인증 체크 필터 종료: {}", requestURI);
+    }
+
+  }
+
+  /**
+   * 화이트 리스트의 경우 인증 체크를 하지 않는다.
+   */
+  public boolean is_not_contained_in_whiteList(String requestURI) {
+    return !PatternMatchUtils.simpleMatch(whiteList, requestURI);
+  }
+
+}
+```
+
+<br/>
+
+
 ***스프링 설정 정보 추가***
 
 ```java
@@ -107,23 +166,72 @@ public class WebConfiguration {
   public FilterRegistrationBean logFilter() {
 
     FilterRegistrationBean<Filter> frb = new FilterRegistrationBean<>();
-
     frb.setFilter(new LogFilter());
     frb.setOrder(1);
     frb.addUrlPatterns("/*");
-
     return frb;
 
+    /**
+     * frb.addUrlPatterns("/*");
+     *    모든 요청에 해당 필터 적용
+     */
+  }
+
+  @Bean
+  public FilterRegistrationBean loginCheckFilter() {
+
+    FilterRegistrationBean<Filter> frb = new FilterRegistrationBean<>();
+    frb.setFilter(new LoginCheckFilter());
+    frb.setOrder(2);
+    frb.addUrlPatterns("/*");
+    return frb;
+    
   }
 
 }
 ```
-> `addUrlPatterns("/*")`: 필터를 적용할 URL 패턴을 지정한다. 한번에 여러 패턴을 지정할 수 있다.  
+> `addUrlPatterns("/*")`: 모든 요청에 해당 필터 적용    
 
 <br/>
 
 - 참고사항
   - `@ServletComponentScan`, `@WebFilter(filterName = "logFilter" urlPatterns = "/*")`로 필터 등록이 가능하지만 필터 순서 조절이 안된다. 따라서 FilterRegistrationBean 을 사용하자.
+
+<br/>
+
+***Login Service Logic***
+
+```java
+@PostMapping("/login")
+  public String LoginV4(
+          @Validated @ModelAttribute("loginForm") LoginRequest loginRequest
+          , BindingResult bindingResult
+          , @RequestParam(defaultValue = "/") String redirectURL
+          , HttpServletRequest request) {
+
+    if (bindingResult.hasErrors()) {
+      return "login/loginForm";
+    }
+
+    Member loginMember = loginService.login(loginRequest.getLoginId(), loginRequest.getPassword());
+    log.info("login: {}", loginMember);
+
+    if (loginMember == null) {
+      bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+      return "login/loginForm";
+    }
+
+    // 세션에 로그인 회원 정보 보관
+    request.getSession().setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+
+    return "redirect:" + redirectURL;
+  }
+```
+
+<br/>
+<hr>
+
+# 스프링 인터셉터
 
 
 
