@@ -64,7 +64,7 @@ public class ServletExController {
 ```
 
 - 서블릿 컨테이너가 제공하는 기본 예외 처리 화면
-  - <img src="/assets/img/spring/" width="600px" />
+  - <img src="/assets/img/spring/basicExceptionPage.png" width="600px" />
   - 고객 친화적이지 않다. 
 
 <br/>
