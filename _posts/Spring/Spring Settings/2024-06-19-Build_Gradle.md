@@ -22,7 +22,8 @@ tags: [ Spring, Spring Settings ]
   - implementation 'org.springframework.boot:spring-boot-starter-validation'
   
 - `MyBatis`
-  - 스프링 부트 3.0 이상
+  - implementation 'mysql:mysql-connector-java:8.0.32'
+  - 스프링 부트 3.0 이상(적용이 되질 않기도 함)
     - implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
     - runtimeOnly 'com.mysql:mysql-connector-j'
   
