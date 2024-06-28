@@ -25,10 +25,10 @@ tags: [ Spring, Spring Settings ]
 
 - 뷰 리졸버
   - 스프링 부트는 InternalResourceViewResolver 라는 뷰리졸버를 자동으로 등록하는데, 이 때 application.properties 에 등록한 spring.mvc.view.prefix, spring.mvc.view.suffix 설정 정보를 사용해서 등록한다.  
-  - <cdoe>spring.mvc.view.prefix=/WEB-INF/views/</code>  
-  - <cdoe>spring.mvc.view.suffix=.jsp</code>
+  - <code>spring.mvc.view.prefix=/WEB-INF/views/</code>  
+  - <code>spring.mvc.view.suffix=.jsp</code>
 - 변경시 실시간 반영
-  - <cdoe>server.servlet.jsp.init-parameters.development=true</code>
+  - <code>server.servlet.jsp.init-parameters.development=true</code>
 
 ### Thymeleaf
 
@@ -52,7 +52,7 @@ tags: [ Spring, Spring Settings ]
 
 # 쿠키를 통한 세션 유지 or Not
 
-- <code>erver.servlet.session.tracking-modes=cookie</code>
+- <code>server.servlet.session.tracking-modes=cookie</code>
   - Session 유지하기 위한 URL 전달 방식을 끄고 쿠키를 통해서만 세션을 유지한다.
   - URL에 jsessionid 포함을 막는다. 
 - <code>spring.mvc.pathmatch.matching-strategy=ant_path_matcher</code>
