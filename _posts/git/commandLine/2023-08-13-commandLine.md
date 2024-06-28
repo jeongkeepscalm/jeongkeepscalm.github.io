@@ -6,24 +6,22 @@ categories: [ Git, CommandLine ]
 tags: [ Git, CLI, CommandLine ]
 ---
 
-<h2> Connect local storage to remote storage </h2>
+# connect local storage to remote storage
 
-1. 프로젝트 우클릭 git bash 로 접속  
-2. git init : 로컬저장소 지정 및 생성
-3. git remote add origin "코드 옮길 레퍼지토리 주소"
-4. 
-  git remote -v : 레퍼리토리 주소 확인   
-  git remote remove origin : 원격저장소 연결 해제  
-5. git fetch
-6. git pull origin master
-5. git add .
-6. git commit -m "message" 
-7. git push origin (+)master
+1. git init: 로컬저장소 지정 및 생성
+2. git remote add origin [깃 레퍼지토리 주소]
+  - git remote -v: 레퍼리토리 주소 확인   
+  - git remote remove origin: 원격저장소 연결 해제
+3. git fetch
+4. git add .
+5. git commit -m "message" 
+6. git push origin (+)master
+  - 깃 레퍼지토리 생성 시 readMe/gitIgnore 파일 생성하면 강제 push 필요
 
 <br/>
 <hr>
 
-<h2> Progress to Commit </h2>
+# commit process
 
 * git init [ directory_path ] : 로컬 저장소 생성.   
   - 기본적으로 로컬 저장소를 생성하는 명령어.   
@@ -43,7 +41,7 @@ tags: [ Git, CLI, CommandLine ]
   - rm : 파일을 등록 후 커밋을 하지 않고 등록을 취소하는 경우.  
   - reset : 파일을 한 번이라도 커밋했을 경우.   
 
-<h4> About commit </h4>
+### about commit
 
 * Head : 커밋을 가리키는 묵시적 포인터. 마지막 커밋 위치.   
 * Snapshot : 변경된 파일의 전체를 저장하지 않고, 파일에서 변경된 부분만을 찾아 수정된 내용만 저장하는 방식.   
@@ -61,7 +59,7 @@ tags: [ Git, CLI, CommandLine ]
 <br/>
 <hr>
 
-<h2> log </h2>
+# log
 
 * git log : 최신 커밋 기록부터 확인할 수 있다. 
 * git log --pretty=short : 커밋 메시지의 첫번째 줄만 출력된다. 
@@ -72,7 +70,7 @@ tags: [ Git, CLI, CommandLine ]
 <br/>
 <hr>
 
-<h2> stash </h2>
+# stash
 
 * git stash
 * git stash list
@@ -82,7 +80,7 @@ tags: [ Git, CLI, CommandLine ]
 <br/>
 <hr>
 
-<h2> branch </h2>
+# branch
 
 * git branch ( 브랜치 명 ) : 브랜치 생성
 * git checkout -b ( 브랜치 명 ) : 브랜치 생성과 동시에 체크아웃.
@@ -95,7 +93,7 @@ tags: [ Git, CLI, CommandLine ]
 <br/>
 <hr>
 
-## reset / revert
+# reset / revert
 
 - ```reset```  
   시간을 과거 특정 사건으로 되돌린다. ( 커밋 이력을 남기지 않고 그 시점으로 간다. )  
@@ -110,3 +108,12 @@ tags: [ Git, CLI, CommandLine ]
 1. git revert [ 해쉬코드 ] : 해당 커밋 전으로 돌아간다.   
 2. :wq 저장후 종료  
 3. 커밋이 완료된 상태이므로 git push origin master
+
+<br/>
+<hr>
+
+# git ignore
+
+1. .gitignore 파일에 경로 추가
+2. git rm --cached [추가된 파일명]
+3. commit process
