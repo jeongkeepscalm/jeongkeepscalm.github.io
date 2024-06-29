@@ -1,6 +1,6 @@
 ---
-title: UUID column
-description: UUID column
+title: UUID Column
+description: UUID Column
 date: 2024-06-29
 categories: [ Database, RDBMS ]
 tags: [ Database, RDBMS, Partitioning ]
