@@ -355,26 +355,8 @@ public class ResponseJsonServlet extends HttpServlet {
 
 ## 서블릿으로 웹 애플리케이션 만들기
 
-참고링크: <https://github.com/jeongkeepscalm/KYH_SpringMVC_1/tree/master/src/main/java/hello/servlet/web/servlet>  
+- 참고링크: <https://github.com/jeongkeepscalm/KYH_SpringMVC_1/tree/master/src/main/java/hello/servlet/web/servlet>  
   
-### 템플릿 엔진이란?
-
-HTML과 데이터를 결합하여 최종적으로 사용자에게 보여질 뷰를 생성(VIEW 렌더링 최적화)  
-HTML 문서에서 필요한 곳만 코드를 적용해서 동적으로 변경할 수 있는 기능을 제공한다.  
-(JSP, Thymleaf, Freemarker, Velocity 등..)  
-
-### 템플릿 엔진이 나온 이유 (서블릿의 단점)
-
-서블릿과 자바 코드만으로 HTML을 만들 수 있지만 매우 복잡하고 비효율적일 뿐더러, 동적 HTML 문서를 만들 수는 없다.  
-
-### 서블릿과 JSP의 한계
-
-- ```서블릿의 한계```  
-  - 뷰(View)화면을 위한 HTML을 만드는 작업이 자바 코드에 섞여서 지저분하고 복잡하다.  
-
-- ```JSP의 한계```
-  - 비지니스 로직과 뷰 영역이 한 화면에 공존하여 복잡하며 유지보수하기가 어렵다.  
-
 <br/>
 <hr>
 
