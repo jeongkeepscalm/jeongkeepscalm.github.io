@@ -8,7 +8,8 @@ tags: [ Spring, Spring Basic ]
 
 ## Servlet 이란?
 
-설정된 URL과 매핑시켜 클라이언트의 요청에 대한 응답을 할 수 있다. 
+- **다양한 유형의 요청에 응답할 수 있는 자바 클래스**
+- 설정된 URL과 매핑시켜 클라이언트의 요청에 대한 응답을 할 수 있다. 
 
 #### Servlet 등록
 
@@ -860,5 +861,17 @@ public class OldController implements Controller {
 ```RequestMappingHandlerAdapter``` 이다.  
 @RequestMapping의 앞글자를 따서 만든 이름인데, 이것이 바로 지금 스프링에서 주로 사용하는 애노테이션 기반의 컨트롤러를 지원하는 매핑과 어댑터이다.  
 
-다음으로: <https://jeongkeepscalm.github.io/posts/KYH_SpringMVC_1(applied)/>  
+<br/>
+<hr>
+
+# 정리
+
+- `Servlet`
+  - 다양한 유형의 요청에 응답할 수 있는 자바 클래스
+  
+- `DispatcherServlet`
+  - HTTP 요청을 받아 적절한 핸들러를 찾고, 해당 핸들러를 실행한 후, 뷰 리졸버를 사용하여 뷰를 결정하고 최종적으로 HTTP 응답을 생성하여 반환한다.
+  
+
+
 
