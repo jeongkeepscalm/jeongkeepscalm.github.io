@@ -8,7 +8,8 @@ tags: [ Spring, Spring Basic ]
 
 ## Servlet 이란?
 
-설정된 URL과 매핑시켜 클라이언트의 요청에 대한 응답을 할 수 있다. 
+- **다양한 유형의 요청에 응답할 수 있는 자바 클래스**
+- 설정된 URL과 매핑시켜 클라이언트의 요청에 대한 응답을 할 수 있다. 
 
 #### Servlet 등록
 
@@ -354,26 +355,8 @@ public class ResponseJsonServlet extends HttpServlet {
 
 ## 서블릿으로 웹 애플리케이션 만들기
 
-참고링크: <https://github.com/jeongkeepscalm/KYH_SpringMVC_1/tree/master/src/main/java/hello/servlet/web/servlet>  
+- 참고링크: <https://github.com/jeongkeepscalm/KYH_SpringMVC_1/tree/master/src/main/java/hello/servlet/web/servlet>  
   
-### 템플릿 엔진이란?
-
-HTML과 데이터를 결합하여 최종적으로 사용자에게 보여질 뷰를 생성(VIEW 렌더링 최적화)  
-HTML 문서에서 필요한 곳만 코드를 적용해서 동적으로 변경할 수 있는 기능을 제공한다.  
-(JSP, Thymleaf, Freemarker, Velocity 등..)  
-
-### 템플릿 엔진이 나온 이유 (서블릿의 단점)
-
-서블릿과 자바 코드만으로 HTML을 만들 수 있지만 매우 복잡하고 비효율적일 뿐더러, 동적 HTML 문서를 만들 수는 없다.  
-
-### 서블릿과 JSP의 한계
-
-- ```서블릿의 한계```  
-  - 뷰(View)화면을 위한 HTML을 만드는 작업이 자바 코드에 섞여서 지저분하고 복잡하다.  
-
-- ```JSP의 한계```
-  - 비지니스 로직과 뷰 영역이 한 화면에 공존하여 복잡하며 유지보수하기가 어렵다.  
-
 <br/>
 <hr>
 
@@ -860,5 +843,17 @@ public class OldController implements Controller {
 ```RequestMappingHandlerAdapter``` 이다.  
 @RequestMapping의 앞글자를 따서 만든 이름인데, 이것이 바로 지금 스프링에서 주로 사용하는 애노테이션 기반의 컨트롤러를 지원하는 매핑과 어댑터이다.  
 
-다음으로: <https://jeongkeepscalm.github.io/posts/KYH_SpringMVC_1(applied)/>  
+<br/>
+<hr>
+
+# 정리
+
+- `Servlet`
+  - 다양한 유형의 요청에 응답할 수 있는 자바 클래스
+  
+- `DispatcherServlet`
+  - HTTP 요청을 받아 적절한 핸들러를 찾고, 해당 핸들러를 실행한 후, 뷰 리졸버를 사용하여 뷰를 결정하고 최종적으로 HTTP 응답을 생성하여 반환한다.
+  
+
+
 
