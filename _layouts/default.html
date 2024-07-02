@@ -14,6 +14,17 @@ layout: compress
 {% endcapture %}
 
 <html lang="{{ site.lang }}"{{ prefer_mode }}>
+  <header>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T25D4ERGQW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-T25D4ERGQW');
+    </script>
+  </header>
 
   {% include head.html %}
 

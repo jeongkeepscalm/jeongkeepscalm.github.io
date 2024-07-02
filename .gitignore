@@ -17,3 +17,6 @@ node_modules
 package-lock.json
 
 Gemfile.lock
+
+# google Analytics 측정 ID
+G-T25D4ERGQW
