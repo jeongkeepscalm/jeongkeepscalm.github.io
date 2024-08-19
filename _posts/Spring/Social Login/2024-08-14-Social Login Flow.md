@@ -16,6 +16,7 @@ tags: [ Spring, Social Login ]
   - `GOOGLE`: OidcService 상속받아 사용
   - `NAVER, KAKAO`: DefaultOAuth2UserService 상속받아 사용
   - loadUser() 메소드 오버라이딩해야하며 리턴값은 principal 에 저장된다. 
+4. 3번 프로세스 성공 시, 시큐리티 코드에 설정한 auth2SuccessHandler 클래스를 거치게 되어 로그인처리를 한다. 
 
 <br/>
 <hr/>
@@ -51,8 +52,8 @@ private void oAuth2LoginConfig() throws Exception {
 
     }
 ```
-> aService: DefaultOAuth2UserService 상속 받은 클래스  
-> bService: OidcService 상속 받은 클래스이지만, OIDC 요청이 들어오면 Spring Security는 자동으로 OidcUserService를 사용하여 사용자 정보를 로드하기에 코드에 명시할 필요가 없다.  
+> `aService`: DefaultOAuth2UserService 상속 받은 클래스  
+> `bService`: OidcService 상속 받은 클래스이지만, OIDC 요청이 들어오면 Spring Security는 자동으로 OidcUserService를 사용하여 사용자 정보를 로드하기에 코드에 명시할 필요가 없다.  
 
 <br/>
 <hr/>
@@ -118,6 +119,8 @@ logging:
     # 소셜로그인 실패 원인을 찾기 위해 사용
 ```
 > 구글은 기본 제공 provider 를 사용하여 생략  
+> 구글 설정 내 scope: openid 추가  
+> openid 생략했을 경우, DefaultOAuth2UserService 를 상속받은 클래스를 통하게 되는 문제가 있었다.  
 
 <br/>
 <hr/>
@@ -125,7 +128,7 @@ logging:
 # failure of social login
 
 - 로컬 환경에서는 소셜로그인이 문제없이 잘 동작하였는데, 운영에 배포하여 확인해보니 동작이 되질않았다. 
-- 실패 원인을 파악하기 위한 노력
+- 실패 원인을 파악하기 위한 조치
   - yaml 파일 내 시큐리티 관련 로그 추가
   - 시큐리티 failureHandler 코드 추가
   - 운영환경에 출력되는 로그 분석
