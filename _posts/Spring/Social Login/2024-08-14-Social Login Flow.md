@@ -17,8 +17,8 @@ tags: [ Spring, Social Login ]
   - `NAVER, KAKAO`: DefaultOAuth2UserService 상속받아 사용
   - loadUser() 메소드 오버라이딩해야하며 리턴값은 principal 에 저장된다. 
 
-<hr/>
 <br/>
+<hr/>
 
 ## Security Code
 
@@ -54,8 +54,8 @@ private void oAuth2LoginConfig() throws Exception {
 > aService: DefaultOAuth2UserService 상속 받은 클래스  
 > bService: OidcService 상속 받은 클래스이지만, OIDC 요청이 들어오면 Spring Security는 자동으로 OidcUserService를 사용하여 사용자 정보를 로드하기에 코드에 명시할 필요가 없다.  
 
-<hr/>
 <br/>
+<hr/>
 
 ## yaml file
 
@@ -119,8 +119,8 @@ logging:
 ```
 > 구글은 기본 제공 provider 를 사용하여 생략  
 
-<hr/>
 <br/>
+<hr/>
 
 # failure of social login
 
