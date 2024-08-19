@@ -125,7 +125,7 @@ logging:
 <br/>
 <hr/>
 
-# failure of social login
+# Failure of social login
 
 - 로컬 환경에서는 소셜로그인이 문제없이 잘 동작하였는데, 운영에 배포하여 확인해보니 동작이 되질않았다. 
 - 실패 원인을 파악하기 위한 조치
