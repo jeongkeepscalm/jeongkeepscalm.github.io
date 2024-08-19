@@ -6,7 +6,7 @@ categories: [ Spring, Social Login ]
 tags: [ Spring, Social Login ]
 ---
 
-# Social Login Flow
+## Social Login Flow
 
 1. 구글, 네이버, 카카오 계정 인증시 클라이언트로 302 Redirect URI 인가 코드 전달 
 2. 클라이언트에서 토큰 요청 후(POST /oauth/token) 토큰 발급 
@@ -20,7 +20,7 @@ tags: [ Spring, Social Login ]
 <hr/>
 <br/>
 
-# 시큐리티 코드
+## Security Code
 
 ```java
 private void oAuth2LoginConfig() throws Exception {
@@ -57,7 +57,7 @@ private void oAuth2LoginConfig() throws Exception {
 <hr/>
 <br/>
 
-# 설정파일
+## yaml file
 
 ```yaml
 spring:
@@ -122,7 +122,7 @@ logging:
 <hr/>
 <br/>
 
-# 소셜로그인 실패
+# failure of social login
 
 - 로컬 환경에서는 소셜로그인이 문제없이 잘 동작하였는데, 운영에 배포하여 확인해보니 동작이 되질않았다. 
 - 실패 원인을 파악하기 위한 노력
