@@ -1,9 +1,9 @@
 ---
-title: "Social Login Flow"
-description: Social Login Flow
+title: "Social Login"
+description: Social Login
 date: 2024-08-14
-categories: [ Spring, Social Login ]
-tags: [ Spring, Social Login ]
+categories: [ Spring, Spring Security ]
+tags: [ Spring, Spring Security ]
 ---
 
 ## Social Login Flow
