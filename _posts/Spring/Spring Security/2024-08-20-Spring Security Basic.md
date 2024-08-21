@@ -50,4 +50,3 @@ tags: [ Spring, Spring Security ]
 - AuthenticationProvider.authenticate(): 엔드유저에 대해 검증한다. 
 - AuthenticationProvider.supports(): 어떤 식으로 인증하겠다고 지정한다. 
 
-
