@@ -83,12 +83,14 @@ class TomcatClusterContextCustomizer implements TomcatContextCustomizer {
 }
 ```
 
-- `멀티 캐스트`
+- **멀티 캐스트**
   - 클러스터 멤버십 관리
   - 네트워크 상의 여러 호스트에게 동시에 데이터 전송할 수 있는 방법  
+  - TCP/UDP 포트 오픈 필요
   
-- `NIO`
+- **NIO**
   - 클러스터 메시지 수신
+  - TCP 포트 오픈 필요
 
 <hr/>
 
