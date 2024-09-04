@@ -1,19 +1,17 @@
 ---
-title: "Tomcat Session Clustering"
-description: "Tomcat Session Clustering"
+title: "Tomcat Session Clustering in SpringBoot"
+description: "Tomcat Session Clustering in SpringBoot"
 date: 2024-09-04
 categories: [ Java, Session Cluster ]
 tags: [ Java, Session Cluster ]
 ---
 
-# Tomcat Session Clustering in SpringBoot
-
 1. All-to-All Session Replication
   - 모든 서버로 세션 복제 
-  - `DeltaManager` 사용(노드가 4개 미만)
+  - `DeltaManager` 사용(노드 4개 미만)
 2. Primary-Secondary Session Replication
   - 2차 서버에만 세션 복제
-  - `BackupManager` 사용(노드가 4개 이상)
+  - `BackupManager` 사용(노드 4개 이상)
 
 <hr/>
 
@@ -108,4 +106,4 @@ class TomcatClusterContextCustomizer implements TomcatContextCustomizer {
   ```
 - 세션 클러스터링 시, 세션에 저장되는 객체는 serializable 인터페이스를 구현해야 하는 것을 알고 있어서, UserDetails 를 구현한 객체에 serializable 를 추가했었다. 하지만 추가적으로 세션에 저장되는 객체와 관련된 모든 클래스에도 serializable 을 구현했어야 했다. 
   
-`*`: **세션에 저장되는 모든 객체 Serializable 인터페이스 구현 필요**
+`*` **세션에 저장되는 모든 객체 Serializable 인터페이스 구현 필요**
