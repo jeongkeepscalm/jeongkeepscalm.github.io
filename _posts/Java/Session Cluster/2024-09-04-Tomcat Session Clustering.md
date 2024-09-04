@@ -92,6 +92,18 @@ class TomcatClusterContextCustomizer implements TomcatContextCustomizer {
 
 <hr/>
 
-### 세션 클러스터링 적용 시 주의해야할 점
+### 시행착오
 
-- **세션에 저장되는 객체는 모두 Serializable 인터페이스 구현 필요**
+- 운영에 세션 클러스터링 코드 적용 실패 하여, 테스트 시나리오를 작성하여 테스트했다. 
+  
+1. 로컬 인스턴스 2개 띄움(8081, 8082)
+2. 8081 에서 로그인 한 후, 8082 로 들어가 로그인 여부 확인
+  
+- 쿠키에 담긴 세션 아이디 공유는 되었지만 8082 진입시 로그인 유지는 되지 않았다. 
+- 8081, 8082 두 인스턴스가 띄워진 상황에서 로그 확인한 결과, 서버 하나만 띄워졌을 때 볼 수 없었던 로그 확인
+  - ``` text
+  Unable to serialize delta request for sessionid [218D7AC46C081A7A5448837DD9EF93A3] java.io.NotSerializableException: com.core.test.res.TestUser
+  ```
+- 세션 클러스터링 시, 세션에 저장되는 객체는 serializable 인터페이스를 구현해야 하는 것을 알고 있어서, UserDetails 를 구현한 객체에 serializable 를 추가했었다. 하지만 추가적으로 세션에 저장되는 객체와 관련된 모든 클래스에도 serializable 을 구현했어야 했다. 
+  
+`*`: **세션에 저장되는 모든 객체 Serializable 인터페이스 구현 필요**
