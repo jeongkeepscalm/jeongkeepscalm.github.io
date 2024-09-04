@@ -101,5 +101,74 @@ tags: [ U-KNOU, UNIX System ]
     - Permissive 라이선스
     - 코드의 재사용성 높이려는 목적
 
-### 4. 리눅스 배포판 역사
+### 4. 리눅스 배포판 
 
+- 리눅스 배포판 역사
+  - 리눅스 배포판: 리눅스 커널 외 시스템 유틸리티, 응용프로그램, 설치 프로그램 포함
+  - 리눅스 커널 개발(1991년) 
+  - 최초의 배포판 발표(1992년)
+  - 주요 배포판 배포(1993년)
+  
+- 주요 리눅스 배포판 종류
+  - Debian 계열: Debian, Ubuntu 등..
+  - Slackware 계열: Slackware, SUSE 등..
+  - Red Hat 계열: Redhat, Fedora, CentOS, Rocky Linux 등..
+  
+- Debian 리눅스
+  - 자유 운영체제
+  - Ian Murdock 비영리 조직으로 설립(1994년)
+  - GNU의 공식적인 후원을 받는 유일한 배포판
+  - 세 가지 릴리즈 유지
+    - stable, testing, unstable
+    - 숫자 버전 외 코드명을 가진다. 
+    - unstable 버전의 코드명은 항상 sid
+  
+- Red Hat 리눅스
+  - 가장 널리 알려진 리눅스 배포판
+  - Red Hat Linux: 2003년 지원 중단(마지막 버전 9)
+  - Red Hat Enterprise Linux(RHEL): 최신 버전 9
+  - Fedora & CentOS 오픈소스 프로젝트 지원
+  - RPM(Red Hat Package Manager)
+  
+- CentOS 리눅스
+  - Red Hat 리눅스로부터 파생
+  - Red Hat Enterprise Linux(RHEL) 기반 무료 버전
+  - 서버용으로 많이 사용
+  - 현재 RHEL의 업스트림 버전인 'CentOS Stream' 만 지원됨
+  
+- Rocky 리눅스
+  - 기존 CentOS 리눅스의 대체품
+    - CentOS 릴리즈 정책이 변경됨
+    - CentOS Stream은 RHEL 안정적 버전이 아닌 개발 버전
+  - RHEL 소스 코드 기반의 다운스트림 버전
+    - RHEL과 실행 코드 호환
+  
+- SuSE 리눅스
+  - Slackware 리눅스로부터 파생
+  - 독일에서 만듦(유럽에서 많이 사용)
+  - Software Und System Entwicklung 약자
+  - 기능, 안정성, 보안 기능 포함
+  - Novell 사에 의해 지원
+  - 두 가지 종류
+    - SUSE Linux Enterprise(유료)
+    - openSUSE(무료)    
+  
+- Slackware 리눅스
+  - SLS 리눅스로부터 파생
+  - 가장 오래된 배포판
+  - Patrick Volkerding 이 만듦(1992년)
+  - the KISS principle 
+    - 간결함
+    - 현재 GNOME desktop이 제외되어 있다.
+  - 유닉스 자체 학습에 적합
+  
+- Ubuntu 리눅스
+  - Debian 리눅스로부터 파생
+  - 영국 기업 Canonical 의 지원
+  - GNOME 사용
+  - Debian 리눅스에 비해 사용 편의성 높음
+  - 개인 사용자에게 인기
+
+<hr>
+
+# 2강. 

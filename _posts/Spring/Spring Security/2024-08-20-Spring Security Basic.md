@@ -37,7 +37,6 @@ tags: [ Spring, Spring Security ]
 - `CSRF`
   - 스프링 시큐리티 프레임워크에서 기본으로 제공하는 CSRF 보안
   - 어떤 POST 요청이든 간에 데이터베이스나 백엔드 내부의 데이터를 수정하는 것을 막는다. 
-  - 
 
 <br/>
 <hr/>
