@@ -96,7 +96,7 @@ class TomcatClusterContextCustomizer implements TomcatContextCustomizer {
 
 ### 시행착오
 
-- 운영에 세션 클러스터링 코드 적용 실패 하여, 테스트 시나리오를 작성하여 테스트했다. 
+- 운영에 세션 클러스터링 코드 적용 실패하여, 테스트 시나리오를 작성하여 테스트했다. 
   
 1. 로컬 인스턴스 2개 띄움(8081, 8082)
 2. 8081 에서 로그인 한 후, 8082 로 들어가 로그인 여부 확인
