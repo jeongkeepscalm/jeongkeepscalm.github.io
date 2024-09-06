@@ -1,6 +1,6 @@
 ---
-title: "Manipulation Of File Path"
-description: "Manipulation Of File Path"
+title: "[Issue] Manipulation Of File Path"
+description: "[Issue] Manipulation Of File Path"
 date: 2024-09-06
 categories: [ Working, Issues ]
 tags: [ Working, Issues ]

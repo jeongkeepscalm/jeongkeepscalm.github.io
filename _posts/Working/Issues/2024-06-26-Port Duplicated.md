@@ -1,6 +1,6 @@
 ---
-title: "Port Duplicated"
-description: "Port Duplicated"
+title: "[Issue] Port Duplicated"
+description: "[Issue] Port Duplicated"
 date: 2024-06-26
 categories: [ Working, Issues ]
 tags: [ Working, Issues ]

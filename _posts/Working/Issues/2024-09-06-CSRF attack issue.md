@@ -1,6 +1,6 @@
 ---
-title: "CSRF Attack Issue"
-description: "CSRF Attack Issue"
+title: "[Issue] CSRF Attack"
+description: "[Issue] CSRF Attack"
 date: 2024-09-06
 categories: [ Working, Issues ]
 tags: [ Working, Issues ]
