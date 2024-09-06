@@ -23,9 +23,23 @@ tags: [ Software Performance, Apache JMeter ]
 
 ### Setting Information
 
-<img src="/assets/img/jmeter/jmeter setting.png" width="1000px" />
+<img src="/assets/img/jmeter/01.png" width="1000px" />
 
-- Stepping Thread Group 을 사용하기 위해 플러그인 다운받아 설치
-- User Defined Variables: 쓰레드 그룹에서 사용할 변수 설정
-- HTTP Cookie Manager: 쓰레드 그룹 내에 위치하게 하여 로그인 한 사용자의 세션정보를 쿠키에 저장
-- Once only controller: 해당 컨트롤러에 속한 HTTP 요청은 쓰레드당 한 번만 요청한다. 
+- Stepping Thread Group을 사용하기 위해 플러그인 다운
+- `User Defined Variables`
+  - 쓰레드 그룹에서 사용할 변수 설정
+- `HTTP Cookie Manager`
+  - 쓰레드 그룹 내에 위치하게 하여 로그인 한 사용자의 세션정보를 쿠키에 저장
+  - 각 반복 실행마다 쿠키 초기화 체크 해제
+- `Once only controller`
+  - 해당 컨트롤러에 속한 HTTP 요청은 쓰레드당 한 번만 요청한다. 
+- `JSR223 Assertion`
+  - 사용할 변수의 값을 동적으로 변환
+    ```groovy
+    import java.text.SimpleDateFormat
+    import java.util.Date
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd_HHmmss");
+    String currentTime = sdf.format(new Date());
+    vars.put("var", currentTime);
+    ```
