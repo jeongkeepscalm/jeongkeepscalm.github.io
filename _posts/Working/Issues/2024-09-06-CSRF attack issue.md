@@ -21,14 +21,28 @@ tags: [ Working, Issues ]
 private void csrf() throws Exception {
     httpSecurity.csrf(csrf -> csrf
             .ignoringRequestMatchers(new AntPathRequestMatcher("/api/**"))
-            // CSRF 토큰을 쿠키에 저장(_csrf.token)
             .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-            // SPA용 CSRF Token 처리 핸들러 설정
             .csrfTokenRequestHandler(new SpaCsrfTokenTestHandler())
             )
             .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class);
 }
 ```
+- `ignoringRequestMatchers`
+  - /api/** 경로의 요청은 CSRF 검증을 무시한다. 
+- `csrfTokenRepository`
+  - CSRF 토큰을 쿠키에 저장
+- `csrfTokenRequestHandler`
+  - SPA용 CSRF 토큰 처리 핸들러를 설정
+  - Thymeleaf로 개발된 애플리케이션은 전통적인 서버 사이드 렌더링 방식을 사용하지만, 일부 페이지나 기능에서 SPA 방식으로 동작할 수 있다. 이 경우 SPA용 CSRF 토큰 처리 핸들러가 필요
+  
+<hr>
+
+***SPA vs MPA***
+
+- `SPA(Single Page Application)`
+  - 단일 페이지에서 동적으로 콘텐츠를 로드
+- `MPA(Multiple Page Application)`
+  - 여러 페이지로 구성
 
 <hr>
 <br/>
@@ -41,7 +55,7 @@ private void csrf() throws Exception {
 </form>
 ```
 > api 로 시작되지 않는 url에 DB 내 데이터를 변경할 수 있는 메소드가 존재할 경우  
-> <code><input type="hidden" name="_csrf" th:value="${_csrf.token}" /></code>   
+> <code>input type="hidden" name="_csrf" th:value="${_csrf.token}"</code>   
 > 해당 input이 필요하다.    
 
 <hr>
