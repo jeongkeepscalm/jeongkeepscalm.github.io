@@ -37,5 +37,4 @@ public void deleteTest(String fileName) {
 
 - fileName이 "../../etc/password" 로 올 경우 다른 경로에 접속하여 다른 파일을 삭제할 수 있다. 
 - `normalize()`
-  - "../" 같이 불필요한 경로를 제거하여 경로조작 문제를 해결한다.
-
+    - "../" 같이 불필요한 경로를 제거하여 경로조작 문제를 해결한다.
