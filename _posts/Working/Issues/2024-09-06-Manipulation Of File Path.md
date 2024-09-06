@@ -1,34 +1,37 @@
 ---
-title: "Manipulation Of File Pat"
-description: "Manipulation Of File Pat"
+title: "Manipulation Of File Path"
+description: "Manipulation Of File Path"
 date: 2024-09-06
 categories: [ Working, Issues ]
 tags: [ Working, Issues ]
 ---
 
-### 경로 조작 문제
+### 경로 조작 문제 해결 방안
 
 ```java
 @Value("${a.b.c}")
 private String UPLOAD_PATH;
 
 public void deleteTest(String fileName) {
+    Path targetPath = Paths.get(UPLOAD_PATH, fileName).normalize();
 
-    Path targetPath = Paths.get(UPLOAD_PATH + fileName);
-    Path normalizedPath = targetPath.normalize();
+    try {
 
-    if(normalizedPath.startsWith(UPLOAD_PATH)) {
-        try {
-            if (Files.exists(targetPath)) {
-                Files.deleteTest(targetPath);
+        // 실제 파일 시스템 경로를 확인하여 경로 조작 방지
+        Path realPath = targetPath.toRealPath();
+
+        // UPLOAD_PATH 경로와 맞는지 확인
+        if (realPath.startsWith(Paths.get(UPLOAD_PATH).toRealPath())) {
+            // 파일 있는지 확인
+            if (Files.exists(realPath)) {
+                Files.delete(realPath);
             }
-        } catch (IOException e) {
-            throw new FileException("error occurred while deleting file.");
+        } else {
+            throw new FileException("error occurred while finding file path");
         }
-    } else {
-        throw new FileException("error occurred while finding file path");
+    } catch (IOException e) {
+        throw new FileException("error occurred while deleting file", e);
     }
-
 }
 ```
 
