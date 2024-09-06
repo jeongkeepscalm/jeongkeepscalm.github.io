@@ -6,7 +6,7 @@ categories: [ Software Performance, Apache JMeter ]
 tags: [ Software Performance, Apache JMeter ]
 ---
 
-### set test scenario 
+### Set test scenario 
 
 - BlazeMeter 확장 프로그램 사용
   1. 테스트 시나리오 녹화 
@@ -23,7 +23,7 @@ tags: [ Software Performance, Apache JMeter ]
 
 ### Setting Information
 
-<img src="/assets/img/jmeter/jmeter setting.png" width="800px" />
+<img src="/assets/img/jmeter/jmeter setting.png" width="1000px" />
 
 - Stepping Thread Group 을 사용하기 위해 플러그인 다운받아 설치
 - User Defined Variables: 쓰레드 그룹에서 사용할 변수 설정
