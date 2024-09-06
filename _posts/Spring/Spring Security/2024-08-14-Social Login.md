@@ -125,7 +125,7 @@ logging:
 <br/>
 <hr/>
 
-# Failure of social login
+# 시행착오
 
 - 로컬 환경에서는 소셜로그인이 문제없이 잘 동작하였는데, 운영에 배포하여 확인해보니 동작이 되질않았다. 
 - 실패 원인을 파악하기 위한 조치
@@ -134,6 +134,6 @@ logging:
   - 운영환경에 출력되는 로그 분석
   
 - 결과
-  - <img src="/assets/img/log/1.png" width="600px" />  
-  - <img src="/assets/img/log/2.png" width="600px" /> 
-  - 고객사 운영서버에 권한이 없다고 판단되어 관련 메일 송부했더니, 해결되었다.
+  <img src="/assets/img/log/1.png" width="800px" />   
+  <img src="/assets/img/log/2.png" width="600px" />  
+  고객사 운영서버에 권한이 없다고 판단되어 관련 메일 송부했더니, 해결되었다.
