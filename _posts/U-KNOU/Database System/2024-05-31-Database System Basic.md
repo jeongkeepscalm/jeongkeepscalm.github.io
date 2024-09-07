@@ -1,7 +1,7 @@
 ---
 title: "[U-KNOU] 데이터베이스 시스템"
 description: "[U-KNOU] 데이터베이스 시스템"
-date: 2222-05-28
+date: 2024-05-28
 categories: [ U-KNOU, Database System ]
 tags: [ U-KNOU, Database System ]
 ---

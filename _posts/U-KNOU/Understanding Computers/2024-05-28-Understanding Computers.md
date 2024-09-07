@@ -1,7 +1,7 @@
 ---
 title: "[U-KNOU] 컴퓨터의 이해"
 description: "[U-KNOU] 컴퓨터의 이해"
-date: 2222-05-28
+date: 2024-05-28
 categories: [ U-KNOU, Understanding Computers ]
 tags: [ U-KNOU, Understanding Computers ]
 ---

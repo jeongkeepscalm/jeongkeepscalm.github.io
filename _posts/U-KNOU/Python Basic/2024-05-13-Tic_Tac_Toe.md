@@ -1,7 +1,7 @@
 ---
 title: "[U-KNOU] 파이썬 게임 Tic_Tac_Toe"
 description: "[U-KNOU] 파이썬 게임 Tic_Tac_Toe"
-date: 2222-05-13
+date: 2024-05-13
 categories: [ Python, Python Game ]
 tags: [ Python, Python Game ]
 ---
