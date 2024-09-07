@@ -1,7 +1,7 @@
 ---
 title: "[U-KNOU] UNIX 시스템"
 description: "[U-KNOU] UNIX 시스템"
-date: 2024-08-20
+date: 2222-08-20
 categories: [ U-KNOU, UNIX System ]
 tags: [ U-KNOU, UNIX System ]
 ---
