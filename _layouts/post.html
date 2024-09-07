@@ -161,7 +161,7 @@ tail_includes:
         var password = prompt("This page is protected. Please enter the password:");
         if (password !== "123456") {
             alert("Incorrect password. You cannot view this page.");
-            document.getElementsByClassName("post-content")[0].innerHTML = ""; 
+            document.getElementsByClassName("post")[0].innerHTML = ""; 
         }
     }
   });
