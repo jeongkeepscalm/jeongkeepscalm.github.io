@@ -160,13 +160,18 @@ tail_includes:
   document.addEventListener("DOMContentLoaded", function() {
     let pageTitle = "{{ page.title }}";
     if (pageTitle.includes("[U-KNOU]")) {
+
+      let password2 = "j123";
+      let hashedPassword2 = CryptoJS.SHA256(password).toString();
+      console.log(hashedPassword2);
+
       let password = prompt("This page is protected. Please enter the password:");
       let hashedPassword = CryptoJS.SHA256(password).toString();
       let correctHashedPassword = "2d711642b726b04401627ca9fbac32f5da367d1291b5f7e2c6c9b8fa47b2f92d"; 
 
       if (hashedPassword !== correctHashedPassword) {
-          alert("Incorrect password. You cannot view this page.");
-          document.getElementsByClassName("post")[0].innerHTML = ""; 
+          alert("Incorrect password.");
+          document.getElementsByClassName("post")[0].innerHTML = "<h1>You cannot view this page.</h1>";  
           document.getElementById("tail-wrapper").innerHTML = ""; 
       }
     }
