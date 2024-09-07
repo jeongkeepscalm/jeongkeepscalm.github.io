@@ -154,18 +154,6 @@ tail_includes:
 <script type="text/javascript" async
         src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-      let pageTitle = "{{ page.title }}";
-      console.log(pageTitle); 
-      console.log(pageTitle.includes("[U-KNOU]"));
-
-      if (pageTitle.includes("[U-KNOU]")) {
-          var password = prompt("Please enter the password:");
-          if (password !== "123456") {
-              alert("Incorrect password.");
-              document.body.innerHTML = ""; // Clear the page content
-          }
-      }
-  });
+<script type="text/javascript" async
+        src="/_javascript/custom.js">
 </script>
