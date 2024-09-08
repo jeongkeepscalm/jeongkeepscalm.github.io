@@ -161,9 +161,6 @@ tail_includes:
     let pageTitle = "{{ page.title }}";
     if (pageTitle.includes("[U-KNOU]")) {
 
-      let hashedPassword2 = CryptoJS.SHA256("J123").toString();
-      console.log(hashedPassword2); 
-
       let password = prompt("This page is protected. Please enter the password:");
       let hashedPassword = CryptoJS.SHA256(password).toString();
       let correctHashedPassword = "7d1fdeb7cbddc4fbe252d11a6a2ac9beb361830c317244806d910a7494c1453b"; 
