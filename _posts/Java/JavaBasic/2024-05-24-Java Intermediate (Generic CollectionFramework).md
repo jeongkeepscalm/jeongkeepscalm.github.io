@@ -1,32 +1,30 @@
 ---
-title: "Java Generic CollectionFramework"
-description: "Java Generic CollectionFramework"
+title: "Java Intermediate_2 (Generic CollectionFramework)"
+description: "Java Intermediate_2 (Generic CollectionFramework)"
 date: 2024-05-24
-categories: [ Java, Java Basic ]
-tags: [ Java, Java Basic, kyh, intermediate ]
+categories: [Java, Java Basic]
+tags: [Java, Java Basic, kyh, intermediate]
 ---
 
 # 제네릭(Generic)
 
-* 제네릭 타입  
+- 제네릭 타입  
   제네릭 클래스, 제네릭 인터페이스를 모두 합쳐 제네릭 타입으로 부른다.  
   예: class GenericBox<T> {private T t;}  
-  GenericBox<T> 을 제네릭 타입이라 부른다.  
-  
-* 타입 매개변수(Type Parameter)  
+  GenericBox<T> 을 제네릭 타입이라 부른다.
+- 타입 매개변수(Type Parameter)  
   제네릭 타입이나 메소드에서 사용되는 변수로, 실제 타입으로 대체된다.  
   예: GenericBox<T>  
-  T를 타입 매개변수라 한다.  
-  
-* 타입 인자(Type Argument)  
+  T를 타입 매개변수라 한다.
+- 타입 인자(Type Argument)  
   제네릭 타입을 사용할 때 제공되는 실제 타입  
   예: GenericBox<Integer>  
   Integer를 타입 인자라 한다.  
-  기본형이 아닌 참조형만 사용 가능하다.  
-  
+  기본형이 아닌 참조형만 사용 가능하다.
+
 <details>
 <summary><span style="color:orange" class="point"><b>Generic Class</b></span></summary>
-<div markdown="1">   
+<div markdown="1">
 
 ```java
 public class GenericBox<T> {
@@ -67,23 +65,24 @@ public class BoxMain3 {
 
 }
 ```
-> ```제네릭 클래스```: <>를 사용한 클래스  
-> ```<T>```: 타입 매개변수  
+
+> `제네릭 클래스`: <>를 사용한 클래스  
+> `<T>`: 타입 매개변수  
 > 클래스 내부에 T 타입이 필요한 곳에 T value 와 같이 타입 매개변수를 적어준다.  
-> ```타입추론```: 자바가 스스로 타입 정보를 추론해서 개발자가 타입 정보를 생략할 수 있는 것  
+> `타입추론`: 자바가 스스로 타입 정보를 추론해서 개발자가 타입 정보를 생략할 수 있는 것
 
 </div>
 </details>
 
 <br/>
 
-* Raw Type  
+- Raw Type  
   제네릭 타입 인스턴스 생성 시, 타입 인자 없이 생성하는 것  
-  권장하지 않으므로, Object 타입 인자로 명시하는 것을 권장한다.  
+  권장하지 않으므로, Object 타입 인자로 명시하는 것을 권장한다.
 
 <details>
 <summary><span style="color:orange" class="point"><b>메타 데이터 조회</b></span></summary>
-<div markdown="1">   
+<div markdown="1">
 
 ```java
 public class RawTypeMain {
@@ -104,7 +103,7 @@ public class RawTypeMain {
 
 <details>
 <summary><span style="color:orange" class="point"><b>타입 매개변수 상한</b></span></summary>
-<div markdown="1">   
+<div markdown="1">
 
 ```java
 public class AnimalHospitalV3<T extends Animal> {
@@ -126,8 +125,9 @@ public class AnimalHospitalV3<T extends Animal> {
   }
 }
 ```
+
 > <T extends Animal> {}: Animal 과 하위 타입만 받는다.  
-> 타임 매개변수에 입력될 수 있는 값의 범위 예측이 가능하다.    
+> 타임 매개변수에 입력될 수 있는 값의 범위 예측이 가능하다.
 
 <br/>
 
@@ -155,7 +155,7 @@ public class AnimalHospitalMainV3 {
 
     // 문제2: 개 타입 반환
     dogHospital.set(dog1);
-    Dog biggerDog = dogHospital.bigger(new Dog("dog2", 500)); 
+    Dog biggerDog = dogHospital.bigger(new Dog("dog2", 500));
     System.out.println("biggerDog = " + biggerDog);
 
     /**
@@ -177,11 +177,11 @@ public class AnimalHospitalMainV3 {
 
 - 제네릭 메소드  
   정의: <T> T genericMethod(T t)  
-  메소드를 호출하는 시점에 타입인자를 전달한다.  
-  
+  메소드를 호출하는 시점에 타입인자를 전달한다.
+
 <details>
 <summary><span style="color:orange" class="point"><b>Generic Method</b></span></summary>
-<div markdown="1">   
+<div markdown="1">
 
 ```java
 
@@ -199,7 +199,7 @@ public class AnimalMethod {
   public static <T extends Animal> T bigger(T t1, T t2) {
     return t1.getSize() > t2.getSize() ? t1 : t2;
   }
-  
+
 }
 
 public class MethodMain2 {
@@ -234,11 +234,11 @@ public class MethodMain2 {
 
 - 와일드 카드
   와일드카드는 제네릭타입/제네릭메소드가 아니라 이미 만들어진 제네릭타입/제네릭메소드를 활용할 때 사용된다.  
-  제네릭타입/제네릭메소드를 쉽게 사용할 수 있게해주는 도구  
-  
+  제네릭타입/제네릭메소드를 쉽게 사용할 수 있게해주는 도구
+
 <details>
 <summary><span style="color:orange" class="point"><b>Wildcard Example</b></span></summary>
-<div markdown="1">   
+<div markdown="1">
 
 ```java
 
@@ -279,7 +279,7 @@ public class WildcardEx {
     System.out.println("동물 이름: " + animal.getName());
     return animal;
   }
-  
+
 }
 
 public class WildcardMain1 {
@@ -298,7 +298,7 @@ public class WildcardMain1 {
     Dog dog = WildcardEx.printAndReturnGeneric(dogBox);
     Animal animal = WildcardEx.printAndReturnWildcard(dogBox);
   }
-  
+
 }
 ```
 
@@ -307,7 +307,7 @@ public class WildcardMain1 {
 
 <br/>
 
-***제네릭 메소드 실행 예시***
+**_제네릭 메소드 실행 예시_**
 
 ```java
 //1. 전달
@@ -326,7 +326,7 @@ static void printGenericV1(Box<Dog> box) {
 }
 ```
 
-***와일드 카드 실행 예시***
+**_와일드 카드 실행 예시_**
 
 ```java
 // 1. 전달(제네릭 메서드가 아닌 일반적인 메서드)
@@ -336,16 +336,17 @@ static void printWildcardV1(Box<?> box) {
   System.out.println("? = " + box.get());
 }
 ```
+
 > 특정 시점에 타입 매개변수에 타입 인자를 전달해서 타입을 결정해야 하는 것은 번거롭다.  
-> **제네릭 타입이나 제네릭 메서드를 정의하는게 꼭 필요한 상황이 아니라면, 더 단순한 와일드카드 사용하자**  
-  
+> **제네릭 타입이나 제네릭 메서드를 정의하는게 꼭 필요한 상황이 아니라면, 더 단순한 와일드카드 사용하자**
+
 - 제네릭 메소드를 사용해야 하는 경우  
-  상한 와일드카드 메소드 사용 시 리턴 타입을 최상위 부모클래스로 정해져있다.   
-  **즉, 리턴 타입을 하위 타입으로 지정하고 싶을 경우에** 제네릭 메소드를 사용해야 한다.  
-  
+  상한 와일드카드 메소드 사용 시 리턴 타입을 최상위 부모클래스로 정해져있다.  
+  **즉, 리턴 타입을 하위 타입으로 지정하고 싶을 경우에** 제네릭 메소드를 사용해야 한다.
+
 <details>
 <summary><span style="color:orange" class="point"><b>하한 와일드 카드</b></span></summary>
-<div markdown="1">   
+<div markdown="1">
 
 ```java
 public class WildcardMain2 {
@@ -381,7 +382,7 @@ public class WildcardMain2 {
   자바의 제네릭 타입은 컴파일 시점에만 존재하고, 런타임 시에는 제네릭 정보가 지워진다.  
   제네릭은 타입매개변수가 지정되고 컴파일되고 난 후에 사라진다.  
   (클래스 파일에 지정된 타입매개변수가 Object로 변한 것을 확인 할 수 있다.)  
-  하지만 내부적으로 다음 컴파일 시 지정된 타입매개변수로 캐스팅하여 실행하므로 문제가 되지 않는다.   
+  하지만 내부적으로 다음 컴파일 시 지정된 타입매개변수로 캐스팅하여 실행하므로 문제가 되지 않는다.
 
 <br/>
 <hr>
@@ -392,17 +393,15 @@ public class WildcardMain2 {
   - 배열에서 자료를 찾을 때 인덱스(index)를 사용하면 매우 빠르게 자료를 찾을 수 있다.
   - 인덱스를 통한 입력, 변경, 조회의 경우 한번의 계산으로 자료의 위치를 찾을 수 있다.
   - 가장 기본적인 자료 구조이고, 인덱스를 사용할 때 최고의 효율
-  
 - 배열의 인덱스 활용
-  - <img src="/assets/img/kyh_java/array_index.png" width="600px" />  
-  - 공식: 배열의 시작 참조 + (자료의 크기 * 인덱스 위치)
-  - O(1): 한번의 계산으로 필요한 위치를 찾아서 처리 
+  - <img src="/assets/img/kyh_java/array_index.png" width="600px" />
+  - 공식: 배열의 시작 참조 + (자료의 크기 \* 인덱스 위치)
+  - O(1): 한번의 계산으로 필요한 위치를 찾아서 처리
 
 ### 빅오(O) 표기법
 
 - 알고리즘의 성능을 분석할 때 사용하는 수학적 표현 방식
 - 알고리즘이 처리해야할 데이터의 양이 증가할 때, 그 알고리즘이 얼마나 빠르게 실행되는지 나타냄(성능의 변화 추세를 비교하는데 사용)
-  
 - 빅오 표기법 예시
   - O(1) - 상수 시간
     - 입력 데이터의 크기에 관계없이 알고리즘의 실행 시간이 일정한다.
@@ -411,16 +410,16 @@ public class WildcardMain2 {
     - 알고리즘의 실행 시간이 입력 데이터의 크기에 비례하여 증가한다.
     - 예: 배열의 검색, 배열의 모든 요소를 순회하는 경우
   - O(n²) - 제곱 시간
-    - 알고리즘의 실행 시간이 입력 데이터의 크기의 제곱에   비례하여 - 증가한다.
-    - n²은 n * n 을 뜻한다.
+    - 알고리즘의 실행 시간이 입력 데이터의 크기의 제곱에 비례하여 - 증가한다.
+    - n²은 n \* n 을 뜻한다.
     - 예: 보통 이중 루프를 사용하는 알고리즘에서 나타남
   - O(log n) - 로그 시간
     - 알고리즘의 실행 시간이 데이터 크기의 로그에 비례하여 - 증가한다.
     - 예: 이진 탐색
   - O(n log n) - 선형 로그 시간
     - 예: 많은 효율적인 정렬 알고리즘들
-  
 - 정리
+
   - 배열의 인덱스 사용: O(1)
   - 배열의 순차 검색: O(n)
 
@@ -428,7 +427,6 @@ public class WildcardMain2 {
   - 배열의 첫번째 위치에 추가: O(n)
   - 배열의 중간 위치에 추가: O(n)
   - 배열의 마지막 위치에 추가: O(1)
-  
 - 배열의 한계: 배열의 크기를 배열 생성 시점에 미리 정해야 한다.
 
 <br/>
@@ -449,14 +447,13 @@ public class WildcardMain2 {
   - 배열의 마지막 위치에 추가/삭제: O(1)
 - 인덱스 조회: O(1)
 - 데이터 검색: O(n)
-  
-- ***정리***
-  - 배열 리스트는 순서대로 데이터를 추가/삭제 시 성능이 좋다.  
-  - 앞, 중간에 데이터 추가/삭제 성능이 좋지 않다. 
-  
+- **_정리_**
+  - 배열 리스트는 순서대로 데이터를 추가/삭제 시 성능이 좋다.
+  - 앞, 중간에 데이터 추가/삭제 성능이 좋지 않다.
+
 <details>
 <summary><span style="color:orange" class="point"><b>MyArrayList Code</b></span></summary>
-<div markdown="1">      
+<div markdown="1">
 
 ```java
 public class MyArrayListV3 {
@@ -554,7 +551,7 @@ public class MyArrayListV3 {
   
 <details>
 <summary><span style="color:orange" class="point"><b>MyArrayList Generic Code</b></span></summary>
-<div markdown="1">      
+<div markdown="1">
 
 ```java
 public class MyArrayListV4_generic<E> {
@@ -653,10 +650,11 @@ public class MyArrayListV4_generic<E> {
 
 }
 ```
+
 > Object[]: 제네릭의 한계  
 > 제네릭은 런타임에 이레이저에 의해 타입 정보가 사라진다.  
 > 따라서, 런타임에 타입 정보가 필요한 생성자에 사용할 수 없다.  
-> **생성자에는 제네릭의 타입 매개변수를 사용할 수 없다.**  
+> **생성자에는 제네릭의 타입 매개변수를 사용할 수 없다.**
 
 </div>
 </details>
@@ -665,19 +663,17 @@ public class MyArrayListV4_generic<E> {
 
 - 낭비되는 메모리 없이 필요한 만큼만 메모리를 확보해서 사용
 - 앞/중간에 데이터 추가/삭제 시 효율적인 자료 구조
-  
 - 노드 구조
-  - <img src="/assets/img/kyh_java/node.png" width="600px" />  
+  - <img src="/assets/img/kyh_java/node.png" width="600px" />
   - 는 각각의 노드가 참조를 통해 연결(Link, 링크) 되어 있다.
-  
-- ***ArrayList vs LinkedList***  
-  - <img src="/assets/img/kyh_java/compareArrayListToLinkedList.png" width="600px" />  
+- **_ArrayList vs LinkedList_**
+  - <img src="/assets/img/kyh_java/compareArrayListToLinkedList.png" width="600px" />
   - ArrayList: 데이터 조회할 일 많고 뒷 부분에 데이터 추가 시
   - LinkedList: 앞쪽에 데이터 추가/삭제 시
-  
+
 <details>
 <summary><span style="color:orange" class="point"><b>Node Code</b></span></summary>
-<div markdown="1">      
+<div markdown="1">
 
 ```java
 public class Node {
@@ -802,7 +798,7 @@ private static void printAll(Node node) {
 
 <details>
 <summary><span style="color:orange" class="point"><b>LinkedList Code</b></span></summary>
-<div markdown="1">      
+<div markdown="1">
 
 ```java
 public class MyLinkedListV2 {
@@ -915,7 +911,7 @@ public class MyLinkedListV2 {
 
 <details>
 <summary><span style="color:orange" class="point"><b>이중 연결 리스트 예시</b></span></summary>
-<div markdown="1">      
+<div markdown="1">
 
 ```java
 public class Node {
@@ -938,7 +934,7 @@ public class LinkedList {
 
 <details>
 <summary><span style="color:orange" class="point"><b>LinkedList Generic Code</b></span></summary>
-<div markdown="1">      
+<div markdown="1">
 
 ```java
 public class MyLinkedListV3 <E> {
@@ -1049,7 +1045,7 @@ public class MyLinkedListV3 <E> {
     public Node(E item) {
       this.item = item;
     }
-    
+
     @Override
     public String toString() {
       StringBuilder sb = new StringBuilder();
@@ -1065,7 +1061,7 @@ public class MyLinkedListV3 <E> {
       sb.append("]");
       return sb.toString();
     }
-    
+
   }
 
 }
@@ -1077,13 +1073,13 @@ public class MyLinkedListV3 <E> {
 <br/>
 <hr>
 
-# 리스트 추상화 
+# 리스트 추상화
 
-***구체적인 클레스에 의존하는 코드***
+**_구체적인 클레스에 의존하는 코드_**
 
 ```java
 public class BatchProcessor {
-  private final MyLinkedList<Integer> list = new MyLinkedList<>(); 
+  private final MyLinkedList<Integer> list = new MyLinkedList<>();
   public void logic(int size) {
     for (int i = 0; i < size; i++) {
       list.add(0, i); //앞에 추가
@@ -1094,7 +1090,7 @@ public class BatchProcessor {
 
 <br/>
 
-***추상적인 클래스에 의존***
+**_추상적인 클래스에 의존_**
 
 ```java
 public class BatchProcessor {
@@ -1120,9 +1116,8 @@ main() {
 ## 컴파일 타임 의존관계 vs 런타임 의존관계
 
 - 컴파일 타임 의존관계
-  - <img src="/assets/img/kyh_java/compile.jpg" width="600px" />  
+  - <img src="/assets/img/kyh_java/compile.jpg" width="600px" />
   - 실행하지 않은 소스 코드에 정적으로 나타나는 의존관계
   - BatchProcessor 클래스는 MyList 인터페이스에만 의존
-  
 - 런타임 의존관계
-  - <img src="/assets/img/kyh_java/runtime.jpg" width="600px" /> 
+  - <img src="/assets/img/kyh_java/runtime.jpg" width="600px" />
