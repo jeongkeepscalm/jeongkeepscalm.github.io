@@ -1,7 +1,7 @@
 ---
 title: "Java Intermediate_2 (Generic CollectionFramework)"
 description: "Java Intermediate_2 (Generic CollectionFramework)"
-date: 2024-05-24
+date: 2024-10-08
 categories: [Java, Java Basic]
 tags: [Java, Java Basic, kyh, intermediate]
 ---
@@ -852,8 +852,9 @@ main() {
 
         </div>
       </details>
-  
-### hashCode()
+
+### Object.hashCode()
+
 
 
 
