@@ -861,7 +861,7 @@ main() {
 ### hashCode
 
 <details>
-<summary><span style="color:oranage" class="point"><b>hashCode1</b></span></summary>
+<summary><span style="color:oranage" class="point"><b>Code</b></span></summary>
 <div markdown="1">
   
 ```java
@@ -946,14 +946,13 @@ public class Member {
 }
 
 ```
-
-</div>
-</details>
-
 > 데이터의 값이 같으면 같은 해시코드를 반환한다.  
 > Member 객체 내 hashCode를 오버라이딩 함으로써, id의 값이 같으면 동등하다.  
 > 오버라이딩을 하지 않고, Object.hashCode() 를 사용할 시, 참조값으로 hashCode를 생성하기에 동등하지 않다.  
 > 해시 자료 구조에 데이터를 저장하는 경우, 객체를 직접 만들어야할 때 *equals and hashCode를 재정의* 해야한다.  
+
+</div>
+</details>
   
 - 동일성 vs 동등성
   - 동일성(`==`): 참조 주소가 같은지 확인
