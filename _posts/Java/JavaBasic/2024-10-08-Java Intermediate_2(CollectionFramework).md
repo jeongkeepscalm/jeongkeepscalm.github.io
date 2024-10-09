@@ -746,6 +746,7 @@ main() {
 
 # Hash
 
+- 조회성능 ↑
 - 해시 알고리즘(O(n) -> O(1))
 
   1. 데이터의 값 자체를 배열의 인덱스와 맞추어 저장(큰 배열 사용, 메모리 공간 낭비)
@@ -857,4 +858,218 @@ main() {
       </div>
     </details>
 
-### Object.hashCode()
+### hashCode
+
+<details>
+<summary><span style="color:oranage" class="point"><b>hashCode1</b></span></summary>
+<div markdown="1">
+  
+```java
+public class JavaHashCodeMain {
+
+    public static void main(String[] args) {
+    //Object의 기본 hashCode는 객체의 참조값을 기반으로 생성
+    Object obj1 = new Object();
+    Object obj2 = new Object();
+    System.out.println("obj1.hashCode() = " + obj1.hashCode());
+    System.out.println("obj2.hashCode() = " + obj2.hashCode());
+
+    //각 클래스마다 hashCode를 이미 오버라이딩 해두었다.
+    Integer i = 10;
+    String strA = "A";
+    String strAB = "AB";
+    System.out.println("10.hashCode = " + i.hashCode());
+    System.out.println("'A'.hashCode = " + strA.hashCode());
+    System.out.println("'AB'.hashCode = " + strAB.hashCode());
+
+    //hashCode는 마이너스 값이 들어올 수 있다.
+    System.out.println("-1.hashCode = " + Integer.valueOf(-1).hashCode());
+
+    //둘은 같을까 다를까?, 인스턴스는 다르지만, equals는 같다.
+    Member member1 = new Member("idA");
+    Member member2 = new Member("idA");
+
+    //equals, hashCode를 오버라이딩 하지 않은 경우와, 한 경우를 비교
+    System.out.println("(member1 == member2) = " + (member1 == member2));
+    System.out.println("member1 equals member2 = " + member1.equals(member2));
+    System.out.println("member1.hashCode() = " + member1.hashCode());
+    System.out.println("member2.hashCode() = " + member2.hashCode());
+
+    /*
+        obj1.hashCode() = 1324119927
+        obj2.hashCode() = 81628611
+        10.hashCode = 10
+        'A'.hashCode = 65
+        'AB'.hashCode = 2081
+        -1.hashCode = -1
+        (member1 == member2) = false
+        member1 equals member2 = true
+        member1.hashCode() = 104101
+        member2.hashCode() = 104101
+    */
+
+    }
+
+}
+
+public class Member {
+
+    private String id;
+
+    public Member(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Member member = (Member) o;
+        return Objects.equals(id, member.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id='" + id + '\'' +
+                '}';
+    }
+}
+
+```
+
+</div>
+</details>
+
+> 데이터의 값이 같으면 같은 해시코드를 반환한다.  
+> Member 객체 내 hashCode를 오버라이딩 함으로써, id의 값이 같으면 동등하다.  
+> 오버라이딩을 하지 않고, Object.hashCode() 를 사용할 시, 참조값으로 hashCode를 생성하기에 동등하지 않다.  
+> 해시 자료 구조에 데이터를 저장하는 경우, 객체를 직접 만들어야할 때 *equals and hashCode를 재정의* 해야한다.  
+  
+- 동일성 vs 동등성
+  - 동일성(`==`): 참조 주소가 같은지 확인
+  - 동등성(`equals`)
+    - 자바 기본 equals 는 참조 주소값으로 비교한다. (Object.equals() 메소드는 == 을 사용하기 때문)
+    - 클래스 내 equals 구현 시 데이터 값이 같은지 확인
+  
+### 제네릭, 인터페이스 도입한 SET
+
+<details>
+<summary><span style="color:oranage" class="point"><b>Code</b></span></summary>
+<div markdown="1">
+
+```java
+
+// 인터페이스
+public interface MySet<E> {
+    boolean add(E element);
+    boolean remove(E value);
+    boolean contains(E value);
+}
+
+// 구현체
+public class MyHashSetV3<E> implements MySet<E> {
+
+    static final int DEFAULT_INITIAL_CAPACITY = 16;
+
+    private LinkedList<E>[] buckets;
+
+    private int size = 0;
+    private int capacity = DEFAULT_INITIAL_CAPACITY;
+
+    public MyHashSetV3() {
+        initBuckets();
+    }
+
+    public MyHashSetV3(int capacity) {
+        this.capacity = capacity;
+        initBuckets();
+    }
+
+    private void initBuckets() {
+        buckets = new LinkedList[capacity];
+        for (int i = 0; i < capacity; i++) {
+            buckets[i] = new LinkedList<>();
+        }
+    }
+
+    @Override
+    public boolean add(E value) {
+        int hashIndex = hashIndex(value);
+        LinkedList<E> bucket = buckets[hashIndex];
+        if (bucket.contains(value)) {
+            return false;
+        }
+
+        bucket.add(value);
+        size++;
+        return true;
+    }
+
+    @Override
+    public boolean contains(E searchValue) {
+        int hashIndex = hashIndex(searchValue);
+        LinkedList<E> bucket = buckets[hashIndex];
+        return bucket.contains(searchValue);
+    }
+
+    @Override
+    public boolean remove(E value) {
+        int hashIndex = hashIndex(value);
+        LinkedList<E> bucket = buckets[hashIndex];
+        boolean result = bucket.remove(value);
+        if (result) {
+            size--;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private int hashIndex(Object value) {
+        //hashCode의 결과로 음수가 나올 수 있다. abs()를 사용해서 마이너스를 제거한다.
+        return Math.abs(value.hashCode()) % capacity;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    @Override
+    public String toString() {
+        return "MyHashSetV3{" +
+                "buckets=" + Arrays.toString(buckets) +
+                ", size=" + size +
+                ", capacity=" + capacity +
+                '}';
+    }
+}
+
+// 실행
+public class MyHashSetV3Main {
+    public static void main(String[] args) {
+        MyHashSetV3<String> set = new MyHashSetV3<>(10);
+        set.add("A");
+        set.add("B");
+        set.add("C");
+        System.out.println(set);
+
+        //검색
+        String searchValue = "A";
+        boolean result = set.contains(searchValue);
+        System.out.println("bucket.contains(" + searchValue + ") = " + result);
+    }
+}
+```
+
+</div>
+</details>
