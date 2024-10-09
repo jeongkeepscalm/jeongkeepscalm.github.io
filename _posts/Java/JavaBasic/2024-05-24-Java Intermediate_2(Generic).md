@@ -1,6 +1,6 @@
 ---
-title: "Java Intermediate_2 (Generic CollectionFramework)"
-description: "Java Intermediate_2 (Generic CollectionFramework)"
+title: "Java Intermediate_2 (Generic)"
+description: "Java Intermediate_2 (Generic)"
 date: 2024-05-24
 categories: [Java, Java Basic]
 tags: [Java, Java Basic, kyh, intermediate]

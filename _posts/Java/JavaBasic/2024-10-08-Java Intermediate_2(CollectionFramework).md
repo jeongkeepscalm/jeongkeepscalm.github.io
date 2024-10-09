@@ -1,6 +1,6 @@
 ---
-title: "Java Intermediate_2 (Generic CollectionFramework)"
-description: "Java Intermediate_2 (Generic CollectionFramework)"
+title: "Java Intermediate_2 (CollectionFramework)"
+description: "Java Intermediate_2 (CollectionFramework)"
 date: 2024-10-08
 categories: [Java, Java Basic]
 tags: [Java, Java Basic, kyh, intermediate]
@@ -689,7 +689,7 @@ public class MyLinkedListV3 <E> {
 </details>
 
 **전반적으로 ArrayList가 LinkedList 보다 성능이 좋다.**  
-**ArrayList 사용하고 앞부분에 몇 십만건의 데이터 추가/제거가 빈번할 경우 그 때, LinkedList 고려**  
+**ArrayList 사용하고 앞부분에 몇 십만건의 데이터 추가/제거가 빈번할 경우 그 때, LinkedList 고려**
 
 <hr>
 
@@ -747,115 +747,114 @@ main() {
 # Hash
 
 - 해시 알고리즘(O(n) -> O(1))
+
   1. 데이터의 값 자체를 배열의 인덱스와 맞추어 저장(큰 배열 사용, 메모리 공간 낭비)
-  2. 나머지 연산 (해시 인덱스 활용) 
-    - <img src="/assets/img/kyh_java/hash.png" width="600px" />
-    - int 
-      <details>
-        <summary><span style="color:oranage" class="point"><b>Code</b></span></summary>
-        <div markdown="1">      
+  2. 나머지 연산 (해시 인덱스 활용)
 
-        ```java
-          public class HashStart {
+  - <img src="/assets/img/kyh_java/hash.png" width="600px" />
+  - int
+    <details>
+      <summary><span style="color:oranage" class="point"><b>Code</b></span></summary>
+      <div markdown="1">
 
-            static final int CAPACITY = 10;
+    ```java
+      public class HashStart {
 
-            public static void main(String[] args) {
-                
-                // LinkedList<Integer> 타입의 배열 생성
-                LinkedList<Integer>[] buckets = new LinkedList[CAPACITY];
-                
-                // 배열 내 LinkedList 삽입
-                for (int i = 0; i < CAPACITY; i++) {
-                    buckets[i] = new LinkedList<>();
-                }
-                add(buckets, 1);
-                add(buckets, 2);
-                add(buckets, 5);
-                add(buckets, 8);
-                add(buckets, 14);
-                add(buckets, 99);
-                add(buckets, 9); // 중복
-                System.out.println("buckets = " + Arrays.toString(buckets));
+        static final int CAPACITY = 10;
 
-                int searchValue = 9;
-                boolean contains = contains(buckets, searchValue);
-                System.out.println("buckets.contains(" + searchValue + ") = " + contains);
+        public static void main(String[] args) {
+
+            // LinkedList<Integer> 타입의 배열 생성
+            LinkedList<Integer>[] buckets = new LinkedList[CAPACITY];
+
+            // 배열 내 LinkedList 삽입
+            for (int i = 0; i < CAPACITY; i++) {
+                buckets[i] = new LinkedList<>();
             }
+            add(buckets, 1);
+            add(buckets, 2);
+            add(buckets, 5);
+            add(buckets, 8);
+            add(buckets, 14);
+            add(buckets, 99);
+            add(buckets, 9); // 중복
+            System.out.println("buckets = " + Arrays.toString(buckets));
 
-            private static void add(LinkedList<Integer>[] buckets, int value) {
-                int hashIndex = hashIndex(value);
-                LinkedList<Integer> bucket = buckets[hashIndex];    // O(1)
-                if (!bucket.contains(value)) {                      // O(n)
-                    bucket.add(value);
-                }
-            }
-
-            private static boolean contains(LinkedList<Integer>[] buckets, int searchValue) {
-                int hashIndex = hashIndex(searchValue);
-                LinkedList<Integer> bucket = buckets[hashIndex];    // O(1)
-                return bucket.contains(searchValue);                // O(n)
-            }
-
-            static int hashIndex(int value) {
-                return value % CAPACITY;
-            }
-
+            int searchValue = 9;
+            boolean contains = contains(buckets, searchValue);
+            System.out.println("buckets.contains(" + searchValue + ") = " + contains);
         }
-        ```
-        </div>
-      </details>
-    - String
-      <details>
-        <summary><span style="color:oranage" class="point"><b>Code</b></span></summary>
-        <div markdown="1">      
 
-        ```java
-          public class HashMain_String {
+        private static void add(LinkedList<Integer>[] buckets, int value) {
+            int hashIndex = hashIndex(value);
+            LinkedList<Integer> bucket = buckets[hashIndex];    // O(1)
+            if (!bucket.contains(value)) {                      // O(n)
+                bucket.add(value);
+            }
+        }
 
-              static final int CAPACITY = 10;
+        private static boolean contains(LinkedList<Integer>[] buckets, int searchValue) {
+            int hashIndex = hashIndex(searchValue);
+            LinkedList<Integer> bucket = buckets[hashIndex];    // O(1)
+            return bucket.contains(searchValue);                // O(n)
+        }
 
-              public static void main(String[] args) {
+        static int hashIndex(int value) {
+            return value % CAPACITY;
+        }
 
-                  // 모든 문자는 고유한 숫자로 표현이 가능하다. 
+    }
+    ```
 
-                  // ASCII 코드 변환
-                  char charA = 'A';
-                  char charB = 'B';
+      </div>
+    </details>
 
-                  System.out.println("(int) charA = " + (int) charA);
-                  System.out.println("(int) charB = " + (int) charB);
+  - String
+    <details>
+      <summary><span style="color:oranage" class="point"><b>Code</b></span></summary>
+      <div markdown="1">
 
-                  // hashCode
-                  int hashCode_abc = hashCode("A");
-                  System.out.println("hashCode_abc = " + hashCode_abc);
+    ```java
+      public class HashMain_String {
+
+          static final int CAPACITY = 10;
+
+          public static void main(String[] args) {
+
+              // 모든 문자는 고유한 숫자로 표현이 가능하다.
+
+              // ASCII 코드 변환
+              char charA = 'A';
+              char charB = 'B';
+
+              System.out.println("(int) charA = " + (int) charA);
+              System.out.println("(int) charB = " + (int) charB);
+
+              // hashCode
+              int hashCode_abc = hashCode("A");
+              System.out.println("hashCode_abc = " + hashCode_abc);
 
 
-                  // hashIndex
-                  System.out.println("hashIndex(hashcode(A) = " + hashIndex(hashCode("A")));
-                  System.out.println("hashIndex(hashcode(B) = " + hashIndex(hashCode("B")));
-                  System.out.println("hashIndex(hashcode(AB) = " + hashIndex(hashCode("AB")));
-
-              }
-
-              // get hashCode
-              static int hashCode(String str) {
-                  return str.chars().sum();
-              }
-
-              static int hashIndex(int value) {
-                  return value % CAPACITY;
-              }
+              // hashIndex
+              System.out.println("hashIndex(hashcode(A) = " + hashIndex(hashCode("A")));
+              System.out.println("hashIndex(hashcode(B) = " + hashIndex(hashCode("B")));
+              System.out.println("hashIndex(hashcode(AB) = " + hashIndex(hashCode("AB")));
 
           }
-        ```
 
-        </div>
-      </details>
+          // get hashCode
+          static int hashCode(String str) {
+              return str.chars().sum();
+          }
+
+          static int hashIndex(int value) {
+              return value % CAPACITY;
+          }
+
+      }
+    ```
+
+      </div>
+    </details>
 
 ### Object.hashCode()
-
-
-
-
-
