@@ -50,6 +50,11 @@ tags: [Java, Java Basic, kyh, intermediate]
 
 <hr>
 
+# Collection Interface
+
+- 데이터 그룹을 다루기 위한 메소드 정의
+- List, Set, Queue, Deque 와 같은 다양한 하위 인터페이스와 함께 사용됨
+
 # 리스트(List)
 
 - 배열 vs 리스트
@@ -1066,6 +1071,172 @@ public class MyHashSetV3Main {
         String searchValue = "A";
         boolean result = set.contains(searchValue);
         System.out.println("bucket.contains(" + searchValue + ") = " + result);
+    }
+}
+```
+
+</div>
+</details>
+
+<hr>
+
+# 자바가 제공하는 Set Interface
+
+- Set(interface)
+  - HashSet
+    - LinkedHashSet
+  - TreeSet
+
+## HashSet
+
+- O(1)(해쉬 알고리즘 사용)
+- 입력한 데이터의 수가 배열의 크기 75% 정도 넘어가면 성능 저하(해시 인덱스 자주 충돌)
+  - 자바의 HashSet은 데이터 양이 배열의 크기 75%를 넘어가면 배열의 크기를 2배로 늘려 늘어난 크기를 기준으로 모든 요소에 해시 인덱스를 재적용한다.(재해싱) 
+
+
+## LinkedHashSet
+
+- HashSet과 동일하지만 입력한 순서 유지(순서 보장)
+- O(1)(해쉬 알고리즘 사용)
+
+## TreeSet
+
+- 이진 탐색 트리를 개선한 레드-블랙 트리 사용
+  - 이진 탐색 트리
+    - 자식이 2개까지 올수 있는 트리
+    - 왼쪽 노드가 더 작고, 오른쪽 노드는 더 큰 값을 가진다.
+    - **데이터 입력 시점에 정렬해서 보관**
+- 3, 1, 2 순서대로 입력해도 1, 2, 3 으로 출력
+- `O(log n)`
+  - O(n)인 리스트 검색보다는 빠르고, O(1)인 해시의 검색보다는 느리다. 
+  - 2로 나누어서 1에 도달하는 횟수
+- `레드-블랙 트리`(이진 트리 탐색 개선)
+  - 트리에 균형이 맞지 않을 경우, O(n)의 성능이 나올 가능성이 있을 경우, 중간의 값으로 기준을 재설정
+  
+- TreeSet의 정렬기준
+  - int, String 같은 기본 데이터는 크다, 작다 비교가 명확하기 때문에 정렬 가능하다. 
+  - 그 외, 직접 만든 클래스(Member) 크기 비교는 `Comparable`, `Comparator` 인터페이스를 구현해야 한다.
+  
+***정리***  
+- 실무에서 Set이 필요한 경우, HashSet을 가장 많이 사용
+- 입력 순서 유지, 값 정렬의 필요에 따라 LinkedHashSet / TreeSet을 선택하여 사용
+  
+## Test Code
+
+<details>
+<summary><span style="color:oranage" class="point"><b>test code 1</b></span></summary>
+<div markdown="1">
+
+```java
+public class Test1 {
+
+    public static void main(String[] args) {
+
+        // 1.
+        Integer[] inputArr = {30, 20, 20, 10, 10};
+
+        // 중복 제거(순서 유지 x)
+        HashSet<Integer> hashSet = new HashSet<Integer>(List.of(inputArr));
+        System.out.println("hashSet = " + hashSet);                 // 20, 10, 30
+
+        // 중복 제거(입력 순서 유지)
+        LinkedHashSet<Integer> linkedHashSet = new LinkedHashSet<>(Arrays.asList(inputArr));
+        System.out.println("linkedHashSet = " + linkedHashSet);     // 30, 20, 10
+
+        // 중복 제거(입력된 데이터 값으로 정렬)
+        TreeSet<Integer> treeSet = new TreeSet<Integer>(List.of(inputArr));
+        System.out.println("treeSet = " + treeSet);
+
+
+        // 2. 두 집합의 합집합, 교집합, 차집합(A-B)을 구하여라
+        HashSet<Integer> setA = new HashSet<>(List.of(1, 2, 3, 4, 5));
+        HashSet<Integer> setB = new HashSet<>(List.of(3, 4, 5, 6, 7));
+
+        // 합집합
+        HashSet<Integer> union = new HashSet<>(setA);
+        union.addAll(setB);
+        System.out.println("union = " + union);                     // 1, 2, 3, 4, 5, 6, 7
+
+        // 교집합
+        HashSet<Integer> intersection = new HashSet<>(setA);
+        intersection.retainAll(setB);
+        System.out.println("intersection = " + intersection);       // 3, 4, 5
+
+        // 차집합
+        HashSet<Integer> differenceSet = new HashSet<>(setA);
+        differenceSet.removeAll(setB);
+        System.out.println("differenceSet = " + differenceSet);     // 1, 2
+
+    }
+
+}
+```
+
+</div>
+</details>
+  
+<details>
+<summary><span style="color:oranage" class="point"><b>test code 2</b></span></summary>
+<div markdown="1">
+
+```java
+public class RectangleTest {
+
+    public static void main(String[] args) {
+
+        HashSet<Rectangle> rectangleSet = new HashSet<>();
+        rectangleSet.add(new Rectangle(10, 10));
+        rectangleSet.add(new Rectangle(20, 20));
+        rectangleSet.add(new Rectangle(20, 20)); // 중복
+
+        for (Rectangle rectangle : rectangleSet) {
+            System.out.println("rectangle = " + rectangle);
+        }
+
+        /*
+            before overriding equals & hashCode
+                rectangle = Rectangle{width=20, height=20}
+                rectangle = Rectangle{width=10, height=10}
+                rectangle = Rectangle{width=20, height=20}
+
+            after overriding equals & hashCode
+                rectangle = Rectangle{width=10, height=10}
+                rectangle = Rectangle{width=20, height=20}
+         */
+
+    }
+
+}
+
+public class Rectangle {
+
+    private int width;
+    private int height;
+
+    public Rectangle(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Rectangle rectangle = (Rectangle) object;
+        return width == rectangle.width && height == rectangle.height;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(width, height);
+    }
+
+    @Override
+    public String toString() {
+        return "Rectangle{" +
+                "width=" + width +
+                ", height=" + height +
+                '}';
     }
 }
 ```
