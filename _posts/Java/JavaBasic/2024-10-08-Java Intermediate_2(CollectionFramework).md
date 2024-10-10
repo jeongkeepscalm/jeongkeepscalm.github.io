@@ -417,8 +417,6 @@ private static void printAll(Node node) {
 </div>
 </details>
 
-<br/>
-
 <details>
 <summary><span style="color:orange" class="point"><b>LinkedList Code</b></span></summary>
 <div markdown="1">
@@ -530,8 +528,6 @@ public class MyLinkedListV2 {
 </div>
 </details>
 
-<br/>
-
 <details>
 <summary><span style="color:orange" class="point"><b>이중 연결 리스트 예시</b></span></summary>
 <div markdown="1">
@@ -552,8 +548,6 @@ public class LinkedList {
 
 </div>
 </details>
-
-<br/>
 
 <details>
 <summary><span style="color:orange" class="point"><b>LinkedList Generic Code</b></span></summary>
@@ -760,7 +754,7 @@ main() {
   - <img src="/assets/img/kyh_java/hash.png" width="600px" />
   - int
     <details>
-      <summary><span style="color:oranage" class="point"><b>Code</b></span></summary>
+      <summary><span style="color:orange" class="point"><b>Code</b></span></summary>
       <div markdown="1">
 
     ```java
@@ -817,7 +811,7 @@ main() {
 
   - String
     <details>
-      <summary><span style="color:oranage" class="point"><b>Code</b></span></summary>
+      <summary><span style="color:orange" class="point"><b>Code</b></span></summary>
       <div markdown="1">
 
     ```java
@@ -866,7 +860,7 @@ main() {
 ### hashCode
 
 <details>
-<summary><span style="color:oranage" class="point"><b>Code</b></span></summary>
+<summary><span style="color:orange" class="point"><b>Code</b></span></summary>
 <div markdown="1">
   
 ```java
@@ -968,7 +962,7 @@ public class Member {
 ### 제네릭, 인터페이스 도입한 SET
 
 <details>
-<summary><span style="color:oranage" class="point"><b>Code</b></span></summary>
+<summary><span style="color:orange" class="point"><b>Code</b></span></summary>
 <div markdown="1">
 
 ```java
@@ -1124,7 +1118,7 @@ public class MyHashSetV3Main {
 ## Test Code
 
 <details>
-<summary><span style="color:oranage" class="point"><b>test code 1</b></span></summary>
+<summary><span style="color:orange" class="point"><b>test code 1</b></span></summary>
 <div markdown="1">
 
 ```java
@@ -1176,7 +1170,7 @@ public class Test1 {
 </details>
   
 <details>
-<summary><span style="color:oranage" class="point"><b>test code 2</b></span></summary>
+<summary><span style="color:orange" class="point"><b>test code 2</b></span></summary>
 <div markdown="1">
 
 ```java
@@ -1243,3 +1237,188 @@ public class Rectangle {
 
 </div>
 </details>
+
+<hr>
+
+# Map(Interface)
+
+- 키-값
+- 순서 유지 x
+  
+- Map(Interface)
+  - HashMap
+    - LinkedHashMap
+  - TreeMap
+  
+<details>
+<summary><span style="color:orange" class="point"><b>Map Code 1</b></span></summary>
+<div markdown="1">
+
+```java
+
+public static void main(String[] args) {
+
+    HashMap<String, Integer> studentMap = new HashMap<>();
+
+    studentMap.put("studentA", 90);
+    studentMap.put("studentB", 80);
+    studentMap.put("studentC", 80);
+    studentMap.put("studentD", 100);
+    System.out.println("studentMap = " + studentMap);
+    // studentMap = {studentB=80, studentA=90, studentD=100, studentC=80}
+
+    // 특정 값 조회
+    Integer result = studentMap.get("studentD");
+    System.out.println("result = " + result);           // result = 100
+
+
+    // keySet 활용
+    Set<String> keySet = studentMap.keySet();           // SET 자료구조로 반환
+    for (String key : keySet) {
+        Integer value = studentMap.get(key);
+        System.out.println("key = " + key + ", value = " + value);
+    }
+    /*
+        key = studentB, value = 80
+        key = studentA, value = 90
+        key = studentD, value = 100
+        key = studentC, value = 80
+      */
+
+    // values 활용
+    Collection<Integer> values = studentMap.values();   // 컬렉션 반환
+    for (Integer value : values) {
+        System.out.println("value = " + value);
+    }
+
+
+    // key values 를 묶어 활용하는 entrySet
+    // entry: 키와 값을 저장하는 객체
+    Set<Map.Entry<String, Integer>> entries = studentMap.entrySet();
+    for (Map.Entry<String, Integer> entry : entries) {
+        String key = entry.getKey();
+        Integer value = entry.getValue();
+        System.out.println("key = " + key + ", value = " + value);
+    }
+
+
+}
+
+```
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>Map Code 2</b></span></summary>
+<div markdown="1">
+
+```java
+public static void main(String[] args) {
+
+    HashMap<String, Integer> map = new HashMap<>();
+
+    // 같은 키로 저장시 덮어 씌어진다. 
+    map.put("ojg", 90);
+    map.put("ojg", 100);
+    System.out.println("map = " + map);     // map = {ojg=100}
+
+    map.putIfAbsent("ojg", 30);
+    map.putIfAbsent("hwang", 100);
+    System.out.println("map = " + map);     // map = {hwang=100, ojg=100}
+
+}
+```
+
+</div>
+</details>
+
+### Map vs Set
+
+- HashSet의 구현은 대부분 HashMap의 구현을 가져다 쓴다.
+  - HashMap의 값을 더미값으로 저장하고 활용
+- HashMap은 HashSet과 작동원리가 같다. 
+  
+***정리***  
+- 실무에서 Map이 필요한 경우 HashMap 많이 사용
+- 필요에 따라 LinkedHashMap, TreeMap 선택 
+
+<hr>
+
+# Stack
+
+- Stack 사용 권장 x
+  - Stack 클래스는 내부에서 Vector 자료 구조를 사용
+  - Vector: 자바 1.0에 개발되었는데, 지금은 사용하지 않고 하위 호환을 위해 존재
+  - **Deque 사용 권장**
+
+<hr>
+
+# Queue
+
+- offer: 큐에 값을 넣음
+- poll: 큐에서 값을 꺼냄
+
+<hr>
+
+# 데크: Deque(Double Ended Queue)
+
+- Collection(Interface)
+  - Queue(Interface)
+    - Deque(Interface)
+      - ArrayDeque: 원형 큐 자료 구조 사용
+      - LinkedList: Deque, List 인터페이스를 모두 구현
+  
+- stack, queue 기능을 모두 포함
+- <img src="/assets/img/kyh_java/deque.png" width="600px" />
+
+  
+<details>
+<summary><span style="color:orange" class="point"><b>Deque Code</b></span></summary>
+<div markdown="1">
+
+```java
+public static void main(String[] args) {
+
+    Deque<Integer> deque = new ArrayDeque<>();
+    // Deque<Integer> deque = new LinkedList<>();
+
+    deque.offerFirst(1);
+    deque.offerFirst(2);
+    System.out.println("deque = " + deque);     // deque = [2, 1]
+    deque.offerLast(3);
+    deque.offerLast(4);
+    System.out.println("deque = " + deque);     // deque = [2, 1, 3, 4]
+
+    // 데이터를 꺼내지 않고 단순 조회
+    System.out.println("deque.peekFirst() = " + deque.peekFirst()); // 2
+    System.out.println("deque.peekFirst() = " + deque.peekLast());  // 4
+
+    // 데이터 꺼내기
+    System.out.println("deque.pollFirst() = " + deque.pollFirst()); // 2
+    System.out.println("deque.pollFirst() = " + deque.pollFirst()); // 1
+    System.out.println("deque.pollLast() = " + deque.pollLast());   // 4
+    System.out.println("deque.pollLast() = " + deque.pollLast());   // 3
+    System.out.println("deque = " + deque);                         // []
+
+}
+```
+> 성능: ArrayDeque > LinkedList
+
+</div>
+</details>
+
+## Test Code
+
+<details>
+<summary><span style="color:orange" class="point"><b>test code 1</b></span></summary>
+<div markdown="1">
+
+```java
+
+```
+
+</div>
+</details>
+
+
