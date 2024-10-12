@@ -1631,7 +1631,6 @@ public class TaskScheduler {
         return tasks.size();
     }
 
-
     public void processNextTask() {
         Objects.requireNonNull(tasks.pollFirst()).execute();
         /*
