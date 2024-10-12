@@ -1415,10 +1415,234 @@ public static void main(String[] args) {
 <div markdown="1">
 
 ```java
+/*
+    map1, map2에 공통으로 들어있는 키 찾고 그 값의 합을 구하기
+ */
+public class CommonKeyValueSum1 {
 
+    public static void main(String[] args) {
+
+        // map1 생성
+        Map<String, Integer> map1 = Map.of("A", 1, "B", 2, "C", 3);
+
+        // map2 생성
+        Map<String, Integer> map2 = Map.of("B", 4, "C", 5, "D", 6);
+
+        /**
+         * mine
+         */
+        int sum = 0;
+        Set<String> keySet1 = map1.keySet();
+        Set<String> keySet2 = map2.keySet();
+
+        // 교집합 추출
+        Set<String> intersection = new HashSet<>(keySet1);
+        intersection.retainAll(keySet2);
+
+        Iterator<String> iterator = intersection.iterator();
+        while (iterator.hasNext()) {
+            String key = iterator.next();
+            Integer i1 = map1.get(key);
+            Integer i2 = map2.get(key);
+            sum += i1 + i2;
+        }
+
+        System.out.println("intersection = " + intersection);   // [B, C]
+        System.out.println("sum = " + sum);                     // 14
+
+
+        /**
+         * teacher
+         */
+        HashMap<String, Integer> result = new HashMap<>();
+        for (String key : map1.keySet()) {
+            if (map2.containsKey(key)) {
+                result.put(key, map1.get(key) + map2.get(key));
+            }
+        }
+        System.out.println("result = " + result);
+
+    }
+
+}
 ```
 
 </div>
 </details>
 
+<details>
+<summary><span style="color:orange" class="point"><b>test code 2</b></span></summary>
+<div markdown="1">
 
+```java
+/*
+    각각의 단어가 나타난 수 출력
+ */
+public class WordFrequencyTest1 {
+    public static void main(String[] args) {
+        String text = "orange banana apple apple banana apple";
+        HashMap<String, Integer> map = new HashMap<>();
+        String[] wordArray = text.split(" ");
+        for (String word : wordArray) {
+            map.put(word, map.getOrDefault(word, 0) + 1);
+        }
+        System.out.println("map = " + map);
+    }
+}
+```
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>test code 3</b></span></summary>
+<div markdown="1">
+
+```java
+public class Cart {
+
+    private Map<Product, Integer> cartMap = new HashMap<>();
+
+    public void add(Product product, int addQuantity) {
+        int existingQuantity = cartMap.getOrDefault(product, 0);
+        cartMap.put(product, existingQuantity + addQuantity);
+    }
+
+    public void printAll() {
+        System.out.println("* print all products");
+        Set<Map.Entry<Product, Integer>> entries = cartMap.entrySet();
+        for (Map.Entry<Product, Integer> entry : entries) {
+            Product key = entry.getKey();
+            Integer value = entry.getValue();
+            System.out.println(key + ", count: " + value);
+        }
+        System.out.println();
+    }
+
+    public void minus(Product product, int minusQuantity) {
+        int existingQuantity = cartMap.getOrDefault(product, 0);
+        int newQuantity = existingQuantity - minusQuantity;
+        if (newQuantity <= 0) {
+            cartMap.remove(product);
+        } else {
+            cartMap.put(product, newQuantity);
+        }
+    }
+}
+```
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>test code 4</b></span></summary>
+<div markdown="1">
+
+```java
+public class BrowserHistory {
+
+    private Deque<String> history = new ArrayDeque<>();
+    private String currentPage;
+
+
+    public void visitPage(String url) {
+        if (null != currentPage) history.offerLast(url);
+        currentPage = url;
+        System.out.println("visit: " + url);
+    }
+
+    public String goBack() {
+        if (!history.isEmpty()) {
+            currentPage = history.pollLast();
+            System.out.println("go back: " + currentPage);
+            return currentPage;
+        }
+        return null;
+    }
+
+}
+```
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>test code 5</b></span></summary>
+<div markdown="1">
+
+```java
+public interface Task {
+    void execute();
+}
+
+public class CompressionTask implements Task {
+    @Override
+    public void execute() {
+    System.out.println("데이터 압축...");
+    }
+}
+
+public class BackupTask implements Task {
+    @Override
+    public void execute() {
+    System.out.println("자료 백업...");
+    }
+}
+
+public class CleanTask implements Task {
+    @Override
+    public void execute() {
+    System.out.println("사용하지 않는 자원 정리...");
+    }
+}
+
+public class SchedulerTest {
+    public static void main(String[] args) {
+
+        //낮에 작업을 저장
+        TaskScheduler scheduler = new TaskScheduler();
+        scheduler.addTask(new CompressionTask());
+        scheduler.addTask(new BackupTask());
+        scheduler.addTask(new CleanTask());
+
+        //새벽 시간에 실행
+        System.out.println("작업 시작");
+        run(scheduler);
+        System.out.println("작업 완료");
+
+    }
+
+    private static void run(TaskScheduler scheduler) {
+        while (scheduler.getRemainingTasks() > 0) {
+            scheduler.processNextTask();
+        }
+    }
+}
+
+public class TaskScheduler {
+
+    private Deque<Task> tasks = new ArrayDeque<>();
+
+    public void addTask(Task task) {
+        tasks.offerLast(task);
+    }
+
+    public int getRemainingTasks() {
+        return tasks.size();
+    }
+
+
+    public void processNextTask() {
+        Objects.requireNonNull(tasks.pollFirst()).execute();
+        /*
+            Task task = tasks.poll();
+            if (task != null) {
+                task.execute();
+            }
+         */
+    }
+}
+```
+
+</div>
+</details>
