@@ -1815,3 +1815,287 @@ public class MyUserMain {
 
 # Collections
 
+### comparable, comparator
+
+<details>
+<summary><span style="color:oranage" class="point"><b>Code</b></span></summary>
+<div markdown="1">
+
+```java
+public class MyUser implements Comparable<MyUser> {
+
+    private String id;
+    private int age;
+
+    public String getId() {
+        return id;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public MyUser(String id, int age) {
+        this.id = id;
+        this.age = age;
+    }
+
+    // 객체 내 age 를 기준으로 오름차순 정렬 
+    @Override
+    public int compareTo(MyUser o) {
+        return this.age < o.age ? -1 : (this.age == o.age ? 0 : 1);
+    }
+
+    @Override
+    public String toString() {
+        return "MyUser{" +
+                "id='" + id + '\'' +
+                ", age=" + age +
+                '}';
+    }
+
+}
+```
+
+```java
+public class IdComparator implements Comparator<MyUser> {
+    @Override
+    public int compare(MyUser o1, MyUser o2) {
+        // "a".compareTo("b"); // -1
+        return o1.getId().compareTo(o2.getId());
+    }
+}
+```
+
+```java
+public class MyUserMain {
+    public static void main(String[] args) {
+
+        // MyUser: Comparable 인터페이스 구현
+        MyUser a = new MyUser("a", 30);
+        MyUser b = new MyUser("b", 20);
+        MyUser c = new MyUser("c", 40);
+
+        /** Array **/
+        MyUser[] users = {a, b, c};
+
+        // age 로 정렬
+        Arrays.sort(users);
+        System.out.println("array sorted by age = " + Arrays.toString(users));
+
+        // id 로 오름차순 정렬
+        Arrays.sort(users, new IdComparator());
+        System.out.println("array sorted asc by id = " + Arrays.toString(users));
+
+        // id 로 내림차수 정렬
+        Arrays.sort(users, new IdComparator().reversed());
+        System.out.println("array sorted desc by id = " + Arrays.toString(users));
+
+
+        /** List **/
+        ArrayList<MyUser> list = new ArrayList<>();
+        list.add(a);
+        list.add(b);
+        list.add(c);
+
+        // age 로 정렬
+        list.sort(null); // Collections.sort(list);
+        System.out.println("list sorted by age = " + list);
+
+        // id 로 정렬
+        list.sort(new IdComparator()); // Collections.sort(list, new IdComparator());
+        System.out.println("list sorted by id = " + list);
+
+
+        /** TreeSet **/
+        Set<MyUser> set1 = new TreeSet<>();
+        set1.add(a);
+        set1.add(b);
+        set1.add(c);
+        
+        // age 로 정렬(기본으로 정렬되어 있음)
+        System.out.println("set1 sorted by age = " + set1);
+
+        // id 로 정렬
+        Set<MyUser> set2 = new TreeSet<>(new IdComparator());
+        set2.add(a);
+        set2.add(b);
+        set2.add(c);
+        System.out.println("set2 sorted by age = " + set2);
+
+    }
+
+}
+```
+
+</div>
+</details>
+
+<br>
+
+***CardGame***
+
+<details>
+<summary><span style="color:oranage" class="point"><b>Code</b></span></summary>
+<div markdown="1">
+
+```java
+public enum Suit {
+    SPADE("♠"),     // 스페이드(♠)
+    HEART("♥"),     // 하트(♥)
+    DIAMOND("♦"),    // 다이아몬드(♦)
+    CLUB("♣");      // 클로버(♣)
+
+    private String icon;
+
+    Suit(String icon) {
+        this.icon = icon;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+}
+```
+
+```java
+public class Card implements Comparable<Card> {
+
+    private final int rank;     // 카드의 숫자
+    private final Suit suit;    // 카드의 마크
+
+    public Card(int rank, Suit suit) {
+        this.rank = rank;
+        this.suit = suit;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public Suit getSuit() {
+        return suit;
+    }
+
+    @Override
+    public int compareTo(Card anotherCard) {
+        // 숫자가 같지 않으면 숫자로 오름차순 정렬
+        if (this.rank != anotherCard.rank) {
+            return Integer.compare(this.rank, anotherCard.rank);
+        } else {
+            // 숫자가 같으면 모양으로 재정렬(Enum 에 지정한 순서)
+            return this.suit.compareTo(anotherCard.suit);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return rank + "(" + suit.getIcon() + ")";
+    }
+
+}
+```
+
+```java
+public class Deck {
+
+    private List<Card> cards = new ArrayList<>();
+
+    public Deck() {
+        initCard();
+        shuffle();
+    }
+
+    private void initCard() {
+        for (int i = 1; i <= 13; i++) {
+            for (Suit suit : Suit.values()) {
+                cards.add(new Card(i, suit));
+            }
+        }
+    }
+
+    private void shuffle() {
+        Collections.shuffle(cards);
+    }
+
+    public Card drawCard() {
+        return cards.remove(0);
+    }
+
+}
+```
+
+```java
+public class Player {
+
+    private String name;
+    private List<Card> hand;
+
+    public Player(String name) {
+        this.name = name;
+        this.hand = new ArrayList<>();
+    }
+
+    public void drawCard(Deck deck) {
+        hand.add(deck.drawCard());
+    }
+
+    public int rankSum() {
+        int value = 0;
+        for (Card card : hand) {
+            value += card.getRank();
+        }
+        return value;
+    }
+
+    public void showHand() {
+        hand.sort(null);
+        System.out.println(name + "의 카드: " + hand + ", 합계: " + rankSum());
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+```
+
+```java
+public class CardGameMain {
+    public static void main(String[] args) {
+        Deck deck = new Deck();
+        Player player1 = new Player("player1");
+        Player player2 = new Player("player2");
+
+        for (int i = 0; i < 5; i++) {
+            player1.drawCard(deck);
+            player2.drawCard(deck);
+        }
+
+        player1.showHand();
+        player2.showHand();
+
+        Player winner = getWinner(player1, player2);
+        if (winner != null) {
+            System.out.println(winner.getName() + " 승리");
+        } else {
+            System.out.println("무승부");
+        }
+
+    }
+
+    private static Player getWinner(Player player1, Player player2) {
+        int sum1 = player1.rankSum();
+        int sum2 = player2.rankSum();
+        if (sum1 > sum2) {
+            return player1;
+        } else if (sum1 == sum2) {
+            return null;
+        } else {
+            return player2;
+        }
+    }
+}
+```
+
+</div>
+</details>
