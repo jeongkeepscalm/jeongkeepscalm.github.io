@@ -1,6 +1,6 @@
 ---
-title: "[DevOps] Install Docker"
-description: "[DevOps] Install Docker"
+title: "[Docker] Install Docker"
+description: "[Docker] Install Docker"
 date: 2024-10-19
 categories: [ DevOps, Docker ]
 tags: [ DevOps, Docker ]
