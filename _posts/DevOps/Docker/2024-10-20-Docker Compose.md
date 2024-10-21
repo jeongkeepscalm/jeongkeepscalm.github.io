@@ -8,17 +8,27 @@ tags: [ DevOps, Docker ]
 
 ***How to install***
 ```bash
-# Docker Compose 다운로드 및 설치
-sudo curl -L "https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+# 기존 docker-compose 제거
+sudo apt-get remove docker-compose -y
+
+# jq 라이브러리 설치
+sudo apt-get install jq
+
+# 현재 세션 내 변수 저장
+VERSION=$(curl --silent https://api.github.com/repos/docker/compose/releases/latest | jq .name -r)
+DESTINATION=/usr/local/bin/docker-compose
+
+# Download and install
+sudo curl -L "https://github.com/docker/compose/releases/download/${VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o $DESTINATION
 
 # Docker Compose 실행 권한 부여
-sudo chmod +x /usr/local/bin/docker-compose
+sudo chmod +x $DESTINATION
 
 # 심볼릭 링크 생성
-sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+sudo ln -s $DESTINATION /usr/bin/docker-compose
 
 # Docker Compose 버전 확인
-docker-compose --version
+docker-compose -v
 ```
 > curl: 데이터를 다운로드하는 도구  
 > 심볼릭 링크: ln 명령어를 사용하여 /usr/local/bin/docker-compose 파일에 대한 심볼릭 링크를 /usr/bin/docker-compose 경로에 생성  

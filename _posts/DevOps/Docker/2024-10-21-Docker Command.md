@@ -7,23 +7,29 @@ tags: [ DevOps, Docker ]
 ---
 
 ```bash
+# 현재 유저 도커 명령어 실행시, sudo 입력 할 필요 x
+sudo usermod -aG docker $USER 
+logout 
+
+# docker compose up / down
+docker compose up -d
+docker compose down
+
 # 현재 띄워져있는 도커 컨테이너 확인
-sudo docker ps -a
+docker ps -a
 
 # 현재 띄워져있는 도커 컨테이너 중지
-sudo docker stop $(sudo docker ps -aq)
+docker stop $(sudo docker ps -aq)
 
 # 현재 띄워져있는 도커 컨테이너 삭제
-sudo docker rm $(sudo docker ps -aq)
+docker rm $(sudo docker ps -aq)
 
 # 컨테이너 로그 확인
-sudo docker logs gitlab 
-sudo docker logs jenkins
+docker logs gitlab 
+docker logs jenkins
 # -f: 실시간 로그 확인
-sudo docker logs -f gitlab 
-sudo docker logs -f jenkins
+docker logs -f gitlab 
+docker logs -f jenkins
+
+
 ```
-
-
-
-

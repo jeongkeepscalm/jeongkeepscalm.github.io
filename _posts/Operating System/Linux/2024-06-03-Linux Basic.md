@@ -6,18 +6,13 @@ categories: [Operating System, Linux]
 tags: [Operating System, Linux]
 ---
 
-# sudo
+***sudo***
 
 ```bash
-sudo su - exit
+# root 계정으로 전환
+sudo su - 
+exit
 ```
-
-> sudo: superuser do  
-> su: switch user  
-> sudo su -:  
->  슈퍼유저 권한을 가지고 su - 명령 실행.  
->  슈퍼유저(root)로 전환되어 - 옵션에 의해 슈퍼유저의 환경 설정을 로드한다.  
-> exit: 다른 권한에서 자신의 권한으로 돌아온다.
 
 <hr>
 
@@ -96,7 +91,6 @@ ls -l testFile    # 해당 파일에 대한 자세한 정보 출력
 # 666 - 002 = 664(rw-rw-r--)
 # 777 - 002 = 775(rwxrwxr-x)
 ```
-
 > umask: 새로 생성되는 파일/디렉토리의 기본 권한을 설정
 
 <hr>
@@ -115,8 +109,6 @@ uname -a systemctl status <특정 서비스명>(e.g. crond)
 # 로그
 
 - `/var/log`: 리눅스 시스템에서 일반적으로 해당 폴더에 로그 파일이 저장
-
-<hr>
 
 <hr>
 
