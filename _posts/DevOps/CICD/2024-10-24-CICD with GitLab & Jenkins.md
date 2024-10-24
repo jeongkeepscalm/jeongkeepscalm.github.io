@@ -55,15 +55,15 @@ tags: [ DevOps, CICD ]
     apt-get install -y openjdk-17-jdk
     
     update-alternatives --config java
-    
-    pipeline
+    ```
+  - 
+    ```js 
+    // pipeline
     JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64' // Java 17 경로 설정
     PATH = "${JAVA_HOME}/bin:${env.PATH}"
     ```
-
   - JDK 17 설치 후, 해당 버전에 호환되는 Gradle 젠킨스 컨테이너에 설치
   - 호환이 잘 되는 버전으로 맞춰도 해당 이슈 해결을 못해서 로그 출력 스크립트 추가
-
   - 
     ```js 
     stage('Build') {
