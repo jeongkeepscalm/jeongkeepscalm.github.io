@@ -12,7 +12,8 @@ tags: [ DevOps, CICD ]
 
 <hr>
 
-***깃랩, 젠킨스 연동 순서***  
+## 깃랩, 젠킨스 연동 순서
+
 1. 깃랩 프로젝트 생성
 2. 생성된 깃랩 프로젝트와 application 소스코드 연결(port 번호 추가된 url)
 3. 깃랩 personal access token 발급
@@ -37,15 +38,15 @@ tags: [ DevOps, CICD ]
 
 <hr>
 
-***파이프라인 스크립트 작성 시, 생긴 이슈들***  
+## 파이프라인 스크립트 작성 시, 생긴 이슈들   
 
-- **credential 관련 오류**
+- <span style="color:red">credential 관련 오류</span>
   - credential 발급 시, GitLab API Token 으로 발급을 받았었는데, 해당 credential 인식이 불가능하여, Username with password 형식의 credential을 발급받아 적용  
   
-- **ERROR: Couldn't find any revision to build. Verify the repository and branch configuration for this job. ERROR: Maximum checkout retry attempts reached, aborting**
+- <span style="color:red">ERROR: Couldn't find any revision to build. Verify the repository and branch configuration for this job. ERROR: Maximum checkout retry attempts reached, aborting</spen>
   - main 브랜치 생성
   
-- **FAILURE: Build failed with an exception.Where: Settings file '/var/jenkins_home/workspace/test1/settings.gradle' What went wrong: Could not compile settings file '/var/jenkins_home/workspace/test1/settings.gradle'. startup failed: General error during semantic analysis: Unsupported class file major version 61 java.lang.IllegalArgumentException: Unsupported class file major version 61**
+- <span style="color:red">FAILURE: Build failed with an exception.Where: Settings file '/var/jenkins_home/workspace/test1/settings.gradle' What went wrong: Could not compile settings file '/var/jenkins_home/workspace/test1/settings.gradle'. startup failed: General error during semantic analysis: Unsupported class file major version 61 java.lang.IllegalArgumentException: Unsupported class file major version 61</span>
   - Gradle version, Java version 이 호환이 안될 때 생기는 에러
   - 
     ```bash
@@ -59,8 +60,10 @@ tags: [ DevOps, CICD ]
     JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64' // Java 17 경로 설정
     PATH = "${JAVA_HOME}/bin:${env.PATH}"
     ```
+
   - JDK 17 설치 후, 해당 버전에 호환되는 Gradle 젠킨스 컨테이너에 설치
   - 호환이 잘 되는 버전으로 맞춰도 해당 이슈 해결을 못해서 로그 출력 스크립트 추가
+  
   - 
     ```js 
     stage('Build') {
