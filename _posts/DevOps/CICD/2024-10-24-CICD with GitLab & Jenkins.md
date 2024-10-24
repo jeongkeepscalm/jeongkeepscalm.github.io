@@ -169,3 +169,104 @@ echo 'export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64' >> ~/.bashrc
 echo 'export PATH=$JAVA_HOME/bin:$PATH' >> ~/.bashrc
 source ~/.bashrc
 ```
+
+<hr>
+<br/>
+
+## 최종 파이프라인 스크립트
+
+- 
+
+```js
+pipeline {
+    agent any
+
+    environment {
+        GIT_REPO_URL = 'http://123.123.123.123:9090/ojg/firstproject.git'
+        GIT_CREDENTIALS_ID = 'fdsfdsfdasfdasfgdasfdasfdsaf'
+        DEPLOY_SERVER_IP = '123.123.123.123'
+        DEPLOY_USER = 'ojg'
+        SSH_KEY_PATH = '/var/jenkins_home/.ssh/id_rsa'
+        PROJECT_PATH = '/home/ojg/myFirstProject'
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64' 
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
+        WAR_FILE_NAME = 'test.war'
+    }
+
+     /*
+            GIT_REPO_URL        : GitLab 저장소의 URL
+            GIT_CREDENTIALS_ID  : Jenkins에 저장된 GitLab 자격 증명의 ID
+            DEPLOY_SERVER_IP    : 배포할 원격 서버의 IP 주소
+            DEPLOY_USER         : 원격 서버에 접속할 사용자 이름
+            SSH_KEY_PATH        : Jenkins 컨테이너에 설치된 SSH 키 파일의 경로
+            PROJECT_PATH        : 원격 서버에서 프로젝트가 배포될 경로
+            JAVA_HOME           : 원격 서버에 설치된 Java의 경로
+            PATH                : 원격 서버의 Java 실행 파일 경로를 시스템 PATH에 추가
+            WAR_FILE_NAME       : 빌드된 WAR 파일의 이름
+        */
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: "${GIT_REPO_URL}",
+                    credentialsId: "${GIT_CREDENTIALS_ID}"
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Gradle Wrapper 스크립트에 실행 권한 부여
+                sh 'chmod +x ./gradlew'
+                
+                // 테스트를 제외하며, gradle 사용하여 프로젝트 빌드
+                sh './gradlew clean build --stacktrace -x test'
+                
+                // 빌드 결과물 확인
+                sh 'ls -l build/libs'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    // SSH를 통해 배포 서버에 접속하여 소스를 배포
+                    sh '''
+                    scp -i ${SSH_KEY_PATH} build/libs/${WAR_FILE_NAME} ${DEPLOY_USER}@${DEPLOY_SERVER_IP}:${PROJECT_PATH}
+                    ssh -i ${SSH_KEY_PATH} ${DEPLOY_USER}@${DEPLOY_SERVER_IP} << EOF
+                    cd ${PROJECT_PATH}
+                    # 기존 애플리케이션 종료 (필요한 경우)
+                    pkill -f ${WAR_FILE_NAME} || true
+                    # 새로운 애플리케이션 실행
+                    nohup java -jar ${WAR_FILE_NAME} > app.log 2>&1 &
+                    <<< EOF
+                    '''
+                    
+                    /*
+                      scp -i ${SSH_KEY_PATH} build/libs/${WAR_FILE_NAME} ${DEPLOY_USER}@${DEPLOY_SERVER_IP}:${PROJECT_PATH}: 빌드된 war 파일을 원격 서버에 복사
+
+                      ssh -i ${SSH_KEY_PATH} ${DEPLOY_USER}@${DEPLOY_SERVER_IP}: ssh를 통해 원격 서버에 접속하여 여러 명령어를 실행
+                    
+                      cd ${PROJECT_PATH}: 원격서버에서 프로젝트 디렉토리로 이동
+
+                      pkill -f ${WAR_FILE_NAME} || true: 기존에 실행 중인 애플리케이션을 종료. 실패해도 무시
+
+                      nohup java -jar ${WAR_FILE_NAME} > app.log 2>&1 &: 새로운 애플리케이션을 백그라운드에서 실행하고, 로그를 app.log 파일에 기록
+                    */
+                }
+
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed!'
+        }
+    }
+}
+```
