@@ -40,6 +40,22 @@ tags: [ DevOps, CICD ]
 
 <hr>
 
+***젠킨스 컨테이너 내 Gradle, SSH 설치***   
+```bash
+docker exec -it jenkins /bin/bash
+
+# 패키지 목록 업데이트 및 SSH 설치
+apt-get update && apt-get install -y openssh-client
+
+# Gradle 설치(Java version 에 호환되는 버전으로 설치한다.) 
+RUN apt-get install -y wget unzip 
+wget https://services.gradle.org/distributions/gradle-7.3.3-bin.zip 
+unzip gradle-7.3.3-bin.zip -d /opt 
+ln -s /opt/gradle-7.3.3/bin/gradle /usr/bin/gradle
+```
+
+<hr>
+
 ## 파이프라인 스크립트 작성 시, 생긴 이슈들   
 
 <span style="color:red">credential 관련 오류</span>  
