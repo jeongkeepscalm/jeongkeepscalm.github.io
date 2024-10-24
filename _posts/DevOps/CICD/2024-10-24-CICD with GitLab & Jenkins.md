@@ -175,7 +175,7 @@ source ~/.bashrc
 
 ## 최종 파이프라인 스크립트
 
-- war 를 실행하여 웹 배포
+- war 실행하여 웹 배포
 
 ```js
 pipeline {
@@ -244,15 +244,20 @@ pipeline {
                     '''
                     
                     /*
-                      scp -i ${SSH_KEY_PATH} build/libs/${WAR_FILE_NAME} ${DEPLOY_USER}@${DEPLOY_SERVER_IP}:${PROJECT_PATH}: 빌드된 war 파일을 원격 서버에 복사
+                      scp -i ${SSH_KEY_PATH} build/libs/${WAR_FILE_NAME} ${DEPLOY_USER}@${DEPLOY_SERVER_IP}:${PROJECT_PATH}
+                        빌드된 war 파일을 원격 서버에 복사
 
-                      ssh -i ${SSH_KEY_PATH} ${DEPLOY_USER}@${DEPLOY_SERVER_IP}: ssh를 통해 원격 서버에 접속하여 여러 명령어를 실행
+                      ssh -i ${SSH_KEY_PATH} ${DEPLOY_USER}@${DEPLOY_SERVER_IP}
+                        ssh를 통해 원격 서버에 접속하여 여러 명령어를 실행
                     
-                      cd ${PROJECT_PATH}: 원격서버에서 프로젝트 디렉토리로 이동
+                      cd ${PROJECT_PATH}
+                        원격서버에서 프로젝트 디렉토리로 이동
 
-                      pkill -f ${WAR_FILE_NAME} || true: 기존에 실행 중인 애플리케이션을 종료. 실패해도 무시
+                      pkill -f ${WAR_FILE_NAME} || true
+                        기존에 실행 중인 애플리케이션을 종료. 실패해도 무시
 
-                      nohup java -jar ${WAR_FILE_NAME} > app.log 2>&1 &: 새로운 애플리케이션을 백그라운드에서 실행하고, 로그를 app.log 파일에 기록
+                      nohup java -jar ${WAR_FILE_NAME} > app.log 2>&1 &
+                        새로운 애플리케이션을 백그라운드에서 실행하고, 로그를 app.log 파일에 기록
                     */
                 }
 
