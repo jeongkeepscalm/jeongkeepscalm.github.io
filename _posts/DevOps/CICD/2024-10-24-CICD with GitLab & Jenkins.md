@@ -175,7 +175,7 @@ source ~/.bashrc
 
 ## 최종 파이프라인 스크립트
 
-- 
+- war 를 실행하여 웹 배포
 
 ```js
 pipeline {
