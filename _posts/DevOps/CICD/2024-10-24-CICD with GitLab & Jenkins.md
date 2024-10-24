@@ -52,6 +52,15 @@ RUN apt-get install -y wget unzip
 wget https://services.gradle.org/distributions/gradle-7.3.3-bin.zip 
 unzip gradle-7.3.3-bin.zip -d /opt 
 ln -s /opt/gradle-7.3.3/bin/gradle /usr/bin/gradle
+
+# 설치 완료 확인
+docker exec -it jenkins /bin/bash
+ssh -V
+gradle -v
+
+# ssh 위치 확인
+which ssh
+	/usr/bin/ssh
 ```
 
 <hr>
