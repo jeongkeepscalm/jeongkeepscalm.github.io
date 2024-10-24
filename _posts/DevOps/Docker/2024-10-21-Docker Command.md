@@ -18,6 +18,9 @@ docker compose down
 # 현재 띄워져있는 도커 컨테이너 확인
 docker ps -a
 
+docker stop [컨테이너명]
+docker start [컨테이너명]
+
 # 현재 띄워져있는 도커 컨테이너 중지
 docker stop $(sudo docker ps -aq)
 
@@ -30,6 +33,4 @@ docker logs jenkins
 # -f: 실시간 로그 확인
 docker logs -f gitlab 
 docker logs -f jenkins
-
-
 ```

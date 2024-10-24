@@ -51,9 +51,9 @@ DROP USER test;
 
 ## ISSUE
 
-1. Dbeaver Connection Timout
+### Dbeaver Connection Timout
 
-***설정파일 변경(postgresql.conf, pg_hba.conf)***
+***1. 설정파일 변경(postgresql.conf, pg_hba.conf)***
 ```bash
 docker exec -it postgresql bash # PostgreSQL 컨테이너 접속
 psql -U postgres                # PostgreSQL CLI 접속
@@ -73,6 +73,7 @@ SHOW config_file;               # var/lib/postgresql/data/
 
 <br/>
 
+***2. 인바운드 규칙 추가***   
 설정 파일을 변경해도 해당 이슈 해결이 불가능했다.  
 뭐가 문제일까 생각하던 와중.. 새로 생성한 서버에 인바운드 규칙(PostgreSQL 포트)을 추가 안 한것이 떠올랐다.  
-5432 포트 `인바운드 규칙 추가` 후 해결완료 😂
+5432 포트 `인바운드 규칙 추가` 후 해결완료 😂  
