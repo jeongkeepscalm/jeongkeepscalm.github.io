@@ -42,10 +42,14 @@ tags: [ DevOps, CICD ]
 
 <span style="color:red">credential 관련 오류</span>  
 credential 발급 시, GitLab API Token 으로 발급을 받았었는데, 해당 credential 인식이 불가능하여, Username with password 형식의 credential을 발급받아 적용  
-  
+
+<br/>
+
 <span style="color:red">ERROR: Couldn't find any revision to build. Verify the repository and branch configuration for this job. ERROR: Maximum checkout retry attempts reached, aborting</span>  
 main 브랜치 생성  
-  
+
+<br/>
+
 <span style="color:red">FAILURE: Build failed with an exception.Where: Settings file '/var/jenkins_home/workspace/test1/settings.gradle' What went wrong: Could not compile settings file '/var/jenkins_home/workspace/test1/settings.gradle'. startup failed: General error during semantic analysis: Unsupported class file major version 61 java.lang.IllegalArgumentException: Unsupported class file major version 61</span>  
 Gradle version, Java version 이 호환이 안될 때 생기는 에러
 
@@ -82,6 +86,8 @@ chown -R jenkins:jenkins /var/jenkins_home/workspace/test1
 chmod -R 755 /var/jenkins_home/workspace/test1
 ```
 
+<br/>
+
 <span style="color:red">FAILURE: Build failed with an exception. What went wrong: Execution failed for task ':test'. There were failing tests. See the report at: file:///var/jenkins_home/workspace/test1/build/reports/tests/test/index.html. Try: Run with --scan to get full insights.</span>  
 
 ```js
@@ -94,6 +100,8 @@ stage('Build') {
 }
 ```
 
+<br/>
+
 <span style="color:red">Warning: Identity file /home/ojg/.ssh/id_rsa not accessible: No such file or directory. ssh: connect to host 123.123.123.123 port 22: Connection timed out. scp: Connection closed</span>  
 
 ```bash
@@ -105,6 +113,8 @@ docker exec -it jenkins /bin/bash
 ssh -i /home/ojg/.ssh/id_rsa ojg@123.123.123.123
 ```
 
+<br/>
+
 <span style="color:red">+ scp -i /home/ojg/.ssh/id_rsa build/libs/test.war ojg@123.123.123.123:/home/ojg/myFirstProject Warning: Identity file /home/ojg/.ssh/id_rsa not accessible: No such file or directory. Permission denied, please try again. ojg@123.123.123.123: Permission denied (publickey,password). scp: Connection closed</span>  
   
 ```bash
@@ -115,8 +125,10 @@ cat /var/jenkins_home/.ssh/id_rsa.pub | ssh ojg@123.123.123.123 'mkdir -p ~/.ssh
 /var/jenkins_home/.ssh/id_rsa
 ```
 
+<br/>
+
 <span style="color:red">+ scp -i /var/jenkins_home/.ssh/id_rsa build/libs/test.war ojg@123.123.123.123:/home/ojg/myFirstProject. scp: stat local "build/libs/test.war": No such file or directory</span>  
-  
+
 ```yml
 # application 프로젝트 내 build.gradle 파일에 코드 추가
 # 임의로 정한 war명인 test를 파이프라인 스크립트에도 명시해주어야 한다.  
@@ -125,8 +137,12 @@ bootWar {
 }
 ```
 
+<br/>
+
 <span style="color:red">EOF: command not found</span>  
 배포 스크립트 내 sh """ -> sh ''' 로 수정
+
+<br/>
 
 <span style="color:red">배포 성공했으나, 웹에서 접속 불가</span>  
 
