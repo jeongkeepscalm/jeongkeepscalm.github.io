@@ -30,7 +30,9 @@ tags: [ DevOps, CICD ]
 7. 깃랩 Webhook 설정
   - 젠킨스에서 파이프라인 생성시 설정된 URL, Secret token 사용
 8. webhook 이 잘 설정되었다면, 파이프라인 스크립트 작성  
-  
+
+<br/>
+
 ***깃랩, 젠킨스 연동할 때, 생긴 이슈***   
 - webhook 설정 시, invalid URL given 에러 발생  
   admin > settings > network > Outbound requests  
