@@ -146,7 +146,7 @@ bootWar {
 
 <br/>
 
-<span style="color:red">배포 성공했으나, 웹에서 접속 불가</span>  
+<span style="color:red">배포 성공했으나, 웹 접속 불가</span>  
 
 ```bash
 # application 포트 추가
