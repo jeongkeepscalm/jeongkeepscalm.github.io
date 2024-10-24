@@ -41,44 +41,40 @@ tags: [ DevOps, CICD ]
 ## 파이프라인 스크립트 작성 시, 생긴 이슈들   
 
 - <span style="color:red">credential 관련 오류</span>
-  - credential 발급 시, GitLab API Token 으로 발급을 받았었는데, 해당 credential 인식이 불가능하여, Username with password 형식의 credential을 발급받아 적용  
+credential 발급 시, GitLab API Token 으로 발급을 받았었는데, 해당 credential 인식이 불가능하여, Username with password 형식의 credential을 발급받아 적용  
   
 - <span style="color:red">ERROR: Couldn't find any revision to build. Verify the repository and branch configuration for this job. ERROR: Maximum checkout retry attempts reached, aborting</span>
-  - main 브랜치 생성
+main 브랜치 생성  
   
 - <span style="color:red">FAILURE: Build failed with an exception.Where: Settings file '/var/jenkins_home/workspace/test1/settings.gradle' What went wrong: Could not compile settings file '/var/jenkins_home/workspace/test1/settings.gradle'. startup failed: General error during semantic analysis: Unsupported class file major version 61 java.lang.IllegalArgumentException: Unsupported class file major version 61</span>
-  - Gradle version, Java version 이 호환이 안될 때 생기는 에러
-  - 
-    ```bash
-    docker exec -it jenkins /bin/bash
-    apt-get update
-    apt-get install -y openjdk-17-jdk
-    
-    update-alternatives --config java
-    ```
-  - 
-    ```js 
-    // pipeline
-    JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64' // Java 17 경로 설정
-    PATH = "${JAVA_HOME}/bin:${env.PATH}"
-    ```
-  - JDK 17 설치 후, 해당 버전에 호환되는 Gradle 젠킨스 컨테이너에 설치
-  - 호환이 잘 되는 버전으로 맞춰도 해당 이슈 해결을 못해서 로그 출력 스크립트 추가
-  - 
-    ```js 
-    stage('Build') {
-      steps {
-          sh 'chmod +x ./gradlew'
-          sh './gradlew clean build --stacktrace' // 상세 로그 출력
-      }
-    }
-    ```
-  - 로그로 원인 파악한 후 권한 추가
-  - 
-    ```bash
-    chown -R jenkins:jenkins /var/jenkins_home/workspace/test1
-    chmod -R 755 /var/jenkins_home/workspace/test1
-    ```
-  
+Gradle version, Java version 이 호환이 안될 때 생기는 에러
 
+```bash
+docker exec -it jenkins /bin/bash
+apt-get update
+apt-get install -y openjdk-17-jdk
 
+update-alternatives --config java
+```
+
+```js 
+  // pipeline
+  JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64' // Java 17 경로 설정
+  PATH = "${JAVA_HOME}/bin:${env.PATH}"
+```
+
+JDK 17 설치 후, 해당 버전에 호환되는 Gradle 젠킨스 컨테이너에 설치  
+호환이 잘 되는 버전으로 맞춰도 해당 이슈 해결을 못해서 로그 출력 스크립트 추가  
+```js 
+stage('Build') {
+  steps {
+      sh 'chmod +x ./gradlew'
+      sh './gradlew clean build --stacktrace' // 상세 로그 출력
+  }
+}
+```
+로그로 원인 파악한 후 권한 추가  
+```bash
+chown -R jenkins:jenkins /var/jenkins_home/workspace/test1
+chmod -R 755 /var/jenkins_home/workspace/test1
+```
