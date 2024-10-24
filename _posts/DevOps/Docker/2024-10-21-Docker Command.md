@@ -7,30 +7,32 @@ tags: [ DevOps, Docker ]
 ---
 
 ```bash
-# 현재 유저 도커 명령어 실행시, sudo 입력 할 필요 x
+# 현재 사용자를 docker 그룹에 추가(sudo 사용 x)
 sudo usermod -aG docker $USER 
-logout 
+exit
 
 # docker compose up / down
 docker compose up -d
 docker compose down
 
-# 현재 띄워져있는 도커 컨테이너 확인
+# 현재 띄워져있는 도커 컨테이너 확인, 중지, 삭제
 docker ps -a
-
-docker stop [컨테이너명]
-docker start [컨테이너명]
-
-# 현재 띄워져있는 도커 컨테이너 중지
-docker stop $(sudo docker ps -aq)
-
-# 현재 띄워져있는 도커 컨테이너 삭제
-docker rm $(sudo docker ps -aq)
+docker stop [컨테이너명]            # one
+docker start [컨테이너명]           # one
+docker stop $(sudo docker ps -aq)  # all
+docker rm $(sudo docker ps -aq)    # all
 
 # 컨테이너 로그 확인
-docker logs gitlab 
-docker logs jenkins
-# -f: 실시간 로그 확인
-docker logs -f gitlab 
-docker logs -f jenkins
+docker logs [컨테이너명] 
+docker logs -f [컨테이너명]         # -f: realtime
+
+# 방화벽 
+sudo ufw status
+sudo ufw allow 8081/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow 2222/tcp
+sudo ufw allow 8080/tcp
+sudo ufw allow 50000/tcp
+sudo ufw reload
+sudo ufw enable
 ```

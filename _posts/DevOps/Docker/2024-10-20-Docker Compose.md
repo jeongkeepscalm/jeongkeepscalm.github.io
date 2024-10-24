@@ -34,7 +34,6 @@ docker-compose -v
 > 심볼릭 링크: ln 명령어를 사용하여 /usr/local/bin/docker-compose 파일에 대한 심볼릭 링크를 /usr/bin/docker-compose 경로에 생성  
 
 <hr>
-<br/>
 
 ***docker-compose.yml( gitlab, jenkins, postgres)***
 ```yml
@@ -89,7 +88,6 @@ services:
 > docker-compose up 전, volumes에 지정된 폴더를 미리 생성해둬서 마운트해놓자. 
 
 <hr>
-<br/>
 
 ***Issues***
 
@@ -97,6 +95,7 @@ services:
   docker-compose.yml 파일 내 깃랩, 젠킨스 코드를 추가하고 up 시켰더니, 이 후 ssh가 느려짐.  
   top 명령어로 cpu 사용률을 확인해보니, kdevtmpfsi로 150% 이상 cpu 사용중을 확인.  
   해당 서버는 내리고 새 서버 생성해서, 아래 코드 실행.  
+
 ```bash
 # add below code in docker-compose.yml file
 security_opt:
