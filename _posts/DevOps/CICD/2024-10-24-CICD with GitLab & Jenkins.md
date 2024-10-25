@@ -167,7 +167,8 @@ bootWar {
 <br/>
 
 <span style="color:red">EOF: command not found</span>  
-배포 스크립트 내 sh """ -> sh ''' 로 수정
+배포 스크립트 내 sh """ -> sh ''' 로 수정  
+<< EOF 로 열고, <<< EOF로 닫음
 
 <br/>
 
@@ -208,7 +209,7 @@ pipeline {
 
     environment {
         GIT_REPO_URL = 'http://123.123.123.123:9090/ojg/firstproject.git'
-        GIT_CREDENTIALS_ID = 'fdsfdsfdasfdasfgdasfdasfdsaf'
+        GIT_CREDENTIALS_ID = 'ba826f7f-6689-4f13-999d-d75f235b4255'
         DEPLOY_SERVER_IP = '123.123.123.123'
         DEPLOY_USER = 'ojg'
         SSH_KEY_PATH = '/var/jenkins_home/.ssh/id_rsa'
@@ -218,18 +219,17 @@ pipeline {
         WAR_FILE_NAME = 'test.war'
     }
 
-     /*
-            GIT_REPO_URL        : GitLab 저장소의 URL
-            GIT_CREDENTIALS_ID  : Jenkins에 저장된 GitLab 자격 증명의 ID
-            DEPLOY_SERVER_IP    : 배포할 원격 서버의 IP 주소
-            DEPLOY_USER         : 원격 서버에 접속할 사용자 이름
-            SSH_KEY_PATH        : Jenkins 컨테이너에 설치된 SSH 키 파일의 경로
-            PROJECT_PATH        : 원격 서버에서 프로젝트가 배포될 경로
-            JAVA_HOME           : 원격 서버에 설치된 Java의 경로
-            PATH                : 원격 서버의 Java 실행 파일 경로를 시스템 PATH에 추가
-            WAR_FILE_NAME       : 빌드된 WAR 파일의 이름
-        */
-    }
+    /*
+        GIT_REPO_URL        : GitLab 저장소의 URL
+        GIT_CREDENTIALS_ID  : Jenkins에 저장된 GitLab 자격 증명의 ID
+        DEPLOY_SERVER_IP    : 배포할 원격 서버의 IP 주소
+        DEPLOY_USER         : 원격 서버에 접속할 사용자 이름
+        SSH_KEY_PATH        : Jenkins 컨테이너에 설치된 SSH 키 파일의 경로
+        PROJECT_PATH        : 원격 서버에서 프로젝트가 배포될 경로
+        JAVA_HOME           : 원격 서버에 설치된 Java의 경로
+        PATH                : 원격 서버의 Java 실행 파일 경로를 시스템 PATH에 추가
+        WAR_FILE_NAME       : 빌드된 WAR 파일의 이름
+    */
 
     stages {
         stage('Checkout') {
@@ -274,7 +274,7 @@ pipeline {
 
                       ssh -i ${SSH_KEY_PATH} ${DEPLOY_USER}@${DEPLOY_SERVER_IP}
                         ssh를 통해 원격 서버에 접속하여 여러 명령어를 실행
-                    
+                      
                       cd ${PROJECT_PATH}
                         원격서버에서 프로젝트 디렉토리로 이동
 
@@ -285,7 +285,6 @@ pipeline {
                         새로운 애플리케이션을 백그라운드에서 실행하고, 로그를 app.log 파일에 기록
                     */
                 }
-
             }
         }
     }
