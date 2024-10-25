@@ -2,8 +2,8 @@
 title: Apache And Tomcat
 description: Apache And Tomcat
 date: 2024-05-01
-categories: [ Networking, Servers ]
-tags: [ Networking, Servers ]
+categories: [ IT Infrastructure, Networking ]
+tags: [ IT Infrastructure, Networking ]
 ---
 
 ## Apache
