@@ -37,7 +37,7 @@ tags: [ U-KNOU, Data Structure ]
   - 컴퓨터에게 시킬 일을 머릿속에서 추상화 시켜 상상해 놓은 것
   - 컴퓨터가 수행해야 할 명령의 추상화
   
-<img src="/assets/img/knou_data_structure/001.jpg" width="600px" />
+<img src="/assets/img/knou_data_structure/001.jpg" width="400px" />
   
 - 추상화
   - 그림/수식 같이 의미를 표현하라고 전달하는 방법
@@ -96,7 +96,7 @@ tags: [ U-KNOU, Data Structure ]
 
 - 2차원 배열에서 원소값이 0인 원소가 그렇지 않은 원소보다 상대적으로 많을경우 사용
 - 0이 아닌 값만을 따로 모아서 저장
-- <img src="/assets/img/knou_data_structure/002.jpg" width="600px" />
+- <img src="/assets/img/knou_data_structure/002.jpg" width="400px" />
 
 <hr>
 
@@ -128,7 +128,7 @@ tags: [ U-KNOU, Data Structure ]
   - (A - ((BK+) / D))
   - (A - ((BK+)D/))
   - (A((BK+)D/))-
-  - <img src="/assets/img/knou_data_structure/03.jpg" width="600px" />
+  - <img src="/assets/img/knou_data_structure/03.jpg" width="400px" />
 
 <hr>
 
@@ -140,15 +140,15 @@ tags: [ U-KNOU, Data Structure ]
 - 삽입연산과 삭제연산이 다른 곳에서 이뤄진다.
 - `front`: 큐의 제일 앞 원소가 담긴 공간을 가르킨다.
 - `rear`: 큐의 제일 뒤 원소가 담긴 공간을 가르킨다.
-- <img src="/assets/img/knou_data_structure/04.jpg" width="600px" />
-- <img src="/assets/img/knou_data_structure/05.jpg" width="600px" />
+- <img src="/assets/img/knou_data_structure/04.jpg" width="400px" />
+- <img src="/assets/img/knou_data_structure/05.jpg" width="400px" />
 
 ### 큐의 추상 자료형
 
 - 큐 객체: 0개 이상의 원소를 갖는 유한 순서 리스트
 - <img src="/assets/img/knou_data_structure/08.jpg" width="400px" />
-- <img src="/assets/img/knou_data_structure/06.jpg" width="600px" />
-- <img src="/assets/img/knou_data_structure/07.jpg" width="600px" />
+- <img src="/assets/img/knou_data_structure/06.jpg" width="400px" />
+- <img src="/assets/img/knou_data_structure/07.jpg" width="400px" />
 
 ### 큐의 응용
 
@@ -168,13 +168,13 @@ element queue[QUEUE_SIZE];
   int rear = -1;
 ```
 
-- <img src="/assets/img/knou_data_structure/09.jpg" width="600px" />
-- <img src="/assets/img/knou_data_structure/10.jpg" width="600px" />
+- <img src="/assets/img/knou_data_structure/09.jpg" width="400px" />
+- <img src="/assets/img/knou_data_structure/10.jpg" width="400px" />
 
 ### 원형 큐
 
 - 배열로 구현한 큐의 경우, 큐의 원소의 개수가 n-1 이 아니더라도 큐가 full이 될 수 있다. 
-  - <img src="/assets/img/knou_data_structure/11.jpg" width="600px" />
+  - <img src="/assets/img/knou_data_structure/11.jpg" width="400px" />
   
 - 배열의 문제점을 해결하기 위해 원형 큐 제안
 - 연결된 부분의 데이터 공간을 연속적으로 사용하기 위해 `나머지 연산자`를 활용한다. 
@@ -264,7 +264,7 @@ element queue[QUEUE_SIZE];
   
 - 순회(traverse)
   - 트리의 각 노드를 빠짐없이 한 번씩만 방문하는 것
-  - <img src="/assets/img/knou_data_structure/tree1.png" width="600px" />
+  - <img src="/assets/img/knou_data_structure/tree1.png" width="400px" />
   - 전위 순회(PLR)
     - J → A → M → aM → V → P → C → Pi → Sh → Sc → E → N 
   - 중위 순회(LPR)
@@ -318,13 +318,13 @@ element queue[QUEUE_SIZE];
   - 승자 트리: 노드 비교 시 작은 값이 부모노드가 된다. 
   - 패자 트리: 단말 노드 비교 시 큰 값이 부모노드(패자노드)가 되며, 다음 비교 시 승자 노드로 비교한다. 
 
-- <img src="/assets/img/knou_data_structure/tree2.png" width="600px" />
+- <img src="/assets/img/knou_data_structure/tree2.png" width="400px" />
 - 승자 트리
-  - <img src="/assets/img/knou_data_structure/tree3.png" width="600px" />
-  - <img src="/assets/img/knou_data_structure/tree4.png" width="600px" />
+  - <img src="/assets/img/knou_data_structure/tree3.png" width="500px" />
+  - <img src="/assets/img/knou_data_structure/tree4.png" width="500px" />
 - 패자 트리
-  - <img src="/assets/img/knou_data_structure/tree5.png" width="600px" />
-  - <img src="/assets/img/knou_data_structure/tree6.png" width="600px" />
+  - <img src="/assets/img/knou_data_structure/tree5.png" width="500px" />
+  - <img src="/assets/img/knou_data_structure/tree6.png" width="500px" />
   
 - 숲: 분리된 트리 모임
 - 숲의 이진 트리 변환
@@ -344,13 +344,13 @@ element queue[QUEUE_SIZE];
   - 탐색: 탐색 성공 시 해당 키 값이 아니라 노드를 반환
   - 삽입: 새 노드는 항상 잎으로 삽입
   - 삭제
-    - <img src="/assets/img/knou_data_structure/tree7.png" width="600px" />
+    - <img src="/assets/img/knou_data_structure/tree7.png" width="400px" />
     - F 삭제시, 왼쪽 서브트리의 가장 큰 값 E, 혹은 오른쪽 서브트리의 가장 작은 값 G가 F자리에 대체 가능
     - 삭제 시 복잡한 과정을 피하려면 그냥 삭제할 노드를 삭제한 것으로 표시하고 트리에 내버려 둔다.
 - 트리의 높이: 루트부터 잎까지 가장 긴 경로의 길이
 - 트리의 무게: 트리에 속한 단말 노드의 개수
 
-- 휴리틱스(heuristic) 알고리즘을 사용한 BS트리(<span style="color:red;">아직 재구성 방식을 이해 못하여 다시 한 번 볼것!</span>)
+- 휴리틱스(heuristic) 알고리즘을 사용한 BS트리<span style="color:red;">(아직 재구성 방식을 이해 못하여 다시 한 번 볼것!)</span>
   - Splay
     - 자주 탐색하는 키를 가진 노드를 루트에 가깝게 위치
     - Splay 연산을 적용하여 트리 재구성
@@ -362,7 +362,7 @@ element queue[QUEUE_SIZE];
 
 <hr>
 
-# ***12강. 멀티웨이 탐색 트리 1(<span style="color:red;">재복습 필요</span>)***
+# ***12강. 멀티웨이 탐색 트리 1<span style="color:red;">(재복습 필요)</span>***
 
 - 멀티 웨이 탐색 트리
   - m원 탐색 트리: 이진 탐색 트리 확장
