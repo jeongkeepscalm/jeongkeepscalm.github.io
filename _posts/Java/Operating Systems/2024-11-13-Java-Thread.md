@@ -103,7 +103,9 @@ public class HelloThread extends Thread {
 - <img src="/assets/img/thread/4.png" width="600px" />
 - <img src="/assets/img/thread/5.png" width="600px" />
   
-### 데몬 스레드
+<hr>
+
+## ***데몬 스레드***
 
 - 스레드
   - 사용자 스레드(non-daemon 스레드)
@@ -114,14 +116,18 @@ public class HelloThread extends Thread {
     - 모든 user 스레드가 종료되면 데몬 스레드는 자동으로 종료
     - Thread 
 
-### 스레드 생성 방법
+<hr>
+
+## ***스레드 생성 방법***
 
 - Thread 상속
   - 자바는 단일 상속만 허용하기에 이미 다른 클래스를 상속받고 있는 경우 Thread 클래스를 상속 받을 수 없다. 
 - Runnable 인터페이스 구현
   - 다른 클래스를 상속받아도 문제없이 구현 가능
 
-### 스레드의 생명주기 
+<hr>
+
+## ***스레드의 생명주기*** 
 
 <img src="/assets/img/thread/6.png" width="600px" />
 
@@ -145,4 +151,171 @@ public class HelloThread extends Thread {
   - 스레드의 실행이 완료된 상태
   - 스레드가 정상적으로 종료되거나 예외 발생하여 종료된 경우
   - 스레드는 한 번 종료되면 다시 시작할 수 없다.
+  
+<hr>
+
+## ***체크 예외 재정의***
+
+- Runnable 인터페이스의 run() 메서드를 구현할 때 InterruptedException 체크 예외를 밖으로 던질 수 없
+는 이유 예외 재정의 규칙 때문이다.
+- `체크 예외 재정의 규칙`
+  - 자식 클래스에 재정의된 메서드는 부모 메서드가 던질 수 있는 체크 예외의 하위 타입만을 던질 수 있다.
+  - 원래 메서드가 체크 예외를 던지지 않는 경우, 재정의된 메서드도 체크 예외를 던질 수 없다.
+  
+<hr>
+
+## ***Sleep, Join***
+
+```java
+public class JoinMainV0 {
+
+    public static void main(String[] args) {
+        log("Start");
+        Thread thread1 = new Thread(new Job(), "thread-1");
+        Thread thread2 = new Thread(new Job(), "thread-2");
+        thread1.start();
+        thread2.start();
+        log("End");
+
+        /*
+            16:43:16.068 [     main] Start
+            16:43:16.077 [     main] End
+            16:43:16.077 [ thread-1] 작업 시작
+            16:43:16.077 [ thread-2] 작업 시작
+            16:43:18.093 [ thread-2] 작업 완료
+            16:43:18.093 [ thread-1] 작업 완료
+
+            main 스레드가 thread-1 , thread-2 가 끝날때까지 기다리지 않는다.
+            main 스레드는 단지 start() 를 호출해서 다른 스레드를 실행만 하고 바로 자신의 다음 코드를 실행한다.
+
+            thread-1 , thread-2 가 종료된 다음에 main 스레드를 가장 마지막에 종료하려면?
+            => JoinMainV3
+
+         */
+    }
+
+    static class Job implements Runnable {
+        @Override
+        public void run() {
+            log("작업 시작");
+            sleep(2000);
+            log("작업 완료");
+        }
+    }
+
+}
+```
+  
+```java
+public class JoinMainV3 {
+
+    public static void main(String[] args) throws InterruptedException {
+        log("Start");
+        SumTask task1 = new SumTask(1, 50);
+        SumTask task2 = new SumTask(51, 100);
+        Thread thread1 = new Thread(task1, "thread-1");
+        Thread thread2 = new Thread(task2, "thread-2");
+        thread1.start();
+        thread2.start();
+
+        // 스레드가 종료될 때 까지 대기
+        log("join() - main 스레드가 thread1, thread2 종료까지 대기한다. < main thread Waiting >");
+        thread1.join(); // InterruptedException 예외 던짐
+        thread2.join(); // InterruptedException 예외 던짐
+        log("main 스레드 대기 완료");
+
+        log("task1.result = " + task1.sum );
+        log("task2.result = " + task2.sum);
+
+        int sumAll = task1.sum + task2.sum;
+        log("task1 + task2 = " + sumAll);
+        log("End");
+
+        /*
+            17:10:03.223 [     main] Start
+            17:10:03.235 [     main] join() - main 스레드가 thread1, thread2 종료까지 대기
+            17:10:03.235 [ thread-1] 작업 시작
+            17:10:03.235 [ thread-2] 작업 시작
+            17:10:05.256 [ thread-1] 작업 완료: sum= 1275
+            17:10:05.256 [ thread-2] 작업 완료: sum= 3775
+            17:10:05.257 [     main] main 스레드 대기 완료
+            17:10:05.258 [     main] task1.result = 1275
+            17:10:05.259 [     main] task2.result = 3775
+            17:10:05.260 [     main] task1 + task2 = 5050
+            17:10:05.260 [     main] End
+         */
+    }
+
+    static class SumTask implements Runnable {
+
+        private final int FIRST;
+        private final int LAST;
+        int sum;
+
+        public SumTask(int first, int last) {
+            this.FIRST = first;
+            this.LAST = last;
+            this.sum = 0;
+        }
+
+        @Override
+        public void run() {
+            log("작업 시작");
+            sleep(2000);
+            for (int i = FIRST; i <= LAST; i++) {
+                sum += i;
+            }
+            log("작업 완료: sum= " + sum);
+        }
+
+    }
+
+}
+```
+> join() 을 호출하는 스레드는 대상 스레드가 TERMINATED 상태가 될 때 까지 대기한다.  
+> 다른 스레드가 완료될 때 까지 무기한 기다리는 단점 존재  
+  
+```java
+public class JoinMainV4 {
+
+    public static void main(String[] args) throws InterruptedException {
+        log("Start");
+        SumTask task1 = new SumTask(1, 50);
+        Thread thread1 = new Thread(task1, "thread-1");
+        thread1.start();
+        // 스레드가 종료될 때 까지 대기
+        log("join(5000) - main 스레드가 최대 5초 동안 thread1 종료까지 대기한다.");
+        thread1.join(5000);
+        log("main 스레드 대기 완료");
+        log("task1.sum = " + task1.sum);
+    }
+
+    static class SumTask implements Runnable {
+
+        private final int FIRST;
+        private final int LAST;
+        int sum;
+
+        public SumTask(int first, int last) {
+            this.FIRST = first;
+            this.LAST = last;
+            this.sum = 0;
+        }
+
+        @Override
+        public void run() {
+            log("작업 시작");
+            sleep(2000);
+            for (int i = FIRST; i <= LAST; i++) {
+                sum += i;
+            }
+            log("작업 완료: sum= " + sum);
+        }
+
+    }
+
+}
+```
+> join(ms) 을 호출하는 스레드는 대상 스레드가 ms 동안 대기한다.  
+> ms 이전에 해당 스레드가 종료되면 ms 동안 기다리지 않고 호출한 스레드가 실행된다.   
   
