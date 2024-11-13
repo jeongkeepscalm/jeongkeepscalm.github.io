@@ -40,9 +40,9 @@ tags: [ Java, Operating Systems ]
   - CPU를 최대한 활용할 수 있는 다양한 우선순위와 최적화 기법을 사용
   
 - 단일 코어 스케줄링
-  - <img src="/assets/img/thread/2.png" width="400px" />
+  - <img src="/assets/img/thread/2.png" width="600px" />
 - 멀티 코어 스케줄링
-  - <img src="/assets/img/thread/3.png" width="400px" />
+  - <img src="/assets/img/thread/3.png" width="600px" />
   
 ### 컨텍스트 스위칭(Context Switching)
 
@@ -164,7 +164,7 @@ public class HelloThread extends Thread {
   
 <hr>
 
-## ***Sleep, Join***
+## ***Join***
 
 ```java
 public class JoinMainV0 {
@@ -205,7 +205,9 @@ public class JoinMainV0 {
 
 }
 ```
-  
+
+<br/>
+
 ```java
 public class JoinMainV3 {
 
@@ -274,7 +276,9 @@ public class JoinMainV3 {
 ```
 > join() 을 호출하는 스레드는 대상 스레드가 TERMINATED 상태가 될 때 까지 대기한다.  
 > 다른 스레드가 완료될 때 까지 무기한 기다리는 단점 존재  
-  
+
+<br/>
+
 ```java
 public class JoinMainV4 {
 
@@ -319,3 +323,7 @@ public class JoinMainV4 {
 > join(ms) 을 호출하는 스레드는 대상 스레드가 ms 동안 대기한다.  
 > ms 이전에 해당 스레드가 종료되면 ms 동안 기다리지 않고 호출한 스레드가 실행된다.   
   
+<hr>
+
+## ***Interupt***
+
