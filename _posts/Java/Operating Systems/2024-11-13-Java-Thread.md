@@ -109,7 +109,8 @@ tags: [ Java, Operating Systems ]
 
 - <img src="/assets/img/thread/4.png" width="600px" />
 - <img src="/assets/img/thread/5.png" width="600px" />
-  
+
+<br>
 <hr>
 
 # ***데몬 스레드***
@@ -123,6 +124,7 @@ tags: [ Java, Operating Systems ]
     - 모든 user 스레드가 종료되면 데몬 스레드는 자동으로 종료
     - Thread 
 
+<br>
 <hr>
 
 # ***스레드 생성 방법***
@@ -132,6 +134,7 @@ tags: [ Java, Operating Systems ]
 - Runnable 인터페이스 구현
   - 다른 클래스를 상속받아도 문제없이 구현 가능
 
+<br>
 <hr>
 
 # ***스레드의 생명주기*** 
@@ -158,7 +161,8 @@ tags: [ Java, Operating Systems ]
   - 스레드의 실행이 완료된 상태
   - 스레드가 정상적으로 종료되거나 예외 발생하여 종료된 경우
   - 스레드는 한 번 종료되면 다시 시작할 수 없다.
-  
+
+<br>
 <hr>
 
 # ***체크 예외 재정의***
@@ -169,6 +173,7 @@ tags: [ Java, Operating Systems ]
   - 자식 클래스에 재정의된 메서드는 부모 메서드가 던질 수 있는 체크 예외의 하위 타입만을 던질 수 있다.
   - 원래 메서드가 체크 예외를 던지지 않는 경우, 재정의된 메서드도 체크 예외를 던질 수 없다.
   
+<br>
 <hr>
 
 # ***Join***
@@ -219,8 +224,6 @@ public class JoinMainV0 {
 
 </div>
 </details>
-
-<br/>
 
 <details>
 <summary><span style="color:orange" class="point"><b>Join Code 2</b></span></summary>
@@ -298,8 +301,6 @@ public class JoinMainV3 {
 </div>
 </details>
 
-<br/>
-
 <details>
 <summary><span style="color:orange" class="point"><b>Join Code 3</b></span></summary>
 <div markdown="1">
@@ -351,6 +352,7 @@ public class JoinMainV4 {
 </div>
 </details>
 
+<br>
 <hr>
 
 # ***Interupt***
@@ -409,8 +411,6 @@ public class ThreadStopMainV1 {
 </div>
 </details>
 
-<br>
-
 <details>
 <summary><span style="color:orange" class="point"><b>Inturrupt Code 2</b></span></summary>
 <div markdown="1">
@@ -466,8 +466,6 @@ public class ThreadStopMainV2 {
 
 </div>
 </details>
-
-<br>
 
 <details>
 <summary><span style="color:orange" class="point"><b>Inturrupt Code 3</b></span></summary>
@@ -532,8 +530,6 @@ public class ThreadStopMainV3 {
 </div>
 </details>
 
-<br>
-
 <details>
 <summary><span style="color:orange" class="point"><b>Inturrupt Code 4</b></span></summary>
 <div markdown="1">
@@ -589,8 +585,6 @@ public class ThreadStopMainV4 {
 
 </div>
 </details>
-
-<br>
 
 <details>
 <summary><span style="color:orange" class="point"><b>Print Code</b></span></summary>
@@ -651,6 +645,7 @@ public class MyPrinterV2 {
 </div>
 </details>
 
+<br>
 <hr>
 
 # ***Yield()***
