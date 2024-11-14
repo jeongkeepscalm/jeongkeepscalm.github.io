@@ -22,7 +22,7 @@ tags: [ Java, Operating Systems ]
 
 - 프로그램
   - 실행 전까지는 단순한 파일
-  - 프로그램 실행 시 프로세스 생성 -> 프로그램 실행
+  - 프로그램 실행 시 프로세스 생성 → 프로그램 실행
 - 프로세스
   - 실행중인 프로그램
   - 하나 이상의 스레드를 반드시 포함한다.
@@ -759,7 +759,7 @@ public class VolatileFlagMain {
         myThread.start();
 
         sleep(1000);
-        log("runFlag: true -> false");
+        log("runFlag: true → false");
         myTask.runFlag = false;
         log("runFlag= " + myTask.runFlag);
         log("메인 스레드 종료");
@@ -906,7 +906,7 @@ public class VolatileCountMain {
 - 전이 규칙 (Transitivity Rule)
   - 만약 A가 B보다 happens-before 관계에 있고, B가 C보다 happens-before 관계에 있다면, A는 C보다 happensbefore 관계에 있다.
   
-***요약***  
+***정리***  
 **volatile 또는 스레드 동기화 기법(synchronized, ReentrantLock)을 사용하면 메모리 가시성의 문제가 발생하지 않는다.**  
   
 <br>
@@ -914,3 +914,408 @@ public class VolatileCountMain {
 
 # ***동기화 - synchronized***
 
+- 멀티스레드를 사용할 때, 가장 주의해야할 점은 같은 자원(리소스)에 여러 스레드가 동시에 접근할 때 발생하는 동시성 문제이다.
+- 공유 자원: 여러 스레드가 접근하는 자원(e.g. 인스턴스 필드)
+- 멀티스레드를 사용할 때는 이런 공유 자원에 대한 접근을 적절하게 동기화(synchronization)해서 동시성 문제가 발생하지 않게 방지하는 것이 중요하다.
+  
+<details>
+<summary><span style="color:orange" class="point"><b>동시성 문제</b></span></summary>
+<div markdown="1">
+
+```java
+public interface BankAccount {
+    boolean withdraw(int amount);
+    int getBalance();
+}
+
+public class BankAccountV1 implements BankAccount {
+
+    private int balance;
+    public BankAccountV1(int initialBalance) {
+        this.balance = initialBalance;
+    }
+
+    @Override
+    public boolean withdraw(int amount) {
+
+        log("거래 시작: " + getClass().getSimpleName());
+        log("[검증 시작] 출금액: " + amount + ", 잔액: " + balance);
+
+        if (balance < amount) {
+            log("[검증 실패] 출금액: " + amount + ", 잔액: " + balance);
+            return false;
+        }
+        log("[검증 완료] 출금액: " + amount + ", 잔액: " + balance);
+
+        sleep(1000); // 출금에 걸리는 시간으로 가정
+        balance = balance - amount;
+        log("[출금 완료] 출금액: " + amount + ", 변경 잔액: " + balance);
+
+        log("거래 종료");
+        return true;
+
+    }
+
+    @Override
+    public int getBalance() {
+        return balance;
+    }
+}
+
+public class WithdrawTask implements Runnable {
+
+    private BankAccount bankAccount;
+    private int amount;
+    public WithdrawTask(BankAccount bankAccount, int amount) {
+        this.bankAccount = bankAccount;
+        this.amount = amount;
+    }
+
+    @Override
+    public void run() {
+        bankAccount.withdraw(amount);
+    }
+
+}
+
+public class BankMain {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        BankAccount account = new BankAccountV1(1000);
+
+        // 한 계좌에서 출금을 2번한다.
+        Thread t1 = new Thread(new WithdrawTask(account, 800), "t1");
+        Thread t2 = new Thread(new WithdrawTask(account, 800), "t2");
+        t1.start();
+        t2.start();
+
+        // 검증 완료까지 잠시 대기한다.
+        sleep(500);
+        log("t1 state: " + t1.getState());
+        log("t2 state: " + t2.getState());
+
+        // main 스레드는 join() 을 사용해서 t1 , t2 스레드가 출금을 완료한 이후에 최종 잔액을 확인한다.
+        t1.join();
+        t2.join();
+        log("최종 잔액: " + account.getBalance());
+
+        /*
+            동시성 문제 발생
+            
+            16:40:01.144 [       t1] 거래 시작: BankAccountV1
+            16:40:01.144 [       t2] 거래 시작: BankAccountV1
+            16:40:01.155 [       t1] [검증 시작] 출금액: 800, 잔액: 1000
+            16:40:01.155 [       t2] [검증 시작] 출금액: 800, 잔액: 1000
+            16:40:01.157 [       t1] [검증 완료] 출금액: 800, 잔액: 1000
+            16:40:01.157 [       t2] [검증 완료] 출금액: 800, 잔액: 1000
+            16:40:01.630 [     main] t1 state: TIMED_WAITING
+            16:40:01.630 [     main] t2 state: TIMED_WAITING
+            16:40:02.166 [       t1] [출금 완료] 출금액: 800, 변경 잔액: 200
+            16:40:02.166 [       t2] [출금 완료] 출금액: 800, 변경 잔액: -600
+            16:40:02.167 [       t1] 거래 종료
+            16:40:02.168 [       t2] 거래 종료
+            16:40:02.170 [     main] 최종 잔액: -600
+         */
+
+    }
+
+}
+```
+> t1이 아직 잔액(balance)를 줄이지 못했기 때문에 t2는 검증 로직에서 현재 잔액을 1000원으로 확인한다.  
+> 참고: balance 값에 volatile 을 도입하면 문제가 해결되지 않을까? 그렇지 않다. volatile 은 한 스레드가 값을 변경했을 때 다른 스레드에서 변경된 값을 즉시 볼 수 있게 하는 메모리 가시성의 문제를 해결할 뿐이다. 예를 들어 t1 스레드가 balance 의 값을 변경했을 때, t2 스레드에서 balance 의 변경된 값을 즉시 확인해도 여전히 같은
+문제가 발생한다. 이 문제는 메모리 가시성 문제를 해결해도 여전히 발생한다.
+
+</div>
+</details>
+  
+- 이런 문제가 발생하는 근본 원인은 여러 스레드가 함께 사용하는 공유 자원을 여러 단계로 나누어 사용하기 때문이다. 
+- 공유 자원
+  - balance는 여러 스레드가 함께 사용하는 공유 자원이다.
+  - A 스레드가 공유 자원에 접근하는 로직을 실행중일 때, B 스레드가 공유자원에 접근하면 안된다.
+
+### ***임계 영역(Cretical Section)***
+
+- **여러 스레드가 동시에 접근해서는 안되는 공유 자원을 접근하거나 수정하는 부분**
+- 출금을 진행할 때 잔액을 검증하는 단계부터 잔액의 계산을 완료할 때 까지가 임계 영역이다. 이런 임계 영역은 한 번에 하나의 스레드만 접근할 수 있도록 안전하게 보호해야 한다.
+- 자바는 synchronized 키워드를 통해 아주 간단히 임계 영역을 보호할 수 있다. 
+  
+
+<details>
+<summary><span style="color:orange" class="point"><b>synchronized Code 1</b></span></summary>
+<div markdown="1">
+
+```java
+/**
+ * 각 메소드에 synchronized 키워드 추가 
+ * 메서드를 synchronized 로 선언해서, 메서드에 접근하는 스레드가 하나뿐이도록 보장한다.
+ */
+public class BankAccountV2 implements BankAccount {
+
+    private int balance;
+    public BankAccountV2(int initialBalance) {
+        this.balance = initialBalance;
+    }
+
+    @Override
+    public synchronized boolean withdraw(int amount) {
+
+        log("거래 시작: " + getClass().getSimpleName());
+        log("[검증 시작] 출금액: " + amount + ", 잔액: " + balance);
+
+        if (balance < amount) {
+            log("[검증 실패] 출금액: " + amount + ", 잔액: " + balance);
+            return false;
+        }
+        log("[검증 완료] 출금액: " + amount + ", 잔액: " + balance);
+
+        sleep(1000); // 출금에 걸리는 시간으로 가정. sleep 을 주석처리 해도 동시성 문제 해결 불가능하다.
+        balance = balance - amount;
+        log("[출금 완료] 출금액: " + amount + ", 변경 잔액: " + balance);
+
+        log("거래 종료");
+        return true;
+
+    }
+
+    @Override
+    public synchronized int getBalance() {
+        return balance;
+    }
+}
+
+public class BankMain {
+
+    public static void main(String[] args) throws InterruptedException {
+
+//        BankAccount account = new BankAccountV1(1000);
+        BankAccount account = new BankAccountV2(1000); // 인스턴스 락 존재
+
+        // 한 계좌에서 출금을 2번한다.
+        Thread t1 = new Thread(new WithdrawTask(account, 800), "t1");
+        Thread t2 = new Thread(new WithdrawTask(account, 800), "t2");
+        t1.start();
+        t2.start();
+
+        // 검증 완료까지 잠시 대기한다.
+        sleep(500);
+        log("t1 state: " + t1.getState());
+        log("t2 state: " + t2.getState());
+
+        // main 스레드는 join() 을 사용해서 t1 , t2 스레드가 출금을 완료한 이후에 최종 잔액을 확인한다.
+        t1.join();
+        t2.join();
+        log("최종 잔액: " + account.getBalance());
+
+        /*
+            synchronized 키워드로 인한 동시성 문제 해결
+            
+            17:15:38.879 [       t1] 거래 시작: BankAccountV2
+            17:15:38.889 [       t1] [검증 시작] 출금액: 800, 잔액: 1000
+            17:15:38.890 [       t1] [검증 완료] 출금액: 800, 잔액: 1000
+            17:15:39.369 [     main] t1 state: TIMED_WAITING
+            17:15:39.369 [     main] t2 state: BLOCKED
+            17:15:39.891 [       t1] [출금 완료] 출금액: 800, 변경 잔액: 200
+            17:15:39.892 [       t1] 거래 종료
+            17:15:39.893 [       t2] 거래 시작: BankAccountV2
+            17:15:39.895 [       t2] [검증 시작] 출금액: 800, 잔액: 200
+            17:15:39.896 [       t2] [검증 실패] 출금액: 800, 잔액: 200
+            17:15:39.897 [     main] 최종 잔액: 200
+         */
+
+    }
+
+}
+```
+
+</div>
+</details>
+
+- 모니터 락
+  - 모든 인스턴스는 내부에 자신만의 락(lock)을 가지고 있는데 해당 락을 모니터 락(Monitor Lock) 이라고 한다. 
+  - 스레드가 synchronized 키워드가 있는 메서드에 진입하려면 반드시 해당 인스턴스의 락이 있어야 한다.
+  
+- 내부 흐름
+  - t1: withdraw() 호출 → 인스턴스 lock 획득 → t2: lock 획득 시도 → 해당 lock을 t1이 가지고 있어 lock을 획득할 때까지 RUNNABLE 상태에서 BLOCKED 상태로 무한정 대기 → t1: 메소드 호출 종료 후 lock 반납 → t2: lock 획득 성공 → t2: BLOCKED 상태에서 RUNNABLE 상태로 전환 → t2: 코드 실행
+  
+- 참고
+  - 락을 획득하는 순서는 보장되지 않는다.
+  - volatile 를 사용하지 않아도 synchronized 안에서 접근하는 변수의 메모리 가시성 문제는 해결된다.
+  
+<details>
+<summary><span style="color:orange" class="point"><b>synchronized Code 2</b></span></summary>
+<div markdown="1">
+
+```java
+public class BankAccountV3 implements BankAccount {
+
+    private int balance;
+    public BankAccountV3(int initialBalance) {
+        this.balance = initialBalance;
+    }
+
+    @Override
+    public boolean withdraw(int amount) {
+
+        log("거래 시작: " + getClass().getSimpleName());
+
+        synchronized (this) {
+            log("[검증 시작] 출금액: " + amount + ", 잔액: " + balance);
+            if (balance < amount) {
+                log("[검증 실패] 출금액: " + amount + ", 잔액: " + balance);
+                return false;
+            }
+            log("[검증 완료] 출금액: " + amount + ", 잔액: " + balance);
+            sleep(1000); // 출금에 걸리는 시간으로 가정. sleep 을 주석처리 해도 동시성 문제 해결 불가능하다.
+            balance = balance - amount;
+            log("[출금 완료] 출금액: " + amount + ", 변경 잔액: " + balance);
+        }
+
+        log("거래 종료");
+        return true;
+
+    }
+
+    @Override
+    public synchronized int getBalance() {
+        return balance;
+    }
+}
+```
+> 필요한 코드만 안전한 임계 영역으로 만든다.
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>Test Code 1</b></span></summary>
+<div markdown="1">
+
+```java
+public class SyncTest1BadMain {
+
+    public static void main(String[] args) throws InterruptedException {
+        Counter counter = new Counter();
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 10000; i++) {
+                    counter.increment();
+                }
+            }
+        };
+        Thread thread1 = new Thread(task);
+        Thread thread2 = new Thread(task);
+        thread1.start();
+        thread2.start();
+
+        // join() 을 호출하는 main 스레드는 해당 스레드들의 상태가 terminated 가 될 때까지 기다린다.
+        thread1.join();
+        thread2.join();
+        System.out.println("결과: " + counter.getCount());
+        /*  
+            결과: 20000 이하
+
+            공유 변수 경합 상태에 의해 두 스레드가 계산한 값을 거의 동시에 count 에 저장하게 되면,
+            실제로는 두 번 증가해야 할 count 가 한 번만 증가하게 된다.
+         */
+    }
+
+    static class Counter {
+        private int count = 0;
+        public void increment() {
+            count = count + 1;
+        }
+        public int getCount() {
+            return count;
+        }
+    }
+
+}
+```
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>Test Code 2</b></span></summary>
+<div markdown="1">
+
+```java
+/*
+    실행 결과 예측
+ */
+public class SyncTest2BadMain {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        MyCounter myCounter = new MyCounter();
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                myCounter.count();
+            }
+        };
+        Thread thread1 = new Thread(task, "Thread-1");
+        Thread thread2 = new Thread(task, "Thread-2");
+        thread1.start();
+        thread2.start();
+    }
+
+    static class MyCounter {
+        public void count() {
+            int localValue = 0;
+            for (int i = 0; i < 1000; i++) {
+                localValue = localValue + 1;
+            }
+            log("결과: " + localValue);
+        }
+    }
+
+    /*
+        18:32:10.673 [ Thread-1] 결과: 1000
+        18:32:10.673 [ Thread-2] 결과: 1000
+
+        localValue 는 지역 변수
+        지역 변수는 절대로! 다른 스레드와 공유되지 않는다.
+
+     */
+
+}
+```
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>Test Code 3</b></span></summary>
+<div markdown="1">
+
+```java
+class Immutable {
+
+  private final int value;
+
+  public Immutable(int value) {
+    this.value = value;
+  }
+
+  public int getValue() {
+    eturn value;
+  }
+
+}
+/*
+  value 필드(멤버 변수)는 공유되는 값이다. 멀티스레드 상황에서 문제가 될 수 있을까?
+  
+  여러 스레드가 공유 자원에 접근하는 것 자체는 사실 문제가 되지 않는다. 진짜 문제는 공유 자원을 사용하는 중간에 다른 스레드가 공유 자원의 값을 변경해버리기 때문에 발생한다. 결국 변경이 문제가 되는 것이다.
+  value는 상수이므로 변경 자체가 불가능하여 문제가 되지 않는다. 
+ */
+```
+
+</div>
+</details>
+
+***정리***  
+**synchronized: 임계영역에서 하나의 스레드만 보장하는 것**  
+**임계영역: 여러 스레드가 동시에 접근해서는 안되는 공유 자원을 접근하거나 수정하는 부분**  
