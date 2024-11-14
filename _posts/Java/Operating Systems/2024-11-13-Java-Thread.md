@@ -587,7 +587,7 @@ public class ThreadStopMainV4 {
 </details>
 
 <details>
-<summary><span style="color:orange" class="point"><b>Print Code</b></span></summary>
+<summary><span style="color:orange" class="point"><b>Printer Code 1</b></span></summary>
 <div markdown="1">
 
 ```java
@@ -649,3 +649,94 @@ public class MyPrinterV2 {
 <hr>
 
 # ***Yield()***
+
+- Thread.yield()
+  - 현재 실행 중인 스레드가 자발적으로 CPU 를 양보하여 다른 스레드가 실행될 수 있도록 한다.
+  - yield() 메서드를 호출한 스레드는 RUNNABLE 상태를 유지하면서 CPU 를 양보한다.
+  - yield() 는 RUNNABLE 상태를 유지하기 때문에, 쉽게 이야기해서 양보할 사람이 없다면 본인 스레드가 계속 실행될 수 있다.
+  
+<details>
+<summary><span style="color:orange" class="point"><b>Printer Code 2</b></span></summary>
+<div markdown="1">
+
+```java
+public class MyPrinterV3 {
+
+    public static void main(String[] args) {
+
+        Logger logger = new Logger();
+        Thread loggerThread = new Thread(logger, "logger");
+        loggerThread.start();
+
+        Printer printer = new Printer();
+        Thread printerThread = new Thread(printer, "printer");
+        printerThread.start();
+
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            log("프린트할 문서를 입력하세요. 종료 (q): ");
+            String input = scanner.nextLine();
+            if ("q".equals(input)) {
+                printerThread.interrupt();
+                loggerThread.interrupt();
+                break;
+            }
+            printer.addJob(input);
+        }
+
+    }
+
+    static class Printer implements Runnable {
+        Queue<String> jobQueue = new ConcurrentLinkedQueue<>();
+
+        @Override
+        public void run() {
+            while (!Thread.interrupted()) {
+                if (jobQueue.isEmpty()) {
+                    // jobQueue 에 작업이 비어있으면 yield() 를 호출해서, 다른 스레드에 작업을 양보
+                    Thread.yield();
+                    continue;
+                }
+                try {
+                    String job = jobQueue.poll();
+                    log("출력 시작: " + job + ", 대기 문서:" + jobQueue);
+                    Thread.sleep(3000);
+                    log("출력 완료: " + job);
+                } catch (InterruptedException e) {
+                    log("프린터 인터럽트!");
+                    break;
+                }
+            }
+            log("프린터 종료");
+        }
+
+        void addJob(String input) {
+            jobQueue.offer(input);
+        }
+
+    }
+
+    static class Logger implements Runnable {
+        @Override
+        public void run() {
+            while (!Thread.interrupted()) {
+                log("로거 실행중");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    log("로거 인터럽트!");
+                    break;
+                }
+            }
+            log("로거 종료");
+        }
+    }
+
+}
+```
+> Thread.yield()를 추가하여 Printer 스레드가 CPU를 양보하여 Logger 스레드가 더 자주 실행될 수 있게 된다.  
+> 반면, Thread.yield()를 삭제하면 Printer 스레드가 CPU를 계속 점유할 가능성이 높아져 Logger 스레드의 실행 빈도가 줄어들 수 있다.  
+
+</div>
+</details>
+
