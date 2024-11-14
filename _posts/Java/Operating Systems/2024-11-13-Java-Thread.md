@@ -740,3 +740,177 @@ public class MyPrinterV3 {
 </div>
 </details>
 
+<br>
+<hr>
+
+# ***volatile***
+
+<details>
+<summary><span style="color:orange" class="point"><b>Volatile Code 1</b></span></summary>
+<div markdown="1">
+
+```java
+public class VolatileFlagMain {
+
+    public static void main(String[] args) {
+        MyTask myTask = new MyTask();
+        Thread myThread = new Thread(myTask, "myTask");
+        log("runFlag= " + myTask.runFlag);
+        myThread.start();
+
+        sleep(1000);
+        log("runFlag: true -> false");
+        myTask.runFlag = false;
+        log("runFlag= " + myTask.runFlag);
+        log("메인 스레드 종료");
+    }
+
+    static class MyTask implements Runnable {
+        boolean runFlag = true;
+        @Override
+        public void run() {
+            log("task 시작");
+            while (runFlag) {
+                log("실행중");
+            }
+            log("task 종료");
+        }
+    }
+
+    /*
+        15:40:55.367 [ main] runFlag = true
+        15:40:55.367 [ work] task 시작
+        15:40:56.374 [ main] runFlag를 false로 변경 시도
+        15:40:56.374 [ main] runFlag = false
+        15:40:56.375 [ main] main 종료
+
+        내 코드에서는 "task 종료"가 출력되었지만 실행환경에 따라 미출력될 수 있다.
+     */
+}
+```
+
+</div>
+</details>
+
+- 상위 코드에 대한 예상 메모리 접근 방식
+  - <img src="/assets/img/thread/7.png" width="600px" />
+- 실제 메모리 접근 방식
+  - 현대의 CPU 대부분은 코어 단위로 캐시 메모리를 각각 보유하고 있고, 처리 성능을 개선하기 위해 중간에 캐시 메모리를 사용한다. 
+  - <img src="/assets/img/thread/8.png" width="600px" />
+  - <img src="/assets/img/thread/9.png" width="600px" />
+  - 캐시 메모리를 메인 메모리에 반영하거나, 메인 메모리의 변경 내역을 캐시 메모리에 다시 불러오는 것은 CPU 설계 방식과 실행 환경에 따라 다르다. 
+  
+### ***메모리 가시성***
+
+- 멀티 스레드 환경에서 한 스레드가 변경한 값이 다른 스레드에서 언제 보이는지에 대한 문제
+- 해당 문제를 해결하기위해서는 값을 읽을 때, 쓸 때 모두 메인 메모리에 직접 접근하면 된다. 
+  - **자바에서 제공하는 키워드 volatile**
+  - 여러 스레드에서 같은 값을 읽고 써야 한다면 volatile 키워드를 사용하면 된다. 
+  - 단 캐시 메모리를 사용할 때 보다 성능이 느려지는 단점이 있기 때문에 꼭! 필요한 곳에만 사용하는 것이 좋다.
+  
+<details>
+<summary><span style="color:orange" class="point"><b>Volatile Code</b></span></summary>
+<div markdown="1">
+
+```java
+public class VolatileCountMain {
+
+    public static void main(String[] args) {
+
+        MyTask myTask = new MyTask();
+        Thread t = new Thread(myTask, "work");
+        t.start();
+
+        sleep(1000);
+        myTask.flag = false;
+        log("flag = " + myTask.flag + ", count = " + myTask.count + " in main");
+
+        /*
+            volatile x (메모리 가시성 확인)
+                15:25:29.547 [     work] flag = true, count = 100000000 in while()
+                15:25:29.777 [     work] flag = true, count = 200000000 in while()
+                15:25:29.986 [     work] flag = true, count = 300000000 in while()
+                15:25:30.173 [     work] flag = true, count = 400000000 in while()
+                15:25:30.309 [     main] flag = false, count = 472079158 in main
+                15:25:30.352 [     work] flag = true, count = 500000000 in while()
+                15:25:30.352 [     work] flag = false, count = 500000000 종료
+
+            volatile o
+                15:29:23.806 [     work] flag = true, count = 100000000 in while()
+                15:29:23.985 [     main] flag = false, count = 123342843 in main
+                15:29:23.985 [     work] flag = false, count = 123342843 종료
+         */
+
+    }
+
+    static class MyTask implements Runnable {
+
+        boolean flag = true;
+        long count;
+        // volatile boolean flag = true;
+        // volatile long count;
+
+        @Override
+        public void run() {
+            while (flag) {
+                count++;
+                // 1억번에 한 번씩 출력한다.
+                if (count % 100_000_000 == 0) {
+                    log("flag = " + flag + ", count = " + count + " in while()");
+                }
+            }
+            log("flag = " + flag + ", count = " + count + " 종료");
+        }
+
+    }
+
+}
+```
+
+</div>
+</details>
+  
+### ***자바 메모리 모델(JMM: Java Memory Model)***
+
+- 자바 프로그램이 어떻게 메모리에 접근하고 수정할 수 있는지를 규정
+- 특히 멀티 스레드 프로그래밍에서 스레드 간의 상호작용을 정의
+
+#### ***happens-before***
+
+- JMM에서 스레드 간의 작업 순서를 정의한다. 
+- happens-before 관계는 스레드 간의 메모리 가시성을 보장하는 규칙이다.
+- A 스레드가 B 스레드보다 happens-before 관계에 있다면 A 스레드에서 변경된 내용은 B 스레드가 시작되기 전에 모두 메모리에 반영된다. 
+- happens-before 관계를 활용하여 프로그래머가 멀티스레드 프로그램을 작성할 때 예상치 못한 동작을 피할 수 있다.
+
+- 스레드 시작 규칙
+  - 한 스레드에서 Thread.start() 를 호출하면, 해당 스레드 내의 모든 작업은 start() 호출 이후에 실행된 작업보다 happens-before 관계가 성립한다.
+  - 
+      ```java 
+      Thread t = new Thread(task);
+      t.start(); 
+      ```
+    - 여기에서 start() 호출 전에 수행된 모든 작업은 새로운 스레드가 시작된 후의 작업보다 happens-before 관계를 가진다.
+  
+- 스레드 종료 규칙
+  - 한 스레드에서 Thread.join() 을 호출하면, join 대상 스레드의 모든 작업은 join() 이 반환된 후의 작업보다 happens-before 관계를 가진다. 예를 들어, thread.join() 호출 전에 thread 의 모든 작업이 완료되어야 하며, 이 작업은 join() 이 반환된 후에 참조 가능하다.
+  
+- 인터럽트 규칙
+  - 한 스레드에서 Thread.interrupt() 를 호출하는 작업이, 인터럽트된 스레드가 인터럽트를 감지하는 시점의 작업보다 happens-before 관계가 성립한다. 즉, interrupt()  호출 후, 해당 스레드의 인터럽트 상태를 확인하는 작업이 happens-before 관계에 있다. 만약 이런 규칙이 없다면 인터럽트를 걸어도, 한참 나중에 인터럽트가 발생할 수 있다.
+  
+- 객체 생성 규칙
+  - 객체의 생성자는 객체가 완전히 생성된 후에만 다른 스레드에 의해 참조될 수 있도록 보장한다. 즉, 객체의 생성자에서 초기화된 필드는 생성자가 완료된 후 다른 스레드에서 참조될 때 happens-before 관계가 성립한다.
+  
+- 모니터 락 규칙
+  - 한 스레드에서 synchronized 블록을 종료한 후, 그 모니터 락을 얻는 모든 스레드는 해당 블록 내의 모든 작업을 볼 수 있다. 예를 들어, synchronized(lock) { ... }  블록 내에서의 작업은 블록을 나가는 시점에 happensbefore 관계가 형성된다. 뿐만 아니라 ReentrantLock 과 같이 락을 사용하는 경우에도 happens-before 관계가 성립한다.
+  
+- 전이 규칙 (Transitivity Rule)
+  - 만약 A가 B보다 happens-before 관계에 있고, B가 C보다 happens-before 관계에 있다면, A는 C보다 happensbefore 관계에 있다.
+  
+***요약***  
+**volatile 또는 스레드 동기화 기법(synchronized, ReentrantLock)을 사용하면 메모리 가시성의 문제가 발생하지 않는다.**  
+  
+<br>
+<hr>
+
+# ***동기화 - synchronized***
+
