@@ -6,7 +6,7 @@ categories: [ Java, Operating Systems ]
 tags: [ Java, Operating Systems ]
 ---
 
-## ***프로세스와 스레드***
+# ***프로세스와 스레드***
 
 ### 멀티 태스킹 vs 멀티 프로세싱
 
@@ -61,51 +61,58 @@ tags: [ Java, Operating Systems ]
   
 <hr>
 
-## ***스레드***
+# ***스레드***
 
-```java
-public class HelloThreadMain {
+<details>
+  <summary><span style="color:orange" class="point"><b>extends Thread</b></span></summary>
+  <div markdown="1">
 
-    public static void main(String[] args) {
+  ```java
+  public class HelloThreadMain {
 
-        // Thread.currentThread(): 현재 이 코드를 실행하는 스레드
-        System.out.println(Thread.currentThread().getName() + ": main() start");
+      public static void main(String[] args) {
 
-        HelloThread helloThread = new HelloThread();
-        System.out.println(Thread.currentThread().getName() + ": start() 호출 전");
-        helloThread.start(); // 호출 시 스택영역에 할당되면서 실행된다. (Thread-0 스레드)
-        System.out.println(Thread.currentThread().getName() + ": start() 호출 후");
+          // Thread.currentThread(): 현재 이 코드를 실행하는 스레드
+          System.out.println(Thread.currentThread().getName() + ": main() start");
 
-        System.out.println(Thread.currentThread().getName() + ": main() end");
+          HelloThread helloThread = new HelloThread();
+          System.out.println(Thread.currentThread().getName() + ": start() 호출 전");
+          helloThread.start(); // 호출 시 스택영역에 할당되면서 실행된다. (Thread-0 스레드)
+          System.out.println(Thread.currentThread().getName() + ": start() 호출 후");
 
-        /*
-            main: main() start
-            main: start() 호출 전
-            main: start() 호출 후
-            main: main() end
-            Thread-0: run()
-                Thread-0 스레드가 run() 호출(main 스레드가 run() 호출 x)
-         */
+          System.out.println(Thread.currentThread().getName() + ": main() end");
 
-    }
+          /*
+              main: main() start
+              main: start() 호출 전
+              main: start() 호출 후
+              main: main() end
+              Thread-0: run()
+                  Thread-0 스레드가 run() 호출(main 스레드가 run() 호출 x)
+          */
 
-}
+      }
 
-public class HelloThread extends Thread {
-    @Override
-    public void run() {
-        System.out.println(Thread.currentThread().getName() + ": run()");
-    }
-}
-```
-> helloThread.start() 호출 시 main 스레드와 Thread-0 스레드가 동시에 실행된다. 스레드 간 실행 순서는 보장하지 않는다.  
-  
+  }
+
+  public class HelloThread extends Thread {
+      @Override
+      public void run() {
+          System.out.println(Thread.currentThread().getName() + ": run()");
+      }
+  }
+  ```
+  > helloThread.start() 호출 시 main 스레드와 Thread-0 스레드가 동시에 실행된다. 스레드 간 실행 순서는 보장하지 않는다.
+
+  </div>
+</details>
+
 - <img src="/assets/img/thread/4.png" width="600px" />
 - <img src="/assets/img/thread/5.png" width="600px" />
   
 <hr>
 
-## ***데몬 스레드***
+# ***데몬 스레드***
 
 - 스레드
   - 사용자 스레드(non-daemon 스레드)
@@ -118,7 +125,7 @@ public class HelloThread extends Thread {
 
 <hr>
 
-## ***스레드 생성 방법***
+# ***스레드 생성 방법***
 
 - Thread 상속
   - 자바는 단일 상속만 허용하기에 이미 다른 클래스를 상속받고 있는 경우 Thread 클래스를 상속 받을 수 없다. 
@@ -127,7 +134,7 @@ public class HelloThread extends Thread {
 
 <hr>
 
-## ***스레드의 생명주기*** 
+# ***스레드의 생명주기*** 
 
 <img src="/assets/img/thread/6.png" width="600px" />
 
@@ -154,7 +161,7 @@ public class HelloThread extends Thread {
   
 <hr>
 
-## ***체크 예외 재정의***
+# ***체크 예외 재정의***
 
 - Runnable 인터페이스의 run() 메서드를 구현할 때 InterruptedException 체크 예외를 밖으로 던질 수 없
 는 이유 예외 재정의 규칙 때문이다.
@@ -164,166 +171,486 @@ public class HelloThread extends Thread {
   
 <hr>
 
-## ***Join***
+# ***Join***
 
-```java
-public class JoinMainV0 {
+<details>
+  <summary><span style="color:orange" class="point"><b>Join Code 1</b></span></summary>
+  <div markdown="1">
 
-    public static void main(String[] args) {
-        log("Start");
-        Thread thread1 = new Thread(new Job(), "thread-1");
-        Thread thread2 = new Thread(new Job(), "thread-2");
-        thread1.start();
-        thread2.start();
-        log("End");
+  ```java
+	public class JoinMainV0 {
 
-        /*
-            16:43:16.068 [     main] Start
-            16:43:16.077 [     main] End
-            16:43:16.077 [ thread-1] 작업 시작
-            16:43:16.077 [ thread-2] 작업 시작
-            16:43:18.093 [ thread-2] 작업 완료
-            16:43:18.093 [ thread-1] 작업 완료
+      public static void main(String[] args) {
+          log("Start");
+          Thread thread1 = new Thread(new Job(), "thread-1");
+          Thread thread2 = new Thread(new Job(), "thread-2");
+          thread1.start();
+          thread2.start();
+          log("End");
 
-            main 스레드가 thread-1 , thread-2 가 끝날때까지 기다리지 않는다.
-            main 스레드는 단지 start() 를 호출해서 다른 스레드를 실행만 하고 바로 자신의 다음 코드를 실행한다.
+          /*
+              16:43:16.068 [     main] Start
+              16:43:16.077 [     main] End
+              16:43:16.077 [ thread-1] 작업 시작
+              16:43:16.077 [ thread-2] 작업 시작
+              16:43:18.093 [ thread-2] 작업 완료
+              16:43:18.093 [ thread-1] 작업 완료
 
-            thread-1 , thread-2 가 종료된 다음에 main 스레드를 가장 마지막에 종료하려면?
-            => JoinMainV3
+              main 스레드가 thread-1 , thread-2 가 끝날때까지 기다리지 않는다.
+              main 스레드는 단지 start() 를 호출해서 다른 스레드를 실행만 하고 바로 자신의 다음 코드를 실행한다.
 
-         */
-    }
+              thread-1 , thread-2 가 종료된 다음에 main 스레드를 가장 마지막에 종료하려면?
+              => JoinMainV3
 
-    static class Job implements Runnable {
-        @Override
-        public void run() {
-            log("작업 시작");
-            sleep(2000);
-            log("작업 완료");
-        }
-    }
+          */
+      }
 
-}
-```
+      static class Job implements Runnable {
+          @Override
+          public void run() {
+              log("작업 시작");
+              sleep(2000);
+              log("작업 완료");
+          }
+      }
 
-<br/>
+  }
+	```
 
-```java
-public class JoinMainV3 {
-
-    public static void main(String[] args) throws InterruptedException {
-        log("Start");
-        SumTask task1 = new SumTask(1, 50);
-        SumTask task2 = new SumTask(51, 100);
-        Thread thread1 = new Thread(task1, "thread-1");
-        Thread thread2 = new Thread(task2, "thread-2");
-        thread1.start();
-        thread2.start();
-
-        // 스레드가 종료될 때 까지 대기
-        log("join() - main 스레드가 thread1, thread2 종료까지 대기한다. < main thread Waiting >");
-        thread1.join(); // InterruptedException 예외 던짐
-        thread2.join(); // InterruptedException 예외 던짐
-        log("main 스레드 대기 완료");
-
-        log("task1.result = " + task1.sum );
-        log("task2.result = " + task2.sum);
-
-        int sumAll = task1.sum + task2.sum;
-        log("task1 + task2 = " + sumAll);
-        log("End");
-
-        /*
-            17:10:03.223 [     main] Start
-            17:10:03.235 [     main] join() - main 스레드가 thread1, thread2 종료까지 대기
-            17:10:03.235 [ thread-1] 작업 시작
-            17:10:03.235 [ thread-2] 작업 시작
-            17:10:05.256 [ thread-1] 작업 완료: sum= 1275
-            17:10:05.256 [ thread-2] 작업 완료: sum= 3775
-            17:10:05.257 [     main] main 스레드 대기 완료
-            17:10:05.258 [     main] task1.result = 1275
-            17:10:05.259 [     main] task2.result = 3775
-            17:10:05.260 [     main] task1 + task2 = 5050
-            17:10:05.260 [     main] End
-         */
-    }
-
-    static class SumTask implements Runnable {
-
-        private final int FIRST;
-        private final int LAST;
-        int sum;
-
-        public SumTask(int first, int last) {
-            this.FIRST = first;
-            this.LAST = last;
-            this.sum = 0;
-        }
-
-        @Override
-        public void run() {
-            log("작업 시작");
-            sleep(2000);
-            for (int i = FIRST; i <= LAST; i++) {
-                sum += i;
-            }
-            log("작업 완료: sum= " + sum);
-        }
-
-    }
-
-}
-```
-> join() 을 호출하는 스레드는 대상 스레드가 TERMINATED 상태가 될 때 까지 대기한다.  
-> 다른 스레드가 완료될 때 까지 무기한 기다리는 단점 존재  
+  </div>
+</details>
 
 <br/>
 
-```java
-public class JoinMainV4 {
+<details>
+  <summary><span style="color:orange" class="point"><b>Join Code 2</b></span></summary>
+  <div markdown="1">
 
-    public static void main(String[] args) throws InterruptedException {
-        log("Start");
-        SumTask task1 = new SumTask(1, 50);
-        Thread thread1 = new Thread(task1, "thread-1");
-        thread1.start();
-        // 스레드가 종료될 때 까지 대기
-        log("join(5000) - main 스레드가 최대 5초 동안 thread1 종료까지 대기한다.");
-        thread1.join(5000);
-        log("main 스레드 대기 완료");
-        log("task1.sum = " + task1.sum);
-    }
+  ```java
+  public class JoinMainV3 {
 
-    static class SumTask implements Runnable {
+      public static void main(String[] args) throws InterruptedException {
+          log("Start");
+          SumTask task1 = new SumTask(1, 50);
+          SumTask task2 = new SumTask(51, 100);
+          Thread thread1 = new Thread(task1, "thread-1");
+          Thread thread2 = new Thread(task2, "thread-2");
+          thread1.start();
+          thread2.start();
 
-        private final int FIRST;
-        private final int LAST;
-        int sum;
+          // 스레드가 종료될 때 까지 대기
+          log("join() - main 스레드가 thread1, thread2 종료까지 대기한다. < main thread Waiting >");
+          thread1.join(); // InterruptedException 예외 던짐
+          thread2.join(); // InterruptedException 예외 던짐
+          log("main 스레드 대기 완료");
 
-        public SumTask(int first, int last) {
-            this.FIRST = first;
-            this.LAST = last;
-            this.sum = 0;
-        }
+          log("task1.result = " + task1.sum );
+          log("task2.result = " + task2.sum);
 
-        @Override
-        public void run() {
-            log("작업 시작");
-            sleep(2000);
-            for (int i = FIRST; i <= LAST; i++) {
-                sum += i;
-            }
-            log("작업 완료: sum= " + sum);
-        }
+          int sumAll = task1.sum + task2.sum;
+          log("task1 + task2 = " + sumAll);
+          log("End");
 
-    }
+          /*
+              17:10:03.223 [     main] Start
+              17:10:03.235 [     main] join() - main 스레드가 thread1, thread2 종료까지 대기
+              17:10:03.235 [ thread-1] 작업 시작
+              17:10:03.235 [ thread-2] 작업 시작
+              17:10:05.256 [ thread-1] 작업 완료: sum= 1275
+              17:10:05.256 [ thread-2] 작업 완료: sum= 3775
+              17:10:05.257 [     main] main 스레드 대기 완료
+              17:10:05.258 [     main] task1.result = 1275
+              17:10:05.259 [     main] task2.result = 3775
+              17:10:05.260 [     main] task1 + task2 = 5050
+              17:10:05.260 [     main] End
+          */
+      }
 
-}
-```
-> join(ms) 을 호출하는 스레드는 대상 스레드가 ms 동안 대기한다.  
-> ms 이전에 해당 스레드가 종료되면 ms 동안 기다리지 않고 호출한 스레드가 실행된다.   
-  
+      static class SumTask implements Runnable {
+
+          private final int FIRST;
+          private final int LAST;
+          int sum;
+
+          public SumTask(int first, int last) {
+              this.FIRST = first;
+              this.LAST = last;
+              this.sum = 0;
+          }
+
+          @Override
+          public void run() {
+              log("작업 시작");
+              sleep(2000);
+              for (int i = FIRST; i <= LAST; i++) {
+                  sum += i;
+              }
+              log("작업 완료: sum= " + sum);
+          }
+
+      }
+
+  }
+	```
+  > join() 을 호출하는 스레드는 대상 스레드가 TERMINATED 상태가 될 때 까지 대기한다.  
+  > 다른 스레드가 완료될 때 까지 무기한 기다리는 단점 존재  
+
+  </div>
+</details>
+
+<br/>
+
+<details>
+  <summary><span style="color:orange" class="point"><b>Join Code 3</b></span></summary>
+  <div markdown="1">
+
+  ```java
+  public class JoinMainV4 {
+
+      public static void main(String[] args) throws InterruptedException {
+          log("Start");
+          SumTask task1 = new SumTask(1, 50);
+          Thread thread1 = new Thread(task1, "thread-1");
+          thread1.start();
+          // 스레드가 종료될 때 까지 대기
+          log("join(5000) - main 스레드가 최대 5초 동안 thread1 종료까지 대기한다.");
+          thread1.join(5000);
+          log("main 스레드 대기 완료");
+          log("task1.sum = " + task1.sum);
+      }
+
+      static class SumTask implements Runnable {
+
+          private final int FIRST;
+          private final int LAST;
+          int sum;
+
+          public SumTask(int first, int last) {
+              this.FIRST = first;
+              this.LAST = last;
+              this.sum = 0;
+          }
+
+          @Override
+          public void run() {
+              log("작업 시작");
+              sleep(2000);
+              for (int i = FIRST; i <= LAST; i++) {
+                  sum += i;
+              }
+              log("작업 완료: sum= " + sum);
+          }
+
+      }
+
+  }
+	```
+  > join(ms) 을 호출하는 스레드는 대상 스레드가 ms 동안 대기한다.  
+  > ms 이전에 해당 스레드가 종료되면 ms 동안 기다리지 않고 호출한 스레드가 실행된다.  
+
+  </div>
+</details>
+
 <hr>
 
-## ***Interupt***
+# ***Interupt***
 
+<details>
+  <summary><span style="color:orange" class="point"><b>Inturrupt Code 1</b></span></summary>
+  <div markdown="1">
+
+  ```java
+  public class ThreadStopMainV1 {
+
+      public static void main(String[] args) {
+
+          MyTask myTask = new MyTask();
+          Thread thread = new Thread(myTask, "work");
+          thread.start();
+
+          sleep(4000);
+          log("작업 중단 지시 runFlag=false");
+          myTask.runFlag = false;
+
+          /*
+              17:55:21.971 [     work] 작업중
+              17:55:24.978 [     work] 작업중
+              17:55:25.964 [     main] 작업 중단 지시 runFlag=false
+              17:55:27.990 [     work] 자원 정리
+              17:55:27.991 [     work] 작업 종료
+
+              문제점
+                  작업 중단 지시 2초 정도 이후에 자원을 정리하고 작업을 종료한다.
+                  main 스레드가 runFlag 를 false 로 변경해도, work 스레드는 sleep(3000) 을 통해 3초간 잠들어 있기 때문이다.
+
+              어떻게 하면 sleep() 처럼 스레드가 대기하는 상태에서 스레드를 깨우고, 작업도 빨리 종료할 수 있을까?
+              =>
+          */
+
+      }
+
+      static class MyTask implements Runnable {
+
+          volatile boolean runFlag = true;
+
+          @Override
+          public void run() {
+              while (runFlag) {
+                  log("작업중");
+                  sleep(3000);
+              }
+              log("자원 정리");
+              log("작업 종료");
+          }
+      }
+  }
+	```
+
+  </div>
+</details>
+
+<br>
+
+<details>
+  <summary><span style="color:orange" class="point"><b>Inturrupt Code 2</b></span></summary>
+  <div markdown="1">
+
+  ```java
+  public class ThreadStopMainV2 {
+
+      public static void main(String[] args) {
+
+          MyTask myTask = new MyTask();
+          Thread myTaskThread = new Thread(myTask, "work");
+          myTaskThread.start();
+
+          sleep(4000);
+          log("작업 중단 지시 myTaskThread.interrupt()");
+          myTaskThread.interrupt(); 
+          log("work 스레드 인터럽트 상태1 = " + myTaskThread.isInterrupted());
+
+          /*
+              18:04:31.477 [     work] 작업 중
+              18:04:34.494 [     work] 작업 중
+              18:04:35.475 [     main] 작업 중단 지시 myTaskThread.interrupt()
+              18:04:35.487 [     main] work 스레드 인터럽트 상태1 = true
+              18:04:35.487 [     work] work 스레드 인터럽트 상태2 = false
+              18:04:35.488 [     work] interrupt message=sleep interrupted
+              18:04:35.489 [     work] state=RUNNABLE
+              18:04:35.490 [     work] 자원 정리
+              18:04:35.490 [     work] 작업 종료
+          */
+      }
+
+      static class MyTask implements Runnable {
+
+          @Override
+          public void run() {
+              try {
+                  while (true) {
+                      log("작업 중");
+                      Thread.sleep(3000);
+                  }
+              } catch (InterruptedException e) {
+                  log("work 스레드 인터럽트 상태2 = " + Thread.currentThread().isInterrupted());
+                  log("interrupt message=" + e.getMessage());
+                  log("state=" + Thread.currentThread().getState());
+              }
+              log("자원 정리");
+              log("작업 종료");
+          }
+      }
+
+  }
+  ```
+
+  </div>
+</details>
+
+<br>
+
+<details>
+  <summary><span style="color:orange" class="point"><b>Inturrupt Code 3</b></span></summary>
+  <div markdown="1">
+
+  ```java
+  public class ThreadStopMainV3 {
+
+      public static void main(String[] args) {
+
+          MyTask myTask = new MyTask();
+          Thread myTaskThread = new Thread(myTask, "work");
+          myTaskThread.start();
+
+          sleep(100);
+          log("작업 중단 지시 - myTaskThread.interrupt()");
+          myTaskThread.interrupt(); 
+          log("work 스레드 인터럽트 상태1 = " + myTaskThread.isInterrupted());
+
+          /*
+              10:41:13.651 [     work] 작업중 ...
+              10:41:13.651 [     work] 작업중
+              10:41:13.652 [     main] 작업 중단 지시 - myTaskThread.interrupt()
+              10:41:13.652 [     work] 작업중
+              10:41:13.652 [     main] work 스레드 인터럽트 상태1 = true
+              10:41:13.652 [     work] work 스레드 인터럽트 상태2 = true
+              10:41:13.652 [     work] 자원 정리 시도
+              10:41:13.652 [     work] 자원 정리 실패 - 자원 정리 중 인터럽트 발생
+              10:41:13.652 [     work] work 스레드 인터럽트 상태3 = false
+              10:41:13.652 [     work] 작업 종료
+          */
+
+      }
+
+      static class MyTask implements Runnable {
+
+          @Override
+          public void run() {
+
+              while (!Thread.currentThread().isInterrupted()) {
+                  log("작업중");
+              }
+              log("work 스레드 인터럽트 상태2 = " + Thread.currentThread().isInterrupted());
+
+              try {
+                  log("자원 정리 시도");
+                  Thread.sleep(1000); // 인터럽트 상태가 ture 일 경우 sleep() 을 호출한다면, 해당 코드에서 인터럽트 예외가 발생하게 된다.
+                  log("자원 정리 완료");
+              } catch (InterruptedException e) {
+                  log("자원 정리 실패 - 자원 정리 중 인터럽트 발생");
+                  log("work 스레드 인터럽트 상태3 = " + Thread.currentThread().isInterrupted());
+                  // 스레드의 인터럽트 상태를 정상적으로 돌리지 않으면 계속 인터럽트가 발생하기에 내부에서 false 로 변환한다.
+              }
+              log("작업 종료");
+          }
+
+      }
+
+  }
+  ```
+
+  </div>
+</details>
+
+<br>
+
+<details>
+  <summary><span style="color:orange" class="point"><b>Inturrupt Code 4</b></span></summary>
+  <div markdown="1">
+
+  ```java
+  public class ThreadStopMainV4 {
+
+      public static void main(String[] args) {
+
+          MyTask myTask = new MyTask();
+          Thread myTaskThread = new Thread(myTask, "work");
+          myTaskThread.start();
+
+          sleep(100);
+          log("작업 중단 지시 - myTaskThread.interrupt()");
+          myTaskThread.interrupt();
+          log("work 스레드 인터럽트 상태1 = " + myTaskThread.isInterrupted());
+
+      }
+
+      static class MyTask implements Runnable {
+
+          @Override
+          public void run() {
+
+              while (!Thread.interrupted()) {
+                  log("작업중");
+              }
+              log("work 스레드 인터럽트 상태2 = " + Thread.currentThread().isInterrupted());
+
+              try {
+                  log("자원 정리 시도");
+                  Thread.sleep(1000);
+                  // 인터럽트 상태가 ture 일 경우 sleep() 을 호출한다면, 해당 코드에서 인터럽트 예외가 발생하게 된다.
+                  log("자원 정리 완료");
+              } catch (InterruptedException e) {
+                  log("자원 정리 실패 - 자원 정리 중 인터럽트 발생");
+                  log("work 스레드 인터럽트 상태3 = " + Thread.currentThread().isInterrupted());
+                  // 스레드의 인터럽트 상태를 정상적으로 돌리지 않으면 계속 인터럽트가 발생하기에 내부에서 false 로 변환한다.
+              }
+              log("작업 종료");
+          }
+
+      }
+
+  }
+  ```
+  > `isInterrupted()`  
+  >   특정 스레드의 상태를 변경하지 않고 확인만 한다.  
+  > `Thread.interrupted()`  
+  >   현재 스레드의 인터럽트 상태를 확인하고, 인터럽트 상태를 초기화한다.  
+  >   인터럽트가 true 일 경우 false 로 초기화한다.  
+
+  </div>
+</details>
+
+<br>
+
+<details>
+  <summary><span style="color:orange" class="point"><b>Print Code</b></span></summary>
+  <div markdown="1">
+
+  ```java
+  public class MyPrinterV2 {
+
+      public static void main(String[] args) {
+          Printer printer = new Printer();
+          Thread printerThread = new Thread(printer, "printer");
+          printerThread.start();
+
+          Scanner scanner = new Scanner(System.in);
+          while (true) {
+              log("프린트할 문서를 입력하세요. 종료 (q): ");
+              String input = scanner.nextLine();
+              if ("q".equals(input)) {
+                  printerThread.interrupt();
+                  break;
+              }
+              printer.addJob(input);
+          }
+
+      }
+
+      static class Printer implements Runnable {
+          Queue<String> jobQueue = new ConcurrentLinkedQueue<>();
+
+          @Override
+          public void run() {
+              while (!Thread.interrupted()) {
+                  if (jobQueue.isEmpty()) continue;
+                  try {
+                      String job = jobQueue.poll();
+                      log("출력 시작: " + job + ", 대기 문서:" + jobQueue);
+                      Thread.sleep(3000);
+                      log("출력 완료: " + job);
+                  } catch (InterruptedException e) {
+                      log("인터럽트!");
+                      break;
+                  }
+              }
+              log("프린터 종료");
+          }
+
+          void addJob(String input) {
+              jobQueue.offer(input);
+          }
+
+      }
+
+  }
+  ```
+  > main 스레드: 사용자 입력을 받는다.  
+  > printer 스레드: 사용자의 입력을 출력한다.  
+
+  </div>
+</details>
+
+<hr>
+
+# ***Yield()***
