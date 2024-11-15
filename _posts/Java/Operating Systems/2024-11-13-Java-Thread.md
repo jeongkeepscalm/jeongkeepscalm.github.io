@@ -1319,3 +1319,275 @@ class Immutable {
 ***정리***  
 **synchronized: 임계영역에서 하나의 스레드만 보장하는 것**  
 **임계영역: 여러 스레드가 동시에 접근해서는 안되는 공유 자원을 접근하거나 수정하는 부분**  
+
+<br>
+<hr>
+
+# ***고급 동기화 - concurrent.Lock***
+
+- synchronized 단점
+  - 무한 대기: BLOCKED 상태의 스레드는 락이 풀릴 때 까지 무한 대기한다.
+    - 특정 시간까지만 대기하는 타임아웃이 없다.
+    - 중간에 인터럽트를 걸 수 없다.
+  - 공정성: 락이 돌아왔을 때 BLOCKED 상태의 여러 스레드 중에 어떤 스레드가 락을 획득할 지 알 수 없다.
+- LockSupport 를 사용하여 synchronized 의 가장 큰 단점인 무한 대기 문제를 해결할 수 있다.
+  
+### ***LockSupport***
+
+- **스레드를 waiting 상태로 변경**(CPU 실행 스케줄리에 들어가지 않음)
+- **무한 대기하지 않는 락** 기능을 만들 수 있다. 
+- LockSupport 의 대표적인 기능
+  - park()
+    - 스레드를 waiting 상태로 변경
+  - parkNanos(nanos)
+    - 스레드를 나노초 동안만 TIMED_WAITING 상태로 변경한다. 나노초가 지나면 RUNNABLE 상태로 변경된다. 
+  
+- BLOCKED vs WAITING
+  - BLOCKED
+    - 인터럽트가 걸려도 대기 상태를 빠져나오지 못한다.
+    - 자바의 synchronized 에서 락을 획득하기 위해 대기할 때 사용된다.
+  - WAITING, TIMED_WAITING
+    - 인터럽트가 걸리면 대기 상태를 빠져나온다. 그래서 RUNNABLE 상태로 변한다.
+    - 스레드가 특정 조건이나 시간 동안 대기할 때 발생하는 상태이다.
+    - Thread.join(), LockSupport.park(), Object.wait() 와 같은 메서드 호출 시 WAITING 상태가 된다.
+    - Thread.sleep(ms), Object.wait(long timeout),Thread.join(long millis), LockSupport.parkNanos(ns) 등과 같은 시간 제한이 있는 대기 메서드를 호출할 때 TIMED_WAITING 상태가 된다.
+  
+- 대기( WAITING ) 상태와 시간 대기 상태( TIMED_WAITING )는 서로 짝이 있다.
+  - WAITING
+    - Thread.join()
+    - Thread.park()
+    - Object.wait()
+  - TIMED_WAITING
+    - Thread.join(long millis)
+    - Thread.parkNanos(long millis)
+    - Object.wait(long timeout)
+  
+- BLOCKED , WAITING , TIMED_WAITING 상태 모두 스레드가 대기하며, 실행 스케줄링에 들어가지 않기 때문에, CPU 입장에서 보면 실행하지 않는 비슷한 상태이다.
+  - **BLOCKED 상태는 synchronized 에서만 사용**하는 특별한 대기 상태라고 이해하면 된다.
+  - WAITING, TIMED_WAITING 상태는 범용적으로 활용할 수 있는 대기 상태라고 이해하면 된다.
+  
+### ***ReentrantLock***
+
+- Lock 인터페이스의 대표적인 구현체
+- 스레드가 공정하게 락을 얻을 수 있는 모드를 제공한다.
+
+```java
+public interface Lock {
+  void lock();
+  void lockInterruptibly() throws InterruptedException;
+  boolean tryLock();
+  boolean tryLock(long time, TimeUnit unit) throws InterruptedException;
+  void unlock();
+  Condition newCondition();
+}
+```
+> Lock 인터페이스는 동시성 프로그래밍에서 쓰이는 안전한 임계 영역을 위한 락을 구현하는데 사용된다.  
+> `void lock()`: 락을 획득한다. 만약 다른 스레드가 이미 락을 획득했다면, 락이 풀릴 때까지 현재 스레드는 대기( WAITING )한
+다. 이 메서드는 인터럽트에 응답하지 않는다.  
+> `void lockInterruptibly()`: 락 획득을 시도하되, 다른 스레드가 인터럽트할 수 있도록 한다. 만약 다른 스레드가 이미 락을 획득했다면, 현재 스레드는 락을 획득할 때까지 대기한다. 대기 중에 인터럽트가 발생하면 InterruptedException 이 발생하며 락 획득을 포기한다.  
+> `boolean tryLock()`: 락 획득을 시도하고, 즉시 성공 여부를 반환한다. 만약 다른 스레드가 이미 락을 획득했다면 false 를 반환하고, 그렇지 않으면 락을 획득하고 true 를 반환한다.  
+> `boolean tryLock(long time, TimeUnit unit)`: 주어진 시간 동안 락 획득을 시도한다. 주어진 시간 안에 락을 획득하면 true 를 반환한다. 주어진 시간이 지나도 락을 획득하지 못한 경우 false 를 반환한다. 인터럽트 발생 시, 락 획득을 포기한다.  
+> `void unlock()`: 락을 해제한다. 락을 해제하면 락 획득을 대기 중인 스레드 중 하나가 락을 획득할 수 있게 된다. 락을 획득한 스레드가 호출해야 하며, 그렇지 않으면 IllegalMonitorStateException 이 발생할 수 있다.  
+> `Condition newCondition()`: Condition 객체를 생성하여 반환한다. Condition 객체는 락과 결합되어 사용되며, 스레드가 특정 조건을 기다리거나 신호를 받을 수 있도록 한다. 이는 Object 클래스의 wait , notify , notifyAll 메서드와 유사한 역할을 한다.  
+> ***여기서 사용하는 락은 객체 내부에 있는 모니터 락이 아니다.***  
+  
+- 참고
+  - WAITING 상태의 스레드에 인터럽트가 발생하면 대기 상태를 빠져나온다고 배웠는데, lock() 설명을 보면 WAITING 상태인데 인터럽트에 응하지 않는다고 되어있다. 아래와 같은 이유로 인터럽트를 무시한다. 
+  - lock() 호출 → 인터럽트 발생 → 짧게 WAITING 에서 RUNNABLE 상태로 변환 → lock() 메소드 안에서 해당 스레드를 다시 WAITING 상태로 변경
+  
+- Lock 인터페이스는 synchronized 블록보다 더 많은 유연성을 제공하며, 특히 락을 특정 시간 만큼만 시도하거나, 인터럽트 가능한 락을 사용할 때 유용하다.
+  
+- 비공정 모드 락
+  - 성능 우선: 락을 획득하는 속도가 빠르다.
+  - 선점 가능: 새로운 스레드가 기존 대기 스레드보다 먼저 락을 획득할 수 있다.
+  - 기아 현상 가능성: 특정 스레드가 계속해서 락을 획득하지 못할 수 있다.
+- 공정 모드 락
+  - 공정성 보장: 대기 큐에서 먼저 대기한 스레드가 락을 먼저 획득한다.
+  - 기아 현상 방지: 모든 스레드가 언젠가 락을 획득할 수 있게 보장된다.
+  - 성능 저하: 락을 획득하는 속도가 느려질 수 있다.
+  
+<details>
+<summary><span style="color:orange" class="point"><b>lock, unlock Code</b></span></summary>
+<div markdown="1">
+
+```java
+public class BankAccountV4 implements BankAccount {
+
+    private int balance;
+    private final Lock lock = new ReentrantLock();
+    public BankAccountV4(int initialBalance) {
+        this.balance = initialBalance;
+    }
+
+    @Override
+    public boolean withdraw(int amount) {
+
+        log("거래 시작: " + getClass().getSimpleName());
+
+        /*
+          ReentrantLock 이용하여 lock 을 걸었다.
+          락을 획득하지 못한 스레드는 ReentrantLock 내부 대기 큐에서 관리된다.
+         */ 
+        lock.lock();
+
+        try {
+            log("[검증 시작] 출금액: " + amount + ", 잔액: " + balance);
+            if (balance < amount) {
+                log("[검증 실패] 출금액: " + amount + ", 잔액: " + balance);
+                return false;
+            }
+            log("[검증 완료] 출금액: " + amount + ", 잔액: " + balance);
+            sleep(1000); // 출금에 걸리는 시간으로 가정. sleep 을 주석처리 해도 동시성 문제 해결 불가능하다.
+            balance = balance - amount;
+            log("[출금 완료] 출금액: " + amount + ", 변경 잔액: " + balance);
+        } finally {
+            lock.unlock();
+        }
+        log("거래 종료");
+        return true;
+
+    }
+
+    @Override
+    public synchronized int getBalance() {
+        lock.lock();
+        try {
+            return balance;
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
+
+</div>
+</details>
+
+- t1 스레드가 먼저 ReentrantLock의 락을 선점했을 때, t2 스레드는 아래와 같이 ReentrantLock 내부 대기 큐에서 관리된다. 
+- <img src="/assets/img/thread/10.png" width="600px" />
+- <img src="/assets/img/thread/11.png" width="600px" />
+
+<br>
+
+<details>
+<summary><span style="color:orange" class="point"><b>tryLock() Code</b></span></summary>
+<div markdown="1">
+
+```java
+public class BankAccountV5 implements BankAccount {
+
+    private int balance;
+    private final Lock lock = new ReentrantLock();
+    public BankAccountV5(int initialBalance) {
+        this.balance = initialBalance;
+    }
+
+    @Override
+    public boolean withdraw(int amount) {
+
+        log("거래 시작: " + getClass().getSimpleName());
+
+        // 다른 스레드가 락을 선점하여 락을 획득하지 못했다면, 해당 스레드는 종료된다. TERMINATED
+        if (!lock.tryLock()) {
+            log("[진입 실패] 이미 처리중인 작업이 있습니다.");
+            return false;
+        }
+
+        try {
+            log("[검증 시작] 출금액: " + amount + ", 잔액: " + balance);
+            if (balance < amount) {
+                log("[검증 실패] 출금액: " + amount + ", 잔액: " + balance);
+                return false;
+            }
+            log("[검증 완료] 출금액: " + amount + ", 잔액: " + balance);
+            sleep(1000); // 출금에 걸리는 시간으로 가정. sleep 을 주석처리 해도 동시성 문제 해결 불가능하다.
+            balance = balance - amount;
+            log("[출금 완료] 출금액: " + amount + ", 변경 잔액: " + balance);
+        } finally {
+            lock.unlock(); // ReentrantLock 이용하여 lock 해제
+        }
+        log("거래 종료");
+        return true;
+
+    }
+
+    @Override
+    public synchronized int getBalance() {
+        lock.lock();
+        try {
+            return balance;
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>tryLock(시간) Code</b></span></summary>
+<div markdown="1">
+
+```java
+public class BankAccountV6 implements BankAccount {
+
+    private int balance;
+    private final Lock lock = new ReentrantLock();
+    public BankAccountV6(int initialBalance) {
+        this.balance = initialBalance;
+    }
+
+    @Override
+    public boolean withdraw(int amount) {
+
+        log("거래 시작: " + getClass().getSimpleName());
+
+        try {
+            if (!lock.tryLock(500, TimeUnit.MILLISECONDS)) {
+                log("[진입 실패] 이미 처리중인 작업이 있습니다.");
+                return false;
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            log("[검증 시작] 출금액: " + amount + ", 잔액: " + balance);
+            if (balance < amount) {
+                log("[검증 실패] 출금액: " + amount + ", 잔액: " + balance);
+                return false;
+            }
+            log("[검증 완료] 출금액: " + amount + ", 잔액: " + balance);
+            sleep(1000); // 출금에 걸리는 시간으로 가정. sleep 을 주석처리 해도 동시성 문제 해결 불가능하다.
+            balance = balance - amount;
+            log("[출금 완료] 출금액: " + amount + ", 변경 잔액: " + balance);
+        } finally {
+            lock.unlock(); // ReentrantLock 이용하여 lock 해제
+        }
+        log("거래 종료");
+        return true;
+
+    }
+
+    @Override
+    public int getBalance() {
+        lock.lock();
+        try {
+            return balance;
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
+
+</div>
+</details>
+
+<br>
+<hr>
+
+# ***생산자 소비자***
+
