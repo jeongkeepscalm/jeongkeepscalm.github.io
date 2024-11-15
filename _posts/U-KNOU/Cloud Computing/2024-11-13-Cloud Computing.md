@@ -108,6 +108,7 @@ tags: [ U-KNOU, Cloud Computing ]
   - 리소스의 결합성이 매우 작고, 서로 다른 기종의 리소스들이 물리적으로 분산되어 있다는 점에서 클러스터링 기술과 구분된다. 
 - 가상화
   - 물리적 컴퓨터 환경상에 가상 인스턴스를 만드는데 사용되는 기술
+  - <img src="/assets/img/knou-cloud-computing/1.png" width="600px" />
   - 호스트 가상화
     - OS 위에 가상화 소프트웨어 설치하는 방식
   - 하이퍼바이저 가상화
@@ -125,4 +126,5 @@ tags: [ U-KNOU, Cloud Computing ]
 <hr>
 
 # ***2장. 클라우드 컴퓨팅 서비스***
+
 
