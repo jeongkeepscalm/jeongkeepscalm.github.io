@@ -2,8 +2,8 @@
 title: "Java-Thread"
 description: "Java-Thread"
 date: 2024-11-13
-categories: [ Java, Operating Systems ]
-tags: [ Java, Operating Systems ]
+categories: [ Java, Thread ]
+tags: [ Java, Thread ]
 ---
 
 # ***프로세스와 스레드***
@@ -1612,4 +1612,12 @@ public class BankAccountV6 implements BankAccount {
   - 생산자 소비자 문제는, 생산자 스레드와 소비자 스레드가 특정 자원을 함께 생산하고, 소비하면서 발생하는 문제이다.
 - 한정된 버퍼 문제(bounded-buffer problem)
   - 이 문제는 결국 중간에 있는 버퍼의 크기가 한정되어 있기 때문에 발생한다. 따라서 한정된 버퍼 문제라고도 한다.
-  
+
+### ***wait(), notify()***
+
+- Object.wait()
+  - 현재 스레드가 가진 락을 반납하고 WAITING 상태로 전환하여 다른 스레드가 해당 락을 획득할 수 있도록 한다. 
+  - 
+- Object.notify()
+  - 
+- Object.notifyAll()
