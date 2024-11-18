@@ -49,7 +49,7 @@ tags: [ U-KNOU, Database System ]
 
 ### DBMS 3단계 구조
 
-<img src="/assets/img/knou_database_system/schema.png" width="600px">  
+<img src="/assets/img/knou-database-system/schema.png" width="600px">  
   
 - `내부단계`   
   - 데이터가 어디에 어떻게 저장되어 있는지와 같이 `데이터의 물리적인 저장 방식`을 관리      
@@ -104,7 +104,7 @@ tags: [ U-KNOU, Database System ]
 - 비지니스 관점: 어떤 데이터를 저장해야 하는가?  
 - 컴퓨터 프로그래머 관점: 어떻게 데이터를 저장해야 하는가?  
   
-<img src="/assets/img/knou_database_system/modeling.png" width="600px">   
+<img src="/assets/img/knou-database-system/modeling.png" width="600px">   
   
 - 데이터 모델
   - 데이터베이스 구조 명시
@@ -181,7 +181,7 @@ tags: [ U-KNOU, Database System ]
   - 속성: 컬럼  
   - 생년월일의 속성: 복합 속성 && 단일값 속성 && 유도 속성  
   
-- <img src="/assets/img/knou_database_system/0.jpg" width="800px">  
+- <img src="/assets/img/knou-database-system/0.jpg" width="800px">  
 
 ### 제약조건
 
@@ -189,14 +189,14 @@ tags: [ U-KNOU, Database System ]
   
 - 제약조건의 종류  
   1. 사상수(Mapping Cardinality): 관계집합에 참가한 개체집합에 대해 한 개체가 다른 개체와 관계를 맺을 수 있는 수량을 명시  
-    - <img src="/assets/img/knou_database_system/1.jpg" width="400px">
+    - <img src="/assets/img/knou-database-system/1.jpg" width="400px">
     - 일대일(1:1)
     - 일대다(1:N)
     - 다대일(N:1)
     - 다대다(N:N)
     width="600px">  
   2. 참가 제약 조건(Participation Constraints)  
-    - <img src="/assets/img/knou_database_system/2.jpg" width="400px">  
+    - <img src="/assets/img/knou-database-system/2.jpg" width="400px">  
     - 전체적 참가: 어떤 개체집합의 모든 개체가 관계집합에 참여하는 조건(과목개체집합)
     - 부분적 참가: 어떤 개체집합의 일부 개체가 관계집합에 참여하는 조건(교수개체집합)  
   3. 키 속성  
@@ -204,11 +204,11 @@ tags: [ U-KNOU, Database System ]
     - 개체를 고유하게 구분하는 역할
     - 관계 집합의 특정 관계를 찾는 사람
   4. 특수 속성과 특수 관계  
-    - <img src="/assets/img/knou_database_system/mapping2.jpg" width="400px">
+    - <img src="/assets/img/knou-database-system/mapping2.jpg" width="400px">
     - `관계집합의 속성`: 두 개체집합의 관계에서 생성되는 값을 저장하는 속성(신청시각)
     - 재귀적 관계: 한 개체집합이 자기 자신과 집합을 형성하는 관계(선수과목)  
     
-    - <img src="/assets/img/knou_database_system/3.jpg" width="400px">  
+    - <img src="/assets/img/knou-database-system/3.jpg" width="400px">  
     - <u>학생 개체집합과 계좌 개체집합이 보유 관계집합으로 연결되어 있을 경우</u>
       - `약한 개체집합`(== 계좌 개체집합)
         - 개체의 존재 유무가 관계를 맺고 있는 개체의 존재에 종속되는 개체집합
@@ -261,16 +261,16 @@ tags: [ U-KNOU, Database System ]
   - 개체 무결성 제약조건: 기본키의 값 null 불가
   - 참조 무결성 제약조건: 다른 레코드의 기본키만 참조가능
   
-- <img src="/assets/img/knou_database_system/4.jpg" width="400px">  
+- <img src="/assets/img/knou-database-system/4.jpg" width="400px">  
   - 일대다
   - 과목 개체집합은 모든 개체가 관계집합에 참여하는 전체적 참가(===== 두 줄로 표현)
   - 전체적 참가하는 과목 개체집합에 FK 생성(교수번호)
-  - <img src="/assets/img/knou_database_system/6.jpg" width="600px"> 
+  - <img src="/assets/img/knou-database-system/6.jpg" width="600px"> 
   - 다대다
   - `다대다 관계에서는 새로운 릴레이션 생성 필요`
   - 새 릴레이션 구성 {학생번호(PK, FK), 과목번호(PK, FK), 신청시각}
   
-- <img src="/assets/img/knou_database_system/3.jpg" width="400px"> 
+- <img src="/assets/img/knou-database-system/3.jpg" width="400px"> 
   - 일대일
   - 보유 관계집합: 약한 관계집합(2중선)
   - 계좌 개체집합: 약한 개체집합
@@ -314,10 +314,10 @@ tags: [ U-KNOU, Database System ]
   - 두 컬럼의 도메인(영역: 데이터타입)이 일치해야한다.
   
 - 카티시언 프로덕트 연산: 두 릴레이션을 하나의 릴레이션으로 결합
-- <img src="/assets/img/knou_database_system/5.jpg" width="400px"> 
+- <img src="/assets/img/knou-database-system/5.jpg" width="400px"> 
   
 - 조인 연산: 조건에 만족하는 레코드들만 결합
-- <img src="/assets/img/knou_database_system/7.jpg" width="400px"> 
+- <img src="/assets/img/knou-database-system/7.jpg" width="400px"> 
   
 - Quiz 1. ‘컴퓨터과학과’ 소속의 교수가 강의하는 과목의 과목명과 과목코드는?
   - 카티시언 프로덕트 사용
@@ -470,7 +470,7 @@ create view 뷰이름 as
 ### 좋은 릴레이션과 나쁜 릴레이션
 
 - 잘못된 데이터베이스 모델링 
-  - <img src="/assets/img/knou_database_system/8.png" width="400px"> 
+  - <img src="/assets/img/knou-database-system/8.png" width="400px"> 
   - 데이터의 부분적인 중복
     - 일관성 유지 어려움.
     - 저장 공간 낭비
@@ -481,7 +481,7 @@ create view 뷰이름 as
   
 - 좋은 릴레이션의 개념
   - 릴레이션의 스키마가 얼마나 효율적으로 실세계를 반영
-  - <img src="/assets/img/knou_database_system/9.png" width="600px"> 
+  - <img src="/assets/img/knou-database-system/9.png" width="600px"> 
   - 고려사항
     - 한 릴레이션 내의 컬럼 간의 관계 분석
     - 원하지 않는 데이터의 종속과 중복 제거
@@ -492,7 +492,7 @@ create view 뷰이름 as
 - 정의
   - 릴레이션 인스턴스를 분석하여 속성들 간의 연관관계를 표현한 것
   - 릴레이션의 효율성을 향상시켜 좋은 릴레이션으로 변환하는데 이용되는 중요한 개념
-  - <img src="/assets/img/knou_database_system/10.png" width="400px"> 
+  - <img src="/assets/img/knou-database-system/10.png" width="400px"> 
   - a컬럼의 값이 같으면 b컬럼의 값은 같다. 
   - 등급이 할인율을 종속한다.
   - 등급: 결정자
@@ -506,7 +506,7 @@ create view 뷰이름 as
     - 판별된 함수적 종속성 집합으로부터 유추할 수 있는 모든 함수적 종속성 집합
   
 - 함수의 종속성 판별
-  - <img src="/assets/img/knou_database_system/8.png" width="400px"> 
+  - <img src="/assets/img/knou-database-system/8.png" width="400px"> 
   - 결정자                    종속자
   - 고객번호 →                고객명
   - 고객병 →                  등급
@@ -544,27 +544,27 @@ create view 뷰이름 as
 - 제 1정규화
   - 원자성을 만족해야 한다. 
   - `원자성`: 한 컬럼의 값은 하나이어야 한다.
-  - <img src="/assets/img/knou_database_system/11.png" width="600px"> 
+  - <img src="/assets/img/knou-database-system/11.png" width="600px"> 
   
 - 제 2정규화
   - 제 1정규화 + 기본키를 제외한 컬럼들은 모두 기본키에 종속
-  - <img src="/assets/img/knou_database_system/12.png" width="600px"> 
-  - <img src="/assets/img/knou_database_system/13.png" width="600px"> 
+  - <img src="/assets/img/knou-database-system/12.png" width="600px"> 
+  - <img src="/assets/img/knou-database-system/13.png" width="600px"> 
   
 - 제 3정규화
   - 제 2정규화 + 기본키가 아닌 속성들이 어떤 키에도 이행적 종속성이 없는 하는 상태
   - (기본키를 제외한 컬럼들 중 한 컬럼이 다른 컬럼을 종속하는 경우)
-  - <img src="/assets/img/knou_database_system/14.png" width="600px"> 
+  - <img src="/assets/img/knou-database-system/14.png" width="600px"> 
   
 - BC정규화
   - 제 3정규형 + x → y 를 종속한다라는 모든 상태에 대해서 x는 수퍼키여야 한다. 
   - {도크번호, 입항시간} → {목적}
   - {도크번호, 입항시간} → {출항시간}
   - {목적} → {도크번호}: 목적은 기본키가 아님에도불구하고 결정자인 상태(BC정규화 필요)
-  - <img src="/assets/img/knou_database_system/15.png" width="600px"> 
+  - <img src="/assets/img/knou-database-system/15.png" width="600px"> 
   
 - 정규형 결과
-  - <img src="/assets/img/knou_database_system/16.png" width="600px"> 
+  - <img src="/assets/img/knou-database-system/16.png" width="600px"> 
   
 - ***정리***
   - `정규화`
@@ -582,7 +582,7 @@ create view 뷰이름 as
 ### 물리적 저장장치
 
 - 데이터 접근 속도, 용량을 기준으로 다양한 장치로 구성
-- <img src="/assets/img/knou_database_system/17.png" width="600px"> 
+- <img src="/assets/img/knou-database-system/17.png" width="600px"> 
 - 휘발성
   - 캐시: 고비용 저장장치로 빠른 접근속도 보장
   - 메인 메모리: 실제 프로그램과 데이터 적재 공간
@@ -595,7 +595,7 @@ create view 뷰이름 as
 ### 파일
 
 - 하나의 릴레이션은 여러 개의 블록으로 나뉘어 저장된다. 
-- <img src="/assets/img/knou_database_system/18.png" width="600px"> 
+- <img src="/assets/img/knou-database-system/18.png" width="600px"> 
 - 파일
   - 데이터를 영구적으로 저장하기 위해 사용되는 가장 기초적인 논리적 구조
 - 블록 
@@ -606,14 +606,14 @@ create view 뷰이름 as
   - 더 이상 분리될 수 없는 최소 데이터 저장 단위
   
 - `고정 길이 레코드`
-  - <img src="/assets/img/knou_database_system/19.png" width="400px"> 
+  - <img src="/assets/img/knou-database-system/19.png" width="400px"> 
   - 모든 레코드가 40byte 크기로 구성될 때, i 번째 레코드 접근
   - (i - 1) * 40 + 1 번째 바이트부터 40개의 바이트를 읽어 접근
 - 고정 길이 레코드 할당
   1. 블록의 길이가 레코드 길이로 정확히 나눠지지 않아 잔여 공간을 비워두는 방법
-    <img src="/assets/img/knou_database_system/20.png" width="400px"> 
+    <img src="/assets/img/knou-database-system/20.png" width="400px"> 
   2. 블록의 길이가 레코드 길이로 정확히 나눠지지 않아 한 레코드를 두 블록에 나누어 저장하는 방법
-    <img src="/assets/img/knou_database_system/21.png" width="400px"> 
+    <img src="/assets/img/knou-database-system/21.png" width="400px"> 
 
 - 고정 길이 레코드 할당 문제점
   - 레코드 삭제 시 해당 레코드가 저장된 위치에 빈 공간이 생성
@@ -632,9 +632,9 @@ create view 뷰이름 as
   - 길이가 고정되지 않은 컬럼의 개수가 하나 이상일 때 
   - 레코드가 멀티셋을 허용한 컬럼을 가질 때
   - `멀티셋`: 레코드의 컬럼 값이 여러 개인 컬럼 (원자성에 어긋남)
-  - <img src="/assets/img/knou_database_system/22.png" width="400px"> 
+  - <img src="/assets/img/knou-database-system/22.png" width="400px"> 
   - 해당 행에 대한 정보 + 고정길이 컬럼들 + NULL + 가변길이 컬럼들
-  - <img src="/assets/img/knou_database_system/23.png" width="600px">
+  - <img src="/assets/img/knou-database-system/23.png" width="600px">
   - 하나의 블록 내부에 여러 레코드가 쌓이는 가변 길이 레코드는 슬롯 페이지 구조를 사용하며, 레코드가 마지막 공간부터 차곡차곡 쌓인다. 
   
 - 파일 구조화
@@ -741,19 +741,19 @@ create view 뷰이름 as
   - 탐색 키를 정렬하여 해당 탐색 키와 탐색 키에 대한 레코드와의 연계를 통하여 인덱스 생성(탐색 키가 순차적으로 정렬되어 있다.)
   
 - 인덱스 엔트리 구조
-  - <img src="/assets/img/knou_database_system/24.png" width="400px">
+  - <img src="/assets/img/knou-database-system/24.png" width="400px">
   - 오프셋: 블록 b2에서 30byte 뒤에 위치
   
 - 순서 인덱스 종류
   - 밀집 인덱스
-    - <img src="/assets/img/knou_database_system/25.png" width="400px">
+    - <img src="/assets/img/knou-database-system/25.png" width="400px">
     - 모든 레코드에 대해 인덱스 엔트리를 유지하는 인덱스
   - 희소 인덱스
-    - <img src="/assets/img/knou_database_system/26.png" width="400px">
+    - <img src="/assets/img/knou-database-system/26.png" width="400px">
     - 인덱스 엔트리가 일부 탐색키 값만을 유지
     - COM31을 찾을 경우 COM31보다 작은 탐색키중 가장 큰 탐색키(COM11)을 통해서 다시 순차적으로 COM11에서부터 데이터를 찾는다.
   - 다단계 인덱스(밀집 인덱스의 밀집인덱스: 밀집인덱스 + 희소 인덱스)
-    - <img src="/assets/img/knou_database_system/27.png" width="400px">
+    - <img src="/assets/img/knou-database-system/27.png" width="400px">
     - 밀집 인덱스는 상대적으로 많은 데이터 저장공간을 요하기에 다단계 인덱스가 등장
     - 인덱스 크기 < 메모리 크기: 디스크 I/O이 줄어 탐색시간이 축소된다. 
     - 인덱스 크기 > 메모리 크기: 저장된 블록을 여러번 나누어 읽어야 하기 때문에 디스크 I/O 비용이 증가하여 탐색 시간이 증가한다. 이럴 경우 전체 인덱스에 대한 인덱스를 다시 만들어서 크기를 줄여 활용한다.
@@ -762,10 +762,10 @@ create view 뷰이름 as
 ### B+ Tree 인덱스(이진탐색트리를 다단계 인덱스와 결합)
 
 ***이진 탐색 트리(Binary Search Tree)***  
-<img src="/assets/img/knou_database_system/29.png" width="400px">
+<img src="/assets/img/knou-database-system/29.png" width="400px">
   
 ***B+ Tree 구조***
-- <img src="/assets/img/knou_database_system/28.png" width="400px">
+- <img src="/assets/img/knou-database-system/28.png" width="400px">
 - 탐색키 2개가 묶인 B+트리구조
 - `단말노드`(제일 하단 노드)는 서로 연결되어 있는 `연결 리스트 형태`
   
@@ -775,7 +775,7 @@ create view 뷰이름 as
   - 상용 DBMS에서도 널리 사용되는 대표적인 순서 인덱스  
   
 - B+트리 노드 구조
-  - <img src="/assets/img/knou_database_system/30.png" width="400px">
+  - <img src="/assets/img/knou-database-system/30.png" width="400px">
   - P: 팬아웃(fanout)
   - 팬아웃 20개 == 노드의 하위 노드가 20개
   
@@ -792,21 +792,21 @@ create view 뷰이름 as
     - 단말노드만 실제 레코드를 지칭하는 `포인터` 제공
   
 - 'COM44'의 과목명은?
-  - <img src="/assets/img/knou_database_system/31.png" width="600px">
+  - <img src="/assets/img/knou-database-system/31.png" width="600px">
   1. COM44와 같거나 큰 것들 중에서 가장 작은 노드를 찾는다. 
   2. 아무 것도 없으면 가장 오른쪽 포인터를 따라서 찾는다. 
   3. 단말 노드에서 탐색 키를 찾으면 실제 레코드를 지칭하는 포인터를 따라 실제 레코드에 접근한다. 
   4. 디스크에서 찾은 레코드를 메모리에 올려서 사용자에게 응답한다. 
   
 - 'COM24' 삽입
-  - <img src="/assets/img/knou_database_system/32.png" width="400px">
+  - <img src="/assets/img/knou-database-system/32.png" width="400px">
   - 'COM12', 'COM31' 분할
   - 우측 단말 노드에 'COM24' 삽입
   
 - 'COM12' 삭제
-  - <img src="/assets/img/knou_database_system/33.png" width="400px">
+  - <img src="/assets/img/knou-database-system/33.png" width="400px">
   - 해당 단말 노드 삭제 후 탐색키 존재 x
-  - <img src="/assets/img/knou_database_system/34.png" width="400px">
+  - <img src="/assets/img/knou-database-system/34.png" width="400px">
   - 'COM12'가 저장된 노드의 오른쪽 형제 노드와 키 재분배
 
 <br/>
@@ -824,10 +824,10 @@ create view 뷰이름 as
   - 크기는 일반적으로 디스크 블록의 크기와 일치(블록과 동일한 개념)
   
 - 해시 함수의 역할
-  - <img src="/assets/img/knou_database_system/35.png" width="400px">
+  - <img src="/assets/img/knou-database-system/35.png" width="400px">
   - 해시 함수는 버킷ID 반환
   
-- <img src="/assets/img/knou_database_system/36.png" width="600px">
+- <img src="/assets/img/knou-database-system/36.png" width="600px">
 
 ### 정적해싱
 
@@ -845,7 +845,7 @@ create view 뷰이름 as
   
 - 해시 인덱스
   - 해시 파일 구조와 동작 방식을 레코드가 아닌 인덱스 엔트리에 적용한 인덱스
-  - <img src="/assets/img/knou_database_system/37.png" width="600px">
+  - <img src="/assets/img/knou-database-system/37.png" width="600px">
   - 인덱스 엔트리를 해싱
   - 버킷에 해시 인덱스를 저장(레코드 저장 x)
   
@@ -878,7 +878,7 @@ create view 뷰이름 as
     - 버킷에 저장되어 있는 레코드의 모조키들이 처음부터 i비트까지 일치함을 표시
   
 - 확장성 해싱 구조
-  - <img src="/assets/img/knou_database_system/38.png" width="600px">
+  - <img src="/assets/img/knou-database-system/38.png" width="600px">
   - 3: 헤더, 모조키의 앞 3비트를 보겠다.
   - 확장성 해싱 구조 순서
     1. K3 탐색 키가 있고 사용자가 해당 레코드를 요청하였을 때, (검색)
@@ -901,7 +901,7 @@ create view 뷰이름 as
 - 비트맵: 간단한 비트 배열
   
 - 비트맵 인덱스 구성
-  - <img src="/assets/img/knou_database_system/39.png" width="400px">
+  - <img src="/assets/img/knou-database-system/39.png" width="400px">
   - i번째 레코드가 컬럼 A에 해당 값을 가지면 비트맵의 i번째 비트를 1, 그렇지 않으면 0
   - 해당 컬럼에 들어갈 수 있는 값만큼 비트열이 생성
   - 남자 비트열: 100101
@@ -931,7 +931,7 @@ create view 뷰이름 as
 - 트랜잭션의 개념: 데이터베이스를 조작하기 위한 하나의 논리적 단위를 이루는 일련의 연산의 집합
   
 - 트랜잭션의 특징
-  - <img src="/assets/img/knou_database_system/40.png" width="600px">
+  - <img src="/assets/img/knou-database-system/40.png" width="600px">
   - `A` 원자성(Atomicity): 하나의 트랜잭션에 포함된 모든 연산은 완전히 수행 / 수행 x
   - `C` 일관성(Consistency): 트랜잭션이 수행되기 전 / 후 일관된 상태 유지
   - `I` 고립성(Isolation): 특정 트랜잭션 실행 중 다른 트랜잭션의 방해를 받지 않음
@@ -942,7 +942,7 @@ create view 뷰이름 as
   - Write(X): 트랜잭션이 실행되는 메모리에 있는 변수 X의 값을 데이터베이스에 저장하는 연산
   
 - 트랜잭션 5가지 상태 변화
-  - <img src="/assets/img/knou_database_system/41.png" width="400px">
+  - <img src="/assets/img/knou-database-system/41.png" width="400px">
   - active(동작): 요청이 와서 비지니스 로직 실행
   - particially committed(부분 커밋): `트랜잭션 메모리에만 저장`이 된 상태. DB에 저장되지 않은 상태
   - committed(커밋): DB에 저장된 상태
@@ -980,12 +980,12 @@ create view 뷰이름 as
   
 - 직렬 가능한 스케줄을 확인
   - read, write 연산 교환하여 실행 결과에 일관성 훼손되는지 파악
-  - <img src="/assets/img/knou_database_system/42.png" width="400px">
+  - <img src="/assets/img/knou-database-system/42.png" width="400px">
   - 첫째 줄을 제외한 나머지는 일관성을 훼손
   
-- <img src="/assets/img/knou_database_system/43.png" width="400px">
+- <img src="/assets/img/knou-database-system/43.png" width="400px">
 - 같은 작업 A에 대하여 write, read 연산의 순서를 바꿀 시 충돌
-- <img src="/assets/img/knou_database_system/44.png" width="400px">
+- <img src="/assets/img/knou-database-system/44.png" width="400px">
 - 서로 다른 작업(A, B) 읽고 쓰기는 교환을 해도 충돌이 나지 않는다. 
 - `충돌 동등`: 트랜잭션의 실행 순서를 바꿔도 동일한 결과를 얻는 상황
   
@@ -1000,13 +1000,13 @@ create view 뷰이름 as
   
 - 회복 가능한 스케줄
   - Ti 와 Tj 에 대하여, Ti가 기록한 데이터를 Tj가 읽을 때, Ti의 커밋이 Tj보다 먼저 나타나는 스케줄
-  - <img src="/assets/img/knou_database_system/45.png" width="400px">
+  - <img src="/assets/img/knou-database-system/45.png" width="400px">
   - 비연쇄적 스케줄
     - 연쇄적 롤백으로 발생할 수 있는 대량의 회복 연산을 방지하기 위해 연쇄적이지 않은 스케줄로 구성된 스케줄
     - 커밋 이후에 read() 실행. 회복 가능하면서도 연쇄적 롤백을 일으키지 않는다. 
 
   - 연쇄적 롤백 유발 가능한 경우
-    - <img src="/assets/img/knou_database_system/46.png" width="400px">
+    - <img src="/assets/img/knou-database-system/46.png" width="400px">
     - T7 롤백으로 인해 연쇄적으로 다른 트랜잭션도 롤백
 
 <br/>
@@ -1039,12 +1039,12 @@ create view 뷰이름 as
   - 트랜잭션은 연산 전 락 획득이 선행되어야 한다.
   
 - 락 반납을 일찍 한 트랜잭션
-  - <img src="/assets/img/knou_database_system/47.png" width="400px">
+  - <img src="/assets/img/knou-database-system/47.png" width="400px">
   - T10 계좌 이체 중 T11 트랜잭션이 끼어들어 일관성 훼손 발생
   - T10 이 락을 일찍 반납하여 비일관적인 상태에서 데이터 접근이 가능해져 T11이 정확하지 않은 결과값을 출력하게 됨
   
 - 락 반납이 지연된 트랜잭션
-  - <img src="/assets/img/knou_database_system/48.png" width="400px">
+  - <img src="/assets/img/knou-database-system/48.png" width="400px">
   - T12 의 언락이 마지막에 실행되므로T13의 트랜잭션이 접근할 때는 베타락이 걸려있는 상태이기 때문에 실행되지 못하고 대기된다.
   - 교착상태
     - T12이 B에 대한 배타 락을 반환할 때까지 T13은 대기
@@ -1074,12 +1074,12 @@ create view 뷰이름 as
   - 논리적 계수기
   
 - 타임스탬프 기반 규약의 적용
-- <img src="/assets/img/knou_database_system/49.png" width="800px">
+- <img src="/assets/img/knou-database-system/49.png" width="800px">
   
 - 토마스 기록 규칙
-- <img src="/assets/img/knou_database_system/50.png" width="400px">
+- <img src="/assets/img/knou-database-system/50.png" width="400px">
 - Ti가 쓰고난 후의 값을 Tj가 읽었어야 하는데 그렇지 않았으므로 롤백을 시켜야했으나 
-- <img src="/assets/img/knou_database_system/51.png" width="400px">
+- <img src="/assets/img/knou-database-system/51.png" width="400px">
 - 토마스 기록 규칙에서는 롤백하지 않고 어차피 최종적으로 수행될 Tj: Write(Q)를 수행한다.
   
 ***타임스탬프 관련해서 교재 읽어보기***  
@@ -1104,15 +1104,15 @@ create view 뷰이름 as
   - Tj가 락을 소유한 데이터 항목을 Ti가 요청하는 상황
 
     - `wait-die 기법`(비선점유 기반): TS(Ti) < TS(Tj)일 때, Ti가 기다리고 그렇지 않다면 Ti 롤백
-    - <img src="/assets/img/knou_database_system/52.png" width="400px">
+    - <img src="/assets/img/knou-database-system/52.png" width="400px">
   
     - `wound-wait 기법`(선점유 기반): TS(Tj) < TS(Ti), Ti가 기다리고 그렇지 않으면 Tj를 롤백하고 락을 이양
-    - <img src="/assets/img/knou_database_system/53.png" width="400px">
+    - <img src="/assets/img/knou-database-system/53.png" width="400px">
   
 - 교착상태 탐지와 회복: 교착상태 발생이 비교적 높지 않은 시스템의 경우 주기적으로 교착상태를 탐지하고 발생 시 회복 절차를 수행한다. 
   
 - 대기 그래프(Wait-For Graph)
-- <img src="/assets/img/knou_database_system/54.png" width="400px">
+- <img src="/assets/img/knou-database-system/54.png" width="400px">
 - 대기 그래프에서 교착상태에 빠졌을 경우, 회복절차에 돌입한다.
 - T13/T14/T15 트랜잭션 중 어느 하나를 롤백시켜야 교착상태에서 빠져나온다. 
 - 셋 중 롤백을 시켜야하는 트랜잭션을 `희생자`라고 한다.
@@ -1164,7 +1164,7 @@ create view 뷰이름 as
   - 버퍼블록: 주기억장치에 임시적으로 상주하는 블록
   
 - 데이터 베이스 연산
-  - <img src="/assets/img/knou_database_system/55.png" width="400px">
+  - <img src="/assets/img/knou-database-system/55.png" width="400px">
   - Input(X): 물리적 블록 X를 메인 메모리에 적재
   - Output(X): 버퍼 블록 X를 디스크에 저장
   - Input & Output 은 메인 메모리 기준이다. 
@@ -1206,7 +1206,7 @@ create view 뷰이름 as
     - 실패 시, 디스크에 반영된 갱신 내용을 로그를 바탕으로 회복한다.
   
 - 시스템 자애 발생 상황
-- <img src="/assets/img/knou_database_system/56.png" width="600px">
+- <img src="/assets/img/knou-database-system/56.png" width="600px">
 - 상황1
   - 지연 갱신 회복: 디스크에 반영이 되지 않았으므로 T1 로그만 삭제하면 된다. 
   - 즉시 갱신 회복: 디스크의 반영이 되어 있을 가능성이 있기에 A값을 확인 후 처리한다. 
@@ -1251,7 +1251,7 @@ create view 뷰이름 as
     - ListofUndo의 트랜잭션 Ti에 대해 <T1.start>를 만나면 로그에 <Ti.abort>를 기록하고 ListofUndo에서 제거
     - ListofUndo에 트랜잭션이 존재하지 않는 상태가 되면 Undo 단계 종료
 
-- <img src="/assets/img/knou_database_system/56.png" width="600px">
+- <img src="/assets/img/knou-database-system/56.png" width="600px">
 - Redo 단계
   1. 밑에서부터 역방향으로 체크포인트를 찾으러 올라간다. 
   2. ListofUndo 리스트 생성{T0, T2}후 순방향으로 로그를 확인한다. 

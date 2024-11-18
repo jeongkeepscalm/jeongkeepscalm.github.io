@@ -8,7 +8,7 @@ tags: [ U-KNOU, Understanding Computers ]
 
 ## 3장. 처리장치와 데이터 처리
 
-<img src="/assets/img/understandingComputer/1.png" width="600px">  
+<img src="/assets/img/knou-understanding-computer/1.png" width="600px">  
 
 <br/>
 
@@ -71,12 +71,12 @@ RFID(Radio-Frequency IDentification): IC칩과 전자기장을 이용한 무선�
   
 프로그램의 실행에 바로 요구되지 않는 프로그램이나 데이터를 보조기억장치에 저장해 놓고, 필요할 때마다 일정한 양만큼 주기억장치로 가져와 실행시키면 주기억장치를 효율적으로 관리할 수 있다.  
   
-<img src="/assets/img/understandingComputer/2.png" width="600px">  
+<img src="/assets/img/knou-understanding-computer/2.png" width="600px">  
   
 - 캐시메모리  
   CPU는 주기억장치에 있는 데이터를 읽으려 할 때는 우선 그 데이터를 캐시메모리에서 찾는다. 만일 캐시메모리에 있다면 그 데이터를 즉시 CPU에 전달함으로써 주기억장치에서 가져오는 것보다 매우 빠르게 동작할 수 있게 한다.  
   
-<img src="/assets/img/understandingComputer/3.png" width="600px">  
+<img src="/assets/img/knou-understanding-computer/3.png" width="600px">  
   
 - 자기테이프
   - 순차적 저장 및 검색
@@ -158,7 +158,7 @@ RAID(Redundant Array Independent Disks): 여러 개의 하드디스크를 이용
 
 ## 6장. 소프트웨어와 정보 시스템
 
-<img src="/assets/img/understandingComputer/4.png" width="600px">  
+<img src="/assets/img/knou-understanding-computer/4.png" width="600px">  
 
 <br/>
 
@@ -176,7 +176,7 @@ RAID(Redundant Array Independent Disks): 여러 개의 하드디스크를 이용
   
 유틸리티 소프트웨어: 컴퓨터 시스템의 환경 설정을 변경하거나 시스템을 최적화하거나 관리하는 등 컴퓨터 시스템을 사용하는데 유용하게 사용할 수 있는 프로그램  
   
-<img src="/assets/img/understandingComputer/5.png" width="600px">  
+<img src="/assets/img/knou-understanding-computer/5.png" width="600px">  
   
 - 언어 번역기  
   원시프로그램(소스코드) → 컴파일러/인터프리터 → 목적프로그램(목적코드)  

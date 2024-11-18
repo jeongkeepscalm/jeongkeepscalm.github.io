@@ -37,7 +37,7 @@ tags: [ U-KNOU, Data Structure ]
   - 컴퓨터에게 시킬 일을 머릿속에서 추상화 시켜 상상해 놓은 것
   - 컴퓨터가 수행해야 할 명령의 추상화
   
-<img src="/assets/img/knou_data_structure/001.jpg" width="400px" />
+<img src="/assets/img/knou-data-structure/001.jpg" width="400px" />
   
 - 추상화
   - 그림/수식 같이 의미를 표현하라고 전달하는 방법
@@ -96,7 +96,7 @@ tags: [ U-KNOU, Data Structure ]
 
 - 2차원 배열에서 원소값이 0인 원소가 그렇지 않은 원소보다 상대적으로 많을경우 사용
 - 0이 아닌 값만을 따로 모아서 저장
-- <img src="/assets/img/knou_data_structure/002.jpg" width="400px" />
+- <img src="/assets/img/knou-data-structure/002.jpg" width="400px" />
 
 <hr>
 
@@ -128,7 +128,7 @@ tags: [ U-KNOU, Data Structure ]
   - (A - ((BK+) / D))
   - (A - ((BK+)D/))
   - (A((BK+)D/))-
-  - <img src="/assets/img/knou_data_structure/03.jpg" width="400px" />
+  - <img src="/assets/img/knou-data-structure/03.jpg" width="400px" />
 
 <hr>
 
@@ -140,15 +140,15 @@ tags: [ U-KNOU, Data Structure ]
 - 삽입연산과 삭제연산이 다른 곳에서 이뤄진다.
 - `front`: 큐의 제일 앞 원소가 담긴 공간을 가르킨다.
 - `rear`: 큐의 제일 뒤 원소가 담긴 공간을 가르킨다.
-- <img src="/assets/img/knou_data_structure/04.jpg" width="400px" />
-- <img src="/assets/img/knou_data_structure/05.jpg" width="400px" />
+- <img src="/assets/img/knou-data-structure/04.jpg" width="400px" />
+- <img src="/assets/img/knou-data-structure/05.jpg" width="400px" />
 
 ### 큐의 추상 자료형
 
 - 큐 객체: 0개 이상의 원소를 갖는 유한 순서 리스트
-- <img src="/assets/img/knou_data_structure/08.jpg" width="400px" />
-- <img src="/assets/img/knou_data_structure/06.jpg" width="400px" />
-- <img src="/assets/img/knou_data_structure/07.jpg" width="400px" />
+- <img src="/assets/img/knou-data-structure/08.jpg" width="400px" />
+- <img src="/assets/img/knou-data-structure/06.jpg" width="400px" />
+- <img src="/assets/img/knou-data-structure/07.jpg" width="400px" />
 
 ### 큐의 응용
 
@@ -168,17 +168,17 @@ element queue[QUEUE_SIZE];
   int rear = -1;
 ```
 
-- <img src="/assets/img/knou_data_structure/09.jpg" width="400px" />
-- <img src="/assets/img/knou_data_structure/10.jpg" width="400px" />
+- <img src="/assets/img/knou-data-structure/09.jpg" width="400px" />
+- <img src="/assets/img/knou-data-structure/10.jpg" width="400px" />
 
 ### 원형 큐
 
 - 배열로 구현한 큐의 경우, 큐의 원소의 개수가 n-1 이 아니더라도 큐가 full이 될 수 있다. 
-  - <img src="/assets/img/knou_data_structure/11.jpg" width="400px" />
+  - <img src="/assets/img/knou-data-structure/11.jpg" width="400px" />
   
 - 배열의 문제점을 해결하기 위해 원형 큐 제안
 - 연결된 부분의 데이터 공간을 연속적으로 사용하기 위해 `나머지 연산자`를 활용한다. 
-  - <img src="/assets/img/knou_data_structure/12.jpg" width="600px" />
+  - <img src="/assets/img/knou-data-structure/12.jpg" width="600px" />
   > 해당 원형 큐에 600 원소값을 넣을 때  
   > rear + 1 % QUEUE_SIZE = 0 이므로 인덱스 0에다 삽입가능
 
@@ -235,7 +235,7 @@ element queue[QUEUE_SIZE];
 
 # ***7강. 트리***
 
-<img src="/assets/img/knou_data_structure/Tree.png" width="600px" />
+<img src="/assets/img/knou-data-structure/Tree.png" width="600px" />
 
 - 트리
   - 데이터의 계층 관계, 포함 관계 등을 나타내는 자료구조
@@ -264,7 +264,7 @@ element queue[QUEUE_SIZE];
   
 - 순회(traverse)
   - 트리의 각 노드를 빠짐없이 한 번씩만 방문하는 것
-  - <img src="/assets/img/knou_data_structure/tree1.png" width="400px" />
+  - <img src="/assets/img/knou-data-structure/tree1.png" width="400px" />
   - 전위 순회(PLR)
     - J → A → M → aM → V → P → C → Pi → Sh → Sc → E → N 
   - 중위 순회(LPR)
@@ -301,7 +301,7 @@ element queue[QUEUE_SIZE];
   - 우선 순위 관리 응용에 사용된다.
   - 데이터 정렬에 사용된다.
   - 우선순위 큐를 트리로 구현
-  - <img src="/assets/img/knou_data_structure/heap1.png" width="600px" />
+  - <img src="/assets/img/knou-data-structure/heap1.png" width="600px" />
     - 삭제 함수 실행시, 저장된 데이터 중 우선 순위가 가장 높은 값이 반환 후 삭제
   - 노드 삽입
     - 제일 마지막 노드에 삽입하여 순차적으로 올라간다. 
@@ -318,13 +318,13 @@ element queue[QUEUE_SIZE];
   - 승자 트리: 노드 비교 시 작은 값이 부모노드가 된다. 
   - 패자 트리: 단말 노드 비교 시 큰 값이 부모노드(패자노드)가 되며, 다음 비교 시 승자 노드로 비교한다. 
 
-- <img src="/assets/img/knou_data_structure/tree2.png" width="400px" />
+- <img src="/assets/img/knou-data-structure/tree2.png" width="400px" />
 - 승자 트리
-  - <img src="/assets/img/knou_data_structure/tree3.png" width="500px" />
-  - <img src="/assets/img/knou_data_structure/tree4.png" width="500px" />
+  - <img src="/assets/img/knou-data-structure/tree3.png" width="500px" />
+  - <img src="/assets/img/knou-data-structure/tree4.png" width="500px" />
 - 패자 트리
-  - <img src="/assets/img/knou_data_structure/tree5.png" width="500px" />
-  - <img src="/assets/img/knou_data_structure/tree6.png" width="500px" />
+  - <img src="/assets/img/knou-data-structure/tree5.png" width="500px" />
+  - <img src="/assets/img/knou-data-structure/tree6.png" width="500px" />
   
 - 숲: 분리된 트리 모임
 - 숲의 이진 트리 변환
@@ -344,7 +344,7 @@ element queue[QUEUE_SIZE];
   - 탐색: 탐색 성공 시 해당 키 값이 아니라 노드를 반환
   - 삽입: 새 노드는 항상 잎으로 삽입
   - 삭제
-    - <img src="/assets/img/knou_data_structure/tree7.png" width="400px" />
+    - <img src="/assets/img/knou-data-structure/tree7.png" width="400px" />
     - F 삭제시, 왼쪽 서브트리의 가장 큰 값 E, 혹은 오른쪽 서브트리의 가장 작은 값 G가 F자리에 대체 가능
     - 삭제 시 복잡한 과정을 피하려면 그냥 삭제할 노드를 삭제한 것으로 표시하고 트리에 내버려 둔다.
 - 트리의 높이: 루트부터 잎까지 가장 긴 경로의 길이
@@ -431,7 +431,7 @@ element queue[QUEUE_SIZE];
 - 사이클: 시작점과 끝점이 같은 경로
 - 무사이클 그래프(dag) == 트리
   
-- <img src="/assets/img/knou_data_structure/graph1.png" width="600px" />
+- <img src="/assets/img/knou-data-structure/graph1.png" width="600px" />
   - p: 경로: 간선의 집합
   - 루프: 시작점과 끝점이 같은 정점인 길이가 1인 경로
   - 단순경로: p1 ~ p4 
@@ -452,10 +452,10 @@ element queue[QUEUE_SIZE];
 
 - 그래프 순회: 그래프 내 모든 정점을 빠짐없이, 중복 없이 돌아다니는 것
   - 깊이 우선 탐색(스택)
-    - <img src="/assets/img/knou_data_structure/graph2.png" width="600px" />
+    - <img src="/assets/img/knou-data-structure/graph2.png" width="600px" />
   - 너비 우선 탐색(큐)
     - 모든 형제를 먼저 방문
-    - <img src="/assets/img/knou_data_structure/graph3.png" width="600px" />
+    - <img src="/assets/img/knou-data-structure/graph3.png" width="600px" />
     - 4 → 8 → 2 → 7 → 6 → 5 → 1 → 3
   
 - 최소 신장 트리
