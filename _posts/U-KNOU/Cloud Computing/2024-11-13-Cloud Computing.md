@@ -337,24 +337,24 @@ tags: [ U-KNOU, Cloud Computing ]
   - `RAID(Redundant Arrays of Independent Disks)`
     - 복수 개의 독립적인 디스크를 동시에 구동하는 기법을 총칭
     - RAID 0 수준(데이터 스트라이핑)
-      - <img src="/assets/img/knou-cloud-computing/7.png" width="400px" />
+      - <img src="/assets/img/knou-cloud-computing/7.png" width="500px" />
       - 가장 기본적인 수준의 구현방식
       - 데이터를 여러 디스크에 나누어 저장하는 방식
       - 데이터 중복 저장 X 
     - RAID 1 수준(미러링)
-      - <img src="/assets/img/knou-cloud-computing/8.png" width="400px" />
+      - <img src="/assets/img/knou-cloud-computing/8.png" width="500px" />
       - 데이터 중복 저장하여 디스크 장애 발생 시 데이터 복구 가능
     - RAID 0+1 수준(스트라이핑 + 미러링)
       - RAID 0 수준으로 볼륨을 구성한 후 그 볼륨을 미러링하는 방식
     - RAID 2 수준
       - 해밍 코드를 이용해 에러 검출 및 정정하도록 되어있으나 상업적으로 지원하는 드라이브가 출시되지 않아 구현되지 않음
     - RAID 3 수준
-      - <img src="/assets/img/knou-cloud-computing/9.png" width="400px" />
+      - <img src="/assets/img/knou-cloud-computing/9.png" width="500px" />
       - RAID 0 수준과 마찬가지로 스트라이프를 이용하여 데이터 저장하지만, 에러 검출 및 정정을 위해 별도의 패리티 디스크를 유지
       - 하나의 디스크에 장애 발생 시 패리트 비트를 이용하여 원본 데이터 복구 가능
       - 2개 이상의 디스크 장애 발생시 복구가 어렵다. 
     - RAID 4 수준
-      - <img src="/assets/img/knou-cloud-computing/10.png" width="400px" />
+      - <img src="/assets/img/knou-cloud-computing/10.png" width="500px" />
       - RAID 3 수준과 유사하지만 차이점은 데이터 스트라이핑 단위이다. RAID 3 수준의 경우 바이트 단위의 스트라이핑을 사용하지만 RAID 4 수준의 경우 블록 단위의 스트라이핑을 사용한다. 
     - RAID 5 수준
       - 각각의 패리티가 모든 디스크에 분산 저장되어 RAID 3, RAID 4 수준의 단점을 극복한다. 
@@ -369,18 +369,18 @@ tags: [ U-KNOU, Cloud Computing ]
       - 블록단위 스트라이핑 
         - 각 블록에 논리 번호를 부여하여 다수의 디스크에 나누어 저장
   - `NAS(Network Attached Storage)`
-    - <img src="/assets/img/knou-cloud-computing/12.png" width="400px" />
+    - <img src="/assets/img/knou-cloud-computing/12.png" width="500px" />
     - 스토리지가 컴퓨터에 직접 연결되지 않고 네트워크 장비인 스위치를 통해 연결되는 저장장치
     - 포트 수에 제한이 없어 확장성과 유연성이 뛰어나고 경제적이며 설치와 유지보수가 용이하다.
     - 네트워크에 따른 지연율 발생 가능성 존재
   - `SAN(Storage Area Network)`
-    - <img src="/assets/img/knou-cloud-computing/13.png" width="400px" />
+    - <img src="/assets/img/knou-cloud-computing/13.png" width="500px" />
     - 대규모 사용자에게 고속의 데이터 접근 서비스를 제공하기 위해 여러 종류의 데이터 저장장치와 데이터를 사용할 서버를 파이버 채널을 사용하여 파이버 채널(fiber channel) 스위치와 연결한 고속 데이터 네트워크
     - 네트워크 구성에 확장성, 유연성, 가용성이 우수하지만 NAS와 달리 이기종 서버 환경을 지원하지 않으며 여러 서버 사이에서 특정 파일 공유 시 일관성에 문제가 발생할 가능성이 존재
 
 ### ***스토리지 가상화***
 
-- <img src="/assets/img/knou-cloud-computing/14.png" width="400px" />
+- <img src="/assets/img/knou-cloud-computing/14.png" width="500px" />
 - RAID, NAS, SAN 등 디스크 다중화를 통한 대형 스토리지는 스토리지의 확장성과 데이터 공유에 많은 이점을 제공한 것은 사실이나 관리 및 유지하는데 많은 인력과 비용이 요구된다. 
 - 스토리지 가상화를 통해 네트워크에 분산되어 있는 여러 스토리지 디바이스를 단일 리소스로 인식하고 프로비저닝할 수 있다. 
 - 서버와 스토리지 사이의 중간 계층에서 인터페이스 역할을 한다. 
@@ -456,7 +456,7 @@ tags: [ U-KNOU, Cloud Computing ]
 - 리소스 풀 모니터링 
   - 사용자는 리소스를 사용한 만큼 비용을 지불하기 때문에 CSP가 리소스 사용량을 감시하는 것
   - 리소스의 가용성을 확인하는 기능
-- <img src="/assets/img/knou-cloud-computing/15.png" width="400px" />
+- <img src="/assets/img/knou-cloud-computing/15.png" width="500px" />
   
 - 그룹 풀
 - 리소스 풀의 다른 구성이 리소스 형태별로 모아 놓은 풀 여러개를 큰 풀로 묶는 것
@@ -487,7 +487,7 @@ tags: [ U-KNOU, Cloud Computing ]
   
 - IT 리소스의 스케일링
   - 사용량의 요구에 따라 시스템의 용량을 탄력적으로 늘리거나 줄일 수 있는 능력
-  - <img src="/assets/img/knou-cloud-computing/16.png" width="400px" />
+  - <img src="/assets/img/knou-cloud-computing/16.png" width="500px" />
   - 수직 스케일링
     - 하드웨어 장비 추가를 통해 IT 리소스를 즉시 이용할 수 있다. 
     - 리소스 교체되는 동안 다운 타임 발생하여 클라우드 환경에서 사용하는 확장 방식은 아니다.
@@ -507,7 +507,7 @@ tags: [ U-KNOU, Cloud Computing ]
   - 여러 서버를 묶어서 하나의 고성능 가상 서버에 준하는 성능을 낼 수 있다.
   
 - 클라우드에서 사용하는 작업부하 방식
-  - <img src="/assets/img/knou-cloud-computing/18.png" width="400px" />
+  - <img src="/assets/img/knou-cloud-computing/18.png" width="500px" />
   - 로드 밸런서(L4 스위치) 추가
     - 하나의 서버에 작업이 집중되지 않도록 한다.
   - 로드 밸런싱 컴포넌트 추가
@@ -541,7 +541,7 @@ tags: [ U-KNOU, Cloud Computing ]
   - 프라이빗 클라우드에서 퍼블릭 클라우드로 서비스 환경을 확장하는 것
 - 버스팅 인
   - 종료된 퍼블릭 클라우드의 리소스를 반환하고 다시 ㅍ라이빗 클라우드로만 작업을 처리하는 것
-- <img src="/assets/img/knou-cloud-computing/19.png" width="400px" />
+- <img src="/assets/img/knou-cloud-computing/19.png" width="500px" />
 
 ### ***무중단 서비스 재배치***
 
@@ -572,7 +572,7 @@ tags: [ U-KNOU, Cloud Computing ]
   - 자율주행
   
 - 엣지 컴퓨팅의 구조
-  - <img src="/assets/img/knou-cloud-computing/20.png" width="400px" />
+  - <img src="/assets/img/knou-cloud-computing/20.png" width="500px" />
   - 프론트 엔드(front end)
     - 엣지 디바이스로 연산처리를 할 수 있는 능력이 경미한 수준의 장치를 의미
   - 니어 엔드(near end)
@@ -604,7 +604,7 @@ tags: [ U-KNOU, Cloud Computing ]
 - 기지국 같은 곳에 컴퓨팅 리소스를 설치하여 지역적으로 분산된 엣지 리소스를 중간에 연결하고 서로 다른 통신망, 프로토콜을 매개하는 또 하나의 로컬 네트워크
   
 - 포그 컴퓨팅 구조
-  - <img src="/assets/img/knou-cloud-computing/21.png" width="400px" />
+  - <img src="/assets/img/knou-cloud-computing/21.png" width="500px" />
   - <img src="/assets/img/knou-cloud-computing/22.png" width="500px" />
   
 - 포그 컴퓨팅의 장단점
