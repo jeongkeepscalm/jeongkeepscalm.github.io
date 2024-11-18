@@ -1717,7 +1717,7 @@ public class BoundedMain {
 </details>
 
 <details>
-<summary><span style="color:orange" class="point"><b>Version 1 Code</b></span></summary>
+<summary><span style="color:orange" class="point"><b>Producer, Consumer Code Version 1</b></span></summary>
 <div markdown="1">
 
 ```java
@@ -1767,7 +1767,7 @@ public class BoundedQueueV1 implements BoundedQueue {
 </details>
 
 <details>
-<summary><span style="color:orange" class="point"><b>Version 2 Code</b></span></summary>
+<summary><span style="color:orange" class="point"><b>Producer, Consumer Code Version 2</b></span></summary>
 <div markdown="1">
 
 ```java
@@ -1816,7 +1816,7 @@ public class BoundedQueueV2 implements BoundedQueue {
 </details>
 
 <details>
-<summary><span style="color:orange" class="point"><b>Version 3 Code</b></span></summary>
+<summary><span style="color:orange" class="point"><b>Producer, Consumer Code Version 3</b></span></summary>
 <div markdown="1">
 
 ```java
@@ -1892,6 +1892,440 @@ public class BoundedQueueV3 implements BoundedQueue {
 > 이렇게 해서 스레드를 제어하는 큐 자료 구조를 만들 수 있었다. 생산자 스레드는 버퍼가 가득차면 버퍼에 여유가 생길 때 까지 대기한다. 소비자 스레드는 버퍼에 데이터가 없으면 버퍼에 데이터가 들어올 때 까지 대기한다.  
 > 이 방식의 단점은 스레드가 대기하는 대기 집합이 하나이기 때문에, 원하는 스레드를 선택해서 깨울 수 없다는 문제가 있었다. 예를 들어서 생산자는 데이터를 생산한 다음 대기하는 소비자를 깨워야 하는데, 대기하는 생산자를 깨울 수 있다. 따라서 비효율이 발생한다. 물론 이렇게 해도 비효율이 있을 뿐 로직은 모두 정상 작동한다.  
 > notify() 는 원하는 목표를 지정할 수 없었다. 물론 notifyAll() 을 사용할 수 있지만, 원하지 않는 모든 스레드까지 모두 깨어난다. 이런 문제를 해결하려면 어떻게 해야할까??  
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>Producer, Consumer Code Version 4</b></span></summary>
+<div markdown="1">
+
+```java
+public class BoundedQueueV4 implements BoundedQueue {
+
+    /*
+        lock.newCondition(): 스레드 대기 공간 생성
+        synchronized 대신에 Lock lock = new ReentrantLock 을 사용 
+
+        참고
+            Object.wait() 에서 사용한 스레드 대기 공간은 모든 객체 인스턴스가 내부에 기본으로 가지고 있다.
+            Lock(ReentrantLock) 을 사용하는 경우 이렇게 스레드 대기 공간을 직접 만들어서 사용해야 한다.
+     */
+    private final Lock lock = new ReentrantLock();
+    private final Condition condition = lock.newCondition();
+
+
+    private final Queue<String> queue = new ArrayDeque<>();
+    private final int max;
+    public BoundedQueueV4(int max) {
+        this.max = max;
+    }
+
+    /*
+        condition.await()
+            Object.wait() 와 유사한 기능이다.
+            지정한 condition 에 현재 스레드를 대기( WAITING ) 상태로 보관한다.
+            이 때 ReentrantLock 에서 획득한 락을 반납하고 대기 상태로 condition 에 보관된다.
+
+        condition.signal()
+            Object.notify() 와 유사한 기능이다.
+            지정한 condition 에서 대기중인 스레드를 하나 깨운다.
+            깨어난 스레드는 condition 에서 빠져나온다.
+     */
+
+    @Override
+    public void put(String data) {
+        lock.lock();
+        try {
+            while (queue.size() == max) {
+                log("[put] 큐가 가득 참, 생산자 대기");
+                try {
+                    condition.await();
+                    log("[put] 생산자 깨어남");
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            queue.offer(data);
+            log("[put] 생산자 데이터 저장, signal() 호출");
+            condition.signal();
+        } finally {
+            lock.unlock();
+        }
+
+    }
+
+    @Override
+    public String take() {
+        lock.lock();
+        try {
+            while (queue.isEmpty()) {
+                log("[take] 큐에 데이터가 없음, 소비자 대기");
+                try {
+                    condition.await();
+                    log("[take] 소비자 깨어남");
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            String data = queue.poll();
+            log("[take] 소비자 데이터 획득, signal() 호출");
+            condition.signal();
+            return data;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return queue.toString();
+    }
+
+}
+```
+> synchronized 와 wait() , notify() 를 사용해서 구현하면 스레드 대기 집합이 하나라는 단점이 있다. 이 단점을 극복하려면 스레드 대기 집합을 생산자 전용과 소비자 전용으로 나누어야 한다. 이렇게 하려면 Lock(ReentrantLock) 을 사용해야 한다.  
+> 여기서는 단순히 synchronized 와 wait() , notify() 를 사용해서 구현한 코드를 Lock(ReentrantLock) 를 사용하도록 변경했다. 다음으로 넘어가기 위한 중간 단계의 코드이다.  
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>Producer, Consumer Code Version 5</b></span></summary>
+<div markdown="1">
+
+```java
+/**
+ * 생산자용, 소비자용 대기 집합을 서로 나누어 분리하여 비효율 문제를 해결한다.
+ * lock.newCondition() 을 두 번 호출해서 ReentrantLock 을 사용하는 스레드 대기 공간을 2개 만든다.
+ *
+ * 핵심: 생산자는 소비자를 깨우고, 소비자는 생산자를 깨운다.
+ */
+public class BoundedQueueV5 implements BoundedQueue {
+
+    private final Lock lock = new ReentrantLock();
+    private final Condition producerCondition = lock.newCondition();
+    private final Condition consumerCondition = lock.newCondition();
+
+    private final Queue<String> queue = new ArrayDeque<>();
+    private final int max;
+    public BoundedQueueV5(int max) {
+        this.max = max;
+    }
+
+    @Override
+    public void put(String data) {
+        lock.lock();
+        try {
+            while (queue.size() == max) {
+                log("[put] 큐가 가득 참, 생산자 대기");
+                try {
+                    producerCondition.await();
+                    log("[put] 생산자 깨어남");
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            queue.offer(data);
+            log("[put] 생산자 데이터 저장, signal() 호출");
+            consumerCondition.signal();
+        } finally {
+            lock.unlock();
+        }
+
+    }
+
+    @Override
+    public String take() {
+        lock.lock();
+        try {
+            while (queue.isEmpty()) {
+                log("[take] 큐에 데이터가 없음, 소비자 대기");
+                try {
+                    consumerCondition.await();
+                    log("[take] 소비자 깨어남");
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            String data = queue.poll();
+            log("[take] 소비자 데이터 획득, signal() 호출");
+            producerCondition.signal();
+            return data;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return queue.toString();
+    }
+
+}
+```
+> Lock(ReentrantLock) 는 Condition 이라는 스레드 대기 공간을 제공한다. 이 스레드 대기 공간을 원하는 만큼 따로 만들 수 있다.  
+> productCond : 생산자 스레드를 위한 전용 대기 공간  
+> consumerCond : 소비자 스레드를 위한 전용 대기 공간  
+> 덕분에 생산자가 데이터를 생산하고 나면 consumerCond.signal() 메서드를 통해 소비자 전용 대기 공간에 이 사실을 알릴 수 있다. 반대로 소비자가 데이터를 소비하고 나면 productCond.signal() 을 통해 생산자 전용 대기 공간에 이 사실을 알릴 수 있다.  
+> 이렇게 스레드 대기 공간을 나누어서 앞서 synchronized , wait() , notify() 를 사용한 방식에서 발생한 비효율 문제를 깔끔하게 해결할 수 있었다.  
+
+</div>
+</details>
+
+- Object.notify() vs Condition.signal()
+  - Object.notify()
+    - 대기 중인 스레드 중 임의의 하나를 선택해서 깨운다. 스레드가 깨어나는 순서는 정의되어 있지 않으며, JVM 구현에 따라 다르다. 보통은 먼저 들어온 스레드가 먼저 수행되지만 구현에 따라 다를 수 있다. synchronized 블록 내에서 모니터 락을 가지고 있는 스레드가 호출해야 한다.
+  - Condition.signal()
+    - 대기 중인 스레드 중 하나를 깨우며, 일반적으로는 FIFO 순서로 깨운다. 이 부분은 자바 버전과 구현에 따라 달라질 수 있지만, 보통 Condition 의 구현은 Queue 구조를 사용하기 때문에 FIFO 순서로 깨운다. ReentrantLock 을 가지고 있는 스레드가 호출해야 한다.
+  
+- 정리
+  - 자바의 모든 객체 인스턴스는 멀티스레드와 임계 영역을 다루기 위해 내부에 3가지 기본 요소를 가진다.
+  - 모니터 락
+  - 락 대기 집합(모니터 락 대기 집합)
+  - 스레드 대기 집합
+- 여기서 락 대기 집합이 1차 대기소이고, 스레드 대기 집합이 2차 대기소라 생각하면 된다. 2차 대기소에 들어간 스레드는 2차, 1차 대기소를 모두 빠져나와야 임계 영역을 수행할 수 있다.
+  
+- synchronized 를 사용한 임계 영역에 들어가려면 모니터 락이 필요하다.
+- 모니터 락이 없으면 락 대기 집합에 들어가서 BLOCKED 상태로 락을 기다린다.
+- 모니터 락을 반납하면 락 대기 잡합에 있는 스레드 중 하나가 락을 획득하고 BLOCKED -> RUNNABLE 상태가 된다.
+- wait() 를 호출해서 스레드 대기 집합에 들어가기 위해서는 모니터 락이 필요하다.
+- 스레드 대기 집합에 들어가면 모니터 락을 반납한다.
+- 스레드가 notify() 를 호출하면 스레드 대기 집합에 있는 스레드 중 하나가 스레드 대기 집합을 빠져나온다. 그리고 모니터 락 획득을 시도한다.
+  - 모니터 락을 획득하면 임계 영역을 수행한다.
+  - 모니터 락을 획득하지 못하면 락 대기 집합에 들어가서 BLOCKED 상태로 락을 기다린다.
+  
+- 대기1: 모니터 락 획득 대기
+  - 자바 객체 내부의 락 대기 집합(모니터 락 대기 집합)에서 관리
+  - BLOCKED 상태로 락 획득 대기
+  - synchronized 를 시작할 때 락이 없으면 대기
+  - 다른 스레드가 synchronized 를 빠져나갈 때 락을 획득 시도, 락을 획득하면 락 대기 집합을 빠져나감
+- 대기2: wait() 대기
+  - wait() 를 호출 했을 때 자바 객체 내부의 스레드 대기 집합에서 관리
+  - WAITING 상태로 대기
+  - 다른 스레드가 notify() 를 호출 했을 때 스레드 대기 집합을 빠져나감
+  
+- 대기1: ReentrantLock 락 획득 대기
+  - ReentrantLock 의 대기 큐에서 관리
+  - WAITING 상태로 락 획득 대기
+  - lock.lock() 을 호출 했을 때 락이 없으면 대기
+  - 다른 스레드가 lock.unlock() 을 호출 했을 때 대기가 풀리며 락 획득 시도, 락을 획득하면 대기 큐를 빠져나감
+- 대기2: await() 대기
+  - condition.await() 를 호출 했을 때, condition 객체의 스레드 대기 공간에서 관리
+  - WAITING 상대로 대기
+  - 다른 스레드가 condition.signal() 을 호출 했을 때 condition 객체의 스레드 대기 공간에서 빠져나감
+
+# ***BlockingQueue***
+
+- BoundedQueue 를 스레드 관점에서 보면 큐가 특정 조건이 만족될 때까지 스레드의 작업을 차단(blocking)한다.
+- 데이터 추가 차단: 큐가 가득 차면 데이터 추가 작업( put() )을 시도하는 스레드는 공간이 생길 때까지 차단된다.
+- 데이터 획득 차단: 큐가 비어 있으면 획득 작업( take() )을 시도하는 스레드는 큐에 데이터가 들어올 때까지 차단된다.
+  
+- BlockingQueue 인터페이스의 대표적인 구현체
+  - ArrayBlockingQueue
+    - 배열 기반으로 구현되어 있고, 버퍼의 크기가 고정되어 있다.
+  - LinkedBlockingQueue
+    - 링크 기반으로 구현되어 있고, 버퍼의 크기를 고정할 수도, 또는 무한하게 사용할 수도 있다.
+  
+- 큐가 가득 찼을 때 생각할 수 있는 선택지 4가지
+  - 예외를 던진다. 예외를 받아서 처리한다.
+  - 대기하지 않는다. 즉시 false 를 반환한다.
+  - 대기한다.
+  - 특정 시간 만큼만 대기한다.
+  
+- Throws Exception - 대기시 예외
+  - add(e): 지정된 요소를 큐에 추가하며, 큐가 가득 차면 IllegalStateException 예외를 던진다.
+  - remove(): 큐에서 요소를 제거하며 반환한다. 큐가 비어 있으면 NoSuchElementException 예외를 던진다.
+  - element(): 큐의 머리 요소를 반환하지만, 요소를 큐에서 제거하지 않는다. 큐가 비어 있으면 NoSuchElementException 예외를 던진다.
+  
+- Special Value - 대기시 즉시 반환
+  - offer(e): 지정된 요소를 큐에 추가하려고 시도하며, 큐가 가득 차면 false 를 반환한다.
+  - poll(): 큐에서 요소를 제거하고 반환한다. 큐가 비어 있으면 null 을 반환한다.
+  - peek(): 큐의 머리 요소를 반환하지만, 요소를 큐에서 제거하지 않는다. 큐가 비어 있으면 null 을 반환한다.
+  
+- Blocks - 대기
+  - put(e): 지정된 요소를 큐에 추가할 때까지 대기한다. 큐가 가득 차면 공간이 생길 때까지 대기한다.
+  - take(): 큐에서 요소를 제거하고 반환한다. 큐가 비어 있으면 요소가 준비될 때까지 대기한다.
+  - Examine (관찰): 해당 사항 없음.
+  
+- Times Out - 시간 대기
+  - offer(e, time, unit): 지정된 요소를 큐에 추가하려고 시도하며, 지정된 시간 동안 큐가 비워지기를 기다리다가 시간이 초과되면 false 를 반환한다.
+  - poll(time, unit): 큐에서 요소를 제거하고 반환한다. 큐에 요소가 없다면 지정된 시간 동안 요소가 준비되기를 기다리다가 시간이 초과되면 null 을 반환한다.
+  - Examine (관찰): 해당 사항 없음.
+  
+<details>
+<summary><span style="color:orange" class="point"><b>BlockingQueue Code 1</b></span></summary>
+<div markdown="1">
+
+```java
+public class BoundedQueueV6_1 implements BoundedQueue {
+
+    private BlockingQueue<String> queue;
+    public BoundedQueueV6_1(int max) {
+        queue = new ArrayBlockingQueue<>(max);
+    }
+
+    @Override
+    public void put(String data) {
+        try {
+            queue.put(data);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public String take() {
+        try {
+            return queue.take();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return queue.toString();
+    }
+}
+```
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>BlockingQueue Code 2</b></span></summary>
+<div markdown="1">
+
+```java
+public class BoundedQueueV6_2 implements BoundedQueue {
+
+    /*
+        offer(), poll()
+            두 메서드는 스레드가 대기하지 않는다.
+            offer(data) 는 성공하면 true 를 반환하고, 버퍼가 가득 차면 즉시 false 를 반환한다.
+            poll() 버퍼에 데이터가 없으면 즉시 null 을 반환한다.
+     */
+
+    private BlockingQueue<String> queue;
+    public BoundedQueueV6_2(int max) {
+        queue = new ArrayBlockingQueue<>(max);
+    }
+
+    @Override
+    public void put(String data) {
+        boolean result = queue.offer(data);
+        log("저장 시도 결과 = " + result);
+    }
+
+    @Override
+    public String take() {
+        return queue.poll();
+    }
+
+    @Override
+    public String toString() {
+        return queue.toString();
+    }
+}
+```
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>BlockingQueue Code 3</b></span></summary>
+<div markdown="1">
+
+```java
+public class BoundedQueueV6_3 implements BoundedQueue {
+
+    /*
+        offer(data, 시간)
+            성공하면 true 를 반환하고, 버퍼가 가득 차서 스레드가 대기해야 하는 상황이면,
+            지정한 시간까지 대기한다. 대기 시간을 지나면 false 를 반환한다.
+            여기서는 확인을 목적으로 1 나노초( NANOSECONDS )로 설정했다.
+
+        poll(시간)
+            버퍼에 데이터가 없어서 스레드가 대기해야 하는 상황이면, 지정한 시간까지 대기한다.
+            대기 시간을 지나면 null 을 반환한다.
+            여기서는 2초( SECONDS )로 설정했다.
+     */
+
+    private BlockingQueue<String> queue;
+    public BoundedQueueV6_3(int max) {
+        queue = new ArrayBlockingQueue<>(max);
+    }
+
+    @Override
+    public void put(String data) {
+        try {
+            // 대기 시간 설정 가능
+            boolean result = queue.offer(data, 1, TimeUnit.NANOSECONDS);
+            log("저장 시도 결과 = " + result);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public String take() {
+        try {
+            // 대기 시간 설정 가능
+            return queue.poll(2, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return queue.toString();
+    }
+}
+```
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>BlockingQueue Code 4</b></span></summary>
+<div markdown="1">
+
+```java
+public class BoundedQueueV6_4 implements BoundedQueue {
+
+    /*
+        add(data)
+            성공하면 true 를 반환하고, 버퍼가 가득 차면 즉시 예외가 발생한다.
+            java.lang.IllegalStateException: Queue full
+
+        remove()
+            버퍼에 데이터가 없으면, 즉시 예외가 발생한다.
+            java.util.NoSuchElementException
+     */
+
+    private BlockingQueue<String> queue;
+    public BoundedQueueV6_4(int max) {
+        queue = new ArrayBlockingQueue<>(max);
+    }
+
+    @Override
+    public void put(String data) {
+        queue.add(data); // java.lang.IllegalStateException: Queue full
+    }
+
+    @Override
+    public String take() {
+        return queue.remove(); // java.util.NoSuchElementException
+    }
+
+    @Override
+    public String toString() {
+        return queue.toString();
+    }
+}
+```
 
 </div>
 </details>
