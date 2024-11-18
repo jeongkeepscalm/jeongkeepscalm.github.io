@@ -1613,11 +1613,286 @@ public class BankAccountV6 implements BankAccount {
 - 한정된 버퍼 문제(bounded-buffer problem)
   - 이 문제는 결국 중간에 있는 버퍼의 크기가 한정되어 있기 때문에 발생한다. 따라서 한정된 버퍼 문제라고도 한다.
 
-### ***wait(), notify()***
+<details>
+<summary><span style="color:orange" class="point"><b>Producer, Consumer Code</b></span></summary>
+<div markdown="1">
 
-- Object.wait()
-  - 현재 스레드가 가진 락을 반납하고 WAITING 상태로 전환하여 다른 스레드가 해당 락을 획득할 수 있도록 한다. 
-  - 
-- Object.notify()
-  - 
-- Object.notifyAll()
+```java
+public class ProducerTask implements Runnable {
+    private final BoundedQueue boundedQueue;
+    private final String request;
+    public ProducerTask(BoundedQueue boundedQueue, String request) {
+        this.boundedQueue = boundedQueue;
+        this.request = request;
+    }
+    @Override
+    public void run() {
+        log("[생산 시도] " + request + " -> " + boundedQueue);
+        boundedQueue.put(request);
+        log("[생산 완료] " + request + " -> " + boundedQueue);
+    }
+}
+
+public class ConsumerTask implements Runnable {
+    private final BoundedQueue boundedQueue;
+    public ConsumerTask(BoundedQueue boundedQueue) {
+        this.boundedQueue = boundedQueue;
+    }
+    @Override
+    public void run() {
+        log("[소비 시도] ? <- " + boundedQueue);
+        String data = boundedQueue.take();
+        log("[소비 완료] " + data + " <- " + boundedQueue);
+    }
+}
+
+public class BoundedMain {
+
+    public static void main(String[] args) {
+
+//        BoundedQueue queue = new BoundedQueueV1(2);
+//        BoundedQueue queue = new BoundedQueueV2(2);
+        BoundedQueue queue = new BoundedQueueV3(2);
+
+//        producerFirst(queue); // 생산자 먼저
+        consumerFirst(queue); // 소비자 먼저
+//
+    }
+
+    private static void producerFirst(BoundedQueue queue) {
+        log("== [생산자 먼저 실행] 시작, " + queue.getClass().getSimpleName() + " ==");
+        List<Thread> threads = new ArrayList<>();
+        startProducer(queue, threads);
+        printAllState(queue, threads);
+        startConsumer(queue, threads);
+        printAllState(queue, threads);
+        log("== [생산자 먼저 실행] 종료, " + queue.getClass().getSimpleName() + " ==");
+    }
+
+    private static void consumerFirst(BoundedQueue queue) {
+        log("== [소비자 먼저 실행] 시작, " + queue.getClass().getSimpleName() + " ==");
+        List<Thread> threads = new ArrayList<>();
+        startConsumer(queue, threads);
+        printAllState(queue, threads);
+        startProducer(queue, threads);
+        printAllState(queue, threads);
+        log("== [소비자 먼저 실행] 종료, " + queue.getClass().getSimpleName() + " ==");
+    }
+
+    private static void startProducer(BoundedQueue queue, List<Thread> threads) {
+        System.out.println();
+        log("생산자 시작");
+        for (int i = 1; i <= 3; i++) {
+            Thread producer =
+                    new Thread(new ProducerTask(queue, "data" + i), "producer" + i);
+            threads.add(producer);
+            producer.start();
+            sleep(100);
+        }
+    }
+
+    private static void startConsumer(BoundedQueue queue, List<Thread> threads) {
+        System.out.println();
+        log("소비자 시작");
+        for (int i = 1; i <= 3; i++) {
+            Thread consumer = new Thread(new ConsumerTask(queue), "consumer" + i);
+            threads.add(consumer);
+            consumer.start();
+            sleep(100);
+        }
+    }
+
+    private static void printAllState(BoundedQueue queue, List<Thread> threads) {
+        System.out.println();
+        log("현재 상태 출력, 큐 데이터: " + queue);
+        for (Thread thread : threads) {
+            log(thread.getName() + ": " + thread.getState());
+        }
+    }
+
+}
+```
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>Version 1 Code</b></span></summary>
+<div markdown="1">
+
+```java
+public class BoundedQueueV1 implements BoundedQueue {
+
+    private final Queue<String> queue = new ArrayDeque<>();
+    private final int max;
+    public BoundedQueueV1(int max) {
+        this.max = max;
+    }
+
+    /**
+     * private final Queue<String> queue = new ArrayDeque<>();
+     *      여러 스레드가 접근할 예정이므로 synchronized 를 사용해서
+     *      한 번에 하나의 스레드만 put() 또는 take() 를 실행할 수 있도록 안전한 임계 영역을 만든다.
+     */
+
+    @Override
+    public synchronized void put(String data) {
+        if (queue.size() == max) {
+            log("[put] 큐가 가득 참, 버림: " + data);
+            return;
+        }
+        queue.offer(data);
+    }
+
+    @Override
+    public synchronized String take() {
+        if (queue.isEmpty()) {
+            return null;
+        }
+        return queue.poll();
+    }
+
+    @Override
+    public String toString() {
+        return queue.toString();
+    }
+
+}
+```
+> 단순한 큐 자료 구조이다. 스레드를 제어할 수 없기 때문에, 버퍼가 가득 차거나, 버퍼에 데이터가 없는 한정된 버퍼 상황에서 문제가 발생한다.  
+> 버퍼가 가득 찬 경우: 생산자의 데이터를 버린다.  
+> 버퍼에 데이터가 없는 경우: 소비자는 데이터를 획득할 수 없다. ( null )  
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>Version 2 Code</b></span></summary>
+<div markdown="1">
+
+```java
+public class BoundedQueueV2 implements BoundedQueue {
+
+    private final Queue<String> queue = new ArrayDeque<>();
+    private final int max;
+    public BoundedQueueV2(int max) {
+        this.max = max;
+    }
+
+    /**
+     * private final Queue<String> queue = new ArrayDeque<>();
+     *      여러 스레드가 접근할 예정이므로 synchronized 를 사용해서
+     *      한 번에 하나의 스레드만 put() 또는 take() 를 실행할 수 있도록 안전한 임계 영역을 만든다.
+     */
+
+    @Override
+    public synchronized void put(String data) {
+        while (queue.size() == max) {
+            log("[put] 큐가 가득 참, 생산자 대기");
+            sleep(1000);
+        }
+        queue.offer(data);
+    }
+
+    @Override
+    public synchronized String take() {
+        while (queue.isEmpty()) {
+            log("[take] 큐에 데이터가 없음, 소비자 대기");
+            sleep(1000);
+        }
+        return queue.poll();
+    }
+
+    @Override
+    public String toString() {
+        return queue.toString();
+    }
+
+}
+```
+> 앞서 발생한 문제를 해결하기 위해 반복문을 사용해서 스레드를 대기하는 방법을 적용했다. 하지만 synchronized 임계 영역 안에서 락을 들고 대기하기 때문에, 다른 스레드가 임계 영역에 접근할 수 없는 문제가 발생했다. 결과적으로 나머지 스레드는 모두 BLOCKED 상태가 되고, 자바 스레드 세상이 멈추는 심각한 문제가 발생했다.  
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>Version 3 Code</b></span></summary>
+<div markdown="1">
+
+```java
+public class BoundedQueueV3 implements BoundedQueue {
+
+    private final Queue<String> queue = new ArrayDeque<>();
+    private final int max;
+    public BoundedQueueV3(int max) {
+        this.max = max;
+    }
+
+    /**
+     * private final Queue<String> queue = new ArrayDeque<>();
+     *      여러 스레드가 접근할 예정이므로 synchronized 를 사용해서
+     *      한 번에 하나의 스레드만 put() 또는 take() 를 실행할 수 있도록 안전한 임계 영역을 만든다.
+     */
+
+    @Override
+    public synchronized void put(String data) {
+        while (queue.size() == max) {
+            log("[put] 큐가 가득 참, 생산자 대기");
+            try {
+                // RUNNABLE -> WAITING: 락을 반납하고 대기
+                // wait(): 해당 스레드는 스레드 대기 집합에서 대기한다.
+                wait();
+                log("[put] 생산자 깨어남");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        queue.offer(data);
+        log("[put] 생산자 데이터 저장, notify() 호출");
+
+        // 대기 스레드, WAIT -> BLOCKED
+        // notify(): 스레드 대기 집합에서 대기하는 스레드 중 하나를 깨운다.
+        // notify();
+
+        // 모든 대기 스레드, WAIT -> BLOCKED
+        notifyAll();
+    }
+
+    @Override
+    public synchronized String take() {
+        while (queue.isEmpty()) {
+            log("[take] 큐에 데이터가 없음, 소비자 대기");
+            try {
+                // RUNNABLE -> WAITING: 락을 반납하고 대기
+                wait();
+                log("[take] 소비자 깨어남");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        String data = queue.poll();
+        log("[take] 소비자 데이터 획득, notify() 호출");
+
+        // 대기 스레드, WAIT -> BLOCKED
+        notify();
+
+        // 모든 대기 스레드, WAIT -> BLOCKED
+        notifyAll();
+        return data;
+    }
+
+    @Override
+    public String toString() {
+        return queue.toString();
+    }
+
+}
+```
+> synchronized 와 함께 사용할 수 있는 wait() , notify() , notifyAll() 을 사용해서 문제를 해결했다. wait() 를 사용하면 스레드가 대기할 때, 락을 반납하고 대기한다. 이후에 notify() 를 호출하면 스레드가 깨어나면서 락 획득을 시도한다. 이때 락을 획득하면 RUNNABLE 상태가 되고, 락을 획득하지 못하면 락 획득을 대기하는 BLOCKED 상태가 된다.  
+> 이렇게 해서 스레드를 제어하는 큐 자료 구조를 만들 수 있었다. 생산자 스레드는 버퍼가 가득차면 버퍼에 여유가 생길 때 까지 대기한다. 소비자 스레드는 버퍼에 데이터가 없으면 버퍼에 데이터가 들어올 때 까지 대기한다.  
+> 이 방식의 단점은 스레드가 대기하는 대기 집합이 하나이기 때문에, 원하는 스레드를 선택해서 깨울 수 없다는 문제가 있었다. 예를 들어서 생산자는 데이터를 생산한 다음 대기하는 소비자를 깨워야 하는데, 대기하는 생산자를 깨울 수 있다. 따라서 비효율이 발생한다. 물론 이렇게 해도 비효율이 있을 뿐 로직은 모두 정상 작동한다.  
+> notify() 는 원하는 목표를 지정할 수 없었다. 물론 notifyAll() 을 사용할 수 있지만, 원하지 않는 모든 스레드까지 모두 깨어난다. 이런 문제를 해결하려면 어떻게 해야할까??  
+
+</div>
+</details>
+
