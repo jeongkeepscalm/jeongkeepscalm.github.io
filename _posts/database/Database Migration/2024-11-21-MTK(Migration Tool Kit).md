@@ -112,7 +112,7 @@ Exception in thread "main" java.lang.NoClassDefFoundError: com/edb/Driver
 
 # ***추가 테스트***
 
-### ***스키마 내 특정 테이블 및 약 1억개 데이터 옮기기***
+### ***1. 스키마 내 특정 테이블 및 약 1억개 데이터 옮기기***
 
 ```bash
 runMTK.bat -tables TEST_TABLE2 TEST_SCHEMA
@@ -129,14 +129,14 @@ Total Elapsed Migration Time (sec): 666.545
 
 <br/>
 
-### ***파티셔닝된 테이블 옮기기***
+### ***2. 파티셔닝된 테이블 옮기기***
 
 - 파티셔닝은 Enterprise Edition 이상에서만 지원된다. 
   - Standard Edition 또는 Express Edition이라면, 해당 Edition에서는 파티셔닝 기능을 사용할 수 없어 테스트 불가
 
 <br/>
 
-### ***이미 옮겨진 데이터를 다시 마이그레이션 했을 경우***
+### ***3. 이미 옮겨진 데이터를 다시 마이그레이션 했을 경우***
 
 ***pk 제약 조건 위반 에러 발생***
 
