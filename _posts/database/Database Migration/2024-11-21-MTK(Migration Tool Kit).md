@@ -153,19 +153,10 @@ DB-23505: com.edb.util.PSQLException: 오류: 중복된 키 값이 "sys_c006997"
 	at java.lang.Thread.run(Thread.java:750) [?:1.8.0_431]
 Caused by: com.edb.util.PSQLException: 오류: 중복된 키 값이 "sys_c006997" 고유 제약 조건을 위반함
   Detail: (id)=(1) 키가 이미 있습니다.
-  Where: COPY test_table, 1번째 줄: "1	Alice	2024-11-21 10:02:36.0"
-	at com.edb.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:3026) ~[edb-jdbc18.jar:42.7.3.1]
-	at com.edb.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:3005) ~[edb-jdbc18.jar:42.7.3.1]
-	at com.edb.core.v3.QueryExecutorImpl.processCopyResults(QueryExecutorImpl.java:1353) ~[edb-jdbc18.jar:42.7.3.1]
-	at com.edb.core.v3.QueryExecutorImpl.endCopy(QueryExecutorImpl.java:1149) ~[edb-jdbc18.jar:42.7.3.1]
-	at com.edb.core.v3.CopyInImpl.endCopy(CopyInImpl.java:53) ~[edb-jdbc18.jar:42.7.3.1]
-	at com.edb.copy.CopyManager.copyIn(CopyManager.java:227) ~[edb-jdbc18.jar:42.7.3.1]
-	at com.edb.copy.CopyManager.copyIn(CopyManager.java:203) ~[edb-jdbc18.jar:42.7.3.1]
-	at com.edb.dbhandler.enterprisedb.Data$1.lambda$run$0(Data.java:163) ~[edb-migrationtoolkit.jar:?]
-	at com.edb.connection.handler.ConnectionRetryHandler.execute(ConnectionRetryHandler.java:60) ~[edb-migrationtoolkit.jar:?]
-	at com.edb.dbhandler.enterprisedb.Data$1.run(Data.java:144) ~[edb-migrationtoolkit.jar:?]
 	... 1 more
 ```
+
+<br/>
 
 ✅ 해결 방안  
 
