@@ -165,3 +165,55 @@ Caused by: com.edb.util.PSQLException: 오류: 중복된 키 값이 "sys_c006997
 ```bash
 runMTK.bat -tables TEST_TABLE -dataOnly -truncLoad TEST_SCHEMA
 ```
+
+### ***4. 모든 스키마 삭제 후 스키마 재생성***
+
+```bash
+# 모든 스키마 삭제 후 스키마 재생성
+runMTK.bat -schemaOnly -dropSchema true TEST_SCHEMA
+
+# 해당 테이블에만 데이터를 옮긴다.
+runMTK.bat -dataOnly -tables TEST_TABLE TEST_SCHEMA
+```
+
+<br/>
+
+### ***5. 유저 정보 옮기기 ***
+
+***권한 부족 에러 발생***  
+
+```log
+MTK-12001: 권한이 부족하여 사용자/역할 마이그레이션이 실패했습니다.
+다음 Oracle 카탈로그에서 사용자에게 SELECT 권한을 부여하십시오.
+DBA_ROLES
+DBA_USERS
+DBA_TAB_PRIVS
+DBA_PROFILES
+DBA_ROLE_PRIVS
+ROLE_ROLE_PRIVS
+DBA_SYS_PRIVS
+```
+
+<br/>
+
+✅ 해결 방안  
+
+***sysdba 권한으로 접속하여 권한 부여***  
+
+```sql
+sqlplus sys as sysdba
+
+GRANT SELECT ON DBA_ROLES TO test_schema;
+GRANT SELECT ON DBA_USERS TO test_schema;
+GRANT SELECT ON DBA_TAB_PRIVS TO test_schema;
+GRANT SELECT ON DBA_PROFILES TO test_schema;
+GRANT SELECT ON DBA_ROLE_PRIVS TO test_schema;
+GRANT SELECT ON ROLE_ROLE_PRIVS TO test_schema;
+GRANT SELECT ON DBA_SYS_PRIVS TO test_schema;
+```
+
+<br/>
+
+```bash
+runMTK.bat -allUsers -schemaOnly -skipUserSchemaCreation TEST_SCHEMA
+```
