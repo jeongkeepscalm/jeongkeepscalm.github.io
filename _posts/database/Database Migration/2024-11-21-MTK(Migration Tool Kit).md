@@ -58,8 +58,6 @@ BEGIN
 END;
 ```
 
-<br>
-
 ```sql
 -- trigger
 CREATE OR REPLACE TRIGGER test_schema.before_insert_trigger
