@@ -1,5 +1,5 @@
 ---
-title: "MTK(Migration Tool Kit)n"
+title: "MTK(Migration Tool Kit)"
 description: "MTK(Migration Tool Kit)"
 date: 2024-11-21
 categories: [ Database, Database Migration ]
@@ -17,6 +17,7 @@ tags: [ Database, Database Migration ]
 ### ***Oracle 스키마, 테이블, 프로시저, 트리거 생성***
 
 ```sql
+-- schema 
 create user test_schema identified by 1234;
 drop user test_schema cascade;
 
@@ -27,6 +28,45 @@ grant create procedure to test_schema;
 grant unlimited tablespace to test_schema;
 ```
 > 오라클 11g는 Multitenant Architecture를 지원하지 않으므로 CDB(Container Database) 또는 PDB(Pluggable Database) 개념이 없다. 
+
+```sql
+-- procedure
+CREATE OR REPLACE PROCEDURE TEST_SCHEMA.add_test_data
+IS
+    -- 커밋 주기 설정 (10,000건마다 커밋)
+    commit_count CONSTANT NUMBER := 10000; 
+BEGIN
+    FOR i IN 1..100000000 LOOP
+        INSERT INTO test_table2 (id, name, created_at)
+        VALUES (i, 'Name_' || i, SYSDATE);
+
+        -- 주기적으로 커밋 수행
+        IF MOD(i, commit_count) = 0 THEN
+            COMMIT;
+        END IF;
+    END LOOP;
+
+    -- 최종 커밋
+    COMMIT; 
+END;
+
+-- procedure 실행
+BEGIN
+  TEST_SCHEMA.ADD_TEST_DATA;
+END;
+```
+
+```sql
+-- trigger
+CREATE OR REPLACE TRIGGER test_schema.before_insert_trigger
+BEFORE INSERT ON test_schema.test_table
+FOR EACH ROW
+BEGIN
+    :NEW.created_at := SYSDATE;
+END;
+```
+
+<br/>
 
 ### ***toolkit.propertries 파일 속성 변경***
 
@@ -40,6 +80,8 @@ TARGET_DB_URL=jdbc:edb://localhost:5444/edb
 TARGET_DB_USER=enterprisedb
 TARGET_DB_PASSWORD=1234
 ```
+
+<br/>
 
 ### ***mtk 명령어***
 
@@ -70,35 +112,6 @@ Exception in thread "main" java.lang.NoClassDefFoundError: com/edb/Driver
 
 ### ***스키마 내 특정 테이블 및 약 1억개 데이터 옮기기***
 
-```sql
--- 프로시저
-CREATE OR REPLACE PROCEDURE TEST_SCHEMA.add_test_data
-IS
-    -- 커밋 주기 설정 (10,000건마다 커밋)
-    commit_count CONSTANT NUMBER := 10000; 
-BEGIN
-    FOR i IN 1..100000000 LOOP
-        INSERT INTO test_table2 (id, name, created_at)
-        VALUES (i, 'Name_' || i, SYSDATE);
-
-        -- 주기적으로 커밋 수행
-        IF MOD(i, commit_count) = 0 THEN
-            COMMIT;
-        END IF;
-    END LOOP;
-
-    -- 최종 커밋
-    COMMIT; 
-END;
-
--- 프로시저 실행
-BEGIN
-  TEST_SCHEMA.ADD_TEST_DATA;
-END;
-```
-
-<br/>
-
 ```bash
 runMTK.bat -tables TEST_TABLE2 TEST_SCHEMA
 
@@ -109,6 +122,8 @@ runMTK.bat -tables TEST_TABLE2 TEST_SCHEMA
 마이그레이션 절차가 성공적으로 완료되었습니다.
 Total Elapsed Migration Time (sec): 666.545
 ```
+
+<br/>
 
 ### ***파티셔닝된 테이블 옮기기***
 
