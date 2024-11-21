@@ -178,7 +178,7 @@ runMTK.bat -dataOnly -tables TEST_TABLE TEST_SCHEMA
 
 <br/>
 
-### ***5. 유저 정보 옮기기 ***
+### ***5. 유저 정보 옮기기***
 
 ***권한 부족 에러 발생***  
 
@@ -211,8 +211,6 @@ GRANT SELECT ON DBA_ROLE_PRIVS TO test_schema;
 GRANT SELECT ON ROLE_ROLE_PRIVS TO test_schema;
 GRANT SELECT ON DBA_SYS_PRIVS TO test_schema;
 ```
-
-<br/>
 
 ```bash
 runMTK.bat -allUsers -schemaOnly -skipUserSchemaCreation TEST_SCHEMA
