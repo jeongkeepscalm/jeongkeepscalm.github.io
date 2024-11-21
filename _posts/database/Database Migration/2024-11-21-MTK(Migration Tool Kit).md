@@ -29,6 +29,8 @@ grant unlimited tablespace to test_schema;
 ```
 > 오라클 11g는 Multitenant Architecture를 지원하지 않으므로 CDB(Container Database) 또는 PDB(Pluggable Database) 개념이 없다. 
 
+<br>
+
 ```sql
 -- procedure
 CREATE OR REPLACE PROCEDURE TEST_SCHEMA.add_test_data
@@ -55,6 +57,8 @@ BEGIN
   TEST_SCHEMA.ADD_TEST_DATA;
 END;
 ```
+
+<br>
 
 ```sql
 -- trigger
