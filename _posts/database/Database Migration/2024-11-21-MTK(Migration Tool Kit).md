@@ -168,4 +168,7 @@ Caused by: com.edb.util.PSQLException: 오류: 중복된 키 값이 "sys_c006997
 ```
 
 ✅ 해결 방안  
-- runMTK.bat -tables TEST_TABLE -dataOnly -truncLoad TEST_SCHEMA
+
+```bash
+runMTK.bat -tables TEST_TABLE -dataOnly -truncLoad TEST_SCHEMA
+```
