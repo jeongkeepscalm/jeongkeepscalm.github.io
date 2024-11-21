@@ -215,3 +215,4 @@ GRANT SELECT ON DBA_SYS_PRIVS TO test_schema;
 ```bash
 runMTK.bat -allUsers -schemaOnly -skipUserSchemaCreation TEST_SCHEMA
 ```
+> 오라클에서 유저는 스키마와 일대일로 매핑된다. 
