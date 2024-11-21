@@ -103,7 +103,7 @@ Exception in thread "main" java.lang.NoClassDefFoundError: com/edb/Driver
 > lib > ojdbc 추가  
 > lib > edb-jdbc 추가  
   
-🌟 **테이블, 제약조건, 트리거, 프로시져 모두 마이그레이션 되는 것 확인 완료!**
+✅ **테이블, 제약조건, 트리거, 프로시져 모두 마이그레이션 되는 것 확인 완료!**
 
 <br/>
 <hr>
@@ -129,3 +129,41 @@ Total Elapsed Migration Time (sec): 666.545
 
 - 파티셔닝은 Enterprise Edition 이상에서만 지원된다. 
   - Standard Edition 또는 Express Edition이라면, 해당 Edition에서는 파티셔닝 기능을 사용할 수 없어 테스트 불가
+
+<br/>
+
+### ***이미 옮겨진 데이터를 다시 마이그레이션 했을 경우***
+
+***pk 제약 조건 위반 에러 발생***
+
+```log
+2024-11-21 15:22:07 MTK-17001: 테이블로 데이터 로딩중 오류 발생: test_schema.test_table: {1}
+DB-23505: com.edb.util.PSQLException: 오류: 중복된 키 값이 "sys_c006997" 고유 제약 조건을 위반함
+  Detail: (id)=(1) 키가 이미 있습니다.
+  Where: COPY test_table, 1번째 줄: "1	Alice	2024-11-21 10:02:36.0"
+2024-11-21 15:22:07 Stack Trace:
+com.edb.MTKException: MTK-17001: 테이블로 데이터 로딩중 오류 발생: test_schema.test_table: {1}
+DB-23505: com.edb.util.PSQLException: 오류: 중복된 키 값이 "sys_c006997" 고유 제약 조건을 위반함
+  Detail: (id)=(1) 키가 이미 있습니다.
+  Where: COPY test_table, 1번째 줄: "1	Alice	2024-11-21 10:02:36.0"
+	at com.edb.DataLoader.loadDataInFastMode(DataLoader.java:1056) [edb-migrationtoolkit.jar:?]
+	at com.edb.DataLoader.run(DataLoader.java:345) [edb-migrationtoolkit.jar:?]
+	at java.lang.Thread.run(Thread.java:750) [?:1.8.0_431]
+Caused by: com.edb.util.PSQLException: 오류: 중복된 키 값이 "sys_c006997" 고유 제약 조건을 위반함
+  Detail: (id)=(1) 키가 이미 있습니다.
+  Where: COPY test_table, 1번째 줄: "1	Alice	2024-11-21 10:02:36.0"
+	at com.edb.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:3026) ~[edb-jdbc18.jar:42.7.3.1]
+	at com.edb.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:3005) ~[edb-jdbc18.jar:42.7.3.1]
+	at com.edb.core.v3.QueryExecutorImpl.processCopyResults(QueryExecutorImpl.java:1353) ~[edb-jdbc18.jar:42.7.3.1]
+	at com.edb.core.v3.QueryExecutorImpl.endCopy(QueryExecutorImpl.java:1149) ~[edb-jdbc18.jar:42.7.3.1]
+	at com.edb.core.v3.CopyInImpl.endCopy(CopyInImpl.java:53) ~[edb-jdbc18.jar:42.7.3.1]
+	at com.edb.copy.CopyManager.copyIn(CopyManager.java:227) ~[edb-jdbc18.jar:42.7.3.1]
+	at com.edb.copy.CopyManager.copyIn(CopyManager.java:203) ~[edb-jdbc18.jar:42.7.3.1]
+	at com.edb.dbhandler.enterprisedb.Data$1.lambda$run$0(Data.java:163) ~[edb-migrationtoolkit.jar:?]
+	at com.edb.connection.handler.ConnectionRetryHandler.execute(ConnectionRetryHandler.java:60) ~[edb-migrationtoolkit.jar:?]
+	at com.edb.dbhandler.enterprisedb.Data$1.run(Data.java:144) ~[edb-migrationtoolkit.jar:?]
+	... 1 more
+```
+
+✅ 해결 방안  
+- runMTK.bat -tables TEST_TABLE -dataOnly -truncLoad TEST_SCHEMA
