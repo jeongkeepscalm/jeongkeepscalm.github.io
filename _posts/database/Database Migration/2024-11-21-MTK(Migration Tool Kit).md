@@ -116,7 +116,9 @@ Exception in thread "main" java.lang.NoClassDefFoundError: com/edb/Driver
 
 ```bash
 runMTK.bat -tables TEST_TABLE2 TEST_SCHEMA
+```
 
+```log
 [test_schema.TEST_TABLE2] 테이블 데이터 로드 요약 정보 : 총 소요 시간(sec): 664.919 총 로드 행 수: 96060000 총 크기(MB): 4101.256
 데이터 로드 요약 정보: 총 소요 시간(sec): 664.919 총 로드 행 수: 96060000 총 크기(MB): 4101.256
 스키마 TEST_SCHEMA이(가) 성공적으로 임포트되었습니다.
