@@ -2343,8 +2343,7 @@ public class BoundedQueueV6_4 implements BoundedQueue {
   
 - CAS(Compare-And-Swap, Compare-And-Set)
   - 락을 걸지 않고 원자적인 연산을 수행한다.(락 프리 기법)
-  - CAS 연산은 락을 완전히 대체하는 것은 아니고 작은 단위의 일부 영역에 적용할 수 있다. 
+  - 락을 사용하는 방식은 직관적이지만 상대적으로 무거운 방식인 반면에 CAS 연산은 락을 완전히 대체하는 것은 아니고 작은 단위의 일부 영역에 적용할 수 있다. 
   - 기본적으로 락을 사용하고 특별한 경우에 CAS를 적용한다고 보면 된다. 
-  
 
 

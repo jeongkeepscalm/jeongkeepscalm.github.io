@@ -163,8 +163,11 @@ Caused by: com.edb.util.PSQLException: 오류: 중복된 키 값이 "sys_c006997
 ✅ 해결 방안  
 
 ```bash
+# 기존 데이터를 지우고 다시 삽입한다.
 runMTK.bat -tables TEST_TABLE -dataOnly -truncLoad TEST_SCHEMA
 ```
+
+<br/>
 
 ### ***4. 모든 스키마 삭제 후 스키마 재생성***
 
@@ -196,7 +199,7 @@ DBA_SYS_PRIVS
 
 <br/>
 
-✅ 해결 방안  
+✅ 해결 방안 
 
 ***sysdba 권한으로 접속하여 권한 부여***  
 
