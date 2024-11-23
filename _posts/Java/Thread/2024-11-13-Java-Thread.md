@@ -2345,5 +2345,129 @@ public class BoundedQueueV6_4 implements BoundedQueue {
   - 락을 걸지 않고 원자적인 연산을 수행한다.(락 프리 기법)
   - 락을 사용하는 방식은 직관적이지만 상대적으로 무거운 방식인 반면에 CAS 연산은 락을 완전히 대체하는 것은 아니고 작은 단위의 일부 영역에 적용할 수 있다. 
   - 기본적으로 락을 사용하고 특별한 경우에 CAS를 적용한다고 보면 된다. 
+  
+- CAS(Compare-And-Swap)와 락(Lock) 방식의 비교
+  - 락(Lock) 방식
+    - 비관적(pessimistic) 접근법
+    - 데이터에 접근하기 전에 항상 락을 획득
+    - 다른 스레드의 접근을 막음
+    - "다른 스레드가 방해할 것이다"라고 가정
+  - CAS(Compare-And-Swap) 방식
+    - 낙관적(optimistic) 접근법
+    - 락을 사용하지 않고 데이터에 바로 접근
+    - 충돌이 발생하면 그때 재시도
+    - "대부분의 경우 충돌이 없을 것이다"라고 가정
+  
+<details>
+<summary><span style="color:orange" class="point"><b>SpinLock Code 1</b></span></summary>
+<div markdown="1">
+
+```java
+public class SpinLockBad {
+
+    private volatile boolean lock = false;
+
+    public void lock() {
+        log("락 획득 시도");
+        while(true) {
+            if (!lock) {              // 1. 락 사용 여부 확인
+                sleep(100);     // 문제 상황 확인용, 스레드 대기
+                lock = true;         // 2. 락의 값 변경
+                break;               // while 탈출
+            } else {
+                // 락을 획득할 때 까지 스핀 대기(바쁜 대기) 한다.
+                log("락 획득 실패 - 스핀 대기");
+            }
+        }
+        log("락 획득 완료");
+    }
+
+    public void unlock() {
+        lock = false;
+        log("락 반납 완료");
+    }
+
+}
+```
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>SpinLock Code 2</b></span></summary>
+<div markdown="1">
+
+```java
+public class SpinLock {
+
+    private final AtomicBoolean lock = new AtomicBoolean(false);
+
+    public void lock() {
+        log("락 획득 시도");
+        while (!lock.compareAndSet(false, true)) {
+            // 락을 획득할 때까지 스핀 대기(바쁜 대기)한다.
+            log("락 획득 실패 - 스핀 대기");
+        }
+        log("락 획득 완료");
+    }
+
+    public void unlock() {
+        lock.set(false);
+        log("락 반납 완료");
+    }
+
+}
+```
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>SpinLock Code 3</b></span></summary>
+<div markdown="1">
+
+```java
+public class SpinLockMain {
+    public static void main(String[] args) {
+
+//        spinLock spinLock = new spinLock();
+        SpinLock spinLock = new SpinLock();
+
+        Runnable task = new Runnable() {
+
+            @Override
+            public void run() {
+                spinLock.lock();
+                try {
+                    // critical section
+                    log("business logic");
+                    // sleep(1); // 오래 걸리는 로직에서 스핀 락 사용 x
+                    /*
+                        - 락을 기다리는 스레드가 block, waiting 상태에 빠지지 않지만
+                        runnable 상태로 락을 획득할 때까지 while 문을 반복하는 문제 존재.
+                        - cpu 자원 낭비: 락을 기다리는 스레드가 cpu 를 계속 사용하면서 대기
+                     */
+                } finally {
+                    spinLock.unlock();
+                }
+            }
+        };
+        Thread t1 = new Thread(task, "Thread-1");
+        Thread t2 = new Thread(task, "Thread-2");
+        t1.start();
+        t2.start();
+    }
+}
+```
+
+</div>
+</details>
+
+⭐​ **정리**  
+- 일반적으로 동기화 락을 사용하고, 아주 특별한 경우에 한정해서 CAS를 사용해서 최적화해야 한다.
+- CAS 사용
+  - 숫자 값의 증가, 자료 구조의 데이터 추가, 삭제와 같이 CPU 사이클이 금방 끝나지만 안전한 임계 영역, 또는 원자적인 연산이 필요한 경우에 사용
+- 동기화 Lock 사용 / 스레드 대기
+  -  데이터베이스를 기다린다거나, 다른 서버의 요청을 기다리는 것 처럼 오래 기다리는 작업할 때 사용
 
 
