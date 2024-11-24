@@ -18,7 +18,7 @@ tags: [ Java, Thread ]
 
 ### 프로세스와 스레드
 
-<img src="/assets/img/thread/1.png" width="600px" />
+<img src="/assets/img/thread/1.png" width="500px" />
 
 - 프로그램
   - 실행 전까지는 단순한 파일
@@ -40,9 +40,9 @@ tags: [ Java, Thread ]
   - CPU를 최대한 활용할 수 있는 다양한 우선순위와 최적화 기법을 사용
   
 - 단일 코어 스케줄링
-  - <img src="/assets/img/thread/2.png" width="600px" />
+  - <img src="/assets/img/thread/2.png" width="500px" />
 - 멀티 코어 스케줄링
-  - <img src="/assets/img/thread/3.png" width="600px" />
+  - <img src="/assets/img/thread/3.png" width="500px" />
   
 ### 컨텍스트 스위칭(Context Switching)
 
@@ -107,8 +107,8 @@ tags: [ Java, Thread ]
   </div>
 </details>
 
-- <img src="/assets/img/thread/4.png" width="600px" />
-- <img src="/assets/img/thread/5.png" width="600px" />
+- <img src="/assets/img/thread/4.png" width="500px" />
+- <img src="/assets/img/thread/5.png" width="500px" />
 
 <br>
 <hr>
@@ -139,7 +139,7 @@ tags: [ Java, Thread ]
 
 # ***스레드의 생명주기*** 
 
-<img src="/assets/img/thread/6.png" width="600px" />
+<img src="/assets/img/thread/6.png" width="500px" />
 
 - **New**
   - 스레드가 생성되었으나 아직 시작되지 않은 상태
@@ -793,11 +793,11 @@ public class VolatileFlagMain {
 </details>
 
 - 상위 코드에 대한 예상 메모리 접근 방식
-  - <img src="/assets/img/thread/7.png" width="600px" />
+  - <img src="/assets/img/thread/7.png" width="500px" />
 - 실제 메모리 접근 방식
   - 현대의 CPU 대부분은 코어 단위로 캐시 메모리를 각각 보유하고 있고, 처리 성능을 개선하기 위해 중간에 캐시 메모리를 사용한다. 
-  - <img src="/assets/img/thread/8.png" width="600px" />
-  - <img src="/assets/img/thread/9.png" width="600px" />
+  - <img src="/assets/img/thread/8.png" width="500px" />
+  - <img src="/assets/img/thread/9.png" width="500px" />
   - 캐시 메모리를 메인 메모리에 반영하거나, 메인 메모리의 변경 내역을 캐시 메모리에 다시 불러오는 것은 CPU 설계 방식과 실행 환경에 따라 다르다. 
   
 ### ***메모리 가시성***
@@ -1316,9 +1316,11 @@ class Immutable {
 </div>
 </details>
 
-***정리***  
-**synchronized: 임계영역에서 하나의 스레드만 보장하는 것**  
-**임계영역: 여러 스레드가 동시에 접근해서는 안되는 공유 자원을 접근하거나 수정하는 부분**  
+<br/>
+
+⭐​ **정리**  
+- synchronized: 임계영역에서 하나의 스레드만 보장하는 것  
+- 임계영역: 여러 스레드가 동시에 접근해서는 안되는 공유 자원을 접근하거나 수정하는 부분  
 
 <br>
 <hr>
@@ -1465,8 +1467,8 @@ public class BankAccountV4 implements BankAccount {
 </details>
 
 - t1 스레드가 먼저 ReentrantLock의 락을 선점했을 때, t2 스레드는 아래와 같이 ReentrantLock 내부 대기 큐에서 관리된다. 
-- <img src="/assets/img/thread/10.png" width="600px" />
-- <img src="/assets/img/thread/11.png" width="600px" />
+- <img src="/assets/img/thread/10.png" width="500px" />
+- <img src="/assets/img/thread/11.png" width="500px" />
 
 <br>
 
@@ -2463,11 +2465,148 @@ public class SpinLockMain {
 </div>
 </details>
 
+<br/>
+
 ⭐​ **정리**  
 - 일반적으로 동기화 락을 사용하고, 아주 특별한 경우에 한정해서 CAS를 사용해서 최적화해야 한다.
 - CAS 사용
   - 숫자 값의 증가, 자료 구조의 데이터 추가, 삭제와 같이 CPU 사이클이 금방 끝나지만 안전한 임계 영역, 또는 원자적인 연산이 필요한 경우에 사용
 - 동기화 Lock 사용 / 스레드 대기
   -  데이터베이스를 기다린다거나, 다른 서버의 요청을 기다리는 것 처럼 오래 기다리는 작업할 때 사용
+
+# ***동시성 컬렉션***
+
+- 스레드 세이프(Thread Safe)
+  - 여러 스레드가 동시에 접근해도 괜찮은 경우
+  
+- 컬렉션 프레임워크가 제공하는 대부분의 연산은 원자적인 연산이 아니다.
+  - synchronized, Lock 등을 통해 안전한 임계영역을 만들어 문제 해결
+  
+- 프록시
+  - 대신 처리해주는 자
+  - 기존의 컬렉션 프레임워크가 제공하는 코드를 그대로 사용하면서 밀티스레드 상황에 동기화가 필요할 때만 synchronized 기능을 추가
+  
+- 프록시 패턴
+  - 정의
+    - 객체지향 디자인 패턴 중 하나
+    - 어떤 객체에 대한 접근을 제어하기 위해 그 객체의 대리인 또는 인터페이스 역할을 하는 객체를 제공하는 패턴
+    - 실제 객체에 대한 참조를 유지하면서, 그 객체에 접근하거나 행동을 수행하기 전에 추가적인 처리를 할 수 있게한다. 
+  - 목적
+    - **접근 제어**: 실제 객체에 대한 접근을 제한 및 통제 가능
+    - **성능 향상**: 실제 객체의 생성을 지여니키거나 캐싱하여 성능을 최적화
+    - **부가 기능** 제공: 실제 객체에 추가적인 기능(로깅, 인증, 동기화 등)을 투명하게 제공
+
+<details>
+<summary><span style="color:orange" class="point"><b>Proxy Pattern Code</b></span></summary>
+<div markdown="1">
+
+```java
+public class SyncProxyList implements SimpleList {
+    private SimpleList target;
+    public SyncProxyList(SimpleList target) {
+        this.target = target;
+    }
+    @Override
+    public synchronized void add(Object e) {
+        target.add(e);
+    }
+    @Override
+    public synchronized Object get(int index) {
+        return target.get(index);
+    }
+    @Override
+    public synchronized int size() {
+        return target.size();
+    }
+    @Override
+    public synchronized String toString() {
+        return target.toString() + " by " + this.getClass().getSimpleName();
+    }
+}
+
+```
+
+```java
+public class SimpleListMainV2 {
+
+    public static void main(String[] args) throws InterruptedException {
+//        test(new BasicList());
+//        test(new SyncList());
+        test(new SyncProxyList(new BasicList()));
+    }
+
+    private static void test(SimpleList list) throws InterruptedException {
+        log(list.getClass().getSimpleName());
+        // A를 리스트에 저장하는 코드
+        Runnable addA = new Runnable() {
+            @Override
+            public void run() {
+                list.add("A");
+                log("Thread-1: list.add(A)");
+            }
+        };
+        // B를 리스트에 저장하는 코드
+        Runnable addB = new Runnable() {
+            @Override
+            public void run() {
+                list.add("B");
+                log("Thread-2: list.add(B)");
+            }
+        };
+        Thread thread1 = new Thread(addA, "Thread-1");
+        Thread thread2 = new Thread(addB, "Thread-2");
+        thread1.start();
+        thread2.start();
+        thread1.join();
+        thread2.join();
+        log(list);
+    }
+
+}
+```
+
+</div>
+</details>
+  
+### ***자바 동시성 컬렉션의 종류***
+
+- List
+  - CopyOnWriteArrayList: ArrayList 대안
+- Set
+  - CopyOnWriteArraySet: HashSet 대안
+  - ConcurrentSkipListSet: TreeSet 대안(정렬된 순서 유지, Comparator 사용 가능)
+- Map
+  - ConcurrentHashMap: HashMap 대안
+  - ConcurrentSkipListMap: TreeMap 대안(정렬된 순서 유지, Comparator 사용 가능)
+- Queue
+  - ConcurrentLinkedQueue: 동시성 큐, 비 차단(non-blocking) 큐
+- Deque
+  - ConcurrnetLinkedDeque: 동시성 데크, 비 차단(non-blocking) 큐
+  
+### ***스레드 차단 블로킹 큐***
+
+- BlockingQueue
+  - ArrayBlockingQueue
+    - 크기가 고정된 블로킹 큐 
+    - 공정(fair) 모드를 사용할 수 있다. 공정(fair) 모드를 사용하면 성능이 저하될 수 있다.
+  - LinkedBlockingQueue
+    - 크기가 무한하거나 고정된 블로킹 큐
+  - PriorityBlockingQueue
+    - 우선순위가 높은 요소를 먼저 처리하는 블로킹 큐
+  - SynchronousQueue
+    - 데이터를 저장하지 않는 블로킹 큐로, 생산자가 데이터를 추가하면 소비자가 그 데이터를 받을 때까지 대기한다. 생산자-소비자 간의 직접적인 핸드오프(hand-off) 메커니즘을 제공한다. 쉽게 이야기해서 중간에 큐 없이 생산자, 소비자가 직접 거래한다.
+  - DelayQueue
+    - 지연된 요소를 처리하는 블로킹 큐로, 각 요소는 지정된 지연 시간이 지난 후에야 소비될 수 있다. 일정 시간이 지난 후 작업을 처리해야 하는 스케줄링 작업에 사용된다.
+
+<br/>
+
+⭐​ **정리**  
+- 단일 스레드: 일반 컬렉션 사용
+- 멀티 스레드: 동시성 컬렉션 사용  
+
+<br/>
+<hr>
+
+# ***스레드 풀과 Executor 프레임워크***
 
 
