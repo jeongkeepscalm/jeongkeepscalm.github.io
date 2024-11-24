@@ -90,6 +90,9 @@ TARGET_DB_PASSWORD=1234
 ```bash
 runMTK.bat -schemaOnly TEST_SCHEMA
 runMTK.bat -dataOnly TEST_SCHEMA
+
+# edb가 아닐경우 타겟 db 타입 명시 필요
+runMTK.bat -targetdbtype postgresql -dataOnly ${스키마명}
 ```
   
 ```log
