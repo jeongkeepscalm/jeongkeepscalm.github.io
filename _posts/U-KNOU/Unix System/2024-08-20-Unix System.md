@@ -169,8 +169,8 @@ tags: [ U-KNOU, UNIX System ]
   - Debian 리눅스에 비해 사용 편의성 높음
   - 개인 사용자에게 인기
 
-<hr>
 <br>
+<hr>
 
 # ***3장. 셸 사용하기***
 
@@ -280,8 +280,8 @@ unset FOO
   - ~/.bash_logout
     - 로그아웃 수행 시 실행되는 스크립트
 
-<hr>
 <br/>
+<hr>
 
 # ***4장. 파일과 디렉토리***
 
@@ -398,7 +398,7 @@ umask 033 # == umask u=rwx,go=r
 chown [user] file/folder
 ```
 
-### ***링크 ***
+### ***링크***
 
 - 하드 링크
   - 하나의 파일에 다른 이름을 부여하여 다른 이름으로도 다룰 수 있게 하는 것
@@ -626,5 +626,48 @@ exit
 # -c: 일회성 명령어 실행 후 기존 사용자로 돌아온다. 
 sudo -c 'ls -l /root/*'
 
-
+# 사용자 생성 및 비밀번호 설정
+sudo useradd -c "test" testor
+sudo passwd testor
 ```
+
+### ***사용자 계정 만들기***
+
+- `/etc/passwd 파일`
+  - 평문의 파일로 사용자 계정에 관한 정보를 가지고 있는 매우 중요한 파일
+  - /etc/passwd 파일의 형식은 매우 엄격
+  - 사용자 등록을 위해 이 파일을 직접 수정하는 것은 나쁜 방법이다. 
+  - 사용자 계정외 관한 7개 필드
+    - 사용자 계정
+    - 비밀번호
+    - 사용자 아이디
+    - 그룹 아이디
+    - 설명
+    - 홈 디렉토리
+    - 기본 셸
+  
+- `/etc/shadow 파일`
+  - 실제 사용자의 비밀번호를 암호화시켜 저장한 파일
+  - root 사용자만 읽기 권한을 갖는다.
+  
+- 사용자 생성 시, `/etc/login.defs`와 `/etc/default/useradd` 파일에 저장된 설정으로 계정의 기본값이 설정된다. 
+  
+- `/etc/skel 디렉토리`
+  - 
+    ```bash
+      ls -a /etc/skel 
+        .  ..  .bash_logout  .bashrc  .profile
+    ```
+
+### ***사용자 계정 수정, 삭제***
+
+```bash
+# ojg 계정에 root 그룹을 추가
+usermod -g root ojg
+
+# user 삭제
+userdel -rf jg
+```
+
+### ***그룹 계정과 관리***
+
