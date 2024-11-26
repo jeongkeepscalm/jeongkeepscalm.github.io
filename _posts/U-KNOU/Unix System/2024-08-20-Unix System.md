@@ -671,3 +671,10 @@ userdel -rf jg
 
 ### ***그룹 계정과 관리***
 
+- `/etc/group`: 그룹 정보 저장
+- `/etc/gshadow`: 그룹별로 암호화된 비밀번호
+
+```bash
+# 그룹 생성
+groupadd sales
+```

@@ -2609,4 +2609,220 @@ public class SimpleListMainV2 {
 
 # ***스레드 풀과 Executor 프레임워크***
 
+- 스레드를 직접 사용할 때의 문제점  
+  1. 스레드 생성 시간으로 인한 성능 문제  
+    - 메모리 할당
+    - 운영체제 자원 사용
+    - 운영체제 스케줄러 설정
+  2. 스레드 관리 문제  
+  3. Runnable 인터페이스의 불편함
+    - run() 메소드는 반환 값이 없어 실행 결과를 직접 받을 수 없다.
+    - 메소드 내부에서 처리해야하는 체크 예외 처리 불가능
+  
+- 스레드 풀
+  - 스레드 문제점 1번, 2번 해결
+
+### ***Executor Framework***
+
+- 스레드 풀, 스레드 관리, Runnable 의 문제점은 물론이고, 생산자 소비자 문제까지 한방에 해결해주는 자바 멀티스레드 최고의 도구
+
+```java
+// Executor Interface
+public interface Executor {
+  void execute(Runnable command);
+}
+
+// ExecutorService Interface
+public interface ExecutorService extends Executor, AutoCloseable {
+  <T> Future<T> submit(Callable<T> task);
+  @Override
+  default void close(){...}
+  ...
+}
+```
+
+### ***ThreadPoolExecutor***
+
+- ExecutorService 인터페이스의 기본 구현체
+
+<details>
+<summary><span style="color:orange" class="point"><b>ThreadPoolExecutor를 활용한 로그 출력</b></span></summary>
+<div markdown="1">
+
+```java 
+public static void printState(ExecutorService executorService) {
+    if (executorService instanceof ThreadPoolExecutor poolExecutor) {
+        int poolSize = poolExecutor.getPoolSize();
+        int activeCount = poolExecutor.getActiveCount();
+        int queuedTasks = poolExecutor.getQueue().size();
+        long completedTask = poolExecutor.getCompletedTaskCount();
+        log("[poolSize=" + poolSize + ", activeCount=" + activeCount + ", queuedTasks=" + queuedTasks + ", completedTasks=" + completedTask + "]");
+        /*
+            poolSize:       풀에서 관리되는 스레드 숫자
+            activeCount:    작업을 수행하는 스레드 숫자
+            queuedTasks:    큐에서 대기중인 작업의 숫자
+            completedTask:  완료된 작업의 숫자
+          */
+    } else {
+        log(executorService);
+    }
+}
+
+public class RunnableTask implements Runnable {
+
+    private final String name;
+    private int sleepMs = 1000;
+
+    public RunnableTask(String name) {
+        this.name = name;
+    }
+    public RunnableTask(String name, int sleepMs) {
+        this.name = name;
+        this.sleepMs = sleepMs;
+    }
+
+    @Override
+    public void run() {
+        log(name + " 시작");
+        sleep(sleepMs);
+        log(name + " 완료");
+    }
+}
+
+public class ExecutorBasicMain {
+
+    public static void main(String[] args) {
+
+        ExecutorService executorService =
+                new ThreadPoolExecutor(2, 2, 0, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
+        
+        /*
+            corePoolSize:
+                스레드 풀에서 관리되는 기본 스레드의 수
+                
+            maximumPoolSize:
+                스레드 풀에서 관리되는 최대 스레드 수
+                
+            keepAliveTime, TimeUnit unit:
+                기본 스레드 수를 초과해서 만들어진 스레드가 생존할 수 있는 대기 시간이다.
+                이 시간 동안 처리할 작업이 없다면 초과 스레드는 제거된다.
+                
+            BlockingQueue workQueue:
+                작업을 보관할 블로킹 큐
+         */
+
+        log("== 초기 상태 ==");
+        printState(executorService);
+        executorService.execute(new RunnableTask("taskA"));
+        executorService.execute(new RunnableTask("taskB"));
+        executorService.execute(new RunnableTask("taskC"));
+        executorService.execute(new RunnableTask("taskD"));
+
+        log("== 작업 수행 중 ==");
+        printState(executorService);
+
+        sleep(3000);
+        log("== 작업 수행 완료 ==");
+        printState(executorService);
+        executorService.close();
+
+        log("== shutdown 완료 ==");
+        printState(executorService);
+
+        /*
+            09:55:21.464 [     main] == 초기 상태 ==
+            09:55:21.495 [     main] [poolSize=0, activeCount=0, queuedTasks=0, completedTasks=0]
+            09:55:21.511 [     main] == 작업 수행 중 ==
+            09:55:21.511 [     main] [poolSize=2, activeCount=2, queuedTasks=2, completedTasks=0]
+            09:55:21.511 [pool-1-thread-1] taskA 시작
+            09:55:21.511 [pool-1-thread-2] taskB 시작
+            09:55:22.521 [pool-1-thread-1] taskA 완료
+            09:55:22.521 [pool-1-thread-2] taskB 완료
+            09:55:22.522 [pool-1-thread-1] taskC 시작
+            09:55:22.523 [pool-1-thread-2] taskD 시작
+            09:55:23.535 [pool-1-thread-1] taskC 완료
+            09:55:23.535 [pool-1-thread-2] taskD 완료
+            09:55:24.520 [     main] == 작업 수행 완료 ==
+            09:55:24.521 [     main] [poolSize=2, activeCount=0, queuedTasks=0, completedTasks=4]
+            09:55:24.522 [     main] == shutdown 완료 ==
+            09:55:24.523 [     main] [poolSize=0, activeCount=0, queuedTasks=0, completedTasks=4]
+         */
+
+    }
+
+}
+```
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>Callable Code 1</b></span></summary>
+<div markdown="1">
+
+```java
+public class CallableMainV2 {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+
+        ExecutorService es = Executors.newFixedThreadPool(1);
+
+        log("submit() 호출");
+        Future<Integer> future = es.submit(new MyCallable());
+        log("future 즉시 반환, future = " + future);
+
+        log("future.get() [블로킹] 메서드 호출 시작 -> main 스레드 WAITING");
+        Integer result = future.get();
+        log("future.get() [블로킹] 메서드 호출 완료 -> , main 스레드 RUNNABLE");
+
+        log("result value = " + result);
+        log("future 완료, future = " + future);
+        es.close();
+
+        /*
+            10:44:44.750 [     main] submit() 호출
+            10:44:44.765 [pool-1-thread-1] Callable 시작
+            10:44:44.765 [     main] future 즉시 반환, future = java.util.concurrent.FutureTask@6576fe71[Not completed, task = thread.executor.future.CallableMainV2$MyCallable@7eda2dbb]
+            10:44:44.765 [     main] future.get() [블로킹] 메서드 호출 시작 -> main 스레드 WAITING
+            10:44:46.775 [pool-1-thread-1] create value = 0
+            10:44:46.776 [pool-1-thread-1] Callable 완료
+            10:44:46.777 [     main] future.get() [블로킹] 메서드 호출 완료 -> , main 스레드 RUNNABLE
+            10:44:46.778 [     main] result value = 0
+            10:44:46.779 [     main] future 완료, future = java.util.concurrent.FutureTask@6576fe71[Completed normally]
+         */
+    }
+
+    /**
+     * Callable:
+     *      Runnable 인터페이스와는 다르게,
+     *      반환값 존재
+     *      예외 처리 가능
+     */
+    static class MyCallable implements Callable<Integer> {
+
+        @Override
+        public Integer call() {
+            log("Callable 시작");
+            sleep(2000);
+            int value = new Random().nextInt(10);
+            log("create value = " + value);
+            log("Callable 완료");
+            return value;
+        }
+
+    }
+
+}
+```
+> 스레드를 생성하거나, join() 으로 스레드를 제어할 필요 없음  
+> Future는 전달한 작업의 미래 결과를 담고 있다.  
+> 요청 스레드가 future.get() 을 호출하면 Future 가 완료 상태가 될 때 까지 대기한다. 이때 요청 스레드의 상태는 RUNNABLE WAITING 이 된다. 이처럼 스레드가 어떤 결과를 얻기 위해 대기하는 것을 블로킹(Blocking)이라 한다.  
+
+</div>
+</details>
+
+### ***Future***
+
+- 작업의 미래 결과를 받을 수 있는 객체
+- submit() 호출시 future 는 즉시 반환된다. 덕분에 요청 스레드는 블로킹 되지 않고, 필요한 작업을 할 수 있다.
 
