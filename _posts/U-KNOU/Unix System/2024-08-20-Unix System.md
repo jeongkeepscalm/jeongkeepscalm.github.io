@@ -630,6 +630,7 @@ sudo -c 'ls -l /root/*'
 sudo useradd -c "test" testor
 sudo passwd testor
 ```
+> sudo를 사용한 명령 실행은 /etc/sudoers 파일의 설정에 근거한다.  
 
 ### ***사용자 계정 만들기***
 
@@ -675,6 +676,483 @@ userdel -rf jg
 - `/etc/gshadow`: 그룹별로 암호화된 비밀번호
 
 ```bash
-# 그룹 생성
-groupadd sales
+# 그룹 번호가 1100인 그룹 생성
+groupadd -g 1100 sales
+
+# 사용자 계정을 부 그룹을로 sales 그룹으로 추가한다.
+# 각 사용자는 0개 이상의 부 그룹에 속할 수 있다.
+usermod -aG sales ojg
+id ojg
+
+# 파일의 그룹을 sales로 지정
+newgrp sales
+touch file2
+ls -l file2
+
+# root 사용자만 가능
+# 그룹생성 후 구성원 지정, 관리자 지정 후 관리자로 변경하여 비밀번호 설정 
+groupadd -g 1101 marketing
+gpasswd -M cskim,jjpark,kdhong marketing
+gpasswd -A cskim
+su -l cskim
+gpasswd marketing
+
+# 그룹명 변경
+groupmod -n salesGroup sales
+
+# 그룹 삭제
+groupdel salesGroup
 ```
+> /etc/group: 그룹 정보  
+> /etc/gshadow: 그룹별로 암호화된 비밀번호  
+
+<br>
+
+⭐​ **정리**  
+- root 사용자의 UID는 0
+- sudo를 사용한 명령 실행은 /etc/sudoers 파일 설정에 근거
+- 사용자 계정 생성과 관련있는 기본값은 /etc/login.defs, /etc/default/useradd 파일의 설정에 근거
+- 패스워드 에이징
+  - 관리자가 비밀번호 만료에 관한 정보 변경 시, useradd, usermod, passwd 명령 등을 사용하여 관리하는 방법
+- 사용자 계정의 그룹 계정을 사용하여 그룹 단위로 권한을 부여할 수 있다. 
+
+<br>
+<hr>
+
+# ***7장. 텍스트 편집***
+
+***텍스트 편집***  
+
+```bash
+# 처음, 중간, 마지막 라인으로 이동
+H M L
+
+# 커서 위치의 한 문자를 삭제
+x
+
+# 현재 라인 삭제
+dd
+
+# 현재 라인 복사
+yy
+
+# 커서 오른쪽에 붙여넣기
+# (복사된 텍스트가 라인이면 현재 커서라인 밑에 붙여넣기 실행)
+p
+
+# 단어 검색
+# n: 다음 검색된 단어 보기
+# ?: 역순 검색
+/ojg
+?ojg
+?[oO]jg
+
+# Search and Replace
+# g: 전체 라인
+# s: replace 수행
+# this 를 포함하는 모든 라인에서 file -> File로 변경한다.
+:g/this/s/file/File
+# this is file. -> this is File.
+# this is file. -> this is File.
+# that is file.
+
+```
+
+***파일 찾기***  
+
+```bash
+locate .bashrc
+
+# find [pathnames] [expression]
+# find 검색은 상당한 오류메시지를 출력하므로 2> /dev/null 명령어를 붙인다.
+# 2>: 표준 오류 리다이렉션
+# /dev/null: 출력을 버린다. 
+# i: 대소문자 구분 x
+find /etc -name passwd
+find /etc -name passwd 2> /dev/null
+find /etc -iname "*passwd*" 2> /dev/null
+
+# |: find 명령과 다른 프로그램을 연결 시켜준다. 
+# 파일 총 개수 출력
+find ~ | wc -l
+
+# 현재 위치에서의 디렉토리 개수 출력
+find . -type d | wc -l
+
+# 현재 위치에서의 파일 개수 출력
+find . -type f | wc -l
+
+# 여러 파일 생성
+touch memo{1..5}
+touch {a..c}{1..4} # a1 ... a4, b1 ... b4, c1 ... c4
+
+# 찾은 파일 출력 후 삭제
+find . -name "memo*" -print
+find . -name "memo*" -delete
+
+# 여러 예제들
+find /usr/share -size +10M
+find /home -user ojg -ls
+find /home -user ojg -or -group staff -ls
+find /bin -perm 755 -ls
+find /home/ojg/ -perm -444 -type d -ls
+```
+
+***파일 내용 검색***  
+
+```bash
+grep ojg /etc/passwd
+
+# r: 명시된 디렉토리의 서브디렉토리들도 다 검색
+grep -r updatedb /etc
+
+# 파이프 기능을 사용하여 grep 명령과 연결
+ip addr show | grep inet
+```
+
+<br>
+
+⭐​ **정리**  
+- vi 사용 편집 작업은 명령모드, 입력모드, 라인모드의 세 가지 모드로 구분된다.
+- locate: 파일의 부분 문자열을 가지고 검색
+- find: 파일이 가진 속성으로 파일을 찾거나 검색된 파일에 대해 특별한 액션을 취할경우 사용
+
+<br>
+<hr>
+
+# ***8장. 파일 시스템 관리***
+
+- 저장장치 관리
+  - 저장장치 내 파티션 생성  
+    → 파티션 내 파일 시스템 생성  
+    → 생성된 파일 시스템을 특정 디렉토리에 마운트하여 운영체제가 해당 파일 시스템의 데이터를 접근할 수 있도록 한다.  
+  
+- ***마운트***
+  - 파일 시스템을 특정 디렉토리에 연결하여 **운영체제가 해당 파일 시스템의 내용을 접근할 수 있도록 하는 과정**
+  
+- 가상 파일 시스템
+  - swap
+    - 스왑 파일 시스템: 스왑 영역을 관리
+  - tmpfs
+    - 휘발성 메모리인 RAM에서 일시적으로 파일을 저장하기 위해 사용하는 파일 시스템
+  - proc
+    - 커널이 가진 프로세스 정보, 시스템 정보를 사용자 공간에 알려줄 때 사용
+  - sysfs
+    - 커널이 가진 하드웨어, 드라이버 정보를 사용자 공간에 알려줄 때 사용
+  - devpts
+    - 가상 터미널을 제어하기 위해 사용
+  
+- `/etc/mtab`: mount, unmount 명령 실행시 해당 내용이 파일에 기록됨
+- `/etc/fstab`: 리눅스 부팅 과정에서 마운트 작업을 위해 해당 파일 참조
+  
+- 파티션
+  - 하나의 물리적 디스크를 논리적으로 나눈 구역
+  
+- 리눅스에서 사용되는 파티션 관리 도구
+  - parted
+  - gparted
+  - fdisk
+  - gdisk
+  
+- 파티션  
+  - 부트 블록
+  - 슈퍼 블록
+  - inode 테이블
+  - 데이터 블록
+  
+- 파일 시스템 유형
+  - ext4
+  - ISO9660: CD-ROM과 같은 광학 디스크에서 표준으로 사용
+  - FAT 계열: 과거 DOS 나 Windows 에서 사용
+  - HFS+: 매킨토시 시스템에 사용
+  - Btrfs: 개발 중인 리눅스 차세대 파일 시스템
+  
+- 저널링
+  - 변경을 기록하는 로그를 두어 시스템의 비정상 종료 시 파일 시스템 복구를 쉽게 하는 방법
+
+<br>
+
+***파일 시스템***  
+
+```bash
+# 파일 시스템 만들기
+mkfs [-t fs-type] device
+
+# 파일 시스템 검사
+fsck /dev/sdc1
+
+# 스왑
+mkswap [device]
+swapon [device]
+
+# 디스크 남은 공간 보기
+df
+
+# 디스크 사용 공간 보기
+du
+```
+
+<br>
+
+⭐​ **정리**  
+- 마운트: 파일 시스템을 특정 디렉토리(마운트 지점)에 붙여 운영체제가 사용할수 있게 하는 것
+- /etc/fstab: 부팅 시 자동으로 마운트되는 파일 시스템이 기록되어 있음
+- 논리 볼륨은 파티션과 일치하나 크기 조정 가능
+- inode는 파일 이름을 제외한 파일의 모든 정보를 가지고 있다.
+
+<br>
+<hr>
+
+# ***9장. 프로세스 관리***
+
+- 프로세스 생성
+  - fork()
+    - 부모 프로세스가 자신의 복사본 형태로 자식 프로세스 생성
+    - systemd 프로세스를 제외한 모든 사용자 프로세스는 fork() 시스템 호출의 결과
+  - exec()
+    - 기존 프로세스를 새로운 프로세스로 대체
+  
+- 시스템 호출
+  - 커널에 서비스를 요청
+  
+- 포어 그라운드
+  - 보통 셸에서 명령을 실행 시 수행되고 있는 모드
+- 백그라운드 프로세스 
+  - 보이지 않는 곳에 숨어 동작하는 프로그램
+  - 명령어 뒤에 &를 붙여 수행
+  
+- /etc/passwd 파일을 수정할 수 있는 세가지 권한
+  - SetUID: s
+  - SetGID: s
+  - StickyBit: t
+  
+```Bash
+ls -l $(which passwd)
+  -rws-r-xr-x. 1 root root ...
+ls -ld /tmp
+  drwxrwxrwt 18 root root ...
+```
+<br>
+
+***프로세스의 상태***  
+
+```bash
+# ps 명령어는 -ef aux 옵션이 자주 사용된다. 
+# e: 프로세스 정보에 환경변수 정보를 포함시켜 출력
+# f: 포레스트 트리를 출력
+# a: 터미널과 연결된 모든 프로세스 출력
+# u: 사용자 친화적으로 자세히 출력
+# x: 현재 사용자가 소유한 모든 프로세스 출력. 터미널과 연결되어 있지 않은 프로세스도 출력
+ps -ef --forest
+ps aux
+```
+  
+- ps 명령에서 STAT 항목이 가지는 값의 의미
+  - R: 실행중 / 실행가능한 상태
+  - S: 인터럽트될 수 있는 수면상태. 종료를 기다린다.
+  - D: 인터럽트 불가능한 수면상태. 입출력 중인 상태
+  - T: 시그널에 의해 멈춰진 상태
+  - X: 죽은 상태
+  - Z: 좀비 프로세스. 작업이 종료되었으나 부모 프로세스로 회수되지 않아 프로세스 테이블 목록에 남아있음
+  - <: 높은 우선순위
+  - N: 낮은 우선순위
+  - L: 메모리 암에서 페이지가 잠긴 상태
+  - s: 세션 리더
+  - l: 멀티스레드 상태
+  - +: 포어그라운드 프로세스
+  
+***프로세스의 관리***  
+
+- top
+  - 프로세스 상태를 실시간으로 모니터
+  
+- 관리자 관점에서 가장 자주 사용하는 시그널 KILL(9), TERM(15)
+- TERM: 프로세스에 정리작업 후 스스로 종료할 갓을 요청
+  
+- 시그널
+  - 식별 번호
+  - 이름
+  
+- 리눅스에서 사용되는 시그널
+  - HUP: Hang-up: 부모 프로세스나 터미널이 종료될 때 연결된 프로세스에 보내지는 시그널
+  - INT: Interrupt: 프로그램을 종료시킨다.
+  - KILL: 프로세스 강제 종료
+  - TERM: Termenate: kill 명령의 기본 시그널
+  - CONT: Continue: STOP 시그널로 종료된 프로세스를 재개
+  - STOP: 프로세스 중단
+  - TSTP: Terminal Stop: STOP 과 달리 무시될 수 있음
+  
+- 우선순위의 조정: nice, renice
+  - nice
+    - 가장 높은 우선순위: -20
+    - 가장 낮은 우선순위: +19
+    - 기본값: 0
+    - 일반 사용자는 프로세스 NI 값을 0 이상으로만 지정 가능
+  - renice 
+    - 실행 중인 프로세스의 NI 값을 바꾸는 명령어
+  - 
+    ```bash
+      nice -5 top     # NI 값 5 증가
+      nice --5 top    # NI 값 5 감소
+
+      # 소유자가 ojg 이거나 pid가 6410인 프로세스의 NI 값을 10으로 지정
+      renice 10 -u ojg -p 6410
+    ```
+
+### HUP, NOHUP
+
+- HUP
+  - 터미널로 작업도중 exit 명령으로 터미널 창을 종료하면 백그라운드 프로세스에도 HUP 시그널이 보내진다. 이는 백그라운드 프로세스도 같이 종료되어야 한다는 의미이다.
+- NOHUP 
+  - HUP 시그널의 수신과 관계없이 해당 작업이 완료되게 한다.
+  
+```bash
+nohup find -size +100k > log.txt &
+```
+> 터미널이 종료되더라도 계속 작업을 수행한다.  
+> 크기가 100k 보다 큰 파일을 찾아 log.txt 파일에 기록한다.  
+> 만약 표준출력이 종료된 터미널일 경우 표준출력과 표준에러는 nohup.out 파일에 기록된다.  
+
+### cron
+
+- cron 서비스
+  - 지정된 시간에 맞추어 주기적으로 수행되는 계획된 작업을 수행할 때 cron 서비스를 사용한다. 
+  - /var/spool/cron/crontabs
+- crond
+  - 시스템 부팅 후 계속 수행되는 데몬 프로그램
+  - 1분 간격으로 시스템 또는 일반 사용자의 contab 파일의 내용을 검사하여 정해진 시간에 작업을 수행한다.
+  
+```bash
+# 매시 1분마다 cron.hourly 디렉토리에 있는 실행파일이나 스크립트 파일이 실행된다.
+01 * * * * root run-parts/etc/cron.hourly
+
+# 월~금 매 6시간마다 메일을 보낸다.
+0 */6 * * 1-5 /bin/mail -s "Hello" ojg@localhost
+
+# crontab 적용
+crontab -e
+  * * * * * date >> ~/date.txt
+crontab -l # 현재 사용자에 대한 모든 크론탭 작업을 나열
+cat date.txt
+  Tue Nov 28 09:16:01 PM KST 2024
+  Tue Nov 28 09:17:01 PM KST 2024
+  Tue Nov 28 09:18:01 PM KST 2024
+
+# 특정 사용자에 대한 모든 크론탭 출력
+crontab -u [사용자이름] -l 
+
+# 특정 시간에 일회성 작업을 예약할 경우: at
+at 00:10 08.04.23
+  at> date >> list.txt
+  at> <EOT>
+  ctrl + d
+  job 1 at sat Apr 8 00:10:00 2023
+```
+  
+- anacron
+  - 리눅스 서버가 오랫동안 중단되었다 시작될 경우 cron 작업들이 과부하 걸릴 수 있다. 그래서 365일 가동될 필요없는 서버의 경우 anacron을 사용한다.
+  - 설정파일: /etc/anacrontab
+  - 지난 며칠 동안 실행된 적 없는 경우 몇 분의 여유를 두고 작업을 실행
+
+<br>
+
+⭐​ **정리**  
+- 프로세스는 커널에 등록된 실행중인 프로그램이다.
+- 백그라운드 프로세스는 터미널로 출력은 가능하나 키보드 입력을 받을 수 없다.
+- SetUID가 설정된 프로그램을 실행시키면 프로세스는 파일 소유자의 권한으로 실행된다. 
+- kill 명령은 지정한 프로세스에 다양한 시그널을 보내는 기능을 수행한다. 
+
+<br>
+<hr>
+
+# ***10장. 소프트웨어 관리***
+
+- 리눅스 배포판 사이에서는 소프트웨어 패키징 방법이 다르기 때문에 소프트웨어 패키지가 호환되지 않는다. 
+- 패키징 방법
+  - 데비안 계열
+    - DEB
+  - 레드햇 계열
+    - 저수준 관리도구
+      - RPM
+    - 고수준 관리도구 
+      - YUM, DNF(YUM 업그레이드 버전)
+
+### ***압축***
+
+- 시스템 파일을 적절히 백업해두기 위해 공간 절약을 위해 파일을 압축하여 보관한다. 
+  
+- gzip
+  - 압축 파일의 형식이자 압축과 해제에 사용되는 리눅스 프로그램
+  - Lempel-Ziv
+  - gzip [options] [files]
+  - gzip file 명령을 사용하여 압축하면 원본 파일은 없어지고 원본 파일과 이름이 같은 .gz이라는 확장자를 가진 압축파일이 생성된다. 
+  - -number 옵션: 1~9(기본값 6)
+    - 1: 압축속도 가장 빠름. 압축률은 낮음.
+  - 
+    ```bash
+      # 압축한다. 
+      gzip test.txt
+
+      # 압축된 파일의 무결성 검사 후 결과를 출력한다. 
+      # t: 무결성 검사
+      # v: 파일 이름과 압축 률을 출력
+      gzip -tv test.txt.gz
+
+      # -d: 압축 해제(== gunzip test.txt.gz)
+      gzip -d test.txt.gz
+    ```
+  
+- bzip2
+  - Burrows-Wheeler 블록 정렬 알고리즘 사용
+  - gzip 보다 압축 속도는 느리지만 효율이 좋다. 
+  
+- tar(tape archive)
+  - 원래는 테이프 관련 장치를 이용하여 파일을 백업할 때 사용하는 명령어
+  - 현재는 주어진 여러 개의 파일을 하나의 아카이브 파일로 묶거나 아카이브 파일을 원래 파일로 풀어주는 명령어
+  - 묶어줄 대상으로 파일 대신 디렉토리를 지정하면 서브 디렉토리까지 함께 묶어준다. 
+  - .tar: 압축되지 않은 형식
+
+***tar 명령 사용 예시***  
+
+```bash
+# c: 아카이브 생성
+# x: 아카이브에서 파일 추출
+# v: 화면에 출력
+# f: 아카이브 파일을 지정
+# 
+
+# 현재 디렉토리에서 .txt로 끝나는 모든 파일을 foo.tar로 묶어 만들어 진행 결과를 출력
+tar cvf foo.tar *.txt
+
+# 아카이브 foo.tar에 있는 파일 목록 출력
+tar tvf foo.tar
+
+# 현재 디렉토리에 foo.tar 아카이브를 푼다.
+tar xvf foo.tar
+
+# 디렉토리 backup 의 내용을 묶어 아카이브 bar.tar를 만든다.
+tar cvf bar.tar backup/
+# 위와 같으나 아카이브 생성 시 gzip을 이용하여 압축한다. 
+tar cvfz baz.tar.gz backup/
+
+# gzip으로 압축된 아카이브를 푼다. 
+tar xvfz baz.tar.gz
+
+# 명령 확장을 통해 find 명령을 사용하여 현재 디렉토리의 모든 파일과 서브 디렉토리 각각을 묶어 아카이브를 만드는데, 리다이렉션을 사용하여 backup.tar 아카이브를 생성한다. 
+tar cvf -`find . -print` > backup.tar
+```
+
+<br>
+
+⭐​ **정리**  
+- 소프트웨어를 설치하고 관리하려면 패키지 관리 도구가 필요하다.
+- RPM 패키지 파일은 패키지 관리의 기본 단위로 패키지를 구성하는 파일들을 묶은 압축 파일이다.
+- 패키지를 설치할 때 선행 패키지가 설치되어 있지 않으면 의존성 문제로 인해 설치가 어렵다.
+- DNF는 의존성 문제를 해결한 YUM의 차세대 버전으로 고수준 패키지 관리도구이다.
+- DNF의 설정 파일은 패키지 저장소에 관한 정보를 가지고 있다. 
+
+<br>
+<hr>
+
+# ***11장. 셸 스크립트***
+
