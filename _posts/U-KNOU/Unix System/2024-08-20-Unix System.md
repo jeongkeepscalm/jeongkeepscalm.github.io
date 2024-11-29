@@ -1454,3 +1454,136 @@ cat testUntil.sh
 - 키보드로부터 이력을 받을 때, read 명령을 사용한다.
 - 선택 제어 구조: if, case
 - 반복 제어 구조: for, while, until
+
+<br>
+<hr>
+
+# ***12장. 버전 관리와 깃***
+
+- 비트 키퍼(BitKipper)
+  - 리눅스 커널 개발자들이 2002년부터 프로젝트 유지관리를 위해 소스관리시스템(Source Control System)으로 사용했었음.
+  
+- 분산형 버전 관리 시스템(DVCS: Distributed Version Control System)
+- 중앙집중형 버전 관리 시스템(CVCS: Centralized Version Control System)
+  
+- 깃 저장소: 스테이지의 스냅숏
+- 스테이징 영역: 스테이지: 인덱스
+- 작업 영역
+  
+- add: 스테이지에 올린다.: 스테이징: 인덱스에 등록한다.
+- commit: 파일의 스냅숏을 깃 저장소에 등록한다. 
+
+
+<br>
+
+***명령어 정리***  
+
+```bash
+git log --oneline
+git log -p # 커밋 정보에 파일의 변경 내용을 표시
+git log --graph
+git log -n # 최근 n개의 커밋 이력을 표시
+
+# ~: HEAD 위치를 기준으로 이전 커밋을 가르킨다.
+git shwo HEAD~ --oneline 
+
+# 직전 브랜치로 이동
+git checkout - 
+git switch -
+
+# 깃 저장소의 최신 커밋에 기록된 파일의 내용과 스테이지 영역에 기록된 파일의 내용을 비교
+# --staged == --cached
+git diff --staged 
+git diff --cached
+
+# --no-index: 파일 시스템에 존재하는 두 파일을 비교
+git diff --no-index myScript.sh test.shhello.txt
+```
+
+<br>
+<hr>
+
+# ***13장. 브랜치의 생성과 병합***
+
+***명령어 정리***  
+
+```bash
+# 기존 브랜치명 나열
+git branch 
+git branch --list
+
+# 브랜치 생성
+git branch [newBranchName]      # HEAD 이동 X
+git switch -c [newBranchName]   # HEAD 이동 o
+git checkout -b [newBranchName] # HEAD 이동 o
+
+# 병합 여부 확인 옵션
+git branch --merged     # 현재 작업 브랜치를 기준으로 병합된 브랜치 목록을 표시
+git branch --no-merged  # 현재 작업 브랜치를 기준으로 병합되지 않은 브랜치 목록을 표시
+
+# 브랜치 삭제
+git branch -d [branchName] # 이미 병합된 브랜치 삭제
+git branch -D [branchName] # 병합되지 않았더라도 브랜치 삭제
+
+# 브랜치 병합
+git merge [childBranch] # fast-forward 병합
+
+# -e: vi 편집기 열림
+git merge -e main
+
+# 커밋 전 단계까지 수행하는 merge
+git merge topic --squash
+```
+
+<br>
+
+⭐​ **정리**  
+- 브랜치: 기존 코드를 복사하여 새로운 작업을 수행할 때 필요한 기존코드의 분기점
+- fast-forward 병합: HEAD가 위치한 브랜치를 자손 브랜치의 위치로 이동하는 것. 새로운 커밋 발생 x
+- 3-way 병합: 같은 조상에서 갈라져 나온 두 브랜치를 병합. 새로운 커밋 자동 생성.
+- fast-forward 병합이 가능한 상태에서 3-way 병합을 수행하려면 git merge 명령에서 --no-ff 옵션을 사용해아 한다.
+- 3-way 병합 수행 시 두 브랜치의 변경 내용에 충돌이 발생할 수 있다. 
+- 3-way 병합에서 충돌 발생 시 git status 명령으로 충돌이 생긴 파일을 확인하고 직접 수정하여 충돌해결하고 인덱스에 추가하고 커밋한다.
+
+<br>
+<hr>
+
+# ***14장. 스태시와 버전 되돌리기***
+
+***명령어 정리***  
+
+```bash
+# 스태시 목록 출력
+git stash list 
+
+# git stash 수행 시 최종 커밋과 스태시에 저장된 항목을 비교하여 출력
+git stash show [stash@{n}]
+
+# u: 작업 영역에서 추적되지 않는 파일도 함께 저장
+git stash -u
+
+# 스태시 삭제
+git stash drop [stash@{n}] # 지정된 스태시 삭제. 미지정시 최근 스태시 삭제
+git stash clear # 모든 스태시 삭제
+```
+
+### ***reset***
+
+- HEAD의 위치를 재설정하여 이전 커밋 버전으로 되돌린다. 
+- 과거의 특정 버전으로 완전히 되돌아가고 취소된 커밋은 커밋 이력에서 삭제되어 사라진다. 
+  
+- soft 모드: 단지 커밋 이력만 되돌린다. 
+- mixed 모드(기본 값): 커밋 이력과 스테이지 영역까지 되돌린다. 
+- haad 모드: 모든 것을 이전 커밋 상태로 되돌린다. 
+
+### ***revert***
+
+- 기존 커밋을 삭제하지 않고, 커밋 이력을 남겨둔 채 '커밋 취소'를 의미하는 새로운 커밋을 생성한다. 
+
+<br>
+
+⭐​ **정리**  
+- 한 번도 커밋한 적이 없거나 작업 폴더가 깨끗한 상태에서는 git stash 명령을 수행할 수 없다. 
+- git stash apply 명령으로 작업 영역 외에 스테이지 영역까지 복원하려면 --index 옵션을 사용한다. 
+- 작업 영역을 깨끗하게 만들기 위해 git stash 명령을 사용할 수 있다. 
+- git revert 명령을 수행하려면 작업 영역이 깨끗한 상태여야 한다. 
