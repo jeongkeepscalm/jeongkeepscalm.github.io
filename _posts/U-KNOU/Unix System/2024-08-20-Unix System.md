@@ -331,7 +331,7 @@ ls -lat
 
 # 파일 유형 확인
 file typedef.out
-  typedef.out: ASCII text
+    typedef.out: ASCII text
 
 # 현재 작업 디렉토리 확인 (pwd: print working directory)
 pwd
@@ -366,7 +366,7 @@ rm -rf world.txt
 # -: 정규파일
 # 소유자와 그룹 구성원 외의 사용자는 dog.txt 파일의 내용을 볼 수는 있으나 내용을 수정하거나 삭제할 수는 없다. 
 ls -l dog.txt
-  -rw-rw-r--. 1 ojg ojg 789 12월 2 18:43 dog.txt
+    -rw-rw-r--. 1 ojg ojg 789 12월 2 18:43 dog.txt
 
 # 디렉토리 접근 권한 확인
 mkdir dir1
@@ -379,14 +379,14 @@ ls -ld dir1
 mkdir testFolder
 chmod 644 testFolder
 ls -ld testFolder
-  drw-r--r-- 2 ojg ojg 4096 Nov 25 14:09 testFolder/
+    drw-r--r-- 2 ojg ojg 4096 Nov 25 14:09 testFolder/
 chmod -R 777 testFolder/
 
 ls -ld testFolder
-  drwxr-xr-x 2 ojg ojg 4096 Nov 25 14:09 testFolder
+    drwxr-xr-x 2 ojg ojg 4096 Nov 25 14:09 testFolder
 chmod go+w testFolder
 ls -ld testFolder
-  drwxrwxrwx 2 ojg ojg 4096 Nov 25 14:09 testFolder
+    drwxrwxrwx 2 ojg ojg 4096 Nov 25 14:09 testFolder
 
 # 초기 접근권한 설정
 # 파일 생성: 666 - umask 
@@ -430,13 +430,13 @@ head -5 /etc/passwd
 tail -f /var/log/messages
 
 cat > cat1.txt
-  test 1
-  ctrl + d
+    test 1
+    ctrl + d
 cat cat1.txt
 
 cat > cat2.txt
-  test 2
-  ctrl + d
+    test 2
+    ctrl + d
 cat cat2.txt
 
 cat cat*.txt > total.txt
@@ -928,9 +928,9 @@ du
   
 ```Bash
 ls -l $(which passwd)
-  -rws-r-xr-x. 1 root root ...
+    -rws-r-xr-x. 1 root root ...
 ls -ld /tmp
-  drwxrwxrwt 18 root root ...
+    drwxrwxrwt 18 root root ...
 ```
 <br>
 
@@ -1031,22 +1031,22 @@ nohup find -size +100k > log.txt &
 
 # crontab 적용
 crontab -e
-  * * * * * date >> ~/date.txt
+    * * * * * date >> ~/date.txt
 crontab -l # 현재 사용자에 대한 모든 크론탭 작업을 나열
 cat date.txt
-  Tue Nov 28 09:16:01 PM KST 2024
-  Tue Nov 28 09:17:01 PM KST 2024
-  Tue Nov 28 09:18:01 PM KST 2024
+    Tue Nov 28 09:16:01 PM KST 2024
+    Tue Nov 28 09:17:01 PM KST 2024
+    Tue Nov 28 09:18:01 PM KST 2024
 
 # 특정 사용자에 대한 모든 크론탭 출력
 crontab -u [사용자이름] -l 
 
 # 특정 시간에 일회성 작업을 예약할 경우: at
 at 00:10 08.04.23
-  at> date >> list.txt
-  at> <EOT>
-  ctrl + d
-  job 1 at sat Apr 8 00:10:00 2023
+    at> date >> list.txt
+    at> <EOT>
+    ctrl + d
+    job 1 at sat Apr 8 00:10:00 2023
 ```
   
 - anacron
@@ -1156,3 +1156,301 @@ tar cvf -`find . -print` > backup.tar
 
 # ***11장. 셸 스크립트***
 
+- 하나의 명령어처럼 실행될 수 있는 실행 가능한 프로그램
+  
+- 셸 스크립트 실행 방법
+  1. bash [file]
+  2. 스크립트 파일의 이름을 명령어로 사용
+  3. source [file] / . [file]
+
+<br>
+
+***변수 사용***   
+
+```bash
+cat > myScript.sh
+    echo Hello Linux
+    echo $0 $1 $2
+    ls -l $0
+cat myScript.sh
+chmod u+x myScript.sh
+./myScript.sh Seoul Pusan
+    Hello Linux
+    ./myScript.sh Seoul Pusan
+    -rwxrw-r-- 1 ojg ojg 40 Nov 29 09:32 ./myScript.sh
+
+
+cat my_page.sh 
+    var1="This is a"
+    echo 
+    "<HTML>
+      <HEAD>
+        <title>Page Title</title>
+      </HEAD>
+      <BODY>
+        <h1>$var1 Heading.</h1>
+        <p>$var1 paragraph</p>
+      </BODY>
+    </HTML>"
+bash my_page.sh > my_page.html
+firefox my_page.html&
+
+
+cat > arg.sh
+    echo "This script name is : $0"
+    echo Argument 1: $1
+    echo Argument 2: $2
+cat arg.sh 
+    echo "This script's name is : $0"
+    echo Argument 1: $1
+    echo Argument 2: $2
+ls -l arg.sh 
+    -rw-rw-r-- 1 ojg ojg 74 Nov 29 09:56 arg.sh
+chmod u+x arg.sh 
+ls -l arg.sh 
+  -rwxrw-r-- 1 ojg ojg 74 Nov 29 09:56 arg.sh
+./arg.sh first second
+    This script name is : ./arg.sh
+    Argument 1: first
+    Argument 2: second
+
+```
+
+<br>
+
+***함수***   
+
+```bash
+cat > whoson.sh
+    whoson () {
+      date
+      user=$USER
+      echo "$user currently logged on"
+    }
+    echo "Step 1"
+    whoson
+    echo "Step 3"
+. whoson.sh
+    Step 1
+    Fri Nov 29 10:04:45 AM KST 2024
+    ojg currently logged on
+    Step 3
+whoson
+    Fri Nov 29 10:11:49 AM KST 2024
+    ojg currently logged on
+echo $user
+    ojg
+```
+
+<br>
+
+***조건문***   
+
+```bash
+cat isOrdFile.sh 
+    if [ $# != 1 ]; then
+      echo "You must supply one argument."
+      exit 1
+    fi 
+    if [ ! -e "$1" ]; then
+      echo "$1 does not exist."
+    elif [ -f "$1" ]; then
+      echo "$1 is an ordinary file."
+    elif [ -d "$1" ]; then
+      echo "$1 is a directory."
+    else 
+      echo "$1 is a special file."
+    fi
+./isOrdFile.sh 
+    You must supply one argument.
+./isOrdFile.sh /etc/passwd
+    /etc/passwd is an ordinary file.
+
+
+cat strCompare.sh 
+    echo -n "word 1: "
+    read word1
+    echo -n "word 2: "
+    read word2
+    if test $word1 = $word2; then
+      echo "same word"
+    else
+      echo "not same word"
+    fi
+./strCompare.sh 
+    word 1: abc
+    word 2: Abc
+    not same word
+./strCompare.sh 
+    word 1: test
+    word 2: test
+    same word
+
+
+cat intCompare.sh 
+    if [ $# != 2 ]; then
+      echo "You must supply two numbers as arguments."
+      exit 1
+    fi
+    if [ $1 -eq $2 ]; then
+      echo "$1 equals to $2."
+    elif [ $1 -gt $2 ]; then
+      echo "$1 is greater than $2."
+    else
+      echo "$1 is less then $2."
+    fi
+    echo "$1 + $2 is $[$1+$2]"
+chmod u+x intCompare.sh 
+./intCompare.sh 36 68
+    36 is less then 68.
+    36 + 68 is 104
+
+
+cat caseTest.sh 
+    clear
+    echo "Please select:
+    a. Display System Information
+    b. Show Information about File Systems
+    c. Summarize Disk Usage Information
+    q. Quit
+    "
+    read -p "Enter selection [a, b, c, or q] >"
+    case $REPLY in 
+      a|A) 
+        echo "Hostname: $HOSTNAME"
+        uptime
+        ;;
+      b|B) 
+        df -h
+        ;;
+      c|C) 
+        if [ $(id -u) -eq 0 ]; then
+          echo "All users' home disk Space utilization"
+          du -sh /home/*
+        else 
+          echo "($USER)' home disk Space utilization"
+                du -sh $HOME
+        fi
+        ;;
+      q|Q) 
+        echo "Program terminated."
+        exit
+        ;;
+      *)	
+        echo "Invalid entry" >&2
+        exit 1
+        ;;
+    esac
+chmod u+x catTest.sh
+./catTest.sh
+    Please select:
+    a. Display System Information
+    b. Show Information about File Systems
+    c. Summarize Disk Usage Information
+    q. Quit
+
+Enter selection [a, b, c, or q] >c
+    (ojg)' home disk Space utilization
+    70M	/home/ojg
+```
+
+<br>
+
+***반복문***   
+
+```bash
+for i in Kim Lee Park; do echo $i; done
+    Kim
+    Lee
+    Park
+echo {a..d}
+    a b c d
+for i in {a..d}; do echo $i; done
+    a
+    b
+    c
+    d
+
+
+# for
+cat > testFor.sh
+    for FILE
+    do 
+      echo $FILE
+    done
+chomod u+x testFor.sh
+./testfor.sh `ls`
+    arg.sh
+    caseTest.sh
+    date.txt
+    Desktop
+    Documents
+    Downloads
+
+
+cat > testFor2.sh 
+    LIMIT=10
+    for ((a=0; a<LIMIT; a++)); do
+      echo "$a"
+    done
+. testFor2.sh 
+    0
+    1
+    ...
+    8
+    9
+
+
+# while
+cat > testWhile.sh
+    N=1
+    S=0
+    while [ $N -le 10 ]; do
+      echo -n "$N "
+      S=$[$S+$N]
+      N=$[$N+1] 
+    done
+    echo 
+    echo $S 
+. testWhile.sh 
+    1 2 3 4 5 6 7 8 9 10 
+    55
+
+cat > testWhile2.sh
+    LIMIT=10 
+    ((a=0))
+    while ((a<LIMIT)); do
+      echo "$a"
+      (( a++ ))
+    done
+. testWhile2.sh 
+    0
+    1
+    ...
+    8
+    9
+
+
+# until
+cat testUntil.sh 
+    N=1
+    S=0
+    until [ $N -gt 10 ]; do
+      echo -n "$N "
+      let S=$S+$N
+      let N=$N+1
+    done
+    echo
+    echo $S
+. testUntil.sh 
+    1 2 3 4 5 6 7 8 9 10 
+    55
+
+```
+
+<br>
+
+⭐​ **정리**  
+- 키보드로부터 이력을 받을 때, read 명령을 사용한다.
+- 선택 제어 구조: if, case
+- 반복 제어 구조: for, while, until
