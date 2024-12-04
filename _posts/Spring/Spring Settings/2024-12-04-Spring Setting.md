@@ -53,7 +53,9 @@ tags: [ Spring, Spring Settings ]
 > 서블릿 3.1: Tomcat 8.0.x, 8.5.x    
 > 서블릿 4.0: Tomcat 9.x    
 > 서블릿 5.0: Tomcat 10.x    
-> **톰캣 6.0.53 버전으로 변경**  
+  
+✅ 해결 방안  
+톰캣 6.0.53 버전으로 변경  
 
 <br>
 <hr>
@@ -63,7 +65,8 @@ tags: [ Spring, Spring Settings ]
 - maven 설치했지만 빌드 오류발생
   - Downgrade Maven to version 3.8.1 or earlier in settings
   
-- **낮은 버전으로 maven 재설치 → 인텔리제이 settings → maven 에 재설정**  
+✅ 해결 방안  
+낮은 버전으로 maven 재설치 → 인텔리제이 settings → maven 에 재설정  
 
 <br>
 <hr>
@@ -74,11 +77,11 @@ tags: [ Spring, Spring Settings ]
   - servlet.JspServlet
   - catalina.servlets.DefaultServlet
   
-- **라이브러리 추가**
-  - 프로젝트 우클릭 > Modules > dependencies > + > library 추가 
-    - catalina.jar
-    - jasper.jar
-    - jsp-api.jar
+✅ 해결 방안  
+- 프로젝트 우클릭 > Modules > dependencies > + > library 추가 
+  - catalina.jar
+  - jasper.jar
+  - jsp-api.jar
 
 <br>
 <hr>
@@ -98,6 +101,7 @@ SLF4J: Class path contains multiple SLF4J bindings.
 
 ### ***계속되는 빌드 실패로 인한 버전 업***
 
+✅ 해결 방안  
 - Apache Tomcat/6.0.53 → 9.0.97
 - servlet-api 2.5 → 4.0.1
 
@@ -109,9 +113,11 @@ SLF4J: Class path contains multiple SLF4J bindings.
 - JNDI 방식으로 코드가 구현되어 있었으나, 지속되는 커넥션 실패
 	- server.xml 
 		- GlobalNamingResources 태그 내에 resource 태그를 정의되어 있었음
-	- ***JNDI → DBCP 변환***
-		- dbcp 의존성 추가
-		- context-datasource.xml 파일에 DB 정보를 담은 bean 생성
+  
+✅ 해결 방안  
+- ***JNDI → DBCP 변환***
+  - dbcp 의존성 추가
+  - context-datasource.xml 파일에 DB 정보를 담은 bean 생성
 
 <br>
 <hr>
