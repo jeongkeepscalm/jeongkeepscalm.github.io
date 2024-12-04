@@ -11,8 +11,8 @@ tags: [ Spring, Spring Settings ]
 ### ***환경***
 
 - java 1.8
-- Apache Tomcat/6.0.53 -> 9.0.97
-- servlet-api 2.5 -> 4.0.1
+- Apache Tomcat/6.0.53 → 9.0.97
+- servlet-api 2.5 → 4.0.1
 
 <br>
 <hr>
@@ -61,7 +61,7 @@ tags: [ Spring, Spring Settings ]
 - maven 설치했지만 빌드 오류발생
   - Downgrade Maven to version 3.8.1 or earlier in settings
   
-- **낮은 버전으로 maven 재설치 -> 인텔리제이 settings -> maven 에 재설정**  
+- **낮은 버전으로 maven 재설치 → 인텔리제이 settings → maven 에 재설정**  
 
 <br>
 <hr>
@@ -96,8 +96,8 @@ SLF4J: Class path contains multiple SLF4J bindings.
 
 ### ***계속되는 빌드 실패로 인한 버전 업***
 
-Apache Tomcat/6.0.53 -> 9.0.97
-servlet-api 2.5 -> 4.0.1
+Apache Tomcat/6.0.53 → 9.0.97
+servlet-api 2.5 → 4.0.1
 
 <br>
 <hr>
@@ -107,7 +107,7 @@ servlet-api 2.5 -> 4.0.1
 - JNDI 방식으로 코드가 구현되어 있었으나, 지속되는 커넥션 실패
 	- server.xml 
 		- GlobalNamingResources 태그 내에 resource 태그를 정의되어 있었음
-	- ***JNDI -> DBCP 변환***
+	- ***JNDI → DBCP 변환***
 		- dbcp 의존성 추가
 		- context-datasource.xml 파일에 DB 정보를 담은 bean 생성
 
