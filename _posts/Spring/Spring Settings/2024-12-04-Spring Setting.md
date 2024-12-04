@@ -135,4 +135,43 @@ SLF4J: Class path contains multiple SLF4J bindings.
 	- DB Connection을 WAS단에서 제어하면서 서버에서 하나의 Connection Pool을 가진다.
 	- Application이 DB에 직접 Connection을 요청하는 것이 아니라 JNDI lookup을 통해 Datasource 객체를 획득하고 그것을 Connection 요청
 
+<br>
+<hr>
 
+### ***쿼리 로그 추가***
+
+- datasource-context.xml 설정 값 변경  
+  ```xml
+  <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+  <property name="url" value="jdbc:log4jdbc:mariadb://127.0.0.1:3306/디비명" /> 
+  ```
+- log4jdbc.log4j2.properties 파일 생성 및 설정(resource 폴더 밑에 추가)  
+  ```properties
+  log4jdbc.spylogdelegator.name=net.sf.log4jdbc.log.slf4j.Slf4jSpyLogDelegator
+  log4jdbc.drivers=org.mariadb.jdbc.Driver
+  ```
+- log4j.xml 설정 추가  
+  ```xml
+  <logger name="jdbc.sqlonly" additivity="false"> 
+    <level value="info"/> 
+    <appender-ref ref="console"/> 
+  </logger>
+  <logger name="jdbc.sqltiming" additivity="false">
+    <level value="warn" />
+    <appender-ref ref="console"/> 
+  </logger>
+  <logger name="jdbc.audit" additivity="false"> 
+    <level value="warn"/>  
+    <appender-ref ref="console"/> 
+  </logger> 
+
+  <logger name="jdbc.resultset" additivity="false">
+    <level value="warn" />
+    <appender-ref ref="console"/> 
+  </logger>
+
+  <logger name="jdbc.resultsettable" additivity="false"> 
+    <level value="info"/>  
+    <appender-ref ref="console"/> 
+  </logger>
+  ```
