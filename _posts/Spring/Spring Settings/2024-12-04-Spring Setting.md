@@ -19,6 +19,7 @@ tags: [ Spring, Spring Settings ]
 
 ### ***java version 확인***
 
+```xml
 <build>
     <plugins>
         <plugin>
@@ -32,6 +33,7 @@ tags: [ Spring, Spring Settings ]
         </plugin>
     </plugins>
 </build>
+```
 
 <br>
 <hr>
@@ -96,8 +98,8 @@ SLF4J: Class path contains multiple SLF4J bindings.
 
 ### ***계속되는 빌드 실패로 인한 버전 업***
 
-Apache Tomcat/6.0.53 → 9.0.97
-servlet-api 2.5 → 4.0.1
+- Apache Tomcat/6.0.53 → 9.0.97
+- servlet-api 2.5 → 4.0.1
 
 <br>
 <hr>
