@@ -1,18 +1,23 @@
 ---
-title: "Spring Setting"
-description: "Spring Setting"
+title: "Spring Framework Setting"
+description: "Spring Framework Setting"
 date: 2024-12-04
 categories: [ Spring, Spring Settings ]
 tags: [ Spring, Spring Settings ]
 ---
 
-# ***그룹웨어 소스(스프링) 빌드 시행착오 정리***
+# ***그룹웨어 소스(SpringFramework) 빌드 시행착오 정리***
 
 ### ***환경***
 
-- java 1.8
-- Apache Tomcat/6.0.53 → 9.0.97
-- servlet-api 2.5 → 4.0.1
+| 항목            | 버전                  |
+|-----------------|-----------------------|
+| Java 버전       | 1.8                   |
+| 빌드 도구       | Apache Maven 3.6.3    |
+| 서버            | Apache Tomcat 6.0.53 → 9.0.97 |
+| 서블릿 API      | Servlet-api 2.5 → 4.0.1 |
+| DB              | MariaDB/10.4.12      |
+| 템플릿 엔진     | JSP                   |
 
 <br>
 <hr>
@@ -175,3 +180,27 @@ SLF4J: Class path contains multiple SLF4J bindings.
     <appender-ref ref="console"/> 
   </logger>
   ```
+
+<br>
+<hr>
+
+### ***view return 방식***
+
+- 해당 코드는 컨트롤러에서 리턴을 String 타입의 템플릿 엔진 경로가 아니라 Model을 리턴
+  
+✅ 원인 파악 완료  
+
+```xml
+<!-- dispatcher-servlet.xml -->
+<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1"
+  p:viewClass="org.springframework.web.servlet.view.JstlView"
+  p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
+```
+> UrlBasedViewResolver 방식을 사용하여 view 리턴 방식을 지정  
+
+<br>
+<hr>
+
+### ***???***
+
+
