@@ -184,9 +184,9 @@ SLF4J: Class path contains multiple SLF4J bindings.
 <br>
 <hr>
 
-### ***view return 방식***
+### ***View Return 방식***
 
-- 해당 코드는 컨트롤러에서 리턴을 String 타입의 템플릿 엔진 경로가 아니라 Model을 리턴
+- 해당 코드는 컨트롤러에서 String 타입의 템플릿 엔진 경로가 아닌 Model을 리턴하여, view가 어떻게 지정되고 다음 프로세스로 넘어가는지 이해하기 어려웠다.
   
 ✅ 원인 파악 완료  
 
