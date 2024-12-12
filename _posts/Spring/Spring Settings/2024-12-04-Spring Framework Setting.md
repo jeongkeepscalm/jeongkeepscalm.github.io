@@ -233,5 +233,57 @@ SLF4J: Class path contains multiple SLF4J bindings.
 ```
 > `<context-param>`: Spring의 애플리케이션 컨텍스트 설정 파일을 정의하여 여러 개의 XML 파일이 하나의 애플리케이션 컨텍스트로 로드한다.
 
+<br>
+<hr>
 
+### ⭐ ***프로젝트 구조***
 
+- <img src="/assets/img/groupware/1.png" width="400px" />
+  - .idea
+    - IntelliJ IDEA IDE 설정 파일 저장
+    - 프로젝트 구조, 실행 구성, 코드 스타일 등의 정보 포함
+    - 프로젝트 설정이 변경될 때, 자동으로 업데이트
+  - .smarttomcat
+    - Smart Tomcat 플러그인 관련 설정 파일이 저장
+    - 버전 관리 시스템에서 추적되지 않아 변경사항은 로컬 환경에만 적용
+  - src
+    - 프로젝트의 소스 코드와 리소스 파일이 저장되는 메인 디렉토리
+  - target
+    - 컴파일된 클래스 파일과 빌드 결과물이 저장
+  - gw-dev.iml
+    - IntelliJ IDEA 프로젝트 모듈 설정 파일
+    - IntelliJ IDEA가 자동으로 생성
+  - pom.xml
+    - Maven 프로젝트 설정 파일로, 프로젝트의 의존성과 빌드 설정을 정의
+  - .setting: Eclipse IDE 설정 파일 저장
+  - .classpath: Eclipse 프로젝트의 클래스패스 설정 파일
+  - .project: Eclipse 프로젝트 설정 파일
+  
+- ***src/main/webapp/WEB-INF/web.xml***
+  1. 서블릿 및 URL 매핑 정의
+  2. 리스너 클래스 등록
+  3. 필터 설정
+  4. 에러 페이지 지정
+  5. 세션 타임아웃 설정
+  - DispatcherServlet 설정: Spring MVC의 핵심 서블릿을 정의하고 관련 설정 파일을 로드
+  - ContextLoaderListener: 애플리케이션 컨텍스트를 로드하는 리스너를 등록
+  - Sitemesh 설정: 레이아웃 관리를 위한 Sitemesh 필터를 정의하고 관련 설정 파일을 지정
+  - 기타 XML 설정 파일: 보안, 데이터베이스 연결 등 다양한 설정 파일 위치를 지정하여 로드
+  
+- ***dispatcher-servlet.xml***
+  - 컴포넌트 스캔 설정: 특정 패키지를 지정하여 컨트롤러를 스캔
+  - 뷰 리졸버 설정
+  - 인터셉터 설정
+  - 예외 처리
+  - 파일 업로드 설정
+  - 스케줄러 설정
+  
+- ***sitemesh.xml***
+  - 페이지 레이아웃을 관리
+  - 데코레이터 설정
+    - 데코레이터: 페이지의 공통 레이아웃을 정의하는 템플릿
+
+<br>
+<hr>
+
+### ******
