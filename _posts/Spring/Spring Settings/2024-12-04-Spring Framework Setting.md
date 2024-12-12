@@ -143,6 +143,25 @@ SLF4J: Class path contains multiple SLF4J bindings.
 <br>
 <hr>
 
+### ***error: maven-default-http-blocker***
+
+- Original error: Could not transfer artifact org.springframework:spring-jdbc:pom:${org.springframework-version} from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [egovframe (http://www.egovframe.go.kr/maven/, default, releases), egovframe2 (http://maven.egovframe.kr:8080/maven/, default, releases), oracle (http://maven.jahia.org/maven2, default, releases+snapshots)]
+
+✅ 해결 방법  
+```xml
+<repository>
+    <id>egovframe</id>
+    <!-- 
+      기존 url 
+      <url>http://maven.egovframe.kr:8080/maven/</url>
+    -->
+    <url>https://maven.egovframe.go.kr/maven/</url>
+</repository>
+```
+
+<br>
+<hr>
+
 ### ***쿼리 로그 추가***
 
 - datasource-context.xml 설정 값 변경  
