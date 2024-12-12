@@ -56,6 +56,10 @@ tail -f /var/log/tomcat9/catalina.out
 
 ### ***⭐​중요***
 
+- war 파일 생성
+  - Project Settings > Artifacts > + > Web Application: Archive
+  - Build > Build Artifacts > Build
+  
 - `/var/log/tomcat9/`
   - 톰캣 로그 확인
 - `/var/lib/tomcat9/webapps/`
