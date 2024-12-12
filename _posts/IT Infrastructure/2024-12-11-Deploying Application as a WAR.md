@@ -64,6 +64,6 @@ tail -f /var/log/tomcat9/catalina.out
 - `/etc/tomcat9/server.xml`
   - 톰캣 설정 파일(포트 변경 등..)
   - e.g. 
-    ```XML
+    ```xml
     <Context path="/" docBase="/var/lib/tomcat9/webapps/ROOT.war" reloadable="true" />
     ```
