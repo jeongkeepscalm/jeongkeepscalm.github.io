@@ -201,6 +201,18 @@ SLF4J: Class path contains multiple SLF4J bindings.
 <br>
 <hr>
 
-### ***???***
+### ***xml 파일 내 정의되어 있지 않은 빈 참조***
+
+- resources/a/b 폴더 내 여러 xml 파일들이 존재했다. 특정 xml에서 빈을 정의 하고 다른 xml파일에서 해당 빈을 참조하는 코드가 많았는데 모두 빨간색 텍스트로 보였다. 에러인줄알고 각 xml에다 빈이 정의되어있는 파일을 import 했었으나 그럴 필요가 없었다.  
+
+```xml
+<!-- web.xml -->
+<context-param>
+  <param-name>contextConfigLocation</param-name>
+  <param-value>classpath*:a/b/context-*.xml</param-value>
+</context-param>
+```
+> `<context-param>`: Spring의 애플리케이션 컨텍스트 설정 파일을 정의하여 여러 개의 XML 파일이 하나의 애플리케이션 컨텍스트로 로드한다.
+
 
 
