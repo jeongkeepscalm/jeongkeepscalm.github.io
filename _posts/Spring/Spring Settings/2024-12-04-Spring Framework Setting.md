@@ -177,25 +177,20 @@ SLF4J: Class path contains multiple SLF4J bindings.
 - log4j.xml 설정 추가  
   ```xml
   <logger name="jdbc.sqlonly" additivity="false"> 
-    <level value="info"/> 
     <appender-ref ref="console"/> 
   </logger>
   <logger name="jdbc.sqltiming" additivity="false">
-    <level value="warn" />
     <appender-ref ref="console"/> 
   </logger>
   <logger name="jdbc.audit" additivity="false"> 
-    <level value="warn"/>  
     <appender-ref ref="console"/> 
   </logger> 
 
   <logger name="jdbc.resultset" additivity="false">
-    <level value="warn" />
     <appender-ref ref="console"/> 
   </logger>
 
   <logger name="jdbc.resultsettable" additivity="false"> 
-    <level value="info"/>  
     <appender-ref ref="console"/> 
   </logger>
   ```
