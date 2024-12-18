@@ -71,78 +71,78 @@ tail -f /var/log/tomcat9/catalina.out
     ```xml
     <Context path="/" docBase="/var/lib/tomcat9/webapps/ROOT.war" reloadable="true" />
     ```
-  
-- 톰캣 내 여러 애플리케이션 배포
-  - 
-    <details>
-    <summary><span style="color:orange" class="point"><b>server.xml</b></span></summary>
-    <div markdown="1">
 
-      ```xml
-        <?xml version="1.0" encoding="UTF-8"?>
+### ***톰캣 내 여러 애플리케이션 배포***
 
-        <Server port="-1" shutdown="SHUTDOWN">
-          <Listener className="org.apache.catalina.startup.VersionLoggerListener" />
+<details>
+<summary><span style="color:orange" class="point"><b>server.xml</b></span></summary>
+<div markdown="1">
 
-          <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
-          <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
-          <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
-          <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
+  ```xml
+    <?xml version="1.0" encoding="UTF-8"?>
 
+    <Server port="-1" shutdown="SHUTDOWN">
+      <Listener className="org.apache.catalina.startup.VersionLoggerListener" />
 
-          <GlobalNamingResources>
-            <Resource name="UserDatabase" auth="Container"
-                      type="org.apache.catalina.UserDatabase"
-                      description="User database that can be updated and saved"
-                      factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
-                      pathname="conf/tomcat-users.xml" />
-          </GlobalNamingResources>
-
-          <Service name="Catalina">
-            <Connector port="8090" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" />
-
-            <Engine name="Catalina" defaultHost="localhost">
-
-              <Realm className="org.apache.catalina.realm.LockOutRealm">
-                <Realm className="org.apache.catalina.realm.UserDatabaseRealm" resourceName="UserDatabase"/>
-              </Realm>
-
-              <Host name="localhost"  appBase="webapps" unpackWARs="true" autoDeploy="true">
-                <Context path="" docBase="TEST1" reloadable="true" />
-                <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" 
-                  prefix="localhost_access_log_8090" suffix=".txt" 
-                  pattern="%h %l %u %t &quot;%r&quot; %s %b" />
-              </Host>
-            </Engine>
-          </Service>
+      <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
+      <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
+      <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+      <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
 
 
-          <Service name="Catalina2">
+      <GlobalNamingResources>
+        <Resource name="UserDatabase" auth="Container"
+                  type="org.apache.catalina.UserDatabase"
+                  description="User database that can be updated and saved"
+                  factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
+                  pathname="conf/tomcat-users.xml" />
+      </GlobalNamingResources>
 
-            <Connector port="8091" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" />
+      <Service name="Catalina">
+        <Connector port="8090" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" />
 
-            <Engine name="Catalina2" defaultHost="localhost">
+        <Engine name="Catalina" defaultHost="localhost">
 
-              <Realm className="org.apache.catalina.realm.LockOutRealm">
-                <Realm className="org.apache.catalina.realm.UserDatabaseRealm" resourceName="UserDatabase"/>
-              </Realm>
+          <Realm className="org.apache.catalina.realm.LockOutRealm">
+            <Realm className="org.apache.catalina.realm.UserDatabaseRealm" resourceName="UserDatabase"/>
+          </Realm>
 
-              <Host name="localhost"  appBase="webapps" unpackWARs="true" autoDeploy="true">
+          <Host name="localhost"  appBase="webapps" unpackWARs="true" autoDeploy="true">
+            <Context path="" docBase="TEST1" reloadable="true" />
+            <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" 
+              prefix="localhost_access_log_8090" suffix=".txt" 
+              pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+          </Host>
+        </Engine>
+      </Service>
 
-                <Context path="" docBase="TEST2" reloadable="true" />
 
-                <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
-                  prefix="localhost_access_log_8091" suffix=".txt"
-                  pattern="%h %l %u %t &quot;%r&quot; %s %b" />
-              </Host>
+      <Service name="Catalina2">
 
-            </Engine>
+        <Connector port="8091" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" />
 
-          </Service>
+        <Engine name="Catalina2" defaultHost="localhost">
 
-        </Server>
+          <Realm className="org.apache.catalina.realm.LockOutRealm">
+            <Realm className="org.apache.catalina.realm.UserDatabaseRealm" resourceName="UserDatabase"/>
+          </Realm>
 
-      ```
+          <Host name="localhost"  appBase="webapps" unpackWARs="true" autoDeploy="true">
 
-    </div>
-    </details>
+            <Context path="" docBase="TEST2" reloadable="true" />
+
+            <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+              prefix="localhost_access_log_8091" suffix=".txt"
+              pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+          </Host>
+
+        </Engine>
+
+      </Service>
+
+    </Server>
+
+  ```
+
+</div>
+</details>
