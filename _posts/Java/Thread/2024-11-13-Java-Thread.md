@@ -2772,7 +2772,7 @@ public class CallableMainV2 {
         log("future 즉시 반환, future = " + future);
 
         log("future.get() [블로킹] 메서드 호출 시작 -> main 스레드 WAITING");
-        Integer result = future.get();
+        Integer result = future.get(); // 블로킹: 작업의 결과를 받을 때까지 요청 스레드 대기
         log("future.get() [블로킹] 메서드 호출 완료 -> , main 스레드 RUNNABLE");
 
         log("result value = " + result);
@@ -2791,13 +2791,7 @@ public class CallableMainV2 {
             10:44:46.779 [     main] future 완료, future = java.util.concurrent.FutureTask@6576fe71[Completed normally]
          */
     }
-
-    /**
-     * Callable:
-     *      Runnable 인터페이스와는 다르게,
-     *      반환값 존재
-     *      예외 처리 가능
-     */
+  
     static class MyCallable implements Callable<Integer> {
 
         @Override
@@ -2821,8 +2815,177 @@ public class CallableMainV2 {
 </div>
 </details>
 
+<details> 
+<summary><span style="color:orange" class="point"><b>future의 적절한 활용 예시</b></span></summary>
+<div markdown="1">
+
+```java
+// future 적절한 예: 실행시간 2초
+Future<Integer> future1 = es.submit(task1); // non-blocking
+Future<Integer> future2 = es.submit(task2); // non-blocking
+Integer sum1 = future1.get();               // blocking, 2초 대기
+Integer sum2 = future2.get();               // blocking, 즉시 반환
+
+// future 부적절한 예: 실행시간 4초
+Future<Integer> future1 = es.submit(task1); // non-blocking
+Integer sum1 = future1.get();               // blocking, 2초 대기
+Future<Integer> future2 = es.submit(task2); // non-blocking
+Integer sum2 = future2.get();               // blocking, 2초 대기
+```
+> submit(): 작업을 비동기적으로 실행한다.  
+> get(): 작업이 완료될 때까지 기다리며 결과를 반환한다.  
+
+</div>
+</details>
+  
+⭐​ **정리**  
+Callable은 Runnable 인터페이스와는 다르게, 반환값이 존재하고 예외처리 가능하다. 
+
 ### ***Future***
 
 - 작업의 미래 결과를 받을 수 있는 객체
-- submit() 호출시 future 는 즉시 반환된다. 덕분에 요청 스레드는 블로킹 되지 않고, 필요한 작업을 할 수 있다.
+- submit() 호출시 future 는 즉시 반환되어 스레드는 요청 대기하지 않고(블로킹 x), 다른 작업을 수행할 수 있다.
+  
+<details>
+<summary><span style="color:orange" class="point"><b>Future.cancel()</b></span></summary>
+<div markdown="1">
 
+```java
+public class FutureCancelMain {
+
+    private static boolean mayInterruptIfRunning = true;
+//    private static boolean mayInterruptIfRunning = false;
+
+    public static void main(String[] args) {
+
+        ExecutorService es = Executors.newFixedThreadPool(1);
+        Future<String> future = es.submit(new MyTask());
+        log("Future.state: " + future.state()); // RUNNING
+
+        // 일정 시간 후 취소 시도
+        sleep(3000);
+
+        // cancel() 호출
+        log("future.cancel(" + mayInterruptIfRunning +") 호출");
+        boolean cancelResult1 = future.cancel(mayInterruptIfRunning);
+        log("Future.state: " + future.state()); // CANCELLED
+        log("cancel(" + mayInterruptIfRunning + ") result: " + cancelResult1); // true
+
+        // 결과 확인
+        try {
+            log("Future result: " + future.get());
+        } catch (CancellationException e) {
+            log("Future는 이미 취소 되었습니다.");
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        // Executor 종료
+        es.close();
+    }
+
+    static class MyTask implements Callable<String> {
+        @Override
+        public String call() throws Exception {
+            try {
+                for (int i = 0; i < 10; i++) {
+                    log("작업 중: " + i);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException e) {
+                log(" 인터럽트 발생");
+                return "Interrupted";
+            }
+            return "Completed";
+        }
+    }
+
+}
+
+/*
+  11:07:29.463 [pool-1-thread-1] 작업 중: 0
+  11:07:29.463 [     main] Future.state: RUNNING
+  11:07:30.478 [pool-1-thread-1] 작업 중: 1
+  11:07:31.487 [pool-1-thread-1] 작업 중: 2
+  11:07:32.468 [     main] future.cancel(false) 호출
+  11:07:32.468 [     main] Future.state: CANCELLED
+  11:07:32.476 [     main] cancel(false) result: true
+  11:07:32.476 [     main] Future는 이미 취소 되었습니다.
+  11:07:32.500 [pool-1-thread-1] 작업 중: 3
+  11:07:33.505 [pool-1-thread-1] 작업 중: 4
+  11:07:34.513 [pool-1-thread-1] 작업 중: 5
+  11:07:35.518 [pool-1-thread-1] 작업 중: 6
+  11:07:36.521 [pool-1-thread-1] 작업 중: 7
+  11:07:37.529 [pool-1-thread-1] 작업 중: 8
+  11:07:38.538 [pool-1-thread-1] 작업 중: 9
+*/
+```
+> Future.cancel(true): Future 를 취소 상태로 변경
+> Future.cancel(false): Future 를 취소 상태로 변경. 단 이미 실행 중인 작업을 중단하지는 않는다.
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>Future - 예외</b></span></summary>
+<div markdown="1">
+
+```java
+public class FutureExceptionMain {
+
+    public static void main(String[] args) {
+        ExecutorService es = Executors.newFixedThreadPool(1);
+        log("작업 전달");
+        Future<Integer> future = es.submit(new ExCallable());
+        sleep(1000);
+
+        try {
+            log("future.get() 호출 시도, future.state(): " + future.state()); // FAILED
+            Integer result = future.get();
+            log("result value = " + result);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            log("e = " + e);
+            Throwable cause = e.getCause(); // 원본 예외를 받을 수 있다.
+            log("cause = " + cause);
+            /*
+                Future 의 상태가 FAILED 면 ExecutionException 예외를 던진다.
+                e = java.util.concurrent.ExecutionException: java.lang.IllegalStateException: ex!
+                cause = java.lang.IllegalStateException: ex!
+             */
+        }
+        es.close();
+
+    }
+
+    static class ExCallable implements Callable<Integer> {
+        @Override
+        public Integer call() throws Exception {
+            log("Callable 실행, 예외 발생");
+            throw new IllegalStateException("ex!");
+        }
+    }
+
+}
+```
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>작업 컬렉션 처리 invokeAll(), invokeAny()</b></span></summary>
+<div markdown="1">
+
+```java
+/*
+  invokeAll()
+    모든 Callable 작업을 제출하고, 모든 작업이 완료될 때까지 기다린다.
+  invokeAny()
+    하나의 Callable 작업이 완료될 때까지 기다리고, 가장 먼저 완료된 작업의 결과를 반환한다.
+    완료되지 않은 나머지 작업은 취소한다.
+*/
+```
+
+</div>
+</details>
