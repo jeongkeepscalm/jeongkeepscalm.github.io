@@ -2,8 +2,8 @@
 title: "Clean Code - JS"
 description: "Clean Code - JS"
 date: 2024-12-22
-categories: [ JavaScript, cleanCode ]
-tags: [ JavaScript, cleanCode ]
+categories: [ JavaScript, CleanCode ]
+tags: [ JavaScript, CleanCode ]
 ---
 
 ### ***var 변수 지양***
