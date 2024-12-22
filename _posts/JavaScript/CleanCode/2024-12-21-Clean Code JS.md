@@ -1,7 +1,7 @@
 ---
 title: "Clean Code - JS"
 description: "Clean Code - JS"
-date: 2024-12-22
+date: 2024-12-21
 categories: [ JavaScript, CleanCode ]
 tags: [ JavaScript, CleanCode ]
 ---
