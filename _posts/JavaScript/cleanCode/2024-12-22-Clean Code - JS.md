@@ -1,6 +1,6 @@
 ---
-title: Clean Code - JS
-description: Clean Code - JS
+title: "Clean Code - JS"
+description: "Clean Code - JS"
 date: 2024-12-22
 categories: [ JavaScript, cleanCode ]
 tags: [ JavaScript, cleanCode ]
@@ -37,6 +37,59 @@ tags: [ JavaScript, cleanCode ]
   2. 바로 반환한다. 
   3. 고차함수사용(map, filter, reduce...)
   4. 선언형 & 명령형
+  
+<details>
+<summary><span style="color:orange" class="point"><b>Code</b></span></summary>
+<div markdown="1">
+
+```js
+function badGetElements() {
+  const result = {}; // 임시 저장 공간
+  result.title = document.querySelector('.title');
+  result.text = document.querySelector('.text');
+  result.value = document.querySelector('.value');
+  return result;
+}
+
+function goodGetElements() {
+  return {
+    title: document.querySelector('.title'),
+    text: document.querySelector('.text'),
+    value: document.querySelector('.value')
+  }
+}
+
+// ------------------------------------
+
+function badGetDateTime(targetDate) {
+  let month = targetDate.getMonth();
+  let day = targetDate.getDate();
+  let hour = targetDate.getHours();
+
+  month = month >= 10 ? month : '0' + month;
+  day = day >= 10 ? day : '0' + day;
+  hour = hour >= 10 ? hour : '0' + hour;
+
+  return {month, day, hour}
+}
+
+function goodGetDateTime(targetDate) {
+  const month = targetDate.getMonth();
+  const day = targetDate.getDate();
+  const hour = targetDate.getHours();
+
+  return {
+    month: month >= 10 ? month : '0' + month,
+    day: day >= 10 ? day : '0' + day,
+    hour: hour >= 10 ? hour : '0' + hour
+  }
+
+}
+```
+
+</div>
+</details>
+
 
 <br/>
 <hr>
@@ -87,5 +140,208 @@ Object.prototype.toString.call(arr) // '[object Array]'
 <br/>
 <hr>
 
-### ***next***
+### ***단축 평가(short-circuit evaluation)***
 
+```js
+true && true && '도달 O'
+true && false && '도달 x'
+
+false || false || '도달 O'
+true || false || '도달 x'
+```
+
+<details>
+<summary><span style="color:orange" class="point"><b>Code</b></span></summary>
+<div markdown="1">
+
+```JS
+function badFetchData() {
+  if (state.data) {
+    return state.data;
+  } else {
+    return 'Fetching...';
+  }
+}
+
+function goodFetchData() {
+  return state.data || 'Fetching...';
+}
+
+// ------------------------------------
+
+function badFavoriteDog(someDog) {
+  let favoriteDog;
+  if (someDog) {
+    favoriteDog = dog;
+  } else {
+    favoriteDog = '냐옹';
+  }
+  return favoriteDog;
+}
+
+// someDog 가 falsy 일 경우 냐옹을 반환
+function goodFavoriteDog(someDog) {
+  return (someDog || '냐옹') + '입니다.';
+}
+
+// ------------------------------------
+
+const badGetActiveUserName(user, isLogin) {
+  if (isLogin && user) {
+    if (user.name) {
+      return user.name;
+    } else {
+      return 'Guest';
+    }
+  }
+}
+
+const goodGetActiveUserName(user, isLogin) {
+  if (isLogin && user) {
+    return user.name || 'Guest';
+  }
+}
+```
+
+</div>
+</details>
+
+<br/>
+<hr>
+
+### ***early return***
+
+<details>
+<summary><span style="color:orange" class="point"><b>Code</b></span></summary>
+<div markdown="1">
+
+```js
+function badLoginService(isLogin, user) {
+  if (!isLogin) {
+    if (checkToken()) {
+      if (!user.nickName) {
+        return registerUser(user);
+      } else {
+        refreshToken();
+
+        return '로그인 성공';
+      }
+    } else {
+      throw new Error('No token');
+    }
+  }
+}
+
+
+function goodLoginService(isLogin, user) {
+
+  if (isLogin) {
+    return;
+  }
+
+  if (!checkToken()) {
+    throw new Error('No token');
+  }
+
+  if (!user.nickName) {
+    return registerUser(user);
+  }
+  
+  refreshToken();
+  return '로그인 성공';
+}
+```
+
+</div>
+</details>
+
+<br/>
+<hr>
+
+### ***부정 조건문 지양하기***
+
+- 부정 조건문을 왜 지양해야할까?
+  - 생각을 여러번 해야할 수 있다.
+  - 프로그래밍 언어 자체로 if문이 처음부터 오고 true 부터 실행시킨다.
+
+- 부정 조건 예외
+  - Early Return
+  - Form Validation
+  - 보안 / 검사 로직
+
+<br/>
+<hr>
+
+### ***Default Case 고려***
+
+<details>
+<summary><span style="color:orange" class="point"><b>Code</b></span></summary>
+<div markdown="1">
+
+```JS
+function badCreateElement(type, height, width) {
+  const element = document.createElement(type);
+  element.style.height = height;
+  element.style.width = width;
+  return element;
+}
+badCreateElement('div');
+
+
+function goodCreateElement(type, height, width) {
+  const element = document.createElement(type || 'div');
+  element.style.height = String(height || 100) + 'px';
+  element.style.width = String(width || 100) + 'px';
+  return element;
+}
+goodCreateElement();
+
+// ------------------------------------------------
+
+function safe10진수ParseInt(number, radix) {
+  return parseInt(number, radix || 10);
+}
+```
+
+</div>
+</details>
+
+<br/>
+<hr>
+
+### ***??: Nullish coalescing operator***
+
+<details>
+<summary><span style="color:orange" class="point"><b>Code</b></span></summary>
+<div markdown="1">
+
+```js
+function badCreateElement(type, height, width) {
+  const element = document.createElement(type || 'div');
+  element.style.height = String(height || 100) + 'px';
+  element.style.width = String(width || 100) + 'px';
+  return element;
+}
+
+// div, 100px, 100px
+// height, width 가 0px인 dom을 만들 수 없는 코드
+badCreateElement('div', 0, 0); 
+
+function goodCreateElement(type, height, width) {
+  const element = document.createElement(type || 'div');
+  element.style.height = String(height ?? 100) + 'px';
+  element.style.width = String(width ?? 100) + 'px';
+  return element;
+}
+goodCreateElement('div', 0, 0); // div, 0px, 0px
+```
+> ??: 연산자는 왼쪽 피연산자가 null, undefined 일 경우에만 오른쪽 피연산자로 넘어간다.
+
+</div>
+</details>
+
+
+<br/>
+<hr>
+
+### ***else if 피하기***
