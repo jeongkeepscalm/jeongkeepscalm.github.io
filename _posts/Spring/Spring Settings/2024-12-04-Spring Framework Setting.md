@@ -281,7 +281,7 @@ SLF4J: Class path contains multiple SLF4J bindings.
 <br>
 <hr>
 
-### ***error: 파일 업로드 실패 ***
+### ***error: 파일 업로드 실패***
 
 - 매우 작은 파일만 업로드되고 그렇지 않은 파일들은 업로드 실패
 - 실시간 로그에도 뜨지 않는 상황
@@ -304,7 +304,9 @@ SLF4J: Class path contains multiple SLF4J bindings.
 </Logger>
 ```
 > 파일관련 로그를 추가하여 원인 파악  
-  
+
+<br/>
+
 ```xml
 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
     <property name="maxUploadSize" value="1048576000" />

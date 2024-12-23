@@ -6,6 +6,8 @@ categories: [ JavaScript, CleanCode ]
 tags: [ JavaScript, CleanCode ]
 ---
 
+- Git Repository: <a href='https://github.com/jeongkeepscalm/clean-code-js'></a>
+
 ### ***var 변수 지양***
 
 - `var 변수`: **함수 스코프(function scope)**를 따르며, 코드 블록({}) 안에서 선언되더라도 해당 함수 전체에서 접근할 수 있어, 의도치 않는 값 변경이 일어날 수 있다. 
@@ -344,4 +346,41 @@ goodCreateElement('div', 0, 0); // div, 0px, 0px
 <br/>
 <hr>
 
-### ***next title***
+### ***배열 요소 접근 시 인덱스 사용 x***
+
+<details>
+<summary><span style="color:orange" class="point"><b>Code</b></span></summary>
+<div markdown="1">
+
+```js
+function badGroupButton() {
+  const confirmButton = document.getElementsByName('button')[0];
+  const cancelButton = document.getElementsByName('button')[1];s
+  const resetButton = document.getElementsByName('button')[2];
+  // ...some code
+}
+
+function goodGroupButton() {
+  const [confirmButton, cancelButton, resetButton] 
+    = document.getElementsByName('button');
+  // ...some code
+}
+
+// ------------------------------------------------------
+
+function badFormDate(targetDate) {
+  const date = targetDate.toISOString().split('T')[0];
+  const [year, month, day] = date.split('-');
+  return `${year}년 ${month}월 ${day}일`;
+}
+
+function goodFormDate(targetDate) {
+  const [date] = targetDate.toISOString().split('T');
+  const [year, month, day] = date.split('-');
+  return `${year}년 ${month}월 ${day}일`;
+}
+```
+
+</div>
+</details>
+
