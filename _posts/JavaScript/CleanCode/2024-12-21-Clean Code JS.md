@@ -209,7 +209,7 @@ const goodGetActiveUserName(user, isLogin) {
 <br/>
 <hr>
 
-### ***early return***
+### ***Early Return***
 
 <details>
 <summary><span style="color:orange" class="point"><b>Code</b></span></summary>
@@ -344,4 +344,4 @@ goodCreateElement('div', 0, 0); // div, 0px, 0px
 <br/>
 <hr>
 
-### ***test***
+### ***next title***
