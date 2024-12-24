@@ -146,3 +146,16 @@ tail -f /var/log/tomcat9/catalina.out
 
 </div>
 </details>
+
+
+<br/>
+<hr>
+
+### ***issue about war***
+
+- 패키지명 변경 후, war로 묶었는데 변경된 패키지명 + 변경이전 패키지명 2개가 묶은 war에 존재
+
+✅ 해결 방법  
+1. Invalidate Caches > Invalidate and Restart  
+2. Artifact Rebuild  
+3. mvn clean(해당 방법으로 해결)  
