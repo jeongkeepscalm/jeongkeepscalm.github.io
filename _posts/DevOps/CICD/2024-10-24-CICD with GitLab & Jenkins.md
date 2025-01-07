@@ -73,6 +73,7 @@ which ssh
 credential 발급 시, GitLab API Token 으로 발급을 받았었는데, 해당 credential 인식이 불가능하여, Username with password 형식의 credential을 발급받아 적용  
 
 <hr/>
+<br/>
 
 <span style="color:red">ERROR: Couldn't find any revision to build. Verify the repository and branch configuration for this job. ERROR: Maximum checkout retry attempts reached, aborting</span>  
   
@@ -80,6 +81,7 @@ credential 발급 시, GitLab API Token 으로 발급을 받았었는데, 해당
 main 브랜치 생성  
 
 <hr/>
+<br/>
 
 <span style="color:red">FAILURE: Build failed with an exception.Where: Settings file '/var/jenkins_home/workspace/test1/settings.gradle' What went wrong: Could not compile settings file '/var/jenkins_home/workspace/test1/settings.gradle'. startup failed: General error during semantic analysis: Unsupported class file major version 61 java.lang.IllegalArgumentException: Unsupported class file major version 61</span>  
   
@@ -119,6 +121,7 @@ chmod -R 755 /var/jenkins_home/workspace/test1
 ```
 
 <hr/>
+<br/>
 
 <span style="color:red">FAILURE: Build failed with an exception. What went wrong: Execution failed for task ':test'. There were failing tests. See the report at: file:///var/jenkins_home/workspace/test1/build/reports/tests/test/index.html. Try: Run with --scan to get full insights.</span>  
   
@@ -134,6 +137,7 @@ stage('Build') {
 ```
 
 <hr/>
+<br/>
 
 <span style="color:red">Warning: Identity file /home/ojg/.ssh/id_rsa not accessible: No such file or directory. ssh: connect to host 123.123.123.123 port 22: Connection timed out. scp: Connection closed</span>  
   
@@ -148,6 +152,7 @@ ssh -i /home/ojg/.ssh/id_rsa ojg@123.123.123.123
 ```
 
 <hr/>
+<br/>
 
 <span style="color:red">+ scp -i /home/ojg/.ssh/id_rsa build/libs/test.war ojg@123.123.123.123:/home/ojg/myFirstProject Warning: Identity file /home/ojg/.ssh/id_rsa not accessible: No such file or directory. Permission denied, please try again. ojg@123.123.123.123: Permission denied (publickey,password). scp: Connection closed</span>  
   
@@ -161,6 +166,7 @@ cat /var/jenkins_home/.ssh/id_rsa.pub | ssh ojg@123.123.123.123 'mkdir -p ~/.ssh
 ```
 
 <hr/>
+<br/>
 
 <span style="color:red">+ scp -i /var/jenkins_home/.ssh/id_rsa build/libs/test.war ojg@123.123.123.123:/home/ojg/myFirstProject. scp: stat local "build/libs/test.war": No such file or directory</span>  
   
@@ -174,6 +180,7 @@ bootWar {
 ```
 
 <hr/>
+<br/>
 
 <span style="color:red">EOF: command not found</span>  
   
@@ -182,6 +189,7 @@ bootWar {
 << EOF 로 열고, <<< EOF로 닫음
 
 <hr/>
+<br/>
 
 <span style="color:red">배포 성공했으나, 웹 접속 불가</span>  
   
@@ -209,6 +217,7 @@ source ~/.bashrc
 ```
 
 <hr>
+<br/>
 
 <span style="color:red">Permission denied issue(maven app deploy)</span>
 
