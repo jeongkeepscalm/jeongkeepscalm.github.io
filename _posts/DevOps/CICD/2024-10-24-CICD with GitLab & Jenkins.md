@@ -199,9 +199,30 @@ source ~/.bashrc
 <hr>
 <br/>
 
+## Permission denied issue(maven app deploy)
+
+```sh
++ scp -i /var/lib/jenkins/.ssh/id_rsa /var/jenkins_home/workspace/greoupware-dev/target/gw-dev-1.0.0.war core@123.123.123.123:/var/lib/tomcat9/webapps/
+Permission denied, please try again.
+Permission denied, please try again.
+core@123.123.123.123: Permission denied (publickey,password).
+```
+
+- 서버에서 암호 인증이 허용
+  - /etc/ssh/sshd_config 파일 내 PasswordAuthentication yes 추가
+  
+- ssh에서 명령어 수동 실행
+  - scp -i ${SSH_KEY_PATH} /var/jenkins_home/workspace/greoupware-dev/target/${WAR_FILE_NAME} ${DEPLOY_USER}@${DEPLOY_SERVER_IP}:${TOMCAT_HOME}/webapps/
+
+
+<hr>
+<br/>
+
 ## 최종 파이프라인 스크립트
 
-- war 실행하여 웹 배포
+<details>
+<summary><span style="color:orange" class="point"><b>스프링부트 Gradle 배포 스크립트</b></span></summary>
+<div markdown="1">
 
 ```js
 pipeline {
@@ -209,8 +230,8 @@ pipeline {
 
     environment {
         GIT_REPO_URL = 'http://123.123.123.123:9090/ojg/firstproject.git'
-        GIT_CREDENTIALS_ID = 'ba826f7f-6689-4f13-999d-d75f235b4255'
-        DEPLOY_SERVER_IP = '123.123.123.123'
+        GIT_CREDENTIALS_ID = 'vdsfds-fdsfds-fdsfd-fdsf-fdsfsfss'
+        DEPLOY_SERVER_IP = '456.456.456.456'
         DEPLOY_USER = 'ojg'
         SSH_KEY_PATH = '/var/jenkins_home/.ssh/id_rsa'
         PROJECT_PATH = '/home/ojg/myFirstProject'
@@ -299,3 +320,106 @@ pipeline {
     }
 }
 ```
+
+</div>
+</details>
+
+<details>
+<summary><span style="color:orange" class="point"><b>스프링 Maven 배포 스크립트</b></span></summary>
+<div markdown="1">
+
+```js
+pipeline {
+    agent any
+
+    environment {
+        GIT_REPO_URL = 'http://123.123.123.123:8081/c/abc.git'
+        GIT_CREDENTIALS_ID = 'fdsfadsaf-dfsfa-fdsfd-fdsfs-fdsfdsfds'
+        DEPLOY_SERVER_IP = '456.456.456.456'
+        DEPLOY_USER = 'core'
+        SSH_KEY_PATH = '/var/lib/jenkins/.ssh/id_rsa'
+        PROJECT_PATH = '/home/c/groupware_dev'
+        WAR_FILE_NAME = 'gw-dev-1.0.0.war'
+        TOMCAT_HOME = '/var/lib/tomcat9'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: "${GIT_REPO_URL}",
+                    credentialsId: "${GIT_CREDENTIALS_ID}"
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean package -DskipTests'
+                sh 'ls -l target'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script { 
+                sh '''
+                scp -i ${SSH_KEY_PATH} /var/jenkins_home/workspace/greoupware-dev/target/${WAR_FILE_NAME} ${DEPLOY_USER}@${DEPLOY_SERVER_IP}:${TOMCAT_HOME}/webapps/
+                ssh -i ${SSH_KEY_PATH} ${DEPLOY_USER}@${DEPLOY_SERVER_IP} << EOF 
+                
+                
+                # WAR 파일을 ROOT.war로 변경
+                echo "Deploying new WAR file: ${WAR_FILE_NAME} as ROOT.war"
+                mv ${TOMCAT_HOME}/webapps/${WAR_FILE_NAME} ${TOMCAT_HOME}/webapps/ROOT.war
+                if [ $? -ne 0 ]; then
+                    echo "Error: Failed to rename WAR file."
+                    exit 1
+                fi
+                
+                /* permission denied issue */
+                sh '/var/lib/tomcat9/webapps/deploy.sh'
+
+                <<< EOF 
+                ''' 
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed!'
+        }
+    }
+}
+```
+
+```sh
+# deploy.sh
+
+TOMCAT_HOME="/var/lib/tomcat9"
+
+# 파일 소유권 변경
+echo "[core 계정 비밀번호]" | sudo -S chown core:core "${TOMCAT_HOME}/webapps/ROOT.war"
+if [ $? -ne 0 ]; then
+        echo "Error: Failed to change ownership of ROOT.war."
+        exit 1
+fi
+
+# Tomcat 서비스 재시작
+echo "[core 계정 비밀번호]" | sudo -S systemctl restart tomcat9.service
+
+if [ $? -ne 0 ]; then
+        echo "Error: Failed to restart Tomcat service."
+        exit 1
+fi
+
+echo "Deployment completed successfully!"
+```
+
+</div>
+</details>
+
+
