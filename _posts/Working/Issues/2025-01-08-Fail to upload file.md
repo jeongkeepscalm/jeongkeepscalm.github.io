@@ -16,17 +16,18 @@ request.getSession().getServletContext().getRealPath("/");
 <br>
 
 **📖 Info**  
-  Tomcat이 우분투와 같은 리눅스 시스템에서 systemd에 의해 관리될 경우, Tomcat 프로세스가 샌드박스화되어 특정 디렉토리만 쓰기 권한을 가지는 설정이 기본적으로 적용된다.  
+  Tomcat이 우분투와 같은 리눅스 시스템에서 systemd에 의해 관리될 경우, Tomcat 프로세스가 샌드박스화되어 특정 디렉토리만 쓰기 권한을 가지는 설정이 기본적으로 적용된다. 아래는 기본적으로 톰캣에 쓰기 권한이 부여된 폴더이다. 
   ```text
-    /etc/tomcat9/Catalina  
-    /var/log/tomcat9  
-    /var/lib/tomcat9/webapps  
-    /var/cache/tomcat9  
+  /etc/tomcat9/Catalina  
+  /var/log/tomcat9  
+  /var/lib/tomcat9/webapps  
+  /var/cache/tomcat9  
   ```
 
 <br>
 
-✅ Solution
+✅ Solution  
+톰캣에 쓰기 권한이 부여되지 않은 폴더 외에, 업로드 경로로 사용할 폴더를 설정 파일에 지정해야 한다.
 ```bash
 # 톰캣 서비스 파일 위치 확인
 cat /lib/systemd/system/tomcat9.service
@@ -44,5 +45,3 @@ ReadWritePaths=/upload
 sudo systemctl daemon-reload
 sudo systemctl restart tomcat9
 ```
-
-
