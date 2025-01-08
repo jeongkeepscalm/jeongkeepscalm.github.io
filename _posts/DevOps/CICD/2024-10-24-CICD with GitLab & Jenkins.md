@@ -6,7 +6,7 @@ categories: [ DevOps, CICD ]
 tags: [ DevOps, CICD ]
 ---
 
-***env***  
+***ENV***  
 - 도커로 깃랩, 젠킨스 컨테이너 active
 - web에 깃랩, 젠킨스 접속 가능
 
@@ -68,18 +68,26 @@ which ssh
 ## 파이프라인 스크립트 작성 시, 생긴 이슈들   
 
 <span style="color:red">credential 관련 오류</span>  
+  
+✅ 해결 방법  
 credential 발급 시, GitLab API Token 으로 발급을 받았었는데, 해당 credential 인식이 불가능하여, Username with password 형식의 credential을 발급받아 적용  
 
+<hr/>
 <br/>
 
 <span style="color:red">ERROR: Couldn't find any revision to build. Verify the repository and branch configuration for this job. ERROR: Maximum checkout retry attempts reached, aborting</span>  
+  
+✅ 해결 방법  
 main 브랜치 생성  
 
+<hr/>
 <br/>
 
 <span style="color:red">FAILURE: Build failed with an exception.Where: Settings file '/var/jenkins_home/workspace/test1/settings.gradle' What went wrong: Could not compile settings file '/var/jenkins_home/workspace/test1/settings.gradle'. startup failed: General error during semantic analysis: Unsupported class file major version 61 java.lang.IllegalArgumentException: Unsupported class file major version 61</span>  
+  
 Gradle version, Java version 이 호환이 안될 때 생기는 에러
-
+  
+✅ 해결 방법  
 ```bash
 docker exec -it jenkins /bin/bash
 apt-get update
@@ -93,10 +101,10 @@ update-alternatives --config java
   JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64' // Java 17 경로 설정
   PATH = "${JAVA_HOME}/bin:${env.PATH}"
 ```
-
+  
 JDK 17 설치 후, 해당 버전에 호환되는 Gradle 젠킨스 컨테이너에 설치  
+  
 호환이 잘 되는 버전으로 맞춰도 해당 이슈 해결을 못해서 로그 출력 스크립트 추가  
-
 ```js 
 stage('Build') {
   steps {
@@ -105,18 +113,19 @@ stage('Build') {
   }
 }
 ```
-
+  
 로그로 원인 파악한 후 권한 추가  
-
 ```bash
 chown -R jenkins:jenkins /var/jenkins_home/workspace/test1
 chmod -R 755 /var/jenkins_home/workspace/test1
 ```
 
+<hr/>
 <br/>
 
 <span style="color:red">FAILURE: Build failed with an exception. What went wrong: Execution failed for task ':test'. There were failing tests. See the report at: file:///var/jenkins_home/workspace/test1/build/reports/tests/test/index.html. Try: Run with --scan to get full insights.</span>  
-
+  
+✅ 해결 방법  
 ```js
 stage('Build') {
     steps {
@@ -127,10 +136,12 @@ stage('Build') {
 }
 ```
 
+<hr/>
 <br/>
 
 <span style="color:red">Warning: Identity file /home/ojg/.ssh/id_rsa not accessible: No such file or directory. ssh: connect to host 123.123.123.123 port 22: Connection timed out. scp: Connection closed</span>  
-
+  
+✅ 해결 방법  
 ```bash
 sudo ufw status
 sudo ufw allow 22
@@ -140,10 +151,12 @@ docker exec -it jenkins /bin/bash
 ssh -i /home/ojg/.ssh/id_rsa ojg@123.123.123.123
 ```
 
+<hr/>
 <br/>
 
 <span style="color:red">+ scp -i /home/ojg/.ssh/id_rsa build/libs/test.war ojg@123.123.123.123:/home/ojg/myFirstProject Warning: Identity file /home/ojg/.ssh/id_rsa not accessible: No such file or directory. Permission denied, please try again. ojg@123.123.123.123: Permission denied (publickey,password). scp: Connection closed</span>  
   
+✅ 해결 방법  
 ```bash
 # 젠킨스 내 ssh 키 파일 생성 필요
 cat /var/jenkins_home/.ssh/id_rsa.pub | ssh ojg@123.123.123.123 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys'
@@ -152,10 +165,12 @@ cat /var/jenkins_home/.ssh/id_rsa.pub | ssh ojg@123.123.123.123 'mkdir -p ~/.ssh
 /var/jenkins_home/.ssh/id_rsa
 ```
 
+<hr/>
 <br/>
 
 <span style="color:red">+ scp -i /var/jenkins_home/.ssh/id_rsa build/libs/test.war ojg@123.123.123.123:/home/ojg/myFirstProject. scp: stat local "build/libs/test.war": No such file or directory</span>  
-
+  
+✅ 해결 방법  
 ```yml
 # application 프로젝트 내 build.gradle 파일에 코드 추가
 # 임의로 정한 war명인 test를 파이프라인 스크립트에도 명시해주어야 한다.  
@@ -164,16 +179,21 @@ bootWar {
 }
 ```
 
+<hr/>
 <br/>
 
 <span style="color:red">EOF: command not found</span>  
+  
+✅ 해결 방법  
 배포 스크립트 내 sh """ -> sh ''' 로 수정  
 << EOF 로 열고, <<< EOF로 닫음
 
+<hr/>
 <br/>
 
 <span style="color:red">배포 성공했으나, 웹 접속 불가</span>  
-
+  
+✅ 해결 방법  
 ```bash
 # application 포트 추가
 sudo ufw status
@@ -199,24 +219,24 @@ source ~/.bashrc
 <hr>
 <br/>
 
-## Permission denied issue(maven app deploy)
+<span style="color:red">Permission denied issue(maven app deploy)</span>
 
+⚠️ Error Log  
 ```sh
 + scp -i /var/lib/jenkins/.ssh/id_rsa /var/jenkins_home/workspace/greoupware-dev/target/gw-dev-1.0.0.war core@123.123.123.123:/var/lib/tomcat9/webapps/
 Permission denied, please try again.
 Permission denied, please try again.
 core@123.123.123.123: Permission denied (publickey,password).
 ```
-
-- 서버에서 암호 인증이 허용
-  - /etc/ssh/sshd_config 파일 내 PasswordAuthentication yes 추가
   
-- ssh에서 명령어 수동 실행
-  - scp -i ${SSH_KEY_PATH} /var/jenkins_home/workspace/greoupware-dev/target/${WAR_FILE_NAME} ${DEPLOY_USER}@${DEPLOY_SERVER_IP}:${TOMCAT_HOME}/webapps/
-
+✅ 해결 방법  
+1. 서버에서 암호 인증이 허용  
+  /etc/ssh/sshd_config 파일 내 PasswordAuthentication yes 추가
+  
+2. ssh에서 스크립트 명령어 수동 실행  
+  scp -i ${SSH_KEY_PATH} /var/jenkins_home/workspace/greoupware-dev/target/${WAR_FILE_NAME} ${DEPLOY_USER}@${DEPLOY_SERVER_IP}:${TOMCAT_HOME}/webapps/
 
 <hr>
-<br/>
 
 ## 최종 파이프라인 스크립트
 
