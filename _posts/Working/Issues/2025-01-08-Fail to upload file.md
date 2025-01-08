@@ -26,7 +26,7 @@ request.getSession().getServletContext().getRealPath("/");
 
 <br>
 
-✅ 해결 방법  
+✅ Solution
 ```bash
 # 톰캣 서비스 파일 위치 확인
 cat /lib/systemd/system/tomcat9.service

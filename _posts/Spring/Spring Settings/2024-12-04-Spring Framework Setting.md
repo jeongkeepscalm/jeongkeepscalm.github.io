@@ -58,8 +58,10 @@ tags: [ Spring, Spring Settings ]
 > 서블릿 3.1: Tomcat 8.0.x, 8.5.x    
 > 서블릿 4.0: Tomcat 9.x    
 > 서블릿 5.0: Tomcat 10.x    
-  
-✅ 해결 방법  
+
+<br>
+
+✅ Solution  
 톰캣 6.0.53 버전으로 변경  
 
 <br>
@@ -69,8 +71,10 @@ tags: [ Spring, Spring Settings ]
 
 - maven 설치했지만 빌드 오류발생
   - Downgrade Maven to version 3.8.1 or earlier in settings
-  
-✅ 해결 방법  
+
+<br>
+
+✅ Solution  
 낮은 버전으로 maven 재설치 → 인텔리제이 settings → maven 에 재설정  
 
 <br>
@@ -81,8 +85,10 @@ tags: [ Spring, Spring Settings ]
 - 빨간줄 에러: cannot find declaration to go
   - servlet.JspServlet
   - catalina.servlets.DefaultServlet
-  
-✅ 해결 방법  
+
+<br>
+
+✅ Solution  
 - 프로젝트 우클릭 > Modules > dependencies > + > library 추가 
   - catalina.jar
   - jasper.jar
@@ -106,7 +112,7 @@ SLF4J: Class path contains multiple SLF4J bindings.
 
 ### ***계속되는 빌드 실패로 인한 버전 업***
 
-✅ 해결 방법  
+✅ Solution  
 - Apache Tomcat/6.0.53 → 9.0.97
 - servlet-api 2.5 → 4.0.1
 
@@ -118,8 +124,10 @@ SLF4J: Class path contains multiple SLF4J bindings.
 - JNDI 방식으로 코드가 구현되어 있었으나, 지속되는 커넥션 실패
 	- server.xml 
 		- GlobalNamingResources 태그 내에 resource 태그를 정의되어 있었음
-  
-✅ 해결 방법  
+
+<br>
+
+✅ Solution  
 - ***JNDI → DBCP 변환***
   - dbcp 의존성 추가
   - context-datasource.xml 파일에 DB 정보를 담은 bean 생성
@@ -147,7 +155,9 @@ SLF4J: Class path contains multiple SLF4J bindings.
 
 - Original error: Could not transfer artifact org.springframework:spring-jdbc:pom:${org.springframework-version} from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [egovframe (http://www.egovframe.go.kr/maven/, default, releases), egovframe2 (http://maven.egovframe.kr:8080/maven/, default, releases), oracle (http://maven.jahia.org/maven2, default, releases+snapshots)]
 
-✅ 해결 방법  
+<br>
+
+✅ Solution  
 ```xml
 <repository>
     <id>egovframe</id>
@@ -201,7 +211,9 @@ SLF4J: Class path contains multiple SLF4J bindings.
 ### ***View Return 방식***
 
 - 해당 코드는 컨트롤러에서 String 타입의 템플릿 엔진 경로가 아닌 Model을 리턴하여, view가 어떻게 지정되고 다음 프로세스로 넘어가는지 이해하기 어려웠다.
-  
+
+<br>
+
 ✅ 원인 파악 완료  
 
 ```xml
@@ -285,8 +297,10 @@ SLF4J: Class path contains multiple SLF4J bindings.
 
 - 매우 작은 파일만 업로드되고 그렇지 않은 파일들은 업로드 실패
 - 실시간 로그에도 뜨지 않는 상황
-  
-✅ 해결 방법  
+
+<br>
+
+✅ Solution  
 
 ```xml
 <!-- log4j2.xml -->

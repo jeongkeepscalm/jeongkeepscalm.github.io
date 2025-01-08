@@ -69,7 +69,7 @@ which ssh
 
 <span style="color:red">credential 관련 오류</span>  
   
-✅ 해결 방법  
+✅ Solution  
 credential 발급 시, GitLab API Token 으로 발급을 받았었는데, 해당 credential 인식이 불가능하여, Username with password 형식의 credential을 발급받아 적용  
 
 <hr/>
@@ -77,7 +77,7 @@ credential 발급 시, GitLab API Token 으로 발급을 받았었는데, 해당
 
 <span style="color:red">ERROR: Couldn't find any revision to build. Verify the repository and branch configuration for this job. ERROR: Maximum checkout retry attempts reached, aborting</span>  
   
-✅ 해결 방법  
+✅ Solution  
 main 브랜치 생성  
 
 <hr/>
@@ -87,7 +87,7 @@ main 브랜치 생성
   
 Gradle version, Java version 이 호환이 안될 때 생기는 에러
   
-✅ 해결 방법  
+✅ Solution  
 ```bash
 docker exec -it jenkins /bin/bash
 apt-get update
@@ -125,7 +125,7 @@ chmod -R 755 /var/jenkins_home/workspace/test1
 
 <span style="color:red">FAILURE: Build failed with an exception. What went wrong: Execution failed for task ':test'. There were failing tests. See the report at: file:///var/jenkins_home/workspace/test1/build/reports/tests/test/index.html. Try: Run with --scan to get full insights.</span>  
   
-✅ 해결 방법  
+✅ Solution  
 ```js
 stage('Build') {
     steps {
@@ -141,7 +141,7 @@ stage('Build') {
 
 <span style="color:red">Warning: Identity file /home/ojg/.ssh/id_rsa not accessible: No such file or directory. ssh: connect to host 123.123.123.123 port 22: Connection timed out. scp: Connection closed</span>  
   
-✅ 해결 방법  
+✅ Solution  
 ```bash
 sudo ufw status
 sudo ufw allow 22
@@ -156,7 +156,7 @@ ssh -i /home/ojg/.ssh/id_rsa ojg@123.123.123.123
 
 <span style="color:red">+ scp -i /home/ojg/.ssh/id_rsa build/libs/test.war ojg@123.123.123.123:/home/ojg/myFirstProject Warning: Identity file /home/ojg/.ssh/id_rsa not accessible: No such file or directory. Permission denied, please try again. ojg@123.123.123.123: Permission denied (publickey,password). scp: Connection closed</span>  
   
-✅ 해결 방법  
+✅ Solution  
 ```bash
 # 젠킨스 내 ssh 키 파일 생성 필요
 cat /var/jenkins_home/.ssh/id_rsa.pub | ssh ojg@123.123.123.123 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys'
@@ -170,7 +170,7 @@ cat /var/jenkins_home/.ssh/id_rsa.pub | ssh ojg@123.123.123.123 'mkdir -p ~/.ssh
 
 <span style="color:red">+ scp -i /var/jenkins_home/.ssh/id_rsa build/libs/test.war ojg@123.123.123.123:/home/ojg/myFirstProject. scp: stat local "build/libs/test.war": No such file or directory</span>  
   
-✅ 해결 방법  
+✅ Solution  
 ```yml
 # application 프로젝트 내 build.gradle 파일에 코드 추가
 # 임의로 정한 war명인 test를 파이프라인 스크립트에도 명시해주어야 한다.  
@@ -184,7 +184,7 @@ bootWar {
 
 <span style="color:red">EOF: command not found</span>  
   
-✅ 해결 방법  
+✅ Solution  
 배포 스크립트 내 sh """ -> sh ''' 로 수정  
 << EOF 로 열고, <<< EOF로 닫음
 
@@ -193,7 +193,7 @@ bootWar {
 
 <span style="color:red">배포 성공했으나, 웹 접속 불가</span>  
   
-✅ 해결 방법  
+✅ Solution  
 ```bash
 # application 포트 추가
 sudo ufw status
@@ -229,7 +229,7 @@ Permission denied, please try again.
 core@123.123.123.123: Permission denied (publickey,password).
 ```
   
-✅ 해결 방법  
+✅ Solution  
 1. 서버에서 암호 인증이 허용  
   /etc/ssh/sshd_config 파일 내 PasswordAuthentication yes 추가
   
