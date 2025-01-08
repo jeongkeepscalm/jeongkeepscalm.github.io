@@ -151,7 +151,7 @@ tail -f /var/log/tomcat9/catalina.out
 <br/>
 <hr>
 
-### ***issue about war***
+### ***[Issue] war***
 
 - 패키지명 변경 후, war로 묶었는데 변경된 패키지명 + 변경이전 패키지명 2개가 묶은 war에 존재
 
