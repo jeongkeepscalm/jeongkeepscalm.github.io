@@ -1,13 +1,59 @@
 ---
-title: "[Issue] Fail to upload file in Ubuntu Server"
-description: "[Issue] Fail to upload file in Ubuntu Server"
+title: "[Issue] Fail to upload file"
+description: "[Issue] Fail to upload file"
 date: 2025-01-08
 categories: [ Working, Issues ]
 tags: [ Working, Issues ]
 ---
 
-***⚠️ 이슈 사항***  
-설정된 파일 업로드 폴더가 톰캣 폴더 내부로 되어 있어, 재배포시 이전에 업로드되었던 파일이 휘발되었다.  
+***⚠️ Issue***  
+매우 작은 파일만 업로드되고 그렇지 않은 파일들은 업로드 실패  
+실시간 로그에도 뜨지 않는 상황  
+
+<br>
+
+✅ Solution  
+
+```xml
+<!-- log4j2.xml -->
+<File name="file_appender" fileName="/tmp/test-log.log">
+    <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+</File>
+
+<Logger name="org.springframework.web.multipart" level="DEBUG" additivity="false">
+    <AppenderRef ref="console_appender"/>
+    <AppenderRef ref="file_appender"/>
+</Logger>
+<Logger name="org.springframework.web" level="DEBUG" additivity="false">
+    <AppenderRef ref="console_appender"/>
+    <AppenderRef ref="file_appender"/>
+</Logger>
+```
+> 파일관련 로그를 추가하여 원인 파악  
+
+<br/>
+
+```xml
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <property name="maxUploadSize" value="1048576000" />
+    <property name="uploadTempDir" ref="uploadDirResource" />
+</bean>
+
+<bean id="uploadDirResource" class="org.springframework.core.io.FileSystemResource">
+    <constructor-arg>
+      <value>/a/b</value>
+    </constructor-arg>
+</bean>
+```
+> 로그 확인 결과, 임시 업로드 폴더 /a/b에 권한이 없어 업로드가 되고 있지 않은 상황   
+> /a/b 에 쓰기 권한이 부여되어있어야 했다.  
+> 모든 권한이 열려있는 폴더로 변경하여 문제 해결 완료  
+
+<hr>
+<br/>
+
+***⚠️ Issue***  
+설정된 파일 업로드 폴더가 톰캣 폴더 내부로 되어 있어, 우분투 서버에 재배포시 이전에 업로드되었던 파일이 휘발되었다.  
 ```java
 // 설정된 파일 업로드 경로
 request.getSession().getServletContext().getRealPath("/");  
@@ -27,7 +73,7 @@ request.getSession().getServletContext().getRealPath("/");
 <br>
 
 ✅ Solution  
-톰캣에 쓰기 권한이 부여되지 않은 폴더 외에, 업로드 경로로 사용할 폴더를 설정 파일에 지정해야 한다.
+서비스에 등록되어 있을 경우, 톰캣에 쓰기 권한이 부여되지 않은 폴더 외에, 업로드 경로로 사용할 폴더를 설정 파일에 지정해야 한다.
 ```bash
 # 톰캣 서비스 파일 위치 확인
 cat /lib/systemd/system/tomcat9.service

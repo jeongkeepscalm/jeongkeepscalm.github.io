@@ -1,6 +1,6 @@
 ---
-title: "Social Login"
-description: Social Login
+title: "[Issue] Social Login"
+description: [Issue] Social Login
 date: 2024-08-14
 categories: [ Spring, Spring Security ]
 tags: [ Spring, Spring Security ]
@@ -125,9 +125,10 @@ logging:
 <br/>
 <hr/>
 
-# 시행착오
-
-- 로컬 환경에서는 소셜로그인이 문제없이 잘 동작하였는데, 운영에 배포하여 확인해보니 동작이 되질않았다. 
+***⚠️ Issue***  
+로컬 환경에서는 소셜로그인이 문제없이 잘 동작하였는데, 운영에 배포하여 확인해보니 동작이 되질않았다.  
+  
+***✅ Solution***  
 - 실패 원인을 파악하기 위한 조치
   - yaml 파일 내 시큐리티 관련 로그 추가
   - 시큐리티 failureHandler 코드 추가
