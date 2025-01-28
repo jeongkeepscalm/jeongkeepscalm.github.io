@@ -1,6 +1,6 @@
 ---
 title: "[Issue] Social Login"
-description: [Issue] Social Login
+description: "[Issue] Social Login"
 date: 2024-08-14
 categories: [ Spring, Spring Security ]
 tags: [ Spring, Spring Security ]
