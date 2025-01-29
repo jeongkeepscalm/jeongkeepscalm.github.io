@@ -36,7 +36,9 @@ layout: compress
 
     {% include sidebar.html %}
 
-    {% include topbar.html %}
+    {% if page.layout != 'post' %}
+      {% include topbar.html %}
+    {% endif %}
 
     <div id="main-wrapper">
       <div id="main">
