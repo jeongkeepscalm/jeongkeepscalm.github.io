@@ -1,6 +1,6 @@
 ---
-title: Apache And Tomcat
-description: Apache And Tomcat
+title: Apache & Tomcat
+description: Apache & Tomcat
 date: 2024-05-01
 categories: [ IT Infrastructure, Networking ]
 tags: [ IT Infrastructure, Networking ]

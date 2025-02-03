@@ -1,6 +1,6 @@
 ---
-title: Asynchronous
-description: Asynchronous
+title: "[JS] Asynchronous"
+description: "[JS] Asynchronous"
 date: 2024-07-14
 categories: [ JavaScript, Asynchronous ]
 tags: [ JavaScript, Asynchronous ]

@@ -1,6 +1,6 @@
 ---
-title: "Tomcat Session Clustering in SpringBoot"
-description: "Tomcat Session Clustering in SpringBoot"
+title: "[Issue] Tomcat Session Clustering in SpringBoot"
+description: "[Issue] Tomcat Session Clustering in SpringBoot"
 date: 2024-09-04
 categories: [ Java, Session Cluster ]
 tags: [ Java, Session Cluster ]
@@ -92,9 +92,11 @@ class TomcatClusterContextCustomizer implements TomcatContextCustomizer {
 
 <hr/>
 
-### 시행착오
-
-- 운영에 세션 클러스터링 코드 적용 실패하여, 테스트 시나리오를 작성하여 테스트했다. 
+***⚠️ Issue***  
+운영에 세션 클러스터링 코드 적용 실패  
+  
+✅ Solution  
+테스트 시나리오를 작성하여 테스트했다. 
   
 1. 로컬 인스턴스 2개 띄움(8081, 8082)
 2. 8081 에서 로그인 한 후, 8082 로 들어가 로그인 여부 확인
@@ -106,4 +108,5 @@ class TomcatClusterContextCustomizer implements TomcatContextCustomizer {
   ```
 - 세션 클러스터링 시, 세션에 저장되는 객체는 serializable 인터페이스를 구현해야 하는 것을 알고 있어서, UserDetails 를 구현한 객체에 serializable 를 추가했었다. 하지만 추가적으로 세션에 저장되는 객체와 관련된 모든 클래스에도 serializable 을 구현했어야 했다. 
   
-`*` **세션에 저장되는 모든 객체 Serializable 인터페이스 구현 필요**
+***📖 Info***  
+**세션에 저장되는 모든 객체 Serializable 인터페이스 구현 필요하다.**
