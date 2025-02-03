@@ -6,7 +6,7 @@ categories: [ Working, Issues ]
 tags: [ Working, Issues ]
 ---
 
-***⚠️ 이슈 사항***  
+***⚠️ Issue***  
 설정된 파일 업로드 폴더가 톰캣 폴더 내부로 되어 있어, 재배포시 이전에 업로드되었던 파일이 휘발되었다.  
 ```java
 // 설정된 파일 업로드 경로
@@ -26,7 +26,7 @@ request.getSession().getServletContext().getRealPath("/");
 
 <br>
 
-✅ Solution  
+✅ Solution 1(톰캣이 서비스로 등록되었을 경우)  
 톰캣에 쓰기 권한이 부여되지 않은 폴더 외에, 업로드 경로로 사용할 폴더를 설정 파일에 지정해야 한다.
 ```bash
 # 톰캣 서비스 파일 위치 확인
@@ -44,4 +44,14 @@ ReadWritePaths=/upload
 # systemd 데몬 재로드, tomcat service 재시작
 sudo systemctl daemon-reload
 sudo systemctl restart tomcat9
+```
+
+<br>
+
+✅ Solution 2(톰캣이 서비스로 등록되지 않았을 경우)  
+```bash
+# 톰캣 서비스가 등록되어있지 않다면, 현재 띄워져있는 톰캣 프로세스를 확인 후 업로드될 폴더를 맞춰준다. 
+ps -aux | grep tomcat
+chown -R [사용자명]:[사용자명] /upload
+chmod -R 755 /upload
 ```
