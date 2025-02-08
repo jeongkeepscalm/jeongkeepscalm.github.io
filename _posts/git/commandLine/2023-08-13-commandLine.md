@@ -1,6 +1,6 @@
 ---
-title: Git Command Line
-description: 깃 명령어 CLI
+title: "[Git] Command Line"
+description: "[Git] Command Line"
 date: 2023-08-13
 categories: [ Git, CommandLine ]
 tags: [ Git, CLI, CommandLine ]
