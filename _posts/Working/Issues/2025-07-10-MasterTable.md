@@ -7,9 +7,9 @@ tags: [ Working, Issues ]
 ---
 
 ***⚠️ Issue***  
-조회한 데이터가 없을 경우 특정 행이 추가되어서 출력되어야 하는 상황
-
-```SQL
+조회한 데이터가 없을 경우 특정 행이 추가되어서 출력되어야 하는 상황  
+  
+```sql
 SELECT 
   YM
   , GRADE
@@ -23,7 +23,8 @@ FROM TEST;
 
 ✅ Solution  
 WITH 절로 MASTER TABLE 을 만들어서 기존 쿼리를 LEFT OUTER JOIN 로 묶는다.  
-```SQL
+
+```sql
 WITH calendar AS (
   SELECT TO_CHAR(yyyy * 100 + mm, 'FM000000') AS base_ym
   FROM generate_series(2024, 2025) AS yyyy,
