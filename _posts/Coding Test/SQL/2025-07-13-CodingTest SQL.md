@@ -1,16 +1,15 @@
 ---
-title: "CodingTest SQL"
-description: CodingTest SQL
+title: "CodingTest: SQL"
+description: "CodingTest: SQL"
 date: 2025-07-13
 categories: [ CodingTest, SQL ]
 tags: [ CodingTest, SQL ]
 ---
 
-## 프로그래머스
+# Programmers
 
 ***서브쿼리 개선: 연도별 대장균 크기의 편차 구하기***
-
-```SQL
+```sql
 SELECT 
   YEAR(DIFFERENTIATION_DATE) AS YEAR
   , (
