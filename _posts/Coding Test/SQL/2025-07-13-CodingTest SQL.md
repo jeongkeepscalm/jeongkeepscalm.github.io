@@ -1,0 +1,39 @@
+---
+title: "CodingTest SQL"
+description: CodingTest SQL
+date: 2025-07-13
+categories: [ CodingTest, SQL ]
+tags: [ CodingTest, SQL ]
+---
+
+## 프로그래머스
+
+***서브쿼리 개선: 연도별 대장균 크기의 편차 구하기***
+
+```SQL
+SELECT 
+  YEAR(DIFFERENTIATION_DATE) AS YEAR
+  , (
+    SELECT MAX(SIZE_OF_COLONY) FROM ECOLI_DATA WHERE YEAR(DIFFERENTIATION_DATE) = YEAR
+  ) - SIZE_OF_COLONY AS YEAR_DEV
+  , ID
+FROM ECOLI_DATA
+ORDER BY YEAR, YEAR_DEV;
+
+---------------------------------------------------------------------
+
+WITH MAX_T AS (
+  SELECT 
+    YEAR(DIFFERENTIATION_DATE) AS YEAR,
+    MAX(SIZE_OF_COLONY) AS MAX_SIZE
+  FROM ECOLI_DATA
+  GROUP BY YEAR(DIFFERENTIATION_DATE)
+)
+SELECT 
+  YEAR(ED.DIFFERENTIATION_DATE) AS YEAR,
+  MT.MAX_SIZE - ED.SIZE_OF_COLONY AS YEAR_DEV,
+  ED.ID
+FROM ECOLI_DATA ED
+JOIN MAX_T MT ON YEAR(ED.DIFFERENTIATION_DATE) = MT.YEAR
+ORDER BY YEAR, YEAR_DEV;
+```
