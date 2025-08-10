@@ -25,22 +25,29 @@ tags: [ Java, Java Basic, kyh ]
 - 함수를 다루는 추상화 수준이 더 높다는 데에서 유래
 
 ```java
-// 함수(람다)를 매개변수로 받음
-// e.g. 
-//  Function<T, R>
-//  , Supplier<T>
-//  , Consumer<T>
-//  , Runnable, Predicate<T>
-//  , UnaryOperator<T>
-//  , BinaryOperator<T>
-static void calculate(MyFunction function) {
-  // ...
-}
+// 함수형 프로그래밍
 
-// 함수(람다)를 반환
-static MyFunction getOperation(String operator) {
-  // ...
-  return (a, b) -> a + b;
+public class FirstClassCitizenMain {
+
+  public static void main(String[] args) {
+    // 함수를 변수에 담는다
+    Function<Integer, Integer> func = x -> x * 2;
+    // 함수를 인자로 전달
+    applyFunction(10, func);
+    // 함수를 반환
+    getFunc().apply(10);
+  }
+
+  // 고차 함수: 함수를 인자로 받음
+  public static Integer applyFunction(Integer input, Function<Integer,
+  Integer> func) {
+    return func.apply(input);
+  }
+
+  // 고차 함수: 함수를 반환
+  public static Function<Integer, Integer> getFunc() {
+    return x -> x * 2;
+  }
 }
 ```
 
@@ -104,6 +111,98 @@ static MyFunction getOperation(String operator) {
 6. Collector와 Collectors
   - collect 최종 연산을 통해 스트림 결과를 리스트나 맵, 통계 정보 등 원하는 형태로 모을 수 있다. 
   - Collectors 클래스는 toList , toSet , groupingBy , partitioningBy , mapping ,averagingInt 같은 다양한 수집용 메서드를 제공한다.특히 groupingBy 나 partitioningBy 에 다운 스트림 컬렉터를 지정하면, "그룹별 합계, 평균, 최대/최솟값, 여러 형태로 다시 매핑" 등 복합적인 요구사항을 한 번에 처리할 수 있다.
+
+```java
+List<Integer> numbers = List.of(1, 2, 3, 4, 5);
+Stream<Integer> stream = numbers.stream()
+  .filter(n -> {
+  System.out.println("filter: " + n);
+  return n % 2 == 0;
+  });
+// 아직 출력된 것이 없음 (중간 연산만 설정된 상태)
+// 최종 연산을 호출할 때 실제 동작 시작
+List<Integer> evens = stream.toList();
+// 여기서야 filter가 실제로 동작하며 콘솔에 filter 로그가 찍힘
+```
+> 최종 연산이 실행될 때 한 번에 연산 수행: 필요없는 연산을 미리 실행 x. 계산 효율 상승
+
+<br>
+<hr>
+
+### 단일 스트림 vs 멀티 스레드
+
+- 단일 스트림: 코드가 간단하지만, 한 번에 하나의 스레드만 실행되어 시간이 오래 걸린다.
+- 멀티스레드: 여러 스레드를 직접 생성해 병렬로 작업을 처리할 수 있으나, 스레드 생성, 관리, 예외 처리 등이 복잡해진다.
+
+### 스레드 풀(ExecutorService)
+
+- 스레드를 직접 생성, 제어하는 대신, 자바가 제공하는 스레드 풀을 활용하여 멀티스레드를 더 쉽게 사용할 수 있다. 
+- submit(Callable) 과 Future 를 통해 작업을 비동기로 처리하고, 결과를 손쉽게 받아올 수 있다.
+
+### Fork/Join 패턴, Fork/Join 프레임워크
+
+- 큰 작업을 잘게 분할(Fork) 한 뒤 여러 스레드가 병렬로 처리하고, 최종 결과를 합치기(Join) 하는 전형적인 병렬 처리 패턴이다.
+- 자바의 Fork/Join 프레임워크( ForkJoinPool , RecursiveTask , RecursiveAction )는 이러한 패턴을 편리하게 지원한다.
+- 작업 훔치기(Work-Stealing) 알고리즘을 통해 각 스레드가 할당받은 작업이 없으면, 다른 스레드의 큐에 있는 작업을 훔쳐서 효율적으로 분산 처리한다. 
+- CPU 바운드 작업(계산 집약적)일 때 최적의 효과를 낸다.
+
+### 자바 병렬 스트림
+
+- parallel(): 내부적으로 Fork/Join 공용 풀을 사용하여 병렬처리한다.
+- 공용 풀을 공유하므로 I/O 대기 작업이나 동시 요청이 많아지는 상황에서 병목 현상 발생할 수 있다.
+- CPU 바운드(계산 집약적) 작업에만 사용하는 것이 권장된다.
+- I/O 바운드 작업(DB 조회, 외부 API 호출 등)은 오랜 대기 시간이 발생하므로, 제한된 스레드만 쓰는 Fork/Join 공용 풀과 궁합이 좋지 않다.
+
+### I/O 바운드 작업일 경우 
+
+- I/O 바운드 작업처럼 대기가 긴 경우에는 전용 스레드 풀(ExecutorService)을 만들어 사용하는 것을 권장한다.
+스레드 풀의 크기, 스레드 생성 정책, 큐 타입 등을 상황에 맞게 튜닝할 수 있어 확장성과 안정성이 높아진다.
+
+<br>
+<hr>
+
+## 합성함수 
+
+```java
+public static void main(String[] args) {
+
+    Function<Integer, Integer> square = x -> x * x;
+    Function<Integer, Integer> add = x -> x + 1;
+
+    // (2 + 1) * (2 + 1) =  9
+    Function<Integer, Integer> newFunc1 = square.compose(add);
+    System.out.println("newFunc1 결과: " + newFunc1.apply(2));
+
+    // 2 * 2 + 1 = 5
+    Function<Integer, Integer> newFunc2 = square.andThen(add);
+    System.out.println("newFunc2 결과: " + newFunc2.apply(2));
+}
+
+public static void main(String[] args) {
+
+    Function<String, Integer> parseInt = Integer::parseInt;
+    Function<Integer, Integer> square = x -> x * x;
+    Function<Integer, String> toString = x -> "결과: " + x;
+
+    // compose 혹은 andThen으로 합성하기
+    // parseInt -> square -> toString 순서로 하고 싶다면 andThen()을 사용
+    Function<String, String> finalFunc = parseInt
+            .andThen(square)
+            .andThen(toString);
+
+    // 문자열 "5"를 입력하면 파싱-> 제곱-> 문자열 출력 순서
+    String result1 = finalFunc.apply("5");
+    System.out.println(result1); // "결과: 25"
+    String result2 = finalFunc.apply("10");
+    System.out.println(result2); // "결과: 100"
+
+    // 또 다른 조합으로 사용 가능
+    Function<String, Integer> stringToSquareFunc = parseInt
+            .andThen(square);
+    Integer result3 = stringToSquareFunc.apply("5");
+    System.out.println("result3 = " + result3);
+}
+```
 
 
 - 소스코드: <https://github.com/jeongkeepscalm/java-lambda/tree/master/src> 
