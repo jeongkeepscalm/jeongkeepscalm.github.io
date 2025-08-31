@@ -43,3 +43,8 @@ tags: [ Software Performance, Apache JMeter ]
     String currentTime = sdf.format(new Date());
     vars.put("var", currentTime);
     ```
+<hr>
+<br>
+
+- 노션 정리: <https://www.notion.so/Apache-Jmeter-25f2888f18108060a470dfd2cb363763>
+- 테스트 코드: <https://github.com/jeongkeepscalm/apache-jmeter-test-code>
