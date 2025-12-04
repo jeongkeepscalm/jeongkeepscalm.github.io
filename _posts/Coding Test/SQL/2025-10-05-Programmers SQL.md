@@ -8,7 +8,7 @@ tags: [ Programmers, SQL ]
 
 # LEVEL 3
 
-```SQL
+```sql
 
 -- https://school.programmers.co.kr/learn/courses/30/lessons/157340
 SELECT						
@@ -111,7 +111,7 @@ ORDER BY R.ID ASC
 
 # LEVEL 4
 
-```SQL
+```sql
 
 -- https://school.programmers.co.kr/learn/courses/30/lessons/131124
 SELECT 
@@ -225,7 +225,5 @@ SELECT
 FROM T
 WHERE RNK = 1
 ORDER BY FEE DESC, HISTORY_ID DESC
-
-
 
 ```
