@@ -24,8 +24,13 @@ SimpleJekyllSearch({
   resultsContainer: document.getElementById('search-results'),
   json: '{{ '/assets/js/data/search.json' | relative_url }}',
   searchResultTemplate: '{{ result_elem | strip_newlines }}',
+  limit: 100,
   noResultsText: '{{ not_found }}',
   templateMiddleware: function(prop, value, template) {
+
+    console.log("value : ")
+    console.log(value)
+
     if (prop === 'categories') {
       if (value === '') {
         return `${value}`;
