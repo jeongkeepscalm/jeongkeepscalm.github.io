@@ -28,9 +28,6 @@ SimpleJekyllSearch({
   limit: 100,
   templateMiddleware: function(prop, value, template) {
 
-    console.log("value : ")
-    console.log(value)
-
     if (prop === 'categories') {
       if (value === '') {
         return `${value}`;
