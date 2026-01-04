@@ -11,7 +11,7 @@ tags: [ Database, SQL ]
 - 오라클 → EDB 전환되는 프로젝트 내용 정리
 - ymd 컬럼 타입 변경 ( varchar type → date type ) 
 
-## Query
+<br>
   
 ***데이터 타입 변경으로 인한 쿼리 변경***  
 ```sql
@@ -29,7 +29,8 @@ WHERE T.YMD = TO_DATE(:ymd, 'yyyymmdd')
 > **기본키를 형변환하면 인덱스를 타지 않는다.**  
 > :ymd 변수가 필수값이라면 CAST(:YMD AS DATE) 가 성능면에서 유리  
   
-
+<br>
+  
 ***CAST***  
 ```sql
 SELECT 
@@ -44,6 +45,7 @@ FROM T
 > FM999,990.0 : 소수점 첫째 자리까지  
 > FM999,999.0 : 값이 0일 경우 '.0' 으로 보여진다.  
   
+<br>
   
 ***WM_CONCAT → ARRAY_AGG(), ARRAY_TO_STRING()***
 ```sql
@@ -60,7 +62,8 @@ SELECT LISTAGG(A.aa, ',') WITHIN GROUP (ORDER BY A.aa)
 FROM A
 ```
   
-
+<br>
+  
 ***UNPIVOT → UNNEST(ARRAY[])***  
 ```sql
 -- here
