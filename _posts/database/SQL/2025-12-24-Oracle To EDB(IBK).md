@@ -322,6 +322,55 @@ SELECT * FROM T WHERE COL::TEXT = '';
 
 <br>
   
+***데이터가 없을 경우에도 특정 데이터가 조회되어야 하는 상황*** 
+```sql
+SELECT YM, GRADE, SCORE
+FROM T;
+```
+> YM 데이터 202402, 202404, 202407, 202502, 202503, 202505 만 조회  
+> 목표 : 202401, ... , 202513, 202501, ... , 202513 총 26행의 데이터 출력  
+
+<br>
+
+✅ Solution  
+WITH 절로 `MASTER TABLE` 을 만들어서 기존 쿼리를 LEFT OUTER JOIN 로 묶는다.  
+
+```sql
+WITH CALENDAR AS (
+    SELECT TO_CHAR(YYYY * 100 + MM, 'FM000000') AS BASE_YM
+    FROM GENERATE_SERIES(2024, 2025) AS YYYY,
+         GENERATE_SERIES(1, 13)     AS MM
+)
+SELECT C.BASE_YM, T.GRADE, T.SCORE
+FROM CALENDAR C
+LEFT JOIN TEST T
+    ON C.BASE_YM = T.BASE_YM
+ORDER BY C.BASE_YM;
+
+-- 202401, ... , 202412, 202501, ... , 202512
+-- ORACLE
+WITH CALENDAR AS (
+    SELECT TO_CHAR(
+               ADD_MONTHS(TO_DATE('202401', 'YYYYMM'), LEVEL - 1),
+               'YYYYMM'
+           ) AS BASE_YM
+    FROM DUAL
+    CONNECT BY LEVEL <= 24
+);
+
+-- EDB
+WITH CALENDAR AS (
+    SELECT TO_CHAR(D, 'YYYYMM') AS BASE_YM
+    FROM GENERATE_SERIES(
+        DATE '2024-01-01',
+        DATE '2025-12-01',
+        INTERVAL '1 MONTH'
+    ) AS D
+);
+```
+
+<br>
+  
 ***요청 온 값이 날짜 범위 밖일 경우***   
 ```java
 private static final DateTimeFormatter DATE_FORMATTER = 
