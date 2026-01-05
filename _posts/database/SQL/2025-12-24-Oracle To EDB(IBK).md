@@ -1,6 +1,6 @@
 ---
-title: "[SQL] ORACLE TO EDB(IBK)"
-description: "[SQL] ORACLE TO EDB(IBK)"
+title: "Oracle To EDB( IBK Project )"
+description: "Oracle To EDB( IBK Project )"
 date: 2025-12-24
 categories: [ Database, SQL ]
 tags: [ Database, SQL ]
