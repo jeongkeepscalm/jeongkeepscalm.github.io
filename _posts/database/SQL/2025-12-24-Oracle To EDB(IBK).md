@@ -10,7 +10,7 @@ tags: [ Database, SQL ]
 
 - 오라클 → EDB 전환 IBK 프로젝트 내용 정리 
 
-## 쿼리 변경
+## ***Queries changed***
   
 ***데이터 타입 변경으로 인한 쿼리 변경***  
 ```sql
@@ -277,7 +277,7 @@ WHERE C.RELKIND = 'r' -- r : 일반 테이블
 ORDER BY C.RELNAME;
 ```
 
-## 이슈 정리
+## ⚠️ ***ISSUE***
 
 ***데이터가 없는 상태에서 조회 시 발생한 오류***
 ```sql
