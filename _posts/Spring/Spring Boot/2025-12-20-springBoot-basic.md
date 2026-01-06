@@ -1,0 +1,76 @@
+---
+title: "SpringBoot Basic"
+description: "SpringBoot Basic"
+date: 2025-12-20
+categories: [ Spring, Spring Error Solution ]
+tags: [ Spring, Spring Error Solution ]
+---
+
+## 1. JAR vs Fat JAR vs Spring Boot Executable JAR
+
+애플리케이션 배포 시 라이브러리 처리 방식에 따라 JAR 형태가 달라짐.
+
+| 구분 | 특징 | 장점 | 단점 및 한계 |
+| :--- | :--- | :--- | :--- |
+| **Normal JAR** | 작성한 코드(클래스)와 리소스만 포함 | 가볍고 구조가 단순함 | 외부 라이브러리 미포함으로 **단독 실행 불가** (classpath 별도 설정 필요) |
+| **Fat JAR** | 코드와 모든 의존성 라이브러리를 **압축 해제하여 하나로 합침** | 단독 실행 가능 | 라이브러리 간 **파일명 중복 시 덮어쓰기 문제** 발생 가능, 내부 구조 확인 어려움 |
+| **Spring Boot JAR** | **Executable JAR** 구조. 라이브러리를 압축 해제하지 않고 **JAR 파일 자체를 내부에 포함(Nesting)** | 단독 실행 가능, **파일명 중복 문제 완벽 해결**, 명확한 의존성 구조 | 스프링 부트 로더(JarLauncher)가 필요하여 실행 시 미세한 오버헤드 존재 |
+
+> **핵심:** 일반적인 Fat JAR의 단점(파일 중복 등)을 해결하기 위해, 스프링 부트는 JAR 안에 JAR를 통째로 넣는 방식(Nested JAR)을 채택함.
+
+## 2. 부트 클래스 (Main Class)
+
+스프링 부트 애플리케이션의 진입점(Entry Point).
+
+* **어노테이션 활용:** `@SpringBootApplication`을 통해 설정 자동화 시작.
+* **컨테이너 생성:** `SpringApplication.run()` 메서드 실행 시 내부에서 **스프링 컨테이너** 생성.
+* **내장 WAS 실행:** 별도 톰캣 설치 없이 내부에서 **내장 톰캣(Embedded Tomcat)** 생성 및 실행.
+
+## 3. 라이브러리 버전 관리 (Dependency Management)
+
+스프링 부트는 `dependency-management` 플러그인을 사용하여 라이브러리 간 호환성 문제 해결.
+
+**build.gradle 설정 예시**
+
+```groovy
+plugins {
+    id 'org.springframework.boot' version '3.0.2'
+    id 'io.spring.dependency-management' version '1.1.0' // 버전 관리 플러그인
+    id 'java'
+}
+
+dependencies {
+    // 버전을 명시하지 않아도 플러그인이 권장 버전을 자동으로 매핑함
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+}
+```
+> 개발자가 일일이 라이브러리 버전을 맞출 필요 없이, 스프링 부트가 검증한 버전 조합(BOM)을 자동으로 적용함.  
+
+## 4. 자동 구성 (Auto Configuration)
+
+스프링 부트의 가장 강력한 기능.  
+애플리케이션 실행에 필요한 빈들을 자동으로 등록해 준다.  
+
+### 주요 특징
+
+* **자동 빈 등록:** `DataSource`, `JdbcTemplate`, `TransactionManager` 등 필수 빈 자동 생성 및 배치.
+* **`@Conditional` (Spring Framework):** 특정 조건(메모리, 환경 변수 등)에 따라 빈 등록 여부 결정.
+* **`@ConditionalOnProperty` (Spring Boot):** 설정 파일(`application.properties`)의 속성 값에 따라 편리하게 빈 등록 제어.
+
+### 자동 구성 동작 원리 (Process)
+
+스프링 부트 실행 시 자동 구성 동작 순서.  
+
+1.  **`@SpringBootApplication`** 실행
+2.  **`@EnableAutoConfiguration`** 활성화
+3.  **`@Import(AutoConfigurationImportSelector.class)`** 호출
+4.  **설정 정보 로드:**
+    * `resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` 파일 확인하여 자동 구성 목록 스캔.
+5.  **컨테이너 등록:**
+    * 선택된 설정 정보가 스프링 컨테이너에 빈으로 등록되어 사용 가능한 상태가 됨.
+
+### 자동 구성의 활용
+
+* 주로 회사 내부 공통 모듈이나 라이브러리를 만들어 배포할 때 사용.
+* 라이브러리 추가만으로 복잡한 설정 없이 기능이 동작하도록 구성 가능.
+
