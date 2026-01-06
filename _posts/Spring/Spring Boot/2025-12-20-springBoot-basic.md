@@ -74,3 +74,69 @@ dependencies {
 * 주로 회사 내부 공통 모듈이나 라이브러리를 만들어 배포할 때 사용.
 * 라이브러리 추가만으로 복잡한 설정 없이 기능이 동작하도록 구성 가능.
 
+## 5. 외부 설정 
+
+### 외부 설정 방법 4가지
+
+1. OS 환경 변수
+2. 자바 시스템 속성( VM Options )
+    - jar 로 빌드되어 있을 경우 실행시 <code>java -Durl=devdb -Dusername=dev_user -Dpassword=dev_pw -jar app.jar</code>
+3. 자바 커멘드 라인 인수( main(args) 메소드 )
+    - program arguments
+    - jar 로 빌드되어 있을 경우 실행시 <code>java -jar project.jar var1 var2</code>
+    - key value 형식은 -- 를 붙여서 적용한다.
+    - e.g. -url=devdb --username=dev_user --password=dev_pw
+4. 외부 파일(애플리케이션에서 특정 위치의 파일을 읽도록 한다.)
+
+### 스프링 외부 설정 통합
+
+<img src="/assets/img/kyh_java/ec2.png" width="600px" />
+
+- `PropertySource`
+    - 스프링은 로딩 시점에 필요한 PropertySource 들을 생성하고 Environment 에서 사용할 수 있게 연결해둔다. 
+    - e.g. .properties, .yml 확장자
+- `Environment`
+    - 특정 외부 설정에 종속되지 않고 일관성 있게 key=value 형식의 외부 설정에 접근할 수 있다. 
+    - PropertySource 들에 접근
+    - 모든 외부 설정을 Environment 를 통해서 조회한다.
+  
+<img src="/assets/img/kyh_java/ec3.png" width="600px" />  
+
+**두 개의 파일로 분리**  
+- main/resoures 내 application-dev.properites, application-prod.properties 두 설정 파일 생성 
+- spring.profiles.active 에 설정된 속성 값에 따라 dev 혹은 prod 를 참조한다.
+- 실행 방법  
+    - IDE 커맨드 라인 옵션 인수 실행(Program Arguments)
+        - --spring.profiles.active=dev
+    - IDE에서 자바 시스템 속성 실행(Vm Options)
+        - -Dspring.profiles.active=dev
+    - Jar 실행
+        - ./gradlew clean build
+        - build/libs 로 이동
+        - java -Dspring.profiles.active=dev -jar external-0.0.1-SNAPSHOT.jar
+        - java -jar external-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
+    
+***하나의 환경설정 파일 생성 후 논리적으로 영역 분리***  
+- application.properties : `#---` , `!---`
+- application.yml : `---`
+
+```properties
+url=local.db.com
+username=local_user
+password=local_pw
+
+#---
+
+spring.config.activate.on-profile=dev
+url=dev.db.com
+username=dev_user
+password=dev_pw
+
+#---
+
+spring.config.activate.on-profile=prod
+url=prod.db.com
+username=prod_user
+password=prod_pw
+```
+> 순차적으로 설정 파일을 읽는다.  
