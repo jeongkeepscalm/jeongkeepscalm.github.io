@@ -140,3 +140,164 @@ username=prod_user
 password=prod_pw
 ```
 > 순차적으로 설정 파일을 읽는다.  
+
+### 환경설정 파일 참조 방법  
+
+1. Environment 객체에 접근
+2. @Value 사용
+3. @ConfigurationProperties
+    - @EnableConfigurationProperties : @ConfigurationProperties 를 하나하나 직접 등록할 때 사용.
+        - e.g. <code>@EnableConfigurationProperties(MyDataSourcePropertiesV1.class)</code>
+    - @ConfigurationProperties 를 특정 범위로 자동 등록할 때는 @ConfigurationPropertiesScan 을 사용
+        - e.g. <code>@ConfigurationPropertiesScan({ "com.example.app", "com.example.another" })</code>
+    - 외부 설정의 계층을 객체로 표현 가능
+    - 타입 오류 방지
+    - 검증기 적용 가능 
+
+<details>
+<summary><span style="color:orange" class="point"><b>Source Code 1</b></span></summary>
+<div markdown="1">
+
+```properties
+my.datasource.url=myLocal.db.com
+my.datasource.username=myLocal_user
+my.datasource.password=myLocal_pw
+my.datasource.etc.max-connection=1
+my.datasource.etc.timeout=3500ms
+my.datasource.etc.options=CACHE,ADMIN
+```
+
+```java
+@Getter
+@ConfigurationProperties("my.datasource")
+@Validated
+public class MyDataSourcePropertiesV3 {
+
+    @NotEmpty
+    private String url;
+    @NotEmpty
+    private String username;
+    @NotEmpty
+    private String password;
+    @Valid // 중첩 필드 유효성 검사 적용 (스프링 부트 3.4 이상 적용 필요)
+    private Etc etc;
+    public MyDataSourcePropertiesV3(String url, String username, String
+            password, Etc etc) {
+        this.url = url;
+        this.username = username;
+        this.password = password;
+        this.etc = etc;
+    }
+
+    @Getter
+    public static class Etc {
+        @Min(1)
+        @Max(999)
+        private int maxConnection;
+        @DurationMin(seconds = 1)
+        @DurationMax(seconds = 60)
+        private Duration timeout;
+        private List<String> options;
+
+        public Etc(int maxConnection, Duration timeout, List<String> options) {
+            this.maxConnection = maxConnection;
+            this.timeout = timeout;
+            this.options = options;
+        }
+    }
+
+}
+
+@Slf4j
+@EnableConfigurationProperties(MyDataSourcePropertiesV3.class)
+public class MyDataSourceConfigV3 {
+    private final MyDataSourcePropertiesV3 properties;
+
+    public MyDataSourceConfigV3(MyDataSourcePropertiesV3 properties) {
+        this.properties = properties;
+    }
+
+    @Bean
+    public MyDataSource dataSource() {
+        return new MyDataSource(
+                properties.getUrl(),
+                properties.getUsername(),
+                properties.getPassword(),
+                properties.getEtc().getMaxConnection(),
+                properties.getEtc().getTimeout(),
+                properties.getEtc().getOptions());
+    }
+}
+
+@Import(MyDataSourceConfigV3.class)
+@SpringBootApplication(scanBasePackages = "hello.datasource")
+public class ExternalApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(ExternalApplication.class, args);
+    }
+
+}
+
+```
+
+</div>
+</details>
+
+
+<details>
+<summary><span style="color:orange" class="point"><b>Profile</b></span></summary>
+<div markdown="1">
+
+```java
+@Component
+@RequiredArgsConstructor
+public class OrderRunner implements ApplicationRunner {
+
+    private final OrderService orderService;
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        orderService.order(1000);
+    }
+}
+
+@Service
+@RequiredArgsConstructor
+public class OrderService {
+
+    private final PayClient payClient;
+
+    public void order(int money) {
+        payClient.pay(money);
+    }
+
+}
+
+@Slf4j
+@Configuration
+public class PayConfig {
+
+    /**
+     * @Profile : 해당 프로필이 활성화된 경우에만 빈을 등록한다.
+     */
+
+    @Bean
+    @Profile("default")
+    public LocalPayClient localPayClient() {
+        log.info("LocalPayClient 빈 등록");
+        return new LocalPayClient();
+    }
+
+    @Bean
+    @Profile("prod")
+    public ProdPayClient prodPayClient() {
+        log.info("ProdPayClient 빈 등록");
+        return new ProdPayClient();
+    }
+
+}
+```
+
+</div>
+</details>
