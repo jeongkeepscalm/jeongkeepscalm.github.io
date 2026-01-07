@@ -155,7 +155,7 @@ password=prod_pw
     - 검증기 적용 가능 
 
 <details>
-<summary><span style="color:orange" class="point"><b>Source Code 1</b></span></summary>
+<summary><span style="color:orange" class="point"><b>Source Code</b></span></summary>
 <div markdown="1">
 
 ```properties
