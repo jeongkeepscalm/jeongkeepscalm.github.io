@@ -1,7 +1,7 @@
 ---
 title: "SpringBoot Basic"
 description: "SpringBoot Basic"
-date: 2025-12-20
+date: 2026-01-05
 categories: [ Spring, Spring Error Solution ]
 tags: [ Spring, Spring Error Solution ]
 ---
