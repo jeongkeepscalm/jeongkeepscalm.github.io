@@ -340,12 +340,33 @@ public class PayConfig {
     - 스프링부트 액츄에이터는 마이크로미터가 제공하는 지표 수집을 `@AutoConfiguration` 을 통해 자동으로 등록해준다.
     - 액츄에이터를 사용하여 수 많은 `메트릭(지표)` 를 편리하게 사용
 
-### 프로메테우스, 그라파냐
+### 프로메테우스, 그라파나
 
 - 프로메테우스
     - 메트릭 보관 DB
     - 메트릭을 지속해서 수집하고 DB에 저장한다.
-- 그라파냐
+- 그라파나
     - DB에 있는 데이터를 보여주는 대시보드
 
 <img src="/assets/img/kyh_java/mm2.png" width="600px" />
+
+### 설정
+
+- 애플리케이션 : 프로메테우스가 애플리케이션의 메트릭을 가져갈 수 있도록 포맷
+    - <code>implementation 'io.micrometer:micrometer-registry-prometheus'</code> : 액츄에이터에 프로메테우스 메트릭 수집 엔드포인트가 자동으로 추가된다.
+    - localhost:8080/actuator/prometheus 
+- 프로메테우스 : 애플리케이션의 메트릭을 주기적을 수집하도록 설정
+    - 프로메테우스 폴더 내 yml 변경
+
+### 그라파나
+
+- 대시보드
+    - localhost:3000 > 대시보드 생성
+    - 공유 대시보드 활용
+        - https://grafana.com/grafana/dashboards
+- 메트릭을 통한 문제 확인
+    - CPU 사용량 초과 확인
+    - JVM 메모리 사용량 초과 확인
+    - 커넥션 풀 고갈 확인
+    - 에러 로그 급증 확인 
+    - ETC..
