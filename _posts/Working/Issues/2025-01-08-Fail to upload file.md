@@ -54,7 +54,7 @@ tags: [ Working, Issues ]
 
 ***⚠️ Issue***  
 설정된 파일 업로드 폴더가 톰캣 폴더 내부로 되어 있어, 우분투 서버에 재배포시 이전에 업로드되었던 파일이 휘발되었다.  
->>>>>>> ada53aa559d9d2e057f8aadabacc4177897603b1
+
 ```java
 // 설정된 파일 업로드 경로
 request.getSession().getServletContext().getRealPath("/");  
