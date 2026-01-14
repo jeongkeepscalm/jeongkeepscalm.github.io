@@ -89,6 +89,8 @@ sudo vim /etc/systemd/system/tomcat9.service
 ReadWritePaths=/upload
 
 # systemd 데몬 재로드, tomcat service 재시작
+
+```bash
 sudo systemctl daemon-reload
 sudo systemctl restart tomcat9
 ```
